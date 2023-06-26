@@ -48,7 +48,12 @@ export const fonts = {
     lineHeight: { desktop: 1.25, tablet: 1.3, mobile: 1.4 },
     fontWeight: { tablet: 600, mobile: 400 },
   },
-  display: {},
+  display: {
+    fontFamily: "'Exo 2', sans-serif",
+    fontSize: { desktop: 57, tablet: 45, mobile: 36 },
+    lineHeight: { desktop: 1.1, tablet: 1.15, mobile: 1.2 },
+    fontWeight: 700,
+  },
 }
 
 export const media = {
