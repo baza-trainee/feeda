@@ -4,20 +4,19 @@ export const colors = {
   mainBg: "",
   secondaryBg: "",
   buttonBg: "",
-  mainText: "",
   error: "#DC0C31",
   link: "#0029FF",
   //   neutral colors
   lightGray: "#DDDDDD",
-  mediumGray: "#CECECE",
+  dimPlaceholder: "#CECECE",
   darkGray: "#BFBFBF",
   charcoal: "#B1B1B1",
-  dimGray: "#939393",
+  mainPlaceholder: "#939393",
   steelGray: "#585858",
-  darkSteelGray: "#464646",
-  darkSlateGray: "#353535",
-  jetBlack: "#232323",
-  highlightYellow: "#FFE37E",
+  disabledBtnText: "#464646",
+  mainLabel: "#353535",
+  mainText: "#232323",
+  mainTitle: "#121212",
 }
 
 export const fonts = {
