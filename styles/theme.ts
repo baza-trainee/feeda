@@ -24,8 +24,8 @@ export const fonts = {
 }
 
 export const media = {
-    tablet: `min-width: ${breakpointTablet}`,
-    desktop: `min-width: ${breakpointDesktop}`
+    tablet: `min-width: ${breakpointTablet}px`,
+    desktop: `min-width: ${breakpointDesktop}px`
 }
 
 
