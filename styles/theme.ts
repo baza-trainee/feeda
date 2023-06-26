@@ -1,14 +1,11 @@
 import { breakpointTablet, breakpointDesktop } from "./vars"
 
 export const colors = {
-  mainBg: "",
-  secondaryBg: "",
-  buttonBg: "",
   error: "#DC0C31",
   link: "#0029FF",
   //   neutral colors
-  lightGray: "#DDDDDD",
-  dimPlaceholder: "#CECECE",
+  mainBtnText: "#FCFCFC",
+  disabledBtnBg: "#CECECE",
   darkGray: "#BFBFBF",
   charcoal: "#B1B1B1",
   mainPlaceholder: "#939393",
