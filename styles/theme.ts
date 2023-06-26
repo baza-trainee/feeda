@@ -42,7 +42,12 @@ export const fonts = {
     leterSpacing: { tablet: 0.15, mobile: 0.1 },
     fontWeight: { desktop: 700, tablet: 600, mobile: 500 },
   },
-  headline: {},
+  headline: {
+    fontFamily: "'Exo 2', sans-serif",
+    fontSize: { desktop: 32, tablet: 28, mobile: 22 },
+    lineHeight: { desktop: 1.25, tablet: 1.3, mobile: 1.4 },
+    fontWeight: { tablet: 600, mobile: 400 },
+  },
   display: {},
 }
 
