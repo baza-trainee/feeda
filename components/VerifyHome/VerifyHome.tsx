@@ -1,12 +1,10 @@
 "use client";
-import React, { useState,useEffect } from "react";
-import { Header, Container,AcceptBtn ,VerifyCont  } from "./VerifyHome.styles";
+import React, { useState, useEffect } from "react";
+import { Header, Container, AcceptBtn, VerifyCont } from "./VerifyHome.styles";
 
 const VerifyHome = () => {
   const [next, setNext] = useState(false);
   const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
-
-  
 
   useEffect(() => {
     const handleScroll: EventListener = (e: Event) => {
@@ -16,20 +14,18 @@ const VerifyHome = () => {
       setIsScrolledToBottom(isBottom);
     };
 
-    const container = document.getElementById('scrollable-container');
+    const container = document.getElementById("scrollable-container");
     if (container) {
-      container.addEventListener('scroll', handleScroll);
+      container.addEventListener("scroll", handleScroll);
     }
 
     return () => {
       if (container) {
-        container.removeEventListener('scroll', handleScroll);
+        container.removeEventListener("scroll", handleScroll);
       }
     };
   }, []);
 
-
-  
   const handleClick = () => {
     setNext(true);
   };
@@ -130,10 +126,84 @@ const VerifyHome = () => {
           recusandae distinctio doloribus dicta quod maxime minima nisi illo
           facilis nostrum iure quibusdam et, magni repellat quasi eaque, quia
           dolores voluptatum sit commodi! Sunt ducimus veritatis cumque!
-          Corrupti.
+          Corrupti. Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          Voluptatum, dolorum quia, exercitationem necessitatibus magnam
+          reprehenderit ab aliquam ipsam, dolore tempore et id eligendi corporis
+          labore ipsa mollitia! Eius, repellendus incidunt. Laudantium ipsa
+          mollitia distinctio provident inventore debitis, qui ipsam suscipit
+          laborum alias, doloremque soluta nobis corporis doloribus, obcaecati
+          est voluptas natus! Vel minima perspiciatis at nulla provident sed
+          distinctio temporibus! Itaque, sapiente. Facilis neque nemo incidunt
+          consectetur earum possimus quam libero numquam nostrum quibusdam omnis
+          nesciunt harum, quod laudantium debitis, repudiandae eius qui voluptas
+          tempore dolores? Deserunt esse earum consequatur. Autem, esse?
+          Recusandae illo excepturi nihil earum eos a suscipit modi, quis
+          perferendis id, corporis similique ad voluptatibus iusto, nam numquam
+          aperiam provident. Molestias accusantium laudantium quae, eius maxime
+          reiciendis. Iste labore iusto quo aspernatur saepe ea aut vitae sequi
+          eos modi beatae voluptate debitis est quos harum nulla veritatis,
+          exercitationem itaque ratione a. Atque possimus nostrum odio nisi
+          tenetur? Repellat incidunt ratione eveniet consequatur rerum, possimus
+          aliquam, accusamus iusto nobis ullam quae tenetur! Nihil ratione
+          reiciendis aut vitae quod dignissimos, eaque, suscipit libero quidem
+          delectus, voluptas itaque quibusdam iure. Culpa odio velit labore
+          quod, officia dolores qui odit nulla laudantium adipisci ea aspernatur
+          veniam beatae natus animi, nostrum voluptatum sint, assumenda ducimus
+          consectetur temporibus quam. Voluptates, numquam sit. Debitis. Sit
+          adipisci repellat quisquam, exercitationem officia dolore vel quos
+          ipsum perferendis tempore doloremque, voluptas rerum natus quidem
+          delectus explicabo nobis commodi temporibus consequuntur illum sunt
+          veritatis laborum unde amet. Molestias. Velit deleniti impedit rem
+          quos repudiandae et repellat libero optio odio quod numquam alias
+          beatae voluptatum, labore cumque eligendi sed autem reiciendis dolore
+          obcaecati praesentium dignissimos! Nobis fugiat dolor impedit. Vero
+          amet quasi doloribus, natus quos voluptatibus quia, nisi mollitia
+          voluptatum porro nemo harum labore accusamus quisquam! Reprehenderit
+          ipsam natus consequuntur corporis optio, ab laudantium. Vel dolore ex
+          quisquam ullam. Reprehenderit impedit tempore reiciendis a quisquam
+          distinctio obcaecati quibusdam facilis illum ipsum tenetur aliquam
+          perspiciatis odio voluptatem veniam praesentium quas ad, eaque soluta
+          aliquid numquam dolor sint alias veritatis? Aut. Repellat delectus vel
+          soluta officia velit eos ad quia voluptate consequatur non
+          voluptatibus porro, laboriosam facilis temporibus sed quasi
+          perferendis harum, quibusdam facere? Natus repudiandae eius doloremque
+          aspernatur facilis. In! Dignissimos saepe quis suscipit et doloribus
+          recusandae optio, natus sequi iure dolorem, hic qui, adipisci ad odit
+          ipsam. Quod hic amet illum corporis voluptates, magnam sint ratione
+          quas sapiente exercitationem. Odit ullam neque id cumque. Eligendi
+          soluta aliquam atque laudantium blanditiis repudiandae excepturi illo,
+          deleniti corporis? Soluta quasi repudiandae quibusdam natus deserunt,
+          atque illo officia maiores autem deleniti, quod doloribus? Est et
+          explicabo quis dicta? Dolorum, odio laboriosam. Consequuntur, quisquam
+          vero fuga facere ullam ipsum autem, optio aliquid at molestiae earum
+          veniam, magnam libero sed voluptate ab eos obcaecati pariatur! Dolores
+          necessitatibus ratione, esse, cum quisquam debitis cupiditate placeat
+          minima architecto eligendi molestias? Eius culpa dolores ullam
+          quibusdam sit aperiam dolorum. Doloribus ratione qui quidem? Illum
+          repudiandae quidem saepe pariatur. Perferendis incidunt ipsam, aperiam
+          aliquam corporis, amet impedit dolor porro quam sed nisi recusandae
+          sit necessitatibus mollitia architecto ullam alias corrupti. Repellat
+          quis quidem, maxime sit nostrum accusantium beatae quisquam? Eligendi
+          suscipit tempore praesentium commodi laborum earum illum non numquam
+          ab. Alias accusantium labore, enim fugit recusandae non aspernatur
+          quam rem vitae et hic nobis quae dignissimos, voluptate ratione saepe.
+          Explicabo in sed similique eum asperiores. Voluptatibus hic optio non
+          aspernatur deleniti maxime incidunt laudantium, officia libero sed
+          molestias consectetur, blanditiis recusandae, ipsum eos culpa
+          quibusdam voluptas facilis exercitationem voluptatem. Ratione quo,
+          illo esse quas dolorem maxime. Unde doloremque recusandae iure,
+          perferendis hic voluptatem voluptatibus dolorem voluptate distinctio
+          nulla. Ratione magni tempore voluptatum nesciunt deserunt maxime
+          aperiam quae quos ipsum.
         </p>
       </Container>
-      <AcceptBtn  onClick={handleClick} isActive={isScrolledToBottom}  disabled={!isScrolledToBottom}>Приймаю</AcceptBtn>
+      <AcceptBtn
+        onClick={handleClick}
+        isActive={isScrolledToBottom}
+        disabled={!isScrolledToBottom}
+      >
+        Приймаю
+      </AcceptBtn>
     </VerifyCont>
   );
 };
