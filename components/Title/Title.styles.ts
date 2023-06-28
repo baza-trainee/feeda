@@ -6,5 +6,5 @@ export const titleStyle = css`
 	font-size: 45px;
 	line-height: 52px;
 	text-align: center;
-	color: ${theme.colors.neutral1000}
+	color: ${theme.colors.mainBtnText}
 `;

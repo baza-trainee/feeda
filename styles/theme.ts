@@ -1,7 +1,6 @@
 import { breakpointTablet, breakpointDesktop } from "./vars"
 
 export const colors = {
-
   error: "#DC0C31",
   link: "#0029FF",
   white: "#FFFFFF",
