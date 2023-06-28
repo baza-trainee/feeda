@@ -1,9 +1,12 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
-import { Header, Container, AcceptBtn, VerifyCont } from "./VerifyHome.styles";
+import { Header, Container, AcceptBtn, VerifyCont } from "./Agreement.styles";
 import Home from "app/page";
 
-const VerifyHome = () => {
+
+
+const Agreement = () => {
   const [next, setNext] = useState(false);
   const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
   const [close, setClose] = useState(false);
@@ -27,7 +30,6 @@ const VerifyHome = () => {
       }
     };
   }, []);
-
   const handleClick = () => {
     setNext(true);
   };
@@ -39,7 +41,7 @@ const VerifyHome = () => {
   return (
     <>
       {close ? (
-        <Home />
+        <Home/>
       ) : (
         <VerifyCont>
           {next ? (
@@ -232,4 +234,4 @@ const VerifyHome = () => {
   );
 };
 
-export default VerifyHome;
+export default Agreement;
