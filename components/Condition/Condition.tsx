@@ -1,4 +1,4 @@
-import { Welcome, Detail, Span, UnderHeader, UnderSpan } from "./ConstructHome.styles";
+import { Welcome, Detail, Span, UnderHeader, UnderSpan } from "./Condition.styles";
 
 const ConstructHome = () => {
   return (

@@ -1,4 +1,4 @@
-import Welcome from "components/Welcome/Welcome";
+import WelcomePage from "components/WelcomePage/WelcomePage";
 
 export const metadata = {
   title: "Feeda",
@@ -8,7 +8,7 @@ export const metadata = {
 export default function Home() {
   return (
     <>
-      <Welcome />
+      <WelcomePage />
     </>
   );
 }

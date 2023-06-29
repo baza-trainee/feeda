@@ -22,42 +22,21 @@ export const Container = styled.div`
   font-family: Exo 2;
   line-height: 140%;
   letter-spacing: 0.25px;
-  overflow-y: scroll;
   margin-top: 60px;
   padding-right: 56px;
 
-  &::-webkit-scrollbar {
-    width: 24px;
-    height: 77px;
-   
-  }
-
-  &::-webkit-scrollbar-track {
-    display: flex;
-    height: 372px;
-    align-items: flex-start;
-    gap: 10px;
- 
-    border-radius: 12px;
-    
-    background: var(--neutral-100, #fcfcfc);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 12px;  
-    background: var(--neutral-200, #cecece);
   }
 `;
 
-export const AcceptBtn = styled.button<{ isActive: boolean }>`
-  background-color: ${(props) => (props.isActive ? "black" : "#CECECE")};
-  color: ${(props) => (props.isActive ? " #FCFCFC" : "#464646")};
+export const AcceptBtn = styled.button`
+  background-color: black;
+  color: #FCFCFC;
   text-align: center;
   font-size: 22px;
   font-family: Exo 2;
   font-weight: 700;
   border: none;
-  cursor: ${(props) => (props.isActive ? "pointer" : "default")};
+  cursor: pointer;
   display: flex;
   height: 56px;
   padding: 16px 24px;

@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { Button , Wrapper, Div, } from "components/ConstructHome/ConstructHome.styles";
+import { Button , Wrapper, Div, } from "components/Condition/Condition.styles";
 import Agreement from "components/Agreement/Agreement";
 import Container from "components/Container/Container";
-import ConstructHome from "components/ConstructHome/ConstructHome";
+import Condition from "components/Condition/Condition";
 
-const Welcome = () => {
+const WelcomePage = () => {
   const [click, setClick] = useState(false);
 
   const handleClick = () => {
@@ -21,7 +21,7 @@ const Welcome = () => {
           <Agreement />
         ) : (
           <Wrapper>
-            <ConstructHome />
+            <Condition />
             <Button onClick={handleClick}>Подати заявку</Button>
           </Wrapper>
         )}
@@ -30,4 +30,4 @@ const Welcome = () => {
   );
 };
 
-export default Welcome;
+export default WelcomePage;
