@@ -13,24 +13,22 @@ export const Header = styled.h2`
 `;
 
 export const Container = styled.div`
-  color: var(--neutral-900, #232323);
   display: flex;
-  width: 1008px;
-  height: 372px;
+  width: 795px;
+  height: 834px;
   flex-direction: column;
-  font-size: 14px;
+  color: var(--neutral-900, #232323);
+  font-size: 18px;
   font-family: Exo 2;
+  font-style: normal;
+  font-weight: 400;
   line-height: 140%;
   letter-spacing: 0.25px;
-  margin-top: 60px;
-  padding-right: 56px;
-
-  }
 `;
 
 export const AcceptBtn = styled.button`
   background-color: black;
-  color: #FCFCFC;
+  color: #fcfcfc;
   text-align: center;
   font-size: 22px;
   font-family: Exo 2;
@@ -50,4 +48,14 @@ export const VerifyCont = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 64px;
+`;
+
+export const InfoP = styled.p`
+  margin-bottom: 10px;
+`;
+
+export const CloseDiv = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
 `;
