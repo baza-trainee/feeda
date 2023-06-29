@@ -1,4 +1,5 @@
-import WelcomePage from "components/WelcomePage/WelcomePage";
+import Container from "components/Container/Container";
+import Styling from "components/Styling/Styling";
 
 export const metadata = {
     title: 'Feeda',
