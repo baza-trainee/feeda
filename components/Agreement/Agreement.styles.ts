@@ -56,6 +56,8 @@ export const InfoP = styled.p`
 
 export const CloseDiv = styled.div`
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 40px;
+  right: 40px;
+
+
 `;

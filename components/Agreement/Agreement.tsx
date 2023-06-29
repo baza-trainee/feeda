@@ -117,8 +117,8 @@ const Agreement = () => {
       <CloseDiv>
         <Image
         src="./close.svg"
-        width={70}
-        height={70}
+        width={24}
+        height={24}
         alt="Close"
         />
         </CloseDiv>

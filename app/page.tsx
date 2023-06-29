@@ -1,5 +1,6 @@
 import Container from "components/Container/Container";
 import Styling from "components/Styling/Styling";
+import WelcomePage from "components/WelcomePage/WelcomePage";
 
 export const metadata = {
     title: 'Feeda',
@@ -10,7 +11,7 @@ export default function Home() {
     return (
         <main>
             <Container>
-                <Styling />
+                <WelcomePage />
             </Container>
         </main>
     );
