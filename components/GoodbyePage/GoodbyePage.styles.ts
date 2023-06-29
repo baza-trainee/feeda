@@ -40,36 +40,41 @@ export const Desc = styled.p`
 
   margin-bottom: 32px;
 
-  font-weight: ${fonts.body.fontWeight};
-  font-size: ${fonts.body.fontSize.mobile}px;
-  line-height: ${fonts.body.lineHeight.mobile};
-  letter-spacing: ${fonts.body.letterSpacing.mobile};
+  font-weight: ${fonts.title.fontWeight.mobile};
+  font-size: ${fonts.title.fontSize.mobile}px;
+  line-height: ${fonts.title.lineHeight};
+  letter-spacing: ${fonts.title.letterSpacing.mobile}px;
 
   @media screen and (${media.tablet}) {
-    font-size: ${fonts.body.fontSize.tablet}px;
-    line-height: ${fonts.body.lineHeight.tablet};
-    letter-spacing: ${fonts.body.letterSpacing.tablet};
+    font-size: ${fonts.title.fontSize.tablet}px;
+    letter-spacing: ${fonts.title.letterSpacing.tablet}px;
+    font-weight: ${fonts.title.fontWeight.tablet};
   }
 
   @media screen and (${media.desktop}) {
-    font-size: ${fonts.body.fontSize.desktop}px;
+    font-size: ${fonts.title.fontSize.desktop}px;
+    font-weight: ${fonts.title.fontWeight.desktop};
   }
 `
 export const Reminder = styled.h2`
   color: ${colors.mainTitle};
   width: 464px;
 
-  font-weight: ${fonts.headline.fontWeight};
+  font-weight: ${fonts.headline.fontWeight.mobile};
   font-size: ${fonts.headline.fontSize.mobile}px;
   line-height: ${fonts.headline.lineHeight.mobile};
 
   @media screen and (${media.tablet}) {
     font-size: ${fonts.headline.fontSize.tablet}px;
     line-height: ${fonts.headline.lineHeight.tablet};
+    font-weight: ${fonts.headline.fontWeight.tablet};
   }
 
   @media screen and (${media.desktop}) {
     font-size: ${fonts.headline.fontSize.desktop}px;
     line-height: ${fonts.headline.lineHeight.desktop};
   }
+`
+export const Span = styled.span`
+  color: ${colors.secondaryAccent};
 `

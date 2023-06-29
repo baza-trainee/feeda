@@ -1,23 +1,24 @@
-import { breakpointTablet, breakpointDesktop } from "./vars";
+import { breakpointTablet, breakpointDesktop } from "./vars"
 
 export const colors = {
-	mainBg: "",
-	secondaryBg: "",
-	buttonBg: "",
-	error: "#DC0C31",
-	link: "#0029FF",
-	white: "#FFFFFF",
-	//   neutral colors
-	mainBtnText: "#FCFCFC",
-	disabledBtnBg: "#CECECE",
-	mainPlaceholder: "#939393",
-	disabledBtnText: "#464646",
-	mainLabel: "#353535",
-	mainText: "#232323",
-	mainTitle: "#121212",
-	//   primary color
-	mainAccent: "#FFBD00",
-};
+  mainBg: "",
+  secondaryBg: "",
+  buttonBg: "",
+  error: "#DC0C31",
+  link: "#0029FF",
+  white: "#FFFFFF",
+  //   neutral colors
+  mainBtnText: "#FCFCFC",
+  disabledBtnBg: "#CECECE",
+  mainPlaceholder: "#939393",
+  disabledBtnText: "#464646",
+  mainLabel: "#353535",
+  mainText: "#232323",
+  mainTitle: "#121212",
+  //   primary color
+  mainAccent: "#FFBD00",
+  secondaryAccent: "#3342CC",
+}
 
 export const fonts = {
   body: {
@@ -56,12 +57,12 @@ export const fonts = {
 }
 
 export const media = {
-	tablet: `min-width: ${breakpointTablet}px`,
-	desktop: `min-width: ${breakpointDesktop}px`,
-};
+  tablet: `min-width: ${breakpointTablet}px`,
+  desktop: `min-width: ${breakpointDesktop}px`,
+}
 
 export const theme = {
-	colors,
-	media,
-	fonts,
-};
+  colors,
+  media,
+  fonts,
+}
