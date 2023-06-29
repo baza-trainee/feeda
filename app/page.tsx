@@ -1,14 +1,16 @@
 import WelcomePage from "components/WelcomePage/WelcomePage";
 
 export const metadata = {
-  title: "Feeda",
-  description: "Candidate's application",
+    title: 'Feeda',
+    description: "Candidate's application",
 };
 
 export default function Home() {
-  return (
-    <>
-      <WelcomePage />
-    </>
-  );
+    return (
+        <main>
+            <Container>
+                <Styling />
+            </Container>
+        </main>
+    );
 }
