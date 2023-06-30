@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import Select from 'react-select';
+import Select, { SingleValue } from 'react-select';
 
 import { discordRegex, emailRegex, linkedRegex, phoneNumberFormat, phoneNumberRegex } from './helpers';
 import { getExpValue, getProjValue, getTypeValue } from './helpers';
@@ -32,7 +32,7 @@ const UserApplication = () => {
 
 	// const [surname, setSurname] = useState("");
 
-	const onFormSubmit = (data) => {
+	const onFormSubmit = (data: any) => {
 		// alert(JSON.stringify(data));
 		console.log('data :>> ', data);
 		reset();
@@ -44,7 +44,7 @@ const UserApplication = () => {
 	// видаляємо рендер помилки поля 'Discord'
 	const [shouldDisplayMessage, setShouldDisplayMessage] = useState(false);
 
-	const onHandleDiscordChange = (fieldName, value) => {
+	const onHandleDiscordChange = (fieldName: string | string[] | readonly string[] | undefined, value: string) => {
 		if (discordRegex.test(value)) {
 			clearErrors(fieldName);
 			setShouldDisplayMessage(true);
@@ -53,7 +53,7 @@ const UserApplication = () => {
 		}
 	};
 
-	const onBlurDiscord = (event) => {
+	const onBlurDiscord = (event: { target: { value: any } }) => {
 		const value = event.target.value;
 		// console.log("value", value);
 		if (value && discordRegex.test(value)) {
@@ -68,11 +68,11 @@ const UserApplication = () => {
 	const [isCheckedFirst, setIsCheckedFirst] = useState(false);
 	const [isCheckedSecond, setIsCheckedSecond] = useState(false);
 
-	const handleFirstCheckboxChange = (isChecked) => {
+	const handleFirstCheckboxChange = (isChecked: boolean | ((prevState: boolean) => boolean)) => {
 		// console.log("event", event);
 		setIsCheckedFirst(isChecked);
 	};
-	const handleSecondCheckboxChange = (isChecked) => {
+	const handleSecondCheckboxChange = (isChecked: boolean | ((prevState: boolean) => boolean)) => {
 		// console.log("event", event);
 		setIsCheckedSecond(isChecked);
 	};
@@ -102,7 +102,7 @@ const UserApplication = () => {
 							message: 'maximum length 16 characters',
 						},
 					}}
-					onChange={(name, value) => handleNameChange(name, value, clearErrors)}
+					onChange={(name: any, value: any) => handleNameChange(name, value, clearErrors)}
 				/>
 
 				<FormField
@@ -124,7 +124,7 @@ const UserApplication = () => {
 							message: 'maximum length 16 characters',
 						},
 					}}
-					onChange={(name, value) => handleSurnameChange(name, value, clearErrors)}
+					onChange={(name: any, value: any) => handleSurnameChange(name, value, clearErrors)}
 				/>
 
 				<FormField
@@ -146,7 +146,7 @@ const UserApplication = () => {
 							message: 'maximum length 300 characters',
 						},
 					}}
-					onChange={(name, value) => onHandleStackChange(name, value, clearErrors)}
+					onChange={(name: any, value: any) => onHandleStackChange(name, value, clearErrors)}
 				/>
 
 				<FormField
@@ -164,7 +164,7 @@ const UserApplication = () => {
 							value: phoneNumberRegex,
 						},
 					}}
-					onChange={(name, value) => onHandlePhoneChange(name, value, clearErrors)}
+					onChange={(name: any, value: any) => onHandlePhoneChange(name, value, clearErrors)}
 				/>
 				<FormField
 					autoComplete="on"
@@ -181,7 +181,7 @@ const UserApplication = () => {
 							value: emailRegex,
 						},
 					}}
-					onChange={(name, value) => onHandleEmailChange(name, value, clearErrors)}
+					onChange={(name: any, value: any) => onHandleEmailChange(name, value, clearErrors)}
 				/>
 
 				<>
@@ -201,7 +201,7 @@ const UserApplication = () => {
 							},
 							onBlur: onBlurDiscord,
 						}}
-						onChange={(name, value) => onHandleDiscordChange(name, value, clearErrors)}
+						onChange={(name: any, value: any) => onHandleDiscordChange(name, value, clearErrors)}
 					/>
 					{shouldDisplayMessage && (
 						<div>
@@ -225,7 +225,7 @@ const UserApplication = () => {
 							value: linkedRegex,
 						},
 					}}
-					onChange={(name, value) => onHandleLinkedChange(name, value, clearErrors)}
+					onChange={(name: any, value: any) => onHandleLinkedChange(name, value, clearErrors)}
 				/>
 
 				<FormField
@@ -246,7 +246,7 @@ const UserApplication = () => {
 							message: 'maximum length 22 characters',
 						},
 					}}
-					onChange={(name, value) => onHandleCityChange(name, value, clearErrors)}
+					onChange={(name: any, value: any) => onHandleCityChange(name, value, clearErrors)}
 				/>
 
 				<Controller
@@ -316,7 +316,7 @@ const UserApplication = () => {
 					name="type"
 					rules={{ required: 'Please choose one of the options' }}
 					render={({ field: { onChange, value, onBlur }, fieldState: { error } }) => {
-						const handleSelectChange = (value) => {
+						const handleSelectChange = (value: SingleValue<string | { label: string; value: string }>) => {
 							clearErrors('type'); // Викликаємо clearErrors для поля "projects"
 						};
 
