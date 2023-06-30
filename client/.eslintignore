@@ -10,3 +10,5 @@ _temp*
 *._legacy*
 *._backup*
 *._temp*
+
+/node_modules

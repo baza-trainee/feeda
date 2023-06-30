@@ -6,7 +6,7 @@ import Agreement from "components/Agreement/Agreement";
 import Container from "components/Container/Container";
 import Condition from "components/Condition/Condition";
 
-const WelcomePage = () => {
+export function StartPopUp () {
   const [click, setClick] = useState(false);
 
   const handleClick = () => {
@@ -29,5 +29,3 @@ const WelcomePage = () => {
     </Div>
   );
 };
-
-export default WelcomePage;
