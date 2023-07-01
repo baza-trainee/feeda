@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import Select, { SingleValue } from 'react-select';
+import Select from 'react-select';
 
 import { discordRegex, emailRegex, linkedRegex, phoneNumberFormat, phoneNumberRegex } from './helpers';
 import { getExpValue, getProjValue, getTypeValue } from './helpers';
@@ -19,6 +19,10 @@ import { experience, projects, type } from './lists';
 import CheckboxField from './сomponents/Checkbox/Checkbox';
 import FormField from './сomponents/FormField/FormField';
 
+interface IDiscord {
+	(fieldName: string, value: string): void;
+}
+
 const UserApplication = () => {
 	const {
 		register,
@@ -32,7 +36,7 @@ const UserApplication = () => {
 
 	// const [surname, setSurname] = useState("");
 
-	const onFormSubmit = (data: any) => {
+	const onFormSubmit = (data: object) => {
 		// alert(JSON.stringify(data));
 		console.log('data :>> ', data);
 		reset();
@@ -44,7 +48,7 @@ const UserApplication = () => {
 	// видаляємо рендер помилки поля 'Discord'
 	const [shouldDisplayMessage, setShouldDisplayMessage] = useState(false);
 
-	const onHandleDiscordChange = (fieldName: string | string[] | readonly string[] | undefined, value: string) => {
+	const onHandleDiscordChange: IDiscord = (fieldName, value) => {
 		if (discordRegex.test(value)) {
 			clearErrors(fieldName);
 			setShouldDisplayMessage(true);
@@ -53,7 +57,7 @@ const UserApplication = () => {
 		}
 	};
 
-	const onBlurDiscord = (event: { target: { value: any } }) => {
+	const onBlurDiscord = (event: { target: { value: string } }) => {
 		const value = event.target.value;
 		// console.log("value", value);
 		if (value && discordRegex.test(value)) {
@@ -102,7 +106,7 @@ const UserApplication = () => {
 							message: 'maximum length 16 characters',
 						},
 					}}
-					onChange={(name: any, value: any) => handleNameChange(name, value, clearErrors)}
+					onChange={(name: string, value: string) => handleNameChange(name, value, clearErrors)}
 				/>
 
 				<FormField
@@ -124,7 +128,7 @@ const UserApplication = () => {
 							message: 'maximum length 16 characters',
 						},
 					}}
-					onChange={(name: any, value: any) => handleSurnameChange(name, value, clearErrors)}
+					onChange={(name: string, value: string) => handleSurnameChange(name, value, clearErrors)}
 				/>
 
 				<FormField
@@ -146,7 +150,7 @@ const UserApplication = () => {
 							message: 'maximum length 300 characters',
 						},
 					}}
-					onChange={(name: any, value: any) => onHandleStackChange(name, value, clearErrors)}
+					onChange={(name: string, value: string) => onHandleStackChange(name, value, clearErrors)}
 				/>
 
 				<FormField
@@ -164,7 +168,7 @@ const UserApplication = () => {
 							value: phoneNumberRegex,
 						},
 					}}
-					onChange={(name: any, value: any) => onHandlePhoneChange(name, value, clearErrors)}
+					onChange={(name: string, value: string) => onHandlePhoneChange(name, value, clearErrors)}
 				/>
 				<FormField
 					autoComplete="on"
@@ -181,11 +185,12 @@ const UserApplication = () => {
 							value: emailRegex,
 						},
 					}}
-					onChange={(name: any, value: any) => onHandleEmailChange(name, value, clearErrors)}
+					onChange={(name: string, value: string) => onHandleEmailChange(name, value, clearErrors)}
 				/>
 
 				<>
 					<FormField
+						onBlur={onBlurDiscord}
 						autoComplete="off"
 						label="Акаунт в Discord *"
 						type="text"
@@ -199,9 +204,8 @@ const UserApplication = () => {
 								message: 'Please enter valid discord name!',
 								value: discordRegex,
 							},
-							onBlur: onBlurDiscord,
 						}}
-						onChange={(name: any, value: any) => onHandleDiscordChange(name, value, clearErrors)}
+						onChange={(name: string, value: string) => onHandleDiscordChange(name, value)}
 					/>
 					{shouldDisplayMessage && (
 						<div>
@@ -225,7 +229,7 @@ const UserApplication = () => {
 							value: linkedRegex,
 						},
 					}}
-					onChange={(name: any, value: any) => onHandleLinkedChange(name, value, clearErrors)}
+					onChange={(name: string, value: string) => onHandleLinkedChange(name, value, clearErrors)}
 				/>
 
 				<FormField
@@ -246,7 +250,7 @@ const UserApplication = () => {
 							message: 'maximum length 22 characters',
 						},
 					}}
-					onChange={(name: any, value: any) => onHandleCityChange(name, value, clearErrors)}
+					onChange={(name: string, value: string) => onHandleCityChange(name, value, clearErrors)}
 				/>
 
 				<Controller
@@ -254,7 +258,7 @@ const UserApplication = () => {
 					name="experience"
 					rules={{ required: 'Please choose one of the options' }}
 					render={({ field: { onChange, value, onBlur }, fieldState: { error } }) => {
-						const handleSelectChange = () => {
+						const handleSelectChange = (value) => {
 							clearErrors('experience'); // Викликаємо clearErrors для поля "projects"
 						};
 
@@ -267,7 +271,7 @@ const UserApplication = () => {
 										options={experience}
 										value={getExpValue(value)}
 										onChange={(value) => {
-											onChange(value.value);
+											onChange(value);
 											handleSelectChange(value);
 										}}
 										onBlur={() => onBlur()}
@@ -299,7 +303,7 @@ const UserApplication = () => {
 										options={projects}
 										value={getProjValue(value)}
 										onChange={(value) => {
-											onChange(value.value);
+											onChange(value);
 											handleSelectChange(value);
 										}}
 										onBlur={() => onBlur()}
@@ -316,7 +320,7 @@ const UserApplication = () => {
 					name="type"
 					rules={{ required: 'Please choose one of the options' }}
 					render={({ field: { onChange, value, onBlur }, fieldState: { error } }) => {
-						const handleSelectChange = (value: SingleValue<string | { label: string; value: string }>) => {
+						const handleSelectChange = (value) => {
 							clearErrors('type'); // Викликаємо clearErrors для поля "projects"
 						};
 
@@ -329,7 +333,7 @@ const UserApplication = () => {
 										options={type}
 										value={getTypeValue(value)}
 										onChange={(value) => {
-											onChange(value.value);
+											onChange(value);
 											handleSelectChange(value);
 										}}
 										onBlur={() => onBlur()}

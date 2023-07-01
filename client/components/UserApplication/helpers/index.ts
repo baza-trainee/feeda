@@ -1,19 +1,13 @@
-import {
-  phoneNumberRegex,
-  phoneNumberFormat,
-  emailRegex,
-  discordRegex,
-  linkedRegex,
-} from "./regex";
-import { getExpValue, getProjValue, getTypeValue } from "./getValues";
+import { getExpValue, getProjValue, getTypeValue } from './getValues';
+import { discordRegex, emailRegex, linkedRegex, phoneNumberFormat, phoneNumberRegex } from './regex';
 
 export {
-  phoneNumberRegex,
-  phoneNumberFormat,
-  emailRegex,
-  discordRegex,
-  linkedRegex,
-  getExpValue,
-  getProjValue,
-  getTypeValue,
+	phoneNumberRegex,
+	phoneNumberFormat,
+	emailRegex,
+	discordRegex,
+	linkedRegex,
+	getExpValue,
+	getProjValue,
+	getTypeValue,
 };

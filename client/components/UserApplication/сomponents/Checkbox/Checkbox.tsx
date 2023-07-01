@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 
 import Link from 'next/link';
 
-const CheckboxField = ({ label, linkText, isChecked, onChange, name }) => {
-	const handleCheckboxChange = (event) => {
+interface CheckboxFieldProps {
+	label: string;
+	linkText: string;
+	isChecked: boolean;
+	onChange: (isChecked: boolean) => void;
+	name: string;
+}
+
+const CheckboxField: React.FC<CheckboxFieldProps> = ({ label, linkText, isChecked, onChange, name }) => {
+	const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
 		onChange(event.target.checked);
 	};
 

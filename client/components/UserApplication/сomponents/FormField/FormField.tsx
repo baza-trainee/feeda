@@ -1,18 +1,25 @@
-import React from 'react';
-import { DeepMap, FieldError, FieldValues, UseFormRegister } from 'react-hook-form';
-//
-interface FormFieldTypes<TFormValues extends FieldValues> {
+import React, { ChangeEvent } from 'react';
+import { DeepMap, FieldError, FieldValues, Path, UseFormRegister } from 'react-hook-form';
+
+interface InputValidationOptions {
+	value: number | string | RegExp;
+	message: string;
+}
+
+interface FormFieldProps<TFormValues extends FieldValues> {
 	label: string;
 	type: string;
 	placeholder: string;
 	register: UseFormRegister<TFormValues>;
-	name: string;
+	name: Path<TFormValues>;
 	errors?: Partial<DeepMap<TFormValues, FieldError>>;
-	onChange?: () => void;
+	inputProps?: Record<string, string | number | InputValidationOptions>;
+	onChange?: (name: string, value: string) => void;
 	autoComplete: string;
+	onBlur?: (event: { target: { value: string } }) => void;
 }
 
-const FormField = <TFormValues extends Record<string, any>>({
+const FormField = <TFormValues extends Record<string, string | number>>({
 	label,
 	type,
 	placeholder,
@@ -22,11 +29,13 @@ const FormField = <TFormValues extends Record<string, any>>({
 	inputProps,
 	onChange,
 	autoComplete,
-}: FormFieldTypes<TFormValues>) => {
+}: FormFieldProps<TFormValues>) => {
 	const errorMessage = errors?.message || 'Error!';
 
-	const handleInputChange = (event: Event) => {
-		onChange(name, event?.target?.value);
+	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+		if (onChange) {
+			onChange(name, event.target.value);
+		}
 	};
 
 	return (
