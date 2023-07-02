@@ -5,6 +5,9 @@ interface InputValidationOptions {
 	value: number | string | RegExp;
 	message: string;
 }
+interface InputProps {
+	[key: string]: string | number | InputValidationOptions;
+}
 
 interface FormFieldProps<TFormValues extends FieldValues> {
 	label: string;
@@ -13,7 +16,7 @@ interface FormFieldProps<TFormValues extends FieldValues> {
 	register: UseFormRegister<TFormValues>;
 	name: Path<TFormValues>;
 	errors?: Partial<DeepMap<TFormValues, FieldError>>;
-	inputProps?: Record<string, string | number | InputValidationOptions>;
+	inputProps?: InputProps;
 	onChange?: (name: string, value: string) => void;
 	autoComplete: string;
 	onBlur?: (event: { target: { value: string } }) => void;
@@ -50,7 +53,7 @@ const FormField = <TFormValues extends Record<string, string | number>>({
 					autoComplete={autoComplete}
 				/>
 			</label>
-			<div>{errors && <p>{errorMessage}</p>}</div>
+			<div>{errors && `${errorMessage}`}</div>
 		</>
 	);
 };
