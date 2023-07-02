@@ -291,14 +291,12 @@ const UserApplication = () => {
 						const handleSelectChange = () => {
 							clearErrors('projects'); // Викликаємо clearErrors для поля "projects"
 						};
-						const inputId = 'project-select';
-						console.log('inputId', inputId);
+
 						return (
 							<>
 								<label>
 									Проєкт на вибір *
 									<Select
-										id={inputId}
 										placeholder="Проєкт"
 										options={projects}
 										value={getProjValue(value)}
