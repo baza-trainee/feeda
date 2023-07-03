@@ -2,6 +2,8 @@ import React, { ChangeEvent } from 'react';
 
 import Link from 'next/link';
 
+import { labelStyle } from '~components/Label/Label.styles';
+
 interface CheckboxFieldProps {
 	label: string;
 	linkText: string;
