@@ -19,8 +19,12 @@ const CustomCheckbox: React.FC<CustomCheckboxProps> = ({ label, linkText, isChec
 
 	const checkboxStyles: CheckboxProps['sx'] = {
 		color: isChecked ? '#FFC107' : '#000000',
-		'&.Mui-checked': {
+
+		'&.Mui-checked.MuiCheckbox-colorSecondary': {
 			color: '#FFC107',
+		},
+		'&MuiFormControlLabel-label': {
+			color: 'red',
 		},
 	};
 
@@ -33,20 +37,26 @@ const CustomCheckbox: React.FC<CustomCheckboxProps> = ({ label, linkText, isChec
 	const linkStyles = {
 		color: '#0029FF',
 	};
+	const labelTextStyles = {
+		fontSize: ' 12px',
+		fontFamily: '__Exo_2_b0b977',
+		fontStyle: 'normal',
+		fontWeight: 400,
+		lineHeight: '16px',
+		letterSpacing: '0.5px',
+	};
 
 	return (
 		<ThemeProvider theme={theme}>
 			<FormControlLabel
-				control={
-					<Checkbox checked={isChecked} onChange={handleCheckboxChange} color="default" sx={{ checkboxStyles }} />
-				}
+				control={<Checkbox checked={isChecked} onChange={handleCheckboxChange} color="secondary" sx={checkboxStyles} />}
 				label={
-					<>
-						{label}{' '}
+					<div style={labelTextStyles}>
+						{label}
 						<Link href="/" style={linkStyles}>
 							{linkText}
 						</Link>
-					</>
+					</div>
 				}
 			/>
 		</ThemeProvider>
