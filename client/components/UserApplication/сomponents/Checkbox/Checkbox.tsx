@@ -2,6 +2,7 @@ import React, { ChangeEvent } from 'react';
 
 import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Link from 'next/link';
 
 interface CustomCheckboxProps {
@@ -23,15 +24,32 @@ const CustomCheckbox: React.FC<CustomCheckboxProps> = ({ label, linkText, isChec
 		},
 	};
 
+	const theme = createTheme({
+		typography: {
+			fontSize: 12,
+		},
+	});
+
+	const linkStyles = {
+		color: '#0029FF',
+	};
+
 	return (
-		<FormControlLabel
-			control={<Checkbox checked={isChecked} onChange={handleCheckboxChange} color="default" sx={checkboxStyles} />}
-			label={
-				<>
-					{label} <Link href="/">{linkText}</Link>
-				</>
-			}
-		/>
+		<ThemeProvider theme={theme}>
+			<FormControlLabel
+				control={
+					<Checkbox checked={isChecked} onChange={handleCheckboxChange} color="default" sx={{ checkboxStyles }} />
+				}
+				label={
+					<>
+						{label}{' '}
+						<Link href="/" style={linkStyles}>
+							{linkText}
+						</Link>
+					</>
+				}
+			/>
+		</ThemeProvider>
 	);
 };
 
