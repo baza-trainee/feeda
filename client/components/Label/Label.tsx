@@ -1,18 +1,17 @@
-"use client";
-import { ReactNode } from "react";
-import { labelStyle } from "./Label.styles";
+'use client';
+import { ReactNode } from 'react';
+import { labelStyle, labelErrorStyle, labelSuccessStyle } from './Label.styles';
 
 interface labelProps {
 	forHTML: string;
 	children: ReactNode | string;
+	isError: boolean;
+	isSuccess: boolean;
 }
 
-const Label = ({ forHTML, children }: labelProps) => {
+const Label = ({ forHTML, children, isError, isSuccess }: labelProps) => {
 	return (
-		<label
-			htmlFor={forHTML}
-			css={labelStyle}
-		>
+		<label htmlFor={forHTML} css={() => (isError ? labelErrorStyle : isSuccess ? labelSuccessStyle : labelStyle)}>
 			{children}
 		</label>
 	);

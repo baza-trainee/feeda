@@ -1,5 +1,5 @@
-import { css } from "@emotion/react";
-import { theme } from "styles/theme";
+import { css } from '@emotion/react';
+import { theme } from 'styles/theme';
 
 export const buttonStyle = css`
 	padding: 16px 24px;
@@ -9,10 +9,21 @@ export const buttonStyle = css`
 	border-radius: 4px;
 	color: ${theme.colors.mainTitle};
 	background-color: ${theme.colors.mainText};
-	border:none;
+	border: none;
 
 	&:disabled {
 		color: ${theme.colors.disabledBtnText};
 		background-color: ${theme.colors.disabledBtnBg};
+	}
+
+	&:active {
+		background-color: ${theme.colors.mainAccent};
+		color: ${theme.colors.mainText};
+	}
+
+	&:hover {
+		background-color: ${theme.colors.mainText};
+		border: 1px solid ${theme.colors.mainAccent};
+		color: ${theme.colors.mainAccent};
 	}
 `;
