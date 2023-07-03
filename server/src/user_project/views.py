@@ -49,6 +49,17 @@ def join_project(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@permission_classes([permissions.IsAdminUser])
+@api_view(['DELETE'])
+def delete_participant(request, id):
+    try:
+        participant = Participant.objects.get(id=id)
+        participant.delete()
+        return Response(status=status.HTTP_200_OK)
+    except Participant.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
 @swagger_auto_schema(
     method='POST',
     request_body=openapi.Schema(
@@ -73,7 +84,7 @@ def join_project(request):
         status.HTTP_400_BAD_REQUEST: openapi.Response(description='Invalid input data'),
     }
 )
-@permission_classes([permissions.IsAdminUser])
+# @permission_classes([permissions.IsAdminUser])
 @api_view(['POST'])
 def create_project(request):
     serializer = CreateProjectSerializer(data=request.data)
@@ -121,7 +132,7 @@ def create_project(request):
 #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@permission_classes([permissions.IsAdminUser])
+# @permission_classes([permissions.IsAdminUser])
 @api_view(['GET'])
 def list_projects(request):
     projects = Projects.objects.all()
@@ -164,7 +175,7 @@ def list_projects(request):
         ),
     }
 )
-@permission_classes([permissions.IsAdminUser])
+@permission_classes([permissions.AllowAny])
 @api_view(['GET', 'PUT', 'DELETE'])
 def detail_project(request, project_url):
     try:

@@ -4,6 +4,8 @@ import uuid
 
 
 class TemplateLatter(models.Model):
+    """Модель шаблона листа"""
+
     letter = models.TextField()
     pdf_file = models.FileField(upload_to='')
 
@@ -12,6 +14,8 @@ class TemplateLatter(models.Model):
 
 
 class TypeProject(models.Model):
+    """Модель типа проекта"""
+
     project_type = models.CharField(max_length=50)
 
     def __str__(self):
@@ -19,13 +23,17 @@ class TypeProject(models.Model):
 
 
 class Complexity(models.Model):
+    """Модель складності проекта"""
+
     complexity = models.IntegerField(default=1)
 
     def __str__(self):
-        return self.complexity
+        return f'{self.complexity}'
 
 
 class StatusProject(models.Model):
+    """Модель статуса проекта"""
+
     status = models.CharField(max_length=20)
 
     def __str__(self):
@@ -33,6 +41,8 @@ class StatusProject(models.Model):
 
 
 class Speciality(models.Model):
+    """Модель стека"""
+
     title = models.CharField(max_length=20)
 
     def __str__(self):
@@ -40,6 +50,8 @@ class Speciality(models.Model):
 
 
 class TypeParticipant(models.Model):
+    """Модель типу учасника учасник або ментор"""
+
     title = models.CharField(max_length=20)
 
     def __str__(self):
@@ -47,6 +59,8 @@ class TypeParticipant(models.Model):
 
 
 class Projects(models.Model):
+    """Модель проекта"""
+
     title = models.CharField(max_length=100)
     comment = models.TextField(blank=True, null=True)
     type_project = models.ForeignKey(TypeProject, blank=True, null=True, on_delete=models.PROTECT)
@@ -56,6 +70,12 @@ class Projects(models.Model):
     end_date_project = models.DateField(blank=True, null=True)
     address_site = models.URLField(blank=True, null=True)
     url = models.SlugField(unique=True, db_index=True)
+    participants = models.ManyToManyField(
+        'Participant',
+        blank=True,
+        null=True,
+        related_name='project_participants'
+    )
 
     def __str__(self):
         return self.title
@@ -65,8 +85,13 @@ class Projects(models.Model):
             self.url = slugify(self.title)
         super().save(*args, **kwargs)
 
+    def participants_count(self):
+        return self.participants.all().count()
+
 
 class Participant(models.Model):
+    """Модель учаника"""
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     first_name = models.CharField(max_length=25)
     last_name = models.CharField(max_length=25)
@@ -87,6 +112,8 @@ class Participant(models.Model):
 
 
 class Command(models.Model):
+    """Модель команди"""
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(Participant, blank=True, null=True, on_delete=models.CASCADE)
     project = models.ForeignKey(Projects, blank=True, null=True, on_delete=models.PROTECT)
