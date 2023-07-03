@@ -216,7 +216,7 @@ const UserApplication = () => {
 					/>
 					{shouldDisplayMessage && (
 						<div>
-							<span>Не забудь перевірити запрошення</span>
+							<span css={{ color: '#14905D;' }}>Не забудь перевірити запрошення</span>
 						</div>
 					)}
 				</>

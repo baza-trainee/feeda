@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { DeepMap, FieldError, FieldValues, Path, UseFormRegister } from 'react-hook-form';
 
 /** @jsxImportSource @emotion/react */
-import { inputlStyles, labelStyles } from './FormField.slyles';
+import { errorInputStyles, inputlStyles, labelStyles } from './FormField.slyles';
 
 interface InputValidationOptions {
 	value: number | string | RegExp;
@@ -37,7 +37,7 @@ const FormField = <TFormValues extends Record<string, string | number>>({
 	autoComplete,
 }: FormFieldProps<TFormValues>) => {
 	const errorMessage = errors?.message || 'Error!';
-
+	const hasError = !!errors;
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
 		if (onChange) {
 			onChange(name, event.target.value);
@@ -49,7 +49,7 @@ const FormField = <TFormValues extends Record<string, string | number>>({
 			<label css={labelStyles}>
 				<p>{label}</p>
 				<input
-					css={inputlStyles}
+					css={[inputlStyles, hasError && errorInputStyles]}
 					type={type}
 					placeholder={placeholder}
 					{...register(name, inputProps)}
@@ -58,7 +58,7 @@ const FormField = <TFormValues extends Record<string, string | number>>({
 				/>
 			</label>
 
-			<div>{errors && `${errorMessage}`}</div>
+			<div css={{ color: '#DF4242' }}>{errors && `${errorMessage}`}</div>
 		</>
 	);
 };
