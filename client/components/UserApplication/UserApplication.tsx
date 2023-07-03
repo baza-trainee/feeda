@@ -21,7 +21,8 @@ import {
 } from './helpers/handleChange';
 import { experience, projects, type } from './lists';
 import { formStyle, formTitle, formWrapperStyle } from './UserApplication.styles';
-import CheckboxField from './сomponents/Checkbox/Checkbox';
+import CustomCheckbox from './сomponents/Checkbox/Checkbox';
+// import { CheckboxField, CustomCheckbox } from './сomponents/Checkbox/Checkbox';
 import FormField from './сomponents/FormField/FormField';
 import { labelStyles } from './сomponents/FormField/FormField.slyles';
 
@@ -44,10 +45,11 @@ const UserApplication = () => {
 
 	const onFormSubmit = (data: object) => {
 		// alert(JSON.stringify(data));
+
 		console.log('data :>> ', data);
 		reset();
-		setIsCheckedFirst(false);
-		setIsCheckedSecond(false);
+		// setIsCheckedFirst(false);
+		// setIsCheckedSecond(false);
 	};
 
 	// ==========================Discord======================= //
@@ -75,16 +77,14 @@ const UserApplication = () => {
 	// ==========================Discord======================= //
 
 	// ===================== checkbox================= //
-	const [isCheckedFirst, setIsCheckedFirst] = useState(false);
-	const [isCheckedSecond, setIsCheckedSecond] = useState(false);
+	const [isСonditionsChecked, setIsСonditionsChecked] = useState(false); // Додано стан для чекбокса
+	const [isDataChecked, setIsDataChecked] = useState(false); // Додано стан для чекбокса
 
-	const handleFirstCheckboxChange = (isChecked: boolean | ((prevState: boolean) => boolean)) => {
-		// console.log("event", event);
-		setIsCheckedFirst(isChecked);
+	const handleСonditionsCheckboxChange = () => {
+		setIsСonditionsChecked(!isСonditionsChecked);
 	};
-	const handleSecondCheckboxChange = (isChecked: boolean | ((prevState: boolean) => boolean)) => {
-		// console.log("event", event);
-		setIsCheckedSecond(isChecked);
+	const handleDataCheckboxChange = () => {
+		setIsDataChecked(!isDataChecked);
 	};
 	// ===================== checkbox================= //
 
@@ -115,7 +115,6 @@ const UserApplication = () => {
 					}}
 					onChange={(name: string, value: string) => handleNameChange(name, value, clearErrors)}
 				/>
-
 				<FormField
 					autoComplete="off"
 					label="Прізвище *"
@@ -137,7 +136,6 @@ const UserApplication = () => {
 					}}
 					onChange={(name: string, value: string) => handleSurnameChange(name, value, clearErrors)}
 				/>
-
 				<FormField
 					autoComplete="off"
 					label="Спеціалізація (стек) *"
@@ -159,7 +157,6 @@ const UserApplication = () => {
 					}}
 					onChange={(name: string, value: string) => onHandleStackChange(name, value, clearErrors)}
 				/>
-
 				<FormField
 					autoComplete="on"
 					label="Телефон *"
@@ -194,7 +191,6 @@ const UserApplication = () => {
 					}}
 					onChange={(name: string, value: string) => onHandleEmailChange(name, value, clearErrors)}
 				/>
-
 				<>
 					<FormField
 						onBlur={onBlurDiscord}
@@ -220,7 +216,6 @@ const UserApplication = () => {
 						</div>
 					)}
 				</>
-
 				<FormField
 					autoComplete="off"
 					label="Акаунт в LinkedIn *"
@@ -238,7 +233,6 @@ const UserApplication = () => {
 					}}
 					onChange={(name: string, value: string) => onHandleLinkedChange(name, value, clearErrors)}
 				/>
-
 				<FormField
 					autoComplete="off"
 					label="Місто (Країна)"
@@ -259,7 +253,6 @@ const UserApplication = () => {
 					}}
 					onChange={(name: string, value: string) => onHandleCityChange(name, value, clearErrors)}
 				/>
-
 				<Controller
 					control={control}
 					name="experience"
@@ -446,7 +439,6 @@ const UserApplication = () => {
 						);
 					}}
 				/>
-
 				{/* 
 				<Controller
 					control={control}
@@ -573,7 +565,7 @@ const UserApplication = () => {
 						);
 					}}
 				/> */}
-				<CheckboxField
+				{/* <CheckboxField
 					name="conditions"
 					label="Ознайомлений/на з "
 					linkText="умовами участі в проєкті *"
@@ -587,11 +579,25 @@ const UserApplication = () => {
 					linkText="обробкою персональних даних *"
 					isChecked={isCheckedSecond}
 					onChange={handleSecondCheckboxChange}
+				/> */}
+				{/* <CheckboxField name="nemsss" title="Ознайомлений/на з умовами участі в проєкті *" id="sdfsdfsdf" />
+				<CheckboxField name="nemsss" title="Погоджуюсь з обробкою персональних даних *" id="sdfsdfsssdf" /> */}
+				<CustomCheckbox
+					label="Ознайомлений/на з "
+					linkText="умовами участі в проєкті *"
+					isChecked={isСonditionsChecked}
+					onCheckboxChange={handleСonditionsCheckboxChange}
 				/>
-				<Title isDisabled={!isCheckedFirst || !isCheckedSecond || !isValid} func={handleSubmit(onFormSubmit)}>
+				<CustomCheckbox
+					label="Погоджуюсь з "
+					linkText="обробкою персональних даних *"
+					isChecked={isDataChecked}
+					onCheckboxChange={handleDataCheckboxChange}
+				/>
+
+				<Title isDisabled={!isСonditionsChecked || !isValid || !isDataChecked} func={handleSubmit(onFormSubmit)}>
 					Відправити анкету
 				</Title>
-
 				{/* <div>
 				<button type="submit" disabled={!isCheckedFirst || !isCheckedSecond || !isValid}>
 					Відправити анкету

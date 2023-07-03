@@ -1,30 +1,38 @@
 import React, { ChangeEvent } from 'react';
 
+import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Link from 'next/link';
 
-import { labelStyle } from '~components/Label/Label.styles';
-
-interface CheckboxFieldProps {
+interface CustomCheckboxProps {
 	label: string;
 	linkText: string;
 	isChecked: boolean;
-	onChange: (isChecked: boolean) => void;
-	name: string;
+	onCheckboxChange: (isChecked: boolean) => void;
 }
 
-const CheckboxField: React.FC<CheckboxFieldProps> = ({ label, linkText, isChecked, onChange, name }) => {
+const CustomCheckbox: React.FC<CustomCheckboxProps> = ({ label, linkText, isChecked, onCheckboxChange }) => {
 	const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
-		onChange(event.target.checked);
+		onCheckboxChange(event.target.checked);
+	};
+
+	const checkboxStyles: CheckboxProps['sx'] = {
+		color: isChecked ? '#FFC107' : '#000000',
+		'&.Mui-checked': {
+			color: '#FFC107',
+		},
 	};
 
 	return (
-		<label>
-			<input name={name} type="checkbox" checked={isChecked} onChange={handleCheckboxChange} />
-			<span>
-				{label} <Link href="/">{linkText}</Link>
-			</span>
-		</label>
+		<FormControlLabel
+			control={<Checkbox checked={isChecked} onChange={handleCheckboxChange} color="default" sx={checkboxStyles} />}
+			label={
+				<>
+					{label} <Link href="/">{linkText}</Link>
+				</>
+			}
+		/>
 	);
 };
 
-export default CheckboxField;
+export default CustomCheckbox;
