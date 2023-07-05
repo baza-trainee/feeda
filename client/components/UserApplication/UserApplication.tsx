@@ -1,6 +1,6 @@
 'use client';
 /** @jsxImportSource @emotion/react */
-import React, { useId, useState } from 'react';
+import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import Select from 'react-select';
 
@@ -8,21 +8,29 @@ import { theme } from 'styles/theme';
 
 import Title from '~components/Button/Button';
 
-import { discordRegex, emailRegex, linkedRegex, phoneNumberFormat, phoneNumberRegex } from './helpers';
-import { getExpValue, getProjValue, getTypeValue } from './helpers';
 import {
+	discordRegex,
+	emailRegex,
+	getExpValue,
+	getProjValue,
+	getTypeValue,
 	handleNameChange,
 	handleSurnameChange,
+	linkedRegex,
 	onHandleCityChange,
 	onHandleEmailChange,
 	onHandleLinkedChange,
 	onHandlePhoneChange,
 	onHandleStackChange,
-} from './helpers/handleChange';
+	phoneNumberFormat,
+	phoneNumberRegex,
+	requiredField,
+	useCustomIds,
+} from './helpers';
 import { experience, projects, type } from './lists';
 import { formStyle, formTitle, formWrapperStyle } from './UserApplication.styles';
 import { CheckBox } from './сomponents/Checkbox/Checkbox';
-import FormField from './сomponents/FormField/FormField';
+import { FormField } from './сomponents/FormField/FormField';
 import { labelStyles } from './сomponents/FormField/FormField.slyles';
 
 interface IDiscord {
@@ -40,9 +48,7 @@ const UserApplication = () => {
 		// watch,
 	} = useForm({ mode: 'all' });
 
-	const id1 = useId();
-	const id2 = useId();
-	const id3 = useId();
+	const [experienceId, typeId, projectId] = useCustomIds();
 
 	const onFormSubmit = (data: object) => {
 		// alert(JSON.stringify(data));
@@ -104,7 +110,7 @@ const UserApplication = () => {
 					name="name"
 					errors={errors?.name}
 					inputProps={{
-						required: 'це поле є обов’язковим ',
+						required: requiredField,
 						minLength: {
 							value: 3,
 							message: 'minimum length 3 characters',
@@ -125,7 +131,7 @@ const UserApplication = () => {
 					name="surname"
 					errors={errors?.surname}
 					inputProps={{
-						required: 'це поле є обов’язковим ',
+						required: requiredField,
 						minLength: {
 							value: 5,
 							message: 'minimum length 5 characters',
@@ -146,7 +152,7 @@ const UserApplication = () => {
 					name="stack"
 					errors={errors?.stack}
 					inputProps={{
-						required: 'це поле є обов’язковим ',
+						required: requiredField,
 						minLength: {
 							value: 2,
 							message: 'minimum length 2 characters',
@@ -167,7 +173,7 @@ const UserApplication = () => {
 					name="tel"
 					errors={errors?.tel}
 					inputProps={{
-						required: 'це поле є обов’язковим ',
+						required: requiredField,
 						pattern: {
 							message: `please enter the number in this format: ${phoneNumberFormat}`,
 							value: phoneNumberRegex,
@@ -184,7 +190,7 @@ const UserApplication = () => {
 					name="email"
 					errors={errors?.email}
 					inputProps={{
-						required: 'це поле є обов’язковим ',
+						required: requiredField,
 						pattern: {
 							message: 'Please enter valid email!',
 							value: emailRegex,
@@ -203,7 +209,7 @@ const UserApplication = () => {
 						name="discord"
 						errors={errors?.discord}
 						inputProps={{
-							required: 'це поле є обов’язковим ',
+							required: requiredField,
 							pattern: {
 								message: 'Please enter valid discord name!',
 								value: discordRegex,
@@ -225,7 +231,7 @@ const UserApplication = () => {
 					name="linkedin"
 					errors={errors?.linkedin}
 					inputProps={{
-						required: 'це поле є обов’язковим ',
+						required: requiredField,
 						pattern: {
 							message: 'Please enter valid link on your profile!',
 							value: linkedRegex,
@@ -256,7 +262,7 @@ const UserApplication = () => {
 				<Controller
 					control={control}
 					name="experience"
-					rules={{ required: 'це поле є обов’язковим ' }}
+					rules={{ required: requiredField }}
 					render={({ field: { onChange, value, onBlur }, fieldState: { error } }) => {
 						const handleSelectChange = () => {
 							clearErrors('experience'); // Викликаємо clearErrors для поля "projects"
@@ -267,7 +273,7 @@ const UserApplication = () => {
 								<label css={labelStyles}>
 									Наявність досвіду *
 									<Select
-										instanceId={id1}
+										instanceId={experienceId}
 										isSearchable={false}
 										styles={{
 											control: (provided) => ({
@@ -323,7 +329,7 @@ const UserApplication = () => {
 				<Controller
 					control={control}
 					name="type"
-					rules={{ required: 'це поле є обов’язковим ' }}
+					rules={{ required: requiredField }}
 					render={({ field: { onChange, value, onBlur }, fieldState: { error } }) => {
 						const handleSelectChange = () => {
 							clearErrors('type'); // Викликаємо clearErrors для поля "projects"
@@ -333,7 +339,7 @@ const UserApplication = () => {
 								<label css={labelStyles}>
 									Тип участі *
 									<Select
-										instanceId={id3}
+										instanceId={typeId}
 										isSearchable={false}
 										styles={{
 											control: (provided) => ({
@@ -391,7 +397,7 @@ const UserApplication = () => {
 				<Controller
 					control={control}
 					name="projects"
-					rules={{ required: 'це поле є обов’язковим' }}
+					rules={{ required: requiredField }}
 					render={({ field: { onChange, value, onBlur }, fieldState: { error } }) => {
 						const handleSelectChange = () => {
 							clearErrors('projects'); // Викликаємо clearErrors для поля "projects"
@@ -401,7 +407,7 @@ const UserApplication = () => {
 								<label css={labelStyles}>
 									Проєкт на вибір *
 									<Select
-										instanceId={id2}
+										instanceId={projectId}
 										isSearchable={false}
 										styles={{
 											control: (provided) => ({

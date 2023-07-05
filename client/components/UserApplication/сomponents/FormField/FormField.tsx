@@ -25,7 +25,7 @@ interface FormFieldProps<TFormValues extends FieldValues> {
 	onBlur?: (event: { target: { value: string } }) => void;
 }
 
-const FormField = <TFormValues extends Record<string, string | number>>({
+export const FormField = <TFormValues extends Record<string, string | number>>({
 	label,
 	type,
 	placeholder,
@@ -62,5 +62,3 @@ const FormField = <TFormValues extends Record<string, string | number>>({
 		</div>
 	);
 };
-
-export default FormField;
