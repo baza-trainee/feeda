@@ -1,6 +1,6 @@
 'use client';
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React, { useId, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import Select from 'react-select';
 
@@ -438,159 +438,28 @@ const UserApplication = () => {
 						);
 					}}
 				/>
-				{/* 
-				<Controller
-					control={control}
-					name="project"
-					rules={{ required: 'Please choose a project' }}
-					render={({ field: { onChange, value, onBlur }, fieldState: { error } }) => {
-						const handleSelectChange = () => {
-							clearErrors('projects'); // Викликаємо clearErrors для поля "projects"
-						};
 
-						return (
-							<>
-								<label css={labelStyles}>
-									Проєкт на вибір *
-									<Select
-										styles={{
-											control: (provided) => ({
-												...provided,
-
-												border: `1px solid ${theme.colors.disabledBtnBg}`,
-												boxShadow: 'none',
-												borderRadius: '4px',
-												padding: '16px',
-											}),
-											indicatorSeparator: () => ({
-												display: 'none',
-											}),
-											valueContainer: (provided) => ({
-												...provided,
-												padding: 0,
-												margin: 0,
-											}),
-
-											input: (provided) => ({
-												...provided,
-												margin: 0,
-											}),
-											// indicatorsContainer: () => ({
-											// 	display: 'none',
-											// }),
-											dropdownIndicator: () => ({
-												padding: 0,
-												display: 'flex',
-												alingItems: 'center',
-												justifyContent: 'center',
-												color: `${theme.colors.mainPlaceholder}`,
-											}),
-										}}
-										placeholder="Проєкт"
-										options={projects}
-										value={getProjValue(value)}
-										onChange={(value) => {
-											onChange(value);
-											handleSelectChange();
-										}}
-										onBlur={() => onBlur()}
-									/>
-								</label>
-								{error && <span style={{ color: 'red', display: 'block' }}>{error.message}</span>}
-							</>
-						);
-					}}
-				/>
-
-				<Controller
-					control={control}
-					name="type"
-					rules={{ required: 'Please choose one of the options' }}
-					render={({ field: { onChange, value, onBlur }, fieldState: { error } }) => {
-						const handleSelectChange = () => {
-							clearErrors('type'); // Викликаємо clearErrors для поля "projects"
-						};
-
-						return (
-							<>
-								<label css={labelStyles}>
-									Тип участі *
-									<Select
-										styles={{
-											control: (provided) => ({
-												...provided,
-
-												border: `1px solid ${theme.colors.disabledBtnBg}`,
-												boxShadow: 'none',
-												borderRadius: '4px',
-												padding: '16px',
-											}),
-											indicatorSeparator: () => ({
-												display: 'none',
-											}),
-											valueContainer: (provided) => ({
-												...provided,
-												padding: 0,
-												margin: 0,
-											}),
-
-											input: (provided) => ({
-												...provided,
-												margin: 0,
-											}),
-											// indicatorsContainer: () => ({
-											// 	display: 'none',
-											// }),
-											dropdownIndicator: () => ({
-												padding: 0,
-												display: 'flex',
-												alingItems: 'center',
-												justifyContent: 'center',
-												color: `${theme.colors.mainPlaceholder}`,
-											}),
-										}}
-										placeholder="Тип участі"
-										options={type}
-										value={getTypeValue(value)}
-										onChange={(value) => {
-											onChange(value);
-											handleSelectChange();
-										}}
-										onBlur={() => onBlur()}
-									/>
-								</label>
-								{error && <span style={{ color: 'red' }}>{error.message}</span>}
-							</>
-						);
-					}}
-				/> */}
-				{/* <CheckboxField
-					name="conditions"
-					label="Ознайомлений/на з "
+				<CheckBox
+					checked={isСonditionsChecked}
+					onChange={handleСonditionsCheckboxChange}
+					id="ijd"
+					href="/"
+					labeltxt="Ознайомлений/на з"
 					linkText="умовами участі в проєкті *"
-					isChecked={isCheckedFirst}
-					onChange={handleFirstCheckboxChange}
 				/>
 
-				<CheckboxField
-					name="processing"
-					label="Погоджуюсь з"
+				<CheckBox
+					checked={isDataChecked}
+					onChange={handleDataCheckboxChange}
+					id="ijs"
+					href="/"
 					linkText="обробкою персональних даних *"
-					isChecked={isCheckedSecond}
-					onChange={handleSecondCheckboxChange}
-				/> */}
-				{/* <CheckboxField name="nemsss" title="Ознайомлений/на з умовами участі в проєкті *" id="sdfsdfsdf" />
-				<CheckboxField name="nemsss" title="Погоджуюсь з обробкою персональних даних *" id="sdfsdfsssdf" /> */}
-				<CheckBox labeltxt="checkbox1" />
+					labeltxt="Погоджуюсь з "
+				/>
 
-				<Title isDisabled={!isСonditionsChecked || !isValid || !isDataChecked} func={handleSubmit(onFormSubmit)}>
+				<Title isDisabled={!isDataChecked || !isСonditionsChecked || !isValid} func={handleSubmit(onFormSubmit)}>
 					Відправити анкету
 				</Title>
-				{/* <div>
-				<button type="submit" disabled={!isCheckedFirst || !isCheckedSecond || !isValid}>
-					Відправити анкету
-				</button>
-			</div> */}
 			</form>
 		</div>
 	);

@@ -1,10 +1,12 @@
 import styled from '@emotion/styled';
 
-export const CheckboxWrapper = styled.div`
-	display: flex;
-	align-items: center;
-
+export const CheckboxContainer = styled.div`
 	label {
+		&:hover {
+			&::before {
+				/* background-color: red; */
+			}
+		}
 		cursor: pointer;
 		font-size: 12px;
 		font-weight: 400;
@@ -17,21 +19,26 @@ export const CheckboxWrapper = styled.div`
 	input {
 		cursor: pointer;
 		opacity: 0;
-		position: absolute;
+		position: relative;
+
+		&:checked + label::before {
+			content: url('/check.svg');
+			background-color: #ffbd00;
+			border: 2px solid #ffbd00;
+			display: block;
+			width: 18px;
+			height: 18px;
+			color: white;
+		}
 	}
 
 	label::before {
 		content: '';
 		border: 2px solid black;
-		width: 21px;
+		width: 18px;
 		height: 18px;
 		margin-right: 15px;
 		border-radius: 2px;
-	}
-	input:checked + label::before {
-		content: '';
-		background-color: #2196f3;
-		border-color: red;
-		border-radius: 4px;
+		display: block;
 	}
 `;
