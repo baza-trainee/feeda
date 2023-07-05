@@ -32,7 +32,7 @@ import { formStyle, formTitle, formWrapperStyle } from './UserApplication.styles
 import { CheckBox } from './сomponents/Checkbox/Checkbox';
 import { FormField } from './сomponents/FormField/FormField';
 import { labelStyles } from './сomponents/FormField/FormField.slyles';
-import { SelectField } from './сomponents/SelectField/SelectField';
+import { CustomSelect } from './сomponents/SelectField/SelectField';
 
 interface IDiscord {
 	(fieldName: string, value: string): void;
@@ -260,31 +260,35 @@ const UserApplication = () => {
 					}}
 					onChange={(name: string, value: string) => onHandleCityChange(name, value, clearErrors)}
 				/>
-
-				<SelectField
+				<CustomSelect
+					title={'Наявність досвіду  *'}
 					control={control}
 					name="experience"
-					rules={{ required: requiredField }}
+					rules={{ required: "Це поле обов'язкове" }}
 					options={experience}
-					placeholder="Наявність досвіду *"
+					placeholder="Наявність досвіду"
 					clearErrors={clearErrors}
+					valueGetter={(value) => getExpValue(value)}
 				/>
-				<SelectField
+				<CustomSelect
+					title={'Тип участі *'}
 					control={control}
 					name="type"
-					rules={{ required: requiredField }}
+					rules={{ required: "Це поле обов'язкове" }}
 					options={type}
-					placeholder="Тип участі *"
+					placeholder="Тип участі"
 					clearErrors={clearErrors}
+					valueGetter={(value) => getTypeValue(value)}
 				/>
-
-				<SelectField
+				<CustomSelect
+					title={'Проєкт на вибір *'}
 					control={control}
 					name="projects"
-					rules={{ required: requiredField }}
+					rules={{ required: "Це поле обов'язкове" }}
 					options={projects}
-					placeholder="Проєкт на вибір *"
+					placeholder="Проєкт"
 					clearErrors={clearErrors}
+					valueGetter={(value) => getProjValue(value)}
 				/>
 
 				{/* <Controller

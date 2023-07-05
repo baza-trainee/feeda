@@ -1,13 +1,11 @@
-import React from 'react';
 import { Controller } from 'react-hook-form';
 import Select from 'react-select';
 
 import { theme } from 'styles/theme';
 
 import { labelStyles } from '../FormField/FormField.slyles';
-import { ErrorText } from './SelectField.styled';
 
-export const SelectField = ({ control, name, rules, options, placeholder, clearErrors }) => {
+export const CustomSelect = ({ control, name, rules, options, placeholder, clearErrors, valueGetter, title }) => {
 	return (
 		<Controller
 			control={control}
@@ -18,12 +16,14 @@ export const SelectField = ({ control, name, rules, options, placeholder, clearE
 					clearErrors(name);
 				};
 
+				const computedValue = typeof valueGetter === 'function' ? valueGetter(value) : value;
+
 				return (
 					<div>
 						<label css={labelStyles}>
-							{placeholder}
+							{title}
 							<Select
-								instanceId={`${name}Id`}
+								instanceId={name}
 								isSearchable={false}
 								styles={{
 									control: (provided) => ({
@@ -55,15 +55,19 @@ export const SelectField = ({ control, name, rules, options, placeholder, clearE
 								}}
 								placeholder={placeholder}
 								options={options}
-								value={value}
-								onChange={(value) => {
-									onChange(value);
+								value={computedValue}
+								onChange={(selectedOption) => {
+									onChange(selectedOption);
 									handleSelectChange();
 								}}
-								onBlur={onBlur}
+								onBlur={() => onBlur()}
 							/>
 						</label>
-						{error && <ErrorText>{error.message}</ErrorText>}
+						{error && (
+							<span style={{ color: '#DF4242', display: 'block', marginTop: '4px', fontSize: '12px' }}>
+								{error.message}
+							</span>
+						)}
 					</div>
 				);
 			}}
