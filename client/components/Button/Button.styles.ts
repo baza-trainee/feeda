@@ -8,12 +8,12 @@ export const buttonStyle = css`
 	font-size: 22px;
 	text-align: center;
 	border-radius: 4px;
-	color: ${theme.colors.mainTitle};
+	color: ${theme.colors.mainPlaceholder};
 	background-color: ${theme.colors.mainText};
 	border: none;
 
 	&:disabled {
-		color: ${theme.colors.disabledBtnText};
-		background-color: ${theme.colors.disabledBtnBg};
+		color: #939393;
+		background-color: #cecece;
 	}
 `;

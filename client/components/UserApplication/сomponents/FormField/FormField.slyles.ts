@@ -3,6 +3,12 @@ import { css } from '@emotion/react';
 
 export const errorInputStyles = css`
 	border-color: #df4242;
+	/* font-size: 12px; */
+`;
+
+export const errorStyles = css`
+	font-size: 12px;
+	color: rgb(223, 66, 66);
 `;
 export const labelStyles = css`
 	color: #353535;
@@ -17,16 +23,22 @@ export const labelStyles = css`
 `;
 
 export const inputlStyles = css`
-	width: 271px;
 	padding: 16px;
 	margin: 0;
 	border: 1px solid #cecece;
 	background-color: #fcfcfc;
 	border-radius: 4px;
+
+	&:focus {
+		border-color: #939393;
+	}
 	&::placeholder {
 		color: #939393;
 		font-size: 16px;
 		font-weight: 400;
+	}
+	&:focus::placeholder {
+		color: transparent;
 	}
 `;
 
