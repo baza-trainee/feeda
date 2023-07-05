@@ -21,8 +21,7 @@ import {
 } from './helpers/handleChange';
 import { experience, projects, type } from './lists';
 import { formStyle, formTitle, formWrapperStyle } from './UserApplication.styles';
-import CustomCheckbox from './сomponents/Checkbox/Checkbox';
-// import { CheckboxField, CustomCheckbox } from './сomponents/Checkbox/Checkbox';
+import { CheckBox } from './сomponents/Checkbox/Checkbox';
 import FormField from './сomponents/FormField/FormField';
 import { labelStyles } from './сomponents/FormField/FormField.slyles';
 
@@ -582,18 +581,7 @@ const UserApplication = () => {
 				/> */}
 				{/* <CheckboxField name="nemsss" title="Ознайомлений/на з умовами участі в проєкті *" id="sdfsdfsdf" />
 				<CheckboxField name="nemsss" title="Погоджуюсь з обробкою персональних даних *" id="sdfsdfsssdf" /> */}
-				<CustomCheckbox
-					label="Ознайомлений/на з "
-					linkText="умовами участі в проєкті *"
-					isChecked={isСonditionsChecked}
-					onCheckboxChange={handleСonditionsCheckboxChange}
-				/>
-				<CustomCheckbox
-					label="Погоджуюсь з "
-					linkText="обробкою персональних даних *"
-					isChecked={isDataChecked}
-					onCheckboxChange={handleDataCheckboxChange}
-				/>
+				<CheckBox labeltxt="checkbox1" />
 
 				<Title isDisabled={!isСonditionsChecked || !isValid || !isDataChecked} func={handleSubmit(onFormSubmit)}>
 					Відправити анкету
