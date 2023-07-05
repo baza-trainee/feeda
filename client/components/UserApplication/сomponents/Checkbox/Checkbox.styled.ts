@@ -1,50 +1,27 @@
 import styled from '@emotion/styled';
 
 export const CheckboxContainer = styled.div`
-	/* display: flex; */
-	label {
-		&:hover {
-			&::before {
-				/* background-color: red; */
-			}
-		}
-		position: relative;
-		cursor: pointer;
-		font-size: 12px;
-		font-weight: 400;
-		line-height: 16px;
-		letter-spacing: 0.5px;
-		display: flex;
-		align-items: center;
-		gap: 15px;
-
-		@media screen and (min-width: 768px) {
-			font-size: 14px;
-		}
-	}
+	display: flex;
 	input {
-		cursor: pointer;
+		/* appearance: none; */
 		opacity: 0;
 		position: absolute;
-		color: white;
-		&:checked + label::before {
-			content: url('/check.svg');
-
-			background-color: #ffbd00;
-			border: 2px solid #ffbd00;
-		}
 	}
-
-	label::before {
-		content: '';
-		border: 2px solid black;
+	span {
+		display: flex;
+		align-items: center;
+		margin-right: 15px;
+		border: 2px solid #232323;
+		border-radius: 2px;
 		width: 18px;
 		height: 18px;
+	}
 
-		border-radius: 2px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
+	input:checked + span {
+		border: none;
+		background-color: #ffbd00;
+		background-image: url('/check_small.svg');
+		background-position: center center;
 	}
 `;
 

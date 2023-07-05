@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 
 import Link from 'next/link';
 
-import { CheckboxContainer,CheckboxText } from './Checkbox.styled';
+import { CheckboxContainer, CheckboxText } from './Checkbox.styled';
 
 interface CheckBoxProps {
 	labeltxt: string;
@@ -21,6 +21,7 @@ export const CheckBox: React.FC<CheckBoxProps> = ({ labeltxt, id, linkText, href
 	return (
 		<CheckboxContainer>
 			<input type="checkbox" id={id} checked={checked} onChange={handleCheckboxChange} />
+			<span></span>
 			<label htmlFor={id}>
 				<CheckboxText>
 					{labeltxt}
