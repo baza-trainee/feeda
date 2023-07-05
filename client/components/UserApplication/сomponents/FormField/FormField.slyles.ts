@@ -1,9 +1,7 @@
 import { css } from '@emotion/react';
-// import { theme } from 'styles/theme';
 
 export const errorInputStyles = css`
 	border-color: #df4242;
-	/* font-size: 12px; */
 `;
 
 export const errorStyles = css`

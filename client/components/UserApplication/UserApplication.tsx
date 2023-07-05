@@ -32,6 +32,7 @@ import { formStyle, formTitle, formWrapperStyle } from './UserApplication.styles
 import { CheckBox } from './сomponents/Checkbox/Checkbox';
 import { FormField } from './сomponents/FormField/FormField';
 import { labelStyles } from './сomponents/FormField/FormField.slyles';
+import { SelectField } from './сomponents/SelectField/SelectField';
 
 interface IDiscord {
 	(fieldName: string, value: string): void;
@@ -259,7 +260,34 @@ const UserApplication = () => {
 					}}
 					onChange={(name: string, value: string) => onHandleCityChange(name, value, clearErrors)}
 				/>
-				<Controller
+
+				<SelectField
+					control={control}
+					name="experience"
+					rules={{ required: requiredField }}
+					options={experience}
+					placeholder="Наявність досвіду *"
+					clearErrors={clearErrors}
+				/>
+				<SelectField
+					control={control}
+					name="type"
+					rules={{ required: requiredField }}
+					options={type}
+					placeholder="Тип участі *"
+					clearErrors={clearErrors}
+				/>
+
+				<SelectField
+					control={control}
+					name="projects"
+					rules={{ required: requiredField }}
+					options={projects}
+					placeholder="Проєкт на вибір *"
+					clearErrors={clearErrors}
+				/>
+
+				{/* <Controller
 					control={control}
 					name="experience"
 					rules={{ required: requiredField }}
@@ -325,7 +353,6 @@ const UserApplication = () => {
 						);
 					}}
 				/>
-
 				<Controller
 					control={control}
 					name="type"
@@ -460,7 +487,7 @@ const UserApplication = () => {
 							</div>
 						);
 					}}
-				/>
+				/> */}
 
 				<CheckBox
 					checked={isСonditionsChecked}
