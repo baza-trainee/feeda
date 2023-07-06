@@ -1,13 +1,12 @@
-"use client";
+'use client';
 /** @jsxImportSource @emotion/react */
-import { titleStyle } from "./Title.styles";
+import { Heading } from './Title.styles';
 
 interface TitleProps {
 	children: string;
+	secondary?: boolean;
 }
 
-const Title = ({ children }: TitleProps) => {
-	return <h2 css={titleStyle}>{children}</h2>;
-};
-
-export default Title;
+export function Title({ children, secondary }: TitleProps) {
+	return <Heading secondary={secondary}>{children}</Heading>;
+}

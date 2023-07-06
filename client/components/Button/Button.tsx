@@ -9,7 +9,7 @@ interface ButtonProps {
 	func: () => void;
 }
 
-const Title = ({ children, isDisabled, func }: ButtonProps) => {
+const Button = ({ children, isDisabled, func }: ButtonProps) => {
 	const onClickHandler = () => {
 		func();
 	};
@@ -24,4 +24,4 @@ const Title = ({ children, isDisabled, func }: ButtonProps) => {
 	);
 };
 
-export default Title;
+export default Button;

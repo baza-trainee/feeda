@@ -1,17 +1,5 @@
 import styled from "@emotion/styled";
 
-export const Header = styled.h2`
-  display: flex;
-  width: 800px;
-  flex-direction: column;
-  color: var(--neutral-1000, #121212);
-  text-align: center;
-  font-size: 45px;
-  font-family: Exo 2;
-  font-weight: 700;
-  line-height: 52px;
-`;
-
 export const Container = styled.div`
   display: flex;
   width: 795px;

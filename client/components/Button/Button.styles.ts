@@ -1,18 +1,18 @@
 import { css } from "@emotion/react";
-import { theme } from "styles/theme";
+import { theme } from "~styles/theme";
 
 export const buttonStyle = css`
 	padding: 16px 24px;
-	font-weight: 700;
-	font-size: 22px;
-	text-align: center;
+
+	font-weight: ${theme.fonts.button.fontWeight};
+	font-size: ${theme.fonts.button.fontSize}rem;
+	
 	border-radius: 4px;
-	color: ${theme.colors.mainTitle};
+	color: ${theme.colors.grey100};
 	background-color: ${theme.colors.mainText};
-	border:none;
 
 	&:disabled {
-		color: ${theme.colors.disabledBtnText};
-		background-color: ${theme.colors.disabledBtnBg};
+		color: ${theme.colors.grey400};
+		background-color: ${theme.colors.grey200};
 	}
 `;

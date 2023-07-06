@@ -1,12 +1,14 @@
 'use client';
 import Image from 'next/image';
 
-import { Desc, Reminder, Section, Span, Title } from './EndPopUp.styles';
+import { Title } from '~components/Title/Title';
+
+import { Desc, Reminder, Section, Span } from './EndPopUp.styles';
 
 export function EndPopUp() {
 	return (
 		<Section>
-			<Title>Дякуємо!</Title>
+			<Title secondary>Дякуємо!</Title>
 			<Desc>Твоя анкета буде оброблена протягом доби</Desc>
 			<Reminder>
 				Не забудь перевірити запрошення до{' '}
