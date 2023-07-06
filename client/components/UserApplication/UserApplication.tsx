@@ -1,13 +1,11 @@
 'use client';
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import Select from 'react-select';
-
-import { theme } from 'styles/theme';
+import { useForm } from 'react-hook-form';
 
 import Title from '~components/Button/Button';
 
+import { useDiscordValidation } from './ hooks/useDiscordValidation';
 import {
 	discordRegex,
 	emailRegex,
@@ -31,12 +29,11 @@ import { experience, projects, type } from './lists';
 import { formStyle, formTitle, formWrapperStyle } from './UserApplication.styles';
 import { CheckBox } from './сomponents/Checkbox/Checkbox';
 import { FormField } from './сomponents/FormField/FormField';
-import { labelStyles } from './сomponents/FormField/FormField.slyles';
 import { CustomSelect } from './сomponents/SelectField/SelectField';
 
-interface IDiscord {
-	(fieldName: string, value: string): void;
-}
+// interface IDiscord {
+// 	(fieldName: string, value: string): void;
+// }
 
 const UserApplication = () => {
 	const {
@@ -49,7 +46,7 @@ const UserApplication = () => {
 		// watch,
 	} = useForm({ mode: 'all' });
 
-	const [experienceId, typeId, projectId] = useCustomIds();
+	// const [experienceId, typeId, projectId] = useCustomIds();
 
 	const onFormSubmit = (data: object) => {
 		// alert(JSON.stringify(data));
@@ -59,34 +56,35 @@ const UserApplication = () => {
 		setIsСonditionsChecked(false);
 		setIsDataChecked(false);
 	};
-
+	// Discord hook
+	const [shouldDisplayMessage, onHandleDiscordChange, onBlurDiscord] = useDiscordValidation(discordRegex, clearErrors);
 	// ==========================Discord======================= //
 	// видаляємо рендер помилки поля 'Discord'
-	const [shouldDisplayMessage, setShouldDisplayMessage] = useState(false);
+	// const [shouldDisplayMessage, setShouldDisplayMessage] = useState(false);
 
-	const onHandleDiscordChange: IDiscord = (fieldName, value) => {
-		if (discordRegex.test(value)) {
-			clearErrors(fieldName);
-			setShouldDisplayMessage(true);
-		} else {
-			setShouldDisplayMessage(false);
-		}
-	};
+	// const onHandleDiscordChange: IDiscord = (fieldName, value) => {
+	// 	if (discordRegex.test(value)) {
+	// 		clearErrors(fieldName);
+	// 		setShouldDisplayMessage(true);
+	// 	} else {
+	// 		setShouldDisplayMessage(false);
+	// 	}
+	// };
 
-	const onBlurDiscord = (event: { target: { value: string } }) => {
-		const value = event.target.value;
-		// console.log("value", value);
-		if (value && discordRegex.test(value)) {
-			setShouldDisplayMessage(true);
-		} else {
-			setShouldDisplayMessage(false);
-		}
-	};
+	// const onBlurDiscord = (event: { target: { value: string } }) => {
+	// 	const value = event.target.value;
+	// 	// console.log("value", value);
+	// 	if (value && discordRegex.test(value)) {
+	// 		setShouldDisplayMessage(true);
+	// 	} else {
+	// 		setShouldDisplayMessage(false);
+	// 	}
+	// };
 	// ==========================Discord======================= //
 
 	// ===================== checkbox================= //
-	const [isСonditionsChecked, setIsСonditionsChecked] = useState(false); // Додано стан для чекбокса
-	const [isDataChecked, setIsDataChecked] = useState(false); // Додано стан для чекбокса
+	const [isСonditionsChecked, setIsСonditionsChecked] = useState(false);
+	const [isDataChecked, setIsDataChecked] = useState(false);
 
 	const handleСonditionsCheckboxChange = () => {
 		setIsСonditionsChecked(!isСonditionsChecked);
@@ -95,8 +93,6 @@ const UserApplication = () => {
 		setIsDataChecked(!isDataChecked);
 	};
 	// ===================== checkbox================= //
-
-	// const isFormValid = watch();
 	return (
 		<div css={formWrapperStyle}>
 			{' '}
@@ -216,7 +212,7 @@ const UserApplication = () => {
 								value: discordRegex,
 							},
 						}}
-						onChange={(name: string, value: string) => onHandleDiscordChange(name, value)}
+						onChange={onHandleDiscordChange}
 					/>
 					{shouldDisplayMessage && (
 						<span css={{ color: '#14905D', fontSize: '12px' }}>Не забудь перевірити запрошення</span>

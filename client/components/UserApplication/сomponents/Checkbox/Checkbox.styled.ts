@@ -2,7 +2,9 @@ import styled from '@emotion/styled';
 
 export const CheckboxContainer = styled.div`
 	display: flex;
+
 	input {
+		cursor: pointer;
 		/* appearance: none; */
 		opacity: 0;
 		position: absolute;
@@ -15,6 +17,7 @@ export const CheckboxContainer = styled.div`
 		border-radius: 2px;
 		width: 18px;
 		height: 18px;
+		cursor: pointer;
 	}
 
 	input:checked + span {

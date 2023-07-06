@@ -1,8 +1,10 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { DeepMap, FieldError, FieldValues, Path, UseFormRegister } from 'react-hook-form';
 
+import { discordRegex } from '~components/UserApplication/helpers';
+
 /** @jsxImportSource @emotion/react */
-import { errorInputStyles, errorStyles, inputlStyles, labelStyles } from './FormField.slyles';
+import { errorInputStyles, errorStyles, inputlStyles, labelStyles, validDiscordStyle } from './FormField.slyles';
 
 interface InputValidationOptions {
 	value: number | string | RegExp;
@@ -37,10 +39,19 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 	autoComplete,
 }: FormFieldProps<TFormValues>) => {
 	const errorMessage = errors?.message || 'Error!';
+
 	const hasError = !!errors;
+
+	const isDiscordField = name === 'discord';
+
+	const [isDiscordValid, setIsDiscordValid] = useState(false);
+
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+		const value = event.target.value;
+		const isValidtoDiscord = discordRegex.test(value);
+		if (isValidtoDiscord) setIsDiscordValid(true);
 		if (onChange) {
-			onChange(name, event.target.value);
+			onChange(name, value);
 		}
 	};
 
@@ -49,7 +60,11 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 			<label css={labelStyles}>
 				<p>{label}</p>
 				<input
-					css={[inputlStyles, hasError && errorInputStyles]}
+					css={[
+						inputlStyles,
+						hasError && errorInputStyles,
+						isDiscordValid && !hasError && isDiscordField && validDiscordStyle,
+					]}
 					type={type}
 					placeholder={placeholder}
 					{...register(name, inputProps)}

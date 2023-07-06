@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 export const errorInputStyles = css`
-	border-color: #df4242;
+	border-color: #df4242 !important;
 `;
 
 export const errorStyles = css`
@@ -41,5 +41,5 @@ export const inputlStyles = css`
 `;
 
 export const validDiscordStyle = css`
-	border: 1px solid #14905d;
+	border-color: #14905d !important;
 `;
