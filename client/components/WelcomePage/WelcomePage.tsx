@@ -1,32 +1,28 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { Button , Wrapper, Div, } from "components/Condition/Condition.styles";
-import Agreement from "components/Agreement/Agreement";
-import Container from "components/Container/Container";
-import Condition from "components/Condition/Condition";
+import React, { useState } from 'react';
+
+import Agreement from 'components/Agreement/Agreement';
+import Condition from 'components/Condition/Condition';
+import { Button,Wrapper } from 'components/Condition/Condition.styles';
 
 const WelcomePage = () => {
-  const [click, setClick] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleClick = () => {
-    setClick(true);
-    console.log(click);
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
   };
 
   return (
-    <Div>
-      <Container>
-        {click ? (
-          <Agreement />
-        ) : (
-          <Wrapper>
-            <Condition />
-            <Button onClick={handleClick}>Подати заявку</Button>
-          </Wrapper>
-        )}
-      </Container>
-    </Div>
+        <Wrapper>
+          <Condition />
+          <Button onClick={openModal}>Подати заявку</Button>
+          <Agreement onClose={closeModal} isOpen={isOpen} />
+        </Wrapper>  
   );
 };
 

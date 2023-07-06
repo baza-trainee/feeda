@@ -1,70 +1,103 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
+import { theme } from 'styles/theme';
+const { colors, fonts, media } = theme;
 
 export const Welcome = styled.h2`
-  color: var(--neutral-1000, #121212);
+  color: ${colors.mainTitle};
   text-align: center;
-  font-size: 45px;
-  font-weight: 700;
-  line-height: 52px;
+  font-size: 22px; 
+  line-height: normal;
+  font-weight: ${fonts.title.fontWeight.desktop};
+  
+  @media screen and (${media.tablet}){
+    font-size: 36px; 
+    line-height: 44px;
+  }
+  
+  @media screen and (${media.desktop}) {
+    font-size: 45px; 
+    line-height: 52px;
+  }
+
 `;
 
 export const Wrapper = styled.div`
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 48px;
   display: flex;
-  width: 759px;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
-  margin: auto;
+  min-height: 100vh;
+  margin: 0 auto;
+  width: 100%;
+  gap: 32px;
+
+  @media screen and (${media.tablet}) {
+    max-width: 675px;
+    gap: 48px;
+  }
+
+  @media screen and (${media.desktop}) {
+    max-width: 759px;
+  }
 `;
 
 export const Detail = styled.p`
-  color: #121212;
+  color: ${colors.mainTitle};
   text-align: center;
-  font-size: 22px;
-  line-height: 140%;
-  display: flex;
-  width: 460px;
-  flex-direction: column;
+  line-height: normal;
+  font-size: ${fonts.title.fontSize.tablet}px;
+  
+  @media screen and (${media.tablet}) {
+    max-width: 525px;
+    line-height: ${fonts.title.lineHeight}; 
+    font-size: ${fonts.title.fontSize.desktop}px;
+  }
+
 `;
 
 export const Span = styled.span`
   color: #0029ff;
 `;
- 
+
 export const UnderSpan = styled.span`
-color: #121212;
-margin-left:5px;
-font-weight: bold;
-`
+  color: ${colors.mainTitle};
+  margin-left: 5px;
+  font-weight: bold;
+`;
 
 export const Button = styled.button`
-  display: flex;
-  height: 56px;
   padding: 16px 24px;
-  align-items: center;
-  gap: 16px;
-  border-radius: 4px;
-  background: var(--neutral-900, #232323);
-  color: var(--neutral-100, #fcfcfc);
-  text-align: center;
+
   font-size: 22px;
   font-weight: 700;
+
+  border-radius: 4px;
+  background:${colors.mainText};
+  color: ${colors.mainBtnText};
+  
   cursor: pointer;
 `;
 
 export const Div = styled.div`
-  margin-top: 128px;
+  /* margin-top: 243px;
+
+  @media screen and (${media.tablet}) {
+    margin-top: 397px;
+  }
+
+  @media screen and (${media.desktop}) {
+    margin-top: 128px;
+  } */
 `;
 
 export const UnderHeader = styled.p`
-display: flex;
-width: 675px;
-/* flex-direction: column; */
-color: var(--neutral-1000, #121212);
-text-align: center;
-font-size: 22px;
-font-family: Exo 2;
-line-height: 140%;
-`
+  text-align: center;
+  line-height: normal;
+  font-size: ${fonts.title.fontSize.tablet}px;
+  
+  @media screen and (${media.tablet}) {
+    line-height: ${fonts.title.lineHeight}; 
+    font-size: ${fonts.title.fontSize.desktop}px;
+  }
+
+`;

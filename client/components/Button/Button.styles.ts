@@ -1,5 +1,5 @@
-import { css } from "@emotion/react";
-import { theme } from "styles/theme";
+import { css } from '@emotion/react';
+import { theme } from 'styles/theme';
 
 export const buttonStyle = css`
 	padding: 16px 24px;

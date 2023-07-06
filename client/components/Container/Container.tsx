@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+
 import { Wrapper } from './Container.styles';
 
 interface ContainerTypes {
@@ -7,5 +8,5 @@ interface ContainerTypes {
 }
 
 export default function Container({ children }: ContainerTypes) {
-    return <Wrapper>{children}</Wrapper>;
+	return <Wrapper>{children}</Wrapper>;
 }

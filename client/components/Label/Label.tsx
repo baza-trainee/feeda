@@ -1,6 +1,7 @@
-"use client";
-import { ReactNode } from "react";
-import { labelStyle } from "./Label.styles";
+'use client';
+import { ReactNode } from 'react';
+
+import { labelStyle } from './Label.styles';
 
 interface labelProps {
 	forHTML: string;
