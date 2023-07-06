@@ -38,8 +38,13 @@ class ProjectAdmin(admin.ModelAdmin):
     prepopulated_fields = {'url': ('title',)}
 
 
+@admin.register(Command)
+class CommandAdmin(admin.ModelAdmin):
+    list_display = ('id', )
+
+
 # @admin.register(Command)
 # class CommandAdmin(admin.ModelAdmin):
 #     list_display = ('id', 'user', 'project')
 
-admin.site.register(Command)
+# admin.site.register(Command)

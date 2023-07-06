@@ -4,6 +4,7 @@ from .models import *
 
 
 class TypeParticipantSerializer(serializers.ModelSerializer):
+    """Тип учасника"""
     class Meta:
         model = TypeParticipant
         fields = '__all__'
@@ -77,18 +78,33 @@ class DetailProjectSerializer(serializers.ModelSerializer):
     """Детальна інформація про проект"""
 
     participants = ParticipantsProjectSerializer(many=True)
-    type_project = TypeProjectSerializer()
-    complexity = ComplexitySerializer()
-    project_status = StatusProjectSerializer()
+    type_project = TypeProjectSerializer(read_only=True)
+    complexity = ComplexitySerializer(read_only=True)
+    project_status = StatusProjectSerializer(read_only=True)
 
     class Meta:
         model = Projects
         fields = '__all__'
 
+    def update(self, instance, validated_data):
+        instance.title = validated_data.get('title', instance.title)
+        instance.comment = validated_data.get('comment', instance.comment)
+        instance.type_project = validated_data.get('type_project', instance.type_project)
+        instance.complexity = validated_data.get('complexity', instance.complexity)
+        instance.project_status = validated_data.get('project_status', instance.project_status)
+        instance.start_date_project = validated_data.get('start_date_project', instance.start_date_project)
+        instance.end_date_project = validated_data.get('end_date_project', instance.end_date_project)
+        instance.address_site = validated_data.get('address_site', instance.address_site)
+        instance.url = validated_data.get('url', instance.url)
+        instance.participants.set(validated_data.get('participants', instance.participants))
+        instance.save()
+        return instance
+
 
 class AllParticipantsSerializer(serializers.ModelSerializer):
-    model = Participant
-    fields = '__all__'
+    class Meta:
+        model = Participant
+        fields = '__all__'
 
 
 class CommandSerializer(serializers.ModelSerializer):

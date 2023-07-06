@@ -98,7 +98,7 @@ class Participant(models.Model):
 class Command(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ManyToManyField(Participant, blank=True, null=True)
-    project = models.ForeignKey(Projects, blank=True, null=True, on_delete=models.PROTECT)
+    project = models.ForeignKey(Projects, blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.user} - {self.project}'

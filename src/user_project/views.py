@@ -42,6 +42,7 @@ import requests
 @permission_classes([permissions.AllowAny])
 @api_view(['POST'])
 def join_project(request):
+    """Заявка користувача для приєднання"""
     serializer = JoinUserProjectSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -50,8 +51,29 @@ def join_project(request):
 
 
 @permission_classes([permissions.IsAdminUser])
+@api_view(['GET'])
+def get_all_participant(request):
+    """Список всіх учасників"""
+    participants = Participant.objects.all()
+    serializer = AllParticipantsSerializer(participants, many=True)
+    return Response(serializer.data)
+
+
+@swagger_auto_schema(
+    methods=['DELETE'],
+    responses={
+        status.HTTP_200_OK: openapi.Response(
+            description='Participant deleted successfully',
+        ),
+        status.HTTP_404_NOT_FOUND: openapi.Response(
+            description='Participant not found',
+        ),
+    }
+)
+@permission_classes([permissions.IsAdminUser])
 @api_view(['DELETE'])
 def delete_participant(request, id):
+    """Видалити учасника"""
     try:
         participant = Participant.objects.get(id=id)
         participant.delete()
@@ -87,6 +109,7 @@ def delete_participant(request, id):
 # @permission_classes([permissions.IsAdminUser])
 @api_view(['POST'])
 def create_project(request):
+    """Створення нового проекта"""
     serializer = CreateProjectSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -135,6 +158,7 @@ def create_project(request):
 # @permission_classes([permissions.IsAdminUser])
 @api_view(['GET'])
 def list_projects(request):
+    """Список всіх проектів"""
     projects = Projects.objects.all()
     serializer = ProjectsSerializer(projects, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
@@ -154,6 +178,7 @@ def list_projects(request):
 )
 @swagger_auto_schema(
     methods=['PUT'],
+    request_body=DetailProjectSerializer,
     responses={
         status.HTTP_200_OK: openapi.Response(
             description='Project retrieved successfully',
@@ -178,6 +203,7 @@ def list_projects(request):
 @permission_classes([permissions.AllowAny])
 @api_view(['GET', 'PUT', 'DELETE'])
 def detail_project(request, project_url):
+    """Отримання, оновлення, видалення проекта"""
     try:
         project = Projects.objects.get(url=project_url)
         if request.method == 'GET':
@@ -196,20 +222,12 @@ def detail_project(request, project_url):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-@permission_classes([permissions.IsAdminUser])
-@api_view(['GET'])
-def get_all_participant(request):
-    participants = Participant.objects.all()
-    serializer = AllParticipantsSerializer(participants, many=True)
-    return Response(serializer.data)
-
-
 @swagger_auto_schema(
     method='POST',
     request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT,
         properties={
-            'user': openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.TYPE_STRING),
+            'user': openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Schema(type=openapi.TYPE_STRING)),
             'project': openapi.Schema(type=openapi.TYPE_STRING)
         },
         required=[
@@ -221,9 +239,10 @@ def get_all_participant(request):
         status.HTTP_400_BAD_REQUEST: openapi.Response(description='Invalid data provided'),
     },
 )
-@permission_classes([permissions.IsAdminUser])
+# @permission_classes([permissions.IsAdminUser])
 @api_view(['POST'])
 def create_command(request):
+    """Створення команди"""
     serializer = CreateCommandSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -233,14 +252,29 @@ def create_command(request):
 
 @api_view(['GET'])
 def commands_list(request):
+    """Список всіх команд"""
     command = Command.objects.all()
     serializer = CommandSerializer(command, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+@swagger_auto_schema(
+    methods=['PUT'],
+    request_body=CreateCommandSerializer,
+    responses={
+        status.HTTP_200_OK: openapi.Response(
+            description='Command retrieved successfully',
+            schema=DetailProjectSerializer,
+        ),
+        status.HTTP_404_NOT_FOUND: openapi.Response(
+            description='Command not found',
+        ),
+    }
+)
 @permission_classes([permissions.IsAdminUser])
 @api_view(['PUT'])
 def command_update(request, id):
+    """Оновлення даних команди"""
     try:
         command = Command.objects.get(id=id)
         serializer = CreateCommandSerializer(command, data=request.data)
@@ -254,6 +288,7 @@ def command_update(request, id):
 @permission_classes([permissions.IsAdminUser])
 @api_view(['DELETE'])
 def delete_command(request, id):
+    """Видалити команду"""
     try:
         command = Command.objects.get(id=id)
         command.delete()
@@ -276,6 +311,7 @@ def delete_command(request, id):
 @permission_classes([permissions.IsAdminUser])
 @api_view(['GET'])
 def filter_project_list(request):
+    """Фільтрація даних по ключовим словам"""
     projects = Projects.objects.all()
     projects_filter = ProjectsFilter(request.GET, queryset=projects)
     filtered_projects = projects_filter.qs
