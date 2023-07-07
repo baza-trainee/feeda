@@ -100,28 +100,22 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 	children,
 }: FormFieldProps<TFormValues>) => {
 	const errorMessage = <>{errors?.message || 'Error!'}</>;
+
 	const hasError = !!errors;
-	// const [isFocused, setIsFocused] = useState(false);
+
 	const [isValidDiscord, setIsValidDiscord] = useState(false);
+
 	const isValid = !errors;
+
 	const isDiscordField = name === 'discord';
-	// console.log('isDiscordField', isDiscordField);
-	// if (isDiscordField) {
-	// }
+
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const value = event.target.value.trim();
 
-		if (isDiscordField && discordRegex.test(value)) {
-			console.log('value :>> ', value);
+		if (isDiscordField && (discordRegex.test(value) || discordSecondRegex.test(value))) {
 			setIsValidDiscord(true);
 		}
 	};
-	// const handleFocus = () => {
-	// 	setIsFocused(true);
-	// };
-	// const handleBlur = () => {
-	// 	setIsFocused(false);
-	// };
 
 	return (
 		<div style={{ height: 'auto' }}>
