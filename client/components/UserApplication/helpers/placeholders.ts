@@ -5,3 +5,6 @@ export const experiencePlaceholder = 'Наявність досвіду';
 export const namePlaceholder = "Ім'я";
 export const lastnamePlaceholder = 'Прізвище';
 export const stackPlaceholder = 'Спеціалізація (стек)';
+export const typePlaceholder = 'Тип участі';
+export const projectPlaceholder = 'Проєкт';
+export const cityPlaceholder = 'Місто';

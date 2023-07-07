@@ -7,6 +7,7 @@ import Title from '~components/Button/Button';
 
 import { useDiscordValidation } from './ hooks/useDiscordValidation';
 import {
+	cityPlaceholder,
 	cityRegex,
 	discordRegex,
 	discordSecondRegex,
@@ -30,8 +31,10 @@ import {
 	onHandleStackChange,
 	phoneNumberFormat,
 	phoneNumberRegex,
+	projectPlaceholder,
 	requiredField,
 	stackPlaceholder,
+	typePlaceholder,
 	useCustomIds,
 } from './helpers';
 import { experience, projects, type } from './lists';
@@ -255,7 +258,7 @@ const UserApplication = () => {
 					label="Місто (Країна)"
 					autoComplete="off"
 					type="text"
-					placeholder="Місто"
+					placeholder={cityPlaceholder}
 					register={register}
 					name="city"
 					errors={errors?.city}
@@ -289,9 +292,9 @@ const UserApplication = () => {
 					title={'Тип участі *'}
 					control={control}
 					name="type"
-					rules={{ required: "Це поле обов'язкове" }}
+					rules={{ required: requiredField }}
 					options={type}
-					placeholder="Тип участі"
+					placeholder={typePlaceholder}
 					clearErrors={clearErrors}
 					valueGetter={(value) => getTypeValue(value)}
 				/>
@@ -299,9 +302,9 @@ const UserApplication = () => {
 					title={'Проєкт на вибір *'}
 					control={control}
 					name="projects"
-					rules={{ required: "Це поле обов'язкове" }}
+					rules={{ required: requiredField }}
 					options={projects}
-					placeholder="Проєкт"
+					placeholder={projectPlaceholder}
 					clearErrors={clearErrors}
 					valueGetter={(value) => getProjValue(value)}
 				/>

@@ -9,13 +9,16 @@ import {
 	onHandleStackChange,
 } from './handleChange';
 import {
+	cityPlaceholder,
 	emailPlaceholder,
 	experiencePlaceholder,
 	lastnamePlaceholder,
 	linkedInPlaceholder,
 	namePlaceholder,
 	phoneNumberFormat,
+	projectPlaceholder,
 	stackPlaceholder,
+	typePlaceholder,
 } from './placeholders';
 import {
 	cityRegex,
@@ -55,4 +58,7 @@ export {
 	namePlaceholder,
 	lastnamePlaceholder,
 	stackPlaceholder,
+	typePlaceholder,
+	projectPlaceholder,
+	cityPlaceholder,
 };
