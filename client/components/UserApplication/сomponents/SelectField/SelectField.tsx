@@ -55,18 +55,18 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
 								instanceId={name}
 								isSearchable={false}
 								styles={{
-									control: (provided) => ({
+									control: (provided, { menuIsOpen }) => ({
 										...provided,
-										border: `1px solid ${error ? 'red' : theme.colors.disabledBtnBg}`,
+										border: `1px solid ${
+											error ? 'red' : menuIsOpen ? '#49454F!important ' : theme.colors.disabledBtnBg
+										}`,
 										boxShadow: 'none',
+
 										borderRadius: '4px',
 										padding: '16px',
 										cursor: 'pointer',
 										':hover': {
 											borderColor: `${error ? 'red' : theme.colors.disabledBtnBg}`,
-										},
-										':focus': {
-											borderColor: `${error ? 'red' : grey}`,
 										},
 									}),
 									indicatorSeparator: () => ({

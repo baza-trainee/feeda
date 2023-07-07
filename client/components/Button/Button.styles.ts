@@ -15,8 +15,9 @@ export const buttonStyle = css`
 	&:disabled {
 		color: #939393;
 		background-color: #cecece;
+		border: 1px solid #cecece;
 	}
-	&:hover {
+	&:not(:disabled):hover {
 		color: #ffbd00;
 		border: 1px solid #ffbd00;
 	}
