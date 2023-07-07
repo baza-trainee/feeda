@@ -1,6 +1,6 @@
-"use client";
+'use client';
 /** @jsxImportSource @emotion/react */
-import { titleStyle } from "./Title.styles";
+import { titleStyle } from './Title.styles';
 
 interface TitleProps {
 	children: string;
