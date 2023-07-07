@@ -3,8 +3,8 @@
 import React from 'react';
 
 import { ClassNames, css } from '@emotion/react';
-import Image from 'next/image';
 import nextIcon from '@public/next.svg';
+import Image from 'next/image';
 
 import { ObjectStyle, reactStyle } from './Styling.styles';
 

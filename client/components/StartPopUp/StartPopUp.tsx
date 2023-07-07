@@ -1,31 +1,32 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { Button , Wrapper, Div, } from "components/Condition/Condition.styles";
-import Agreement from "components/Agreement/Agreement";
-import Container from "components/Container/Container";
-import Condition from "components/Condition/Condition";
+import React, { useState } from 'react';
 
-export function StartPopUp () {
-  const [click, setClick] = useState(false);
+import Agreement from 'components/Agreement/Agreement';
+import Condition from 'components/Condition/Condition';
+import { Button, Div,Wrapper } from 'components/Condition/Condition.styles';
+import Container from 'components/Container/Container';
 
-  const handleClick = () => {
-    setClick(true);
-    console.log(click);
-  };
+export function StartPopUp() {
+	const [click, setClick] = useState(false);
 
-  return (
-    <Div>
-      <Container>
-        {click ? (
-          <Agreement />
-        ) : (
-          <Wrapper>
-            <Condition />
-            <Button onClick={handleClick}>Подати заявку</Button>
-          </Wrapper>
-        )}
-      </Container>
-    </Div>
-  );
-};
+	const handleClick = () => {
+		setClick(true);
+		console.log(click);
+	};
+
+	return (
+		<Div>
+			<Container>
+				{click ? (
+					<Agreement />
+				) : (
+					<Wrapper>
+						<Condition />
+						<Button onClick={handleClick}>Подати заявку</Button>
+					</Wrapper>
+				)}
+			</Container>
+		</Div>
+	);
+}

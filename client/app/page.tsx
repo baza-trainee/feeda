@@ -1,5 +1,7 @@
-import { EndPopUp } from '~components/EndPopUp/EndPopUp';
-import { StartPopUp } from '~components/StartPopUp/StartPopUp';
+import Container from 'components/Container/Container';
+import Styling from 'components/Styling/Styling';
+
+import { GoodbyePage } from '~components/GoodbyePage/GoodbyePage';
 
 export const metadata = {
 	title: 'Feeda',
@@ -9,8 +11,10 @@ export const metadata = {
 export default function Home() {
 	return (
 		<main>
-			<StartPopUp />
-			<EndPopUp />
+			<Container>
+				{/* <Styling /> */}
+				<GoodbyePage />
+			</Container>
 		</main>
 	);
 }

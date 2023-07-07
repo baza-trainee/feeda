@@ -1,6 +1,7 @@
-import styled from "@emotion/styled"
-import { theme } from "styles/theme"
-const { colors, fonts, media } = theme
+import styled from '@emotion/styled';
+import Image from 'next/image';
+import { theme } from 'styles/theme';
+const { colors, fonts, media } = theme;
 
 export const Section = styled.section`
   position: fixed;
@@ -14,67 +15,94 @@ export const Section = styled.section`
 
   border-radius: 16px;
   border: 1px solid ${colors.disabledBtnBg};
-`
+`;
+
 export const Title = styled.h1`
   color: ${colors.mainTitle};
 
   margin-bottom: 32px;
 
-  font-weight: ${fonts.display.fontWeight};
-  font-size: ${fonts.display.fontSize.mobile}px;
-  line-height: ${fonts.display.lineHeight.mobile};
+  font-weight: ${fonts.headline.fontWeight.tablet};
+  font-size: ${fonts.headline.fontSize.desktop}px;
+  line-height: ${fonts.headline.lineHeight.desktop};
 
   @media screen and (${media.tablet}) {
-    font-size: ${fonts.display.fontSize.tablet}px;
-    line-height: ${fonts.display.lineHeight.tablet};
+    margin-bottom: 24px;
+
+    font-size: ${fonts.display.fontSize.mobile}px;
+    line-height: ${fonts.display.lineHeight.mobile};
   }
 
   @media screen and (${media.desktop}) {
-    font-size: ${fonts.display.fontSize.desktop}px;
-    line-height: ${fonts.display.lineHeight.desktop};
+    margin-bottom: 32px;
+
+    font-size: ${fonts.display.fontSize.tablet}px;
+    line-height: ${fonts.display.lineHeight.tablet};
   }
-`
+`;
 
 export const Desc = styled.p`
   color: ${colors.mainTitle};
 
   margin-bottom: 32px;
 
-  font-weight: ${fonts.title.fontWeight.mobile};
-  font-size: ${fonts.title.fontSize.mobile}px;
+  font-weight: ${fonts.title.fontWeight.tablet};
+  font-size: ${fonts.title.fontSize.tablet}px;
   line-height: ${fonts.title.lineHeight};
-  letter-spacing: ${fonts.title.letterSpacing.mobile}px;
+  letter-spacing: ${fonts.title.letterSpacing.tablet}px;
 
   @media screen and (${media.tablet}) {
-    font-size: ${fonts.title.fontSize.tablet}px;
-    letter-spacing: ${fonts.title.letterSpacing.tablet}px;
-    font-weight: ${fonts.title.fontWeight.tablet};
+    margin-bottom: 24px;
   }
 
   @media screen and (${media.desktop}) {
-    font-size: ${fonts.title.fontSize.desktop}px;
-    font-weight: ${fonts.title.fontWeight.desktop};
+    margin-bottom: 32px;
   }
-`
+`;
+
 export const Reminder = styled.h2`
   color: ${colors.mainTitle};
-  width: 464px;
+  width: 286px;
 
-  font-weight: ${fonts.headline.fontWeight.mobile};
-  font-size: ${fonts.headline.fontSize.mobile}px;
-  line-height: ${fonts.headline.lineHeight.mobile};
+  font-weight: ${fonts.title.fontWeight.tablet};
+  font-size: ${fonts.title.fontSize.tablet}px;
+  line-height: ${fonts.title.lineHeight};
+  letter-spacing: ${fonts.title.letterSpacing.tablet}px;
 
   @media screen and (${media.tablet}) {
+    width: 394px;
+
+    font-weight: ${fonts.title.fontWeight.desktop};
+    font-size: ${fonts.title.fontSize.desktop}px;
+  }
+
+  @media screen and (${media.desktop}) {
+    width: 464px;
+
     font-size: ${fonts.headline.fontSize.tablet}px;
     line-height: ${fonts.headline.lineHeight.tablet};
     font-weight: ${fonts.headline.fontWeight.tablet};
   }
+`;
 
-  @media screen and (${media.desktop}) {
-    font-size: ${fonts.headline.fontSize.desktop}px;
-    line-height: ${fonts.headline.lineHeight.desktop};
-  }
-`
 export const Span = styled.span`
   color: ${colors.secondaryAccent};
-`
+`;
+
+export const Img = styled.img`
+  display: inline-block;
+  vertical-align: text-bottom;
+
+  width: 16px;
+  height: 16px;
+
+  @media screen and (${media.tablet}) {
+    width: 24px;
+    height: 24px;
+  }
+
+  @media screen and (${media.desktop}) {
+    width: 32px;
+    height: 32px;
+  }
+`;

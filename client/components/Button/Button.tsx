@@ -1,7 +1,8 @@
-"use client";
-import { ReactNode } from "react";
+'use client';
+import { ReactNode } from 'react';
+
 /** @jsxImportSource @emotion/react */
-import { buttonStyle } from "./Button.styles";
+import { buttonStyle } from './Button.styles';
 
 interface ButtonProps {
 	children: ReactNode | string;

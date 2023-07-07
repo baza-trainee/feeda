@@ -1,9 +1,9 @@
 'use client';
-import Image from 'next/image';
+// import Image from 'next/image';
 
-import { Desc, Reminder, Section, Span, Title } from './EndPopUp.styles';
+import { Desc, Img, Reminder, Section, Span, Title } from './GoodbyePage.styles';
 
-export function EndPopUp() {
+export function GoodbyePage() {
 	return (
 		<Section>
 			<Title>Дякуємо!</Title>
@@ -11,13 +11,7 @@ export function EndPopUp() {
 			<Reminder>
 				Не забудь перевірити запрошення до{' '}
 				<Span>
-					<Image
-						src={'/discord.svg'}
-						alt="Discord icon"
-						width={32}
-						height={32}
-						style={{ display: 'inline-block', verticalAlign: 'text-bottom' }}
-					/>
+					<Img src={'/discord.svg'} alt="Discord icon" width="" height="" />
 					Discord
 				</Span>{' '}
 			</Reminder>
