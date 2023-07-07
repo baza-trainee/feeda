@@ -6,8 +6,13 @@ import Agreement from 'components/Agreement/Agreement';
 import Condition from 'components/Condition/Condition';
 import { Button,Wrapper } from 'components/Condition/Condition.styles';
 
+<<<<<<< HEAD:client/components/WelcomePage/WelcomePage.tsx
 const WelcomePage = () => {
   const [isOpen, setIsOpen] = useState(false);
+=======
+export function StartPopUp () {
+  const [click, setClick] = useState(false);
+>>>>>>> develop:client/components/StartPopUp/StartPopUp.tsx
 
   const openModal = () => {
     setIsOpen(true);
@@ -25,5 +30,3 @@ const WelcomePage = () => {
         </Wrapper>  
   );
 };
-
-export default WelcomePage;
