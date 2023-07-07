@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 
 import Title from '~components/Button/Button';
 
-import { useDiscordValidation } from './ hooks/useDiscordValidation';
+// import { useDiscordValidation } from './ hooks/useDiscordValidation';
 import {
 	cityPlaceholder,
 	cityRegex,
@@ -17,18 +17,19 @@ import {
 	getExpValue,
 	getProjValue,
 	getTypeValue,
-	handleNameChange,
-	handleSurnameChange,
+	// handleNameChange,
+	// handleSurnameChange,
 	lastnamePlaceholder,
 	linkedInPlaceholder,
 	linkedRegex,
 	namePlaceholder,
 	nameRegex,
-	onHandleCityChange,
-	onHandleEmailChange,
-	onHandleLinkedChange,
-	onHandlePhoneChange,
-	onHandleStackChange,
+	// onHandleCityChange,
+	// onHandleDiscordChange,
+	// onHandleEmailChange,
+	// onHandleLinkedChange,
+	// onHandlePhoneChange,
+	// onHandleStackChange,
 	phoneNumberFormat,
 	phoneNumberRegex,
 	projectPlaceholder,
@@ -56,7 +57,7 @@ const UserApplication = () => {
 		control,
 		clearErrors,
 		// watch,
-	} = useForm({ mode: 'all' });
+	} = useForm({ mode: 'onBlur' });
 
 	// const [experienceId, typeId, projectId] = useCustomIds();
 
@@ -69,7 +70,7 @@ const UserApplication = () => {
 		setIsDataChecked(false);
 	};
 	// Discord hook
-	const [shouldDisplayMessage, onHandleDiscordChange, onBlurDiscord] = useDiscordValidation(discordRegex, clearErrors);
+	// const [shouldDisplayMessage, onHandleDiscordChange, onBlurDiscord] = useDiscordValidation(discordRegex, clearErrors);
 
 	// ===================== checkbox================= //
 	const [isСonditionsChecked, setIsСonditionsChecked] = useState(false);
@@ -98,7 +99,7 @@ const UserApplication = () => {
 					inputProps={{
 						required: requiredField,
 						minLength: {
-							value: 3,
+							value: 2,
 							message: 'minimum length 2 characters',
 						},
 						maxLength: {
@@ -110,7 +111,7 @@ const UserApplication = () => {
 							message: 'please enter valid name',
 						},
 					}}
-					onChange={(name: string, value: string) => handleNameChange(name, value, clearErrors)}
+					// onChange={(name: string, value: string) => handleNameChange(name, value, clearErrors)}
 				/>
 				<FormField
 					label="Прізвище *"
@@ -131,7 +132,7 @@ const UserApplication = () => {
 							message: 'maximum length 50 characters',
 						},
 					}}
-					onChange={(name: string, value: string) => handleSurnameChange(name, value, clearErrors)}
+					// onChange={(name: string, value: string) => handleSurnameChange(name, value, clearErrors)}
 				/>
 				<FormField
 					label="Спеціалізація (стек) *"
@@ -152,7 +153,7 @@ const UserApplication = () => {
 							message: 'maximum length 300 characters',
 						},
 					}}
-					onChange={(name: string, value: string) => onHandleStackChange(name, value, clearErrors)}
+					// onChange={(name: string, value: string) => onHandleStackChange(name, value, clearErrors)}
 				/>
 				<FormField
 					label="Телефон *"
@@ -169,7 +170,7 @@ const UserApplication = () => {
 							value: phoneNumberRegex,
 						},
 					}}
-					onChange={(name: string, value: string) => onHandlePhoneChange(name, value, clearErrors)}
+					// onChange={(name: string, value: string) => onHandlePhoneChange(name, value, clearErrors)}
 				/>
 				<FormField
 					label="Електронна пошта *"
@@ -194,12 +195,11 @@ const UserApplication = () => {
 							value: emailRegex,
 						},
 					}}
-					onChange={(name: string, value: string) => onHandleEmailChange(name, value, clearErrors)}
+					// onChange={(name: string, value: string) => onHandleEmailChange(name, value, clearErrors)}
 				/>
 				<div>
 					<FormField
 						label="Акаунт в Discord *"
-						onBlur={onBlurDiscord}
 						autoComplete="off"
 						type="text"
 						register={register}
@@ -222,11 +222,12 @@ const UserApplication = () => {
 								message: 'maximum length 37 characters',
 							},
 						}}
-						onChange={onHandleDiscordChange}
+						// onChange={(name: string, value: string) => onHandleDiscordChange(name, value, clearErrors)}
+						// onBlur={(event) => onBlurDiscord('discord', event.target.value)}
 					/>
-					{shouldDisplayMessage && (
+					{/* {shouldDisplayMessage && (
 						<span css={{ color: '#14905D', fontSize: '12px' }}>Не забудь перевірити запрошення</span>
-					)}
+					)} */}
 				</div>
 
 				<FormField
@@ -252,7 +253,7 @@ const UserApplication = () => {
 							message: 'maximum length 128 characters',
 						},
 					}}
-					onChange={(name: string, value: string) => onHandleLinkedChange(name, value, clearErrors)}
+					// onChange={(name: string, value: string) => onHandleLinkedChange(name, value, clearErrors)}
 				/>
 				<FormField
 					label="Місто (Країна)"
@@ -276,7 +277,7 @@ const UserApplication = () => {
 							value: cityRegex,
 						},
 					}}
-					onChange={(name: string, value: string) => onHandleCityChange(name, value, clearErrors)}
+					// onChange={(name: string, value: string) => onHandleCityChange(name, value, clearErrors)}
 				/>
 				<CustomSelect
 					title={'Наявність досвіду  *'}

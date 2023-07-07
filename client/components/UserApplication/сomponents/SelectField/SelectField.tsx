@@ -65,6 +65,9 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
 										':hover': {
 											borderColor: `${error ? 'red' : theme.colors.disabledBtnBg}`,
 										},
+										':focus': {
+											borderColor: `${error ? 'red' : grey}`,
+										},
 									}),
 									indicatorSeparator: () => ({
 										display: 'none',

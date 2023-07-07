@@ -35,40 +35,34 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 	name,
 	errors,
 	inputProps,
-	onChange,
 	autoComplete,
 }: FormFieldProps<TFormValues>) => {
 	const errorMessage = errors?.message || 'Error!';
 
 	const hasError = !!errors;
 
-	const isDiscordField = name === 'discord';
+	// const isDiscordField = name === 'discord';
 
-	const [isDiscordValid, setIsDiscordValid] = useState(false);
+	// const [isDiscordValid, setIsDiscordValid] = useState(false);
 
-	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-		const value = event.target.value.trim();
-		const isValidtoDiscord = discordRegex.test(value) || (discordSecondRegex.test(value) && value.length >= 2);
-		if (isValidtoDiscord) setIsDiscordValid(true);
-		if (onChange) {
-			onChange(name, value);
-		}
-	};
+	// const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+	// 	const value = event.target.value.trim();
+	// 	const isValidtoDiscord = discordRegex.test(value) && value.length >= 2;
+	// 	if (isValidtoDiscord) setIsDiscordValid(true);
+	// 	if (onChange) {
+	// 		onChange(name, value);
+	// 	}
+	// };
 
 	return (
 		<div style={{ height: 'auto' }}>
 			<label css={labelStyles}>
 				<p>{label}</p>
 				<input
-					css={[
-						inputlStyles,
-						hasError && errorInputStyles,
-						isDiscordValid && !hasError && isDiscordField && validDiscordStyle,
-					]}
+					css={[inputlStyles, hasError && errorInputStyles]}
 					type={type}
 					placeholder={placeholder}
 					{...register(name, inputProps)}
-					onChange={handleInputChange}
 					autoComplete={autoComplete}
 				/>
 			</label>

@@ -1,13 +1,14 @@
 import { getExpValue, getProjValue, getTypeValue } from './getValues';
-import {
-	handleNameChange,
-	handleSurnameChange,
-	onHandleCityChange,
-	onHandleEmailChange,
-	onHandleLinkedChange,
-	onHandlePhoneChange,
-	onHandleStackChange,
-} from './handleChange';
+// import {
+// 	handleNameChange,
+// 	handleSurnameChange,
+// 	onHandleCityChange,
+// 	onHandleDiscordChange,
+// 	onHandleEmailChange,
+// 	onHandleLinkedChange,
+// 	onHandlePhoneChange,
+// 	onHandleStackChange,
+// } from './handleChange';
 import {
 	cityPlaceholder,
 	emailPlaceholder,
@@ -41,13 +42,13 @@ export {
 	getProjValue,
 	getTypeValue,
 	requiredField,
-	handleNameChange,
-	handleSurnameChange,
-	onHandleCityChange,
-	onHandleEmailChange,
-	onHandleLinkedChange,
-	onHandlePhoneChange,
-	onHandleStackChange,
+	// handleNameChange,
+	// handleSurnameChange,
+	// onHandleCityChange,
+	// onHandleEmailChange,
+	// onHandleLinkedChange,
+	// onHandlePhoneChange,
+	// onHandleStackChange,
 	useCustomIds,
 	nameRegex,
 	emailPlaceholder,
@@ -61,4 +62,5 @@ export {
 	typePlaceholder,
 	projectPlaceholder,
 	cityPlaceholder,
+	// onHandleDiscordChange,
 };
