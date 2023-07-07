@@ -56,11 +56,14 @@ const UserApplication = () => {
 		reset,
 		control,
 		clearErrors,
-		// watch,
+		watch,
 	} = useForm({ mode: 'onBlur' });
 
-	// const [experienceId, typeId, projectId] = useCustomIds();
+	//===========discord============//
+	const discordValue = watch('discord');
+	const isValidDiscordValue = discordRegex.test(discordValue);
 
+	//===========discord============//
 	const onFormSubmit = (data: object) => {
 		// alert(JSON.stringify(data));
 
@@ -83,6 +86,7 @@ const UserApplication = () => {
 		setIsDataChecked(!isDataChecked);
 	};
 	// ===================== checkbox================= //
+
 	return (
 		<div css={formWrapperStyle}>
 			{' '}
@@ -222,12 +226,13 @@ const UserApplication = () => {
 								message: 'maximum length 37 characters',
 							},
 						}}
-						// onChange={(name: string, value: string) => onHandleDiscordChange(name, value, clearErrors)}
-						// onBlur={(event) => onBlurDiscord('discord', event.target.value)}
+						// onBlur={setValidDiscord}
 					/>
-					{/* {shouldDisplayMessage && (
-						<span css={{ color: '#14905D', fontSize: '12px' }}>Не забудь перевірити запрошення</span>
-					)} */}
+					{!errors.discord && isValidDiscordValue && (
+						<span css={{ color: '#14905D', fontSize: '12px', position: 'absolute' }}>
+							Не забудь перевірити запрошення
+						</span>
+					)}
 				</div>
 
 				<FormField

@@ -7,6 +7,7 @@ export const errorInputStyles = css`
 export const errorStyles = css`
 	font-size: 12px;
 	color: rgb(223, 66, 66);
+	position: absolute;
 `;
 export const labelStyles = css`
 	color: #353535;

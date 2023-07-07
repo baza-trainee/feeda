@@ -1,5 +1,7 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, ReactNode, useState } from 'react';
 import { DeepMap, FieldError, FieldValues, Path, UseFormRegister } from 'react-hook-form';
+
+import { setDefaultHighWaterMark } from 'stream';
 
 import { discordRegex, discordSecondRegex } from '~components/UserApplication/helpers';
 
@@ -25,8 +27,67 @@ interface FormFieldProps<TFormValues extends FieldValues> {
 	onChange?: (name: string, value: string) => void;
 	autoComplete: string;
 	onBlur?: (event: { target: { value: string } }) => void;
+	onFocus?: (event: { target: { value: string } }) => void;
+	children?: ReactNode;
 }
 
+// export const FormField = <TFormValues extends Record<string, string | number>>({
+// 	label,
+// 	type,
+// 	placeholder,
+// 	register,
+// 	name,
+// 	errors,
+// 	inputProps,
+// 	autoComplete,
+// 	children,
+// }: // children,
+// FormFieldProps<TFormValues>) => {
+// 	const errorMessage = <>{errors?.message || 'Error!'}</>;
+
+// 	const hasError = !!errors;
+// 	const [isFocused, setIsFocused] = useState(false);
+// 	const isValid = !errors;
+// 	const handleFocus = () => {
+// 		setIsFocused(true);
+// 	};
+
+// 	// const handleBlur = () => {
+// 	// 	setIsFocused(false);
+// 	// };
+
+// 	// const handleBlur = () => {
+// 	// 	setIsFocused(true);
+// 	// };
+
+// 	// const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+// 	// 	const value = event.target.value.trim();
+// 	// 	const isValidtoDiscord = discordRegex.test(value) && value.length >= 2;
+// 	// 	if (isValidtoDiscord) setIsDiscordValid(true);
+// 	// 	if (onChange) {
+// 	// 		onChange(name, value);
+// 	// 	}
+// 	// };
+
+// 	return (
+// 		<div style={{ height: 'auto' }}>
+// 			<label css={labelStyles}>
+// 				<p>{label}</p>
+// 				<input
+// 					css={[inputlStyles, hasError && errorInputStyles, isValid && validDiscordStyle]}
+// 					type={type}
+// 					placeholder={placeholder}
+// 					{...register(name, inputProps)}
+// 					autoComplete={autoComplete}
+// 					// onBlur={handleBlur}
+// 					onFocus={handleFocus}
+// 				/>
+// 			</label>
+// 			{isFocused && children}
+// 			{errors && <div css={errorStyles}>{errorMessage}</div>}
+// 		</div>
+// 	);
+// };
 export const FormField = <TFormValues extends Record<string, string | number>>({
 	label,
 	type,
@@ -36,22 +97,30 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 	errors,
 	inputProps,
 	autoComplete,
+	children,
 }: FormFieldProps<TFormValues>) => {
-	const errorMessage = errors?.message || 'Error!';
-
+	const errorMessage = <>{errors?.message || 'Error!'}</>;
 	const hasError = !!errors;
+	// const [isFocused, setIsFocused] = useState(false);
+	const [isValidDiscord, setIsValidDiscord] = useState(false);
+	const isValid = !errors;
+	const isDiscordField = name === 'discord';
+	// console.log('isDiscordField', isDiscordField);
+	// if (isDiscordField) {
+	// }
+	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+		const value = event.target.value.trim();
 
-	// const isDiscordField = name === 'discord';
-
-	// const [isDiscordValid, setIsDiscordValid] = useState(false);
-
-	// const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-	// 	const value = event.target.value.trim();
-	// 	const isValidtoDiscord = discordRegex.test(value) && value.length >= 2;
-	// 	if (isValidtoDiscord) setIsDiscordValid(true);
-	// 	if (onChange) {
-	// 		onChange(name, value);
-	// 	}
+		if (isDiscordField && discordRegex.test(value)) {
+			console.log('value :>> ', value);
+			setIsValidDiscord(true);
+		}
+	};
+	// const handleFocus = () => {
+	// 	setIsFocused(true);
+	// };
+	// const handleBlur = () => {
+	// 	setIsFocused(false);
 	// };
 
 	return (
@@ -59,15 +128,22 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 			<label css={labelStyles}>
 				<p>{label}</p>
 				<input
-					css={[inputlStyles, hasError && errorInputStyles]}
+					css={[
+						inputlStyles,
+						hasError && errorInputStyles,
+						isValid && isDiscordField && isValidDiscord && validDiscordStyle,
+					]}
 					type={type}
 					placeholder={placeholder}
 					{...register(name, inputProps)}
 					autoComplete={autoComplete}
+					// onFocus={handleFocus}
+					// onBlur={handleInputChange}
+					onChange={handleInputChange}
 				/>
 			</label>
-
-			<div css={errorStyles}>{errors && `${errorMessage}`}</div>
+			{children}
+			{errors && <div css={errorStyles}>{errorMessage}</div>}
 		</div>
 	);
 };
