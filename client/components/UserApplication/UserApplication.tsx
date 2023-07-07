@@ -7,14 +7,22 @@ import Title from '~components/Button/Button';
 
 import { useDiscordValidation } from './ hooks/useDiscordValidation';
 import {
+	cityRegex,
 	discordRegex,
+	discordSecondRegex,
+	emailPlaceholder,
 	emailRegex,
+	experiencePlaceholder,
 	getExpValue,
 	getProjValue,
 	getTypeValue,
 	handleNameChange,
 	handleSurnameChange,
+	lastnamePlaceholder,
+	linkedInPlaceholder,
 	linkedRegex,
+	namePlaceholder,
+	nameRegex,
 	onHandleCityChange,
 	onHandleEmailChange,
 	onHandleLinkedChange,
@@ -23,6 +31,7 @@ import {
 	phoneNumberFormat,
 	phoneNumberRegex,
 	requiredField,
+	stackPlaceholder,
 	useCustomIds,
 } from './helpers';
 import { experience, projects, type } from './lists';
@@ -58,29 +67,6 @@ const UserApplication = () => {
 	};
 	// Discord hook
 	const [shouldDisplayMessage, onHandleDiscordChange, onBlurDiscord] = useDiscordValidation(discordRegex, clearErrors);
-	// ==========================Discord======================= //
-	// видаляємо рендер помилки поля 'Discord'
-	// const [shouldDisplayMessage, setShouldDisplayMessage] = useState(false);
-
-	// const onHandleDiscordChange: IDiscord = (fieldName, value) => {
-	// 	if (discordRegex.test(value)) {
-	// 		clearErrors(fieldName);
-	// 		setShouldDisplayMessage(true);
-	// 	} else {
-	// 		setShouldDisplayMessage(false);
-	// 	}
-	// };
-
-	// const onBlurDiscord = (event: { target: { value: string } }) => {
-	// 	const value = event.target.value;
-	// 	// console.log("value", value);
-	// 	if (value && discordRegex.test(value)) {
-	// 		setShouldDisplayMessage(true);
-	// 	} else {
-	// 		setShouldDisplayMessage(false);
-	// 	}
-	// };
-	// ==========================Discord======================= //
 
 	// ===================== checkbox================= //
 	const [isСonditionsChecked, setIsСonditionsChecked] = useState(false);
@@ -99,10 +85,10 @@ const UserApplication = () => {
 			<form css={formStyle} onSubmit={handleSubmit(onFormSubmit)}>
 				<h1 css={formTitle}>Анкета</h1>
 				<FormField
-					autoComplete="on"
 					label="Ім'я *"
+					autoComplete="on"
 					type="text"
-					placeholder="Ім'я"
+					placeholder={namePlaceholder}
 					register={register}
 					name="name"
 					errors={errors?.name}
@@ -110,41 +96,45 @@ const UserApplication = () => {
 						required: requiredField,
 						minLength: {
 							value: 3,
-							message: 'minimum length 3 characters',
+							message: 'minimum length 2 characters',
 						},
 						maxLength: {
-							value: 16,
-							message: 'maximum length 16 characters',
+							value: 50,
+							message: 'maximum length 50 characters',
+						},
+						pattern: {
+							value: nameRegex,
+							message: 'please enter valid name',
 						},
 					}}
 					onChange={(name: string, value: string) => handleNameChange(name, value, clearErrors)}
 				/>
 				<FormField
-					autoComplete="off"
 					label="Прізвище *"
+					autoComplete="off"
 					type="text"
-					placeholder="Прізвище"
+					placeholder={lastnamePlaceholder}
 					register={register}
-					name="surname"
-					errors={errors?.surname}
+					name="lastname"
+					errors={errors?.lastname}
 					inputProps={{
 						required: requiredField,
 						minLength: {
-							value: 5,
-							message: 'minimum length 5 characters',
+							value: 2,
+							message: 'minimum length 2 characters',
 						},
 						maxLength: {
-							value: 16,
-							message: 'maximum length 16 characters',
+							value: 50,
+							message: 'maximum length 50 characters',
 						},
 					}}
 					onChange={(name: string, value: string) => handleSurnameChange(name, value, clearErrors)}
 				/>
 				<FormField
-					autoComplete="off"
 					label="Спеціалізація (стек) *"
+					autoComplete="off"
 					type="text"
-					placeholder="Спеціалізація (стек)"
+					placeholder={stackPlaceholder}
 					register={register}
 					name="stack"
 					errors={errors?.stack}
@@ -155,17 +145,17 @@ const UserApplication = () => {
 							message: 'minimum length 2 characters',
 						},
 						maxLength: {
-							value: 17,
+							value: 300,
 							message: 'maximum length 300 characters',
 						},
 					}}
 					onChange={(name: string, value: string) => onHandleStackChange(name, value, clearErrors)}
 				/>
 				<FormField
-					autoComplete="on"
 					label="Телефон *"
+					autoComplete="on"
 					type="tel"
-					placeholder="+XXXXXXXXXXXX"
+					placeholder={phoneNumberFormat}
 					register={register}
 					name="tel"
 					errors={errors?.tel}
@@ -179,15 +169,23 @@ const UserApplication = () => {
 					onChange={(name: string, value: string) => onHandlePhoneChange(name, value, clearErrors)}
 				/>
 				<FormField
-					autoComplete="on"
 					label="Електронна пошта *"
+					autoComplete="on"
 					type="email"
-					placeholder="ххх@xxx.xxx"
+					placeholder={emailPlaceholder}
 					register={register}
 					name="email"
 					errors={errors?.email}
 					inputProps={{
 						required: requiredField,
+						minLength: {
+							value: 6,
+							message: 'minimum length 6 characters',
+						},
+						maxLength: {
+							value: 70,
+							message: 'maximum length 70 characters',
+						},
 						pattern: {
 							message: 'Please enter valid email!',
 							value: emailRegex,
@@ -197,19 +195,28 @@ const UserApplication = () => {
 				/>
 				<div>
 					<FormField
+						label="Акаунт в Discord *"
 						onBlur={onBlurDiscord}
 						autoComplete="off"
-						label="Акаунт в Discord *"
 						type="text"
-						placeholder="xxx#1111"
 						register={register}
 						name="discord"
 						errors={errors?.discord}
 						inputProps={{
 							required: requiredField,
+
 							pattern: {
 								message: 'Please enter valid discord name!',
-								value: discordRegex,
+								value: discordRegex || discordSecondRegex,
+							},
+
+							minLength: {
+								value: 2,
+								message: 'minimum length 2 characters',
+							},
+							maxLength: {
+								value: 37,
+								message: 'maximum length 37 characters',
 							},
 						}}
 						onChange={onHandleDiscordChange}
@@ -220,10 +227,10 @@ const UserApplication = () => {
 				</div>
 
 				<FormField
-					autoComplete="off"
 					label="Акаунт в LinkedIn *"
+					autoComplete="off"
 					type="text"
-					placeholder="linkedin.com/in/"
+					placeholder={linkedInPlaceholder}
 					register={register}
 					name="linkedin"
 					errors={errors?.linkedin}
@@ -233,12 +240,20 @@ const UserApplication = () => {
 							message: 'Please enter valid link on your profile!',
 							value: linkedRegex,
 						},
+						minLength: {
+							value: 19,
+							message: 'minimum length 19 characters',
+						},
+						maxLength: {
+							value: 128,
+							message: 'maximum length 128 characters',
+						},
 					}}
 					onChange={(name: string, value: string) => onHandleLinkedChange(name, value, clearErrors)}
 				/>
 				<FormField
-					autoComplete="off"
 					label="Місто (Країна)"
+					autoComplete="off"
 					type="text"
 					placeholder="Місто"
 					register={register}
@@ -246,12 +261,16 @@ const UserApplication = () => {
 					errors={errors?.city}
 					inputProps={{
 						minLength: {
-							value: 1,
-							message: 'minimum length 1 characters',
+							value: 2,
+							message: 'minimum length 2 characters',
 						},
 						maxLength: {
-							value: 22,
-							message: 'maximum length 22 characters',
+							value: 50,
+							message: 'maximum length 50 characters',
+						},
+						pattern: {
+							message: 'please enter valid value',
+							value: cityRegex,
 						},
 					}}
 					onChange={(name: string, value: string) => onHandleCityChange(name, value, clearErrors)}
@@ -262,7 +281,7 @@ const UserApplication = () => {
 					name="experience"
 					rules={{ required: "Це поле обов'язкове" }}
 					options={experience}
-					placeholder="Наявність досвіду"
+					placeholder={experiencePlaceholder}
 					clearErrors={clearErrors}
 					valueGetter={(value) => getExpValue(value)}
 				/>

@@ -8,12 +8,16 @@ export const buttonStyle = css`
 	font-size: 22px;
 	text-align: center;
 	border-radius: 4px;
-	color: ${theme.colors.mainPlaceholder};
+	color: ${theme.colors.mainBtnText};
 	background-color: ${theme.colors.mainText};
-	border: none;
+	border: 1px solid ${theme.colors.mainText};
 
 	&:disabled {
 		color: #939393;
 		background-color: #cecece;
+	}
+	&:hover {
+		color: #ffbd00;
+		border: 1px solid #ffbd00;
 	}
 `;

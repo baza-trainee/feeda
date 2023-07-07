@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import { DeepMap, FieldError, FieldValues, Path, UseFormRegister } from 'react-hook-form';
 
-import { discordRegex } from '~components/UserApplication/helpers';
+import { discordRegex, discordSecondRegex } from '~components/UserApplication/helpers';
 
 /** @jsxImportSource @emotion/react */
 import { errorInputStyles, errorStyles, inputlStyles, labelStyles, validDiscordStyle } from './FormField.slyles';
@@ -17,7 +17,7 @@ interface InputProps {
 interface FormFieldProps<TFormValues extends FieldValues> {
 	label: string;
 	type: string;
-	placeholder: string;
+	placeholder?: string;
 	register: UseFormRegister<TFormValues>;
 	name: Path<TFormValues>;
 	errors?: Partial<DeepMap<TFormValues, FieldError>>;
@@ -47,8 +47,8 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 	const [isDiscordValid, setIsDiscordValid] = useState(false);
 
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-		const value = event.target.value;
-		const isValidtoDiscord = discordRegex.test(value);
+		const value = event.target.value.trim();
+		const isValidtoDiscord = discordRegex.test(value) || (discordSecondRegex.test(value) && value.length >= 2);
 		if (isValidtoDiscord) setIsDiscordValid(true);
 		if (onChange) {
 			onChange(name, value);
