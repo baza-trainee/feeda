@@ -10,7 +10,7 @@ import {
 	cityPlaceholder,
 	cityRegex,
 	discordRegex,
-	discordSecondRegex,
+	// discordSecondRegex,
 	emailPlaceholder,
 	emailRegex,
 	experiencePlaceholder,
@@ -61,8 +61,9 @@ const UserApplication = () => {
 
 	//===========discord============//
 	const discordValue = watch('discord');
-	const isValidDiscordValue = discordRegex.test(discordValue);
-
+	console.log('discordValue', discordValue);
+	const isValidDiscordValue = discordValue !== '' && discordRegex.test(discordValue);
+	console.log('isValidDiscordValue :>> ', isValidDiscordValue);
 	//===========discord============//
 	const onFormSubmit = (data: object) => {
 		// alert(JSON.stringify(data));
@@ -228,7 +229,7 @@ const UserApplication = () => {
 						}}
 						// onBlur={setValidDiscord}
 					/>
-					{!errors.discord && isValidDiscordValue && (
+					{!errors.discord && discordValue !== undefined && isValidDiscordValue && (
 						<span css={{ color: '#14905D', fontSize: '12px', position: 'absolute' }}>
 							Не забудь перевірити запрошення
 						</span>

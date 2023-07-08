@@ -24,7 +24,7 @@ import {
 import {
 	cityRegex,
 	discordRegex,
-	discordSecondRegex,
+	// discordSecondRegex,
 	emailRegex,
 	linkedRegex,
 	nameRegex,
@@ -52,7 +52,7 @@ export {
 	useCustomIds,
 	nameRegex,
 	emailPlaceholder,
-	discordSecondRegex,
+	// discordSecondRegex,
 	linkedInPlaceholder,
 	cityRegex,
 	experiencePlaceholder,

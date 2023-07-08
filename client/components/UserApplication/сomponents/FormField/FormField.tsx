@@ -1,9 +1,7 @@
 import React, { ChangeEvent, ReactNode, useState } from 'react';
 import { DeepMap, FieldError, FieldValues, Path, UseFormRegister } from 'react-hook-form';
 
-import { setDefaultHighWaterMark } from 'stream';
-
-import { discordRegex, discordSecondRegex } from '~components/UserApplication/helpers';
+import { discordRegex } from '~components/UserApplication/helpers';
 
 /** @jsxImportSource @emotion/react */
 import { errorInputStyles, errorStyles, inputlStyles, labelStyles, validDiscordStyle } from './FormField.slyles';
