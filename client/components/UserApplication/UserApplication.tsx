@@ -61,7 +61,7 @@ const UserApplication = () => {
 
 	//===========discord============//
 	const discordValue = watch('discord');
-	const isValidDiscordValue = discordRegex.test(discordValue) || discordSecondRegex.test(discordValue);
+	const isValidDiscordValue = discordRegex.test(discordValue);
 
 	//===========discord============//
 	const onFormSubmit = (data: object) => {
@@ -214,7 +214,7 @@ const UserApplication = () => {
 
 							pattern: {
 								message: 'Please enter valid discord name!',
-								value: new RegExp(`${discordRegex.source}|${discordSecondRegex.source}`),
+								value: discordRegex,
 							},
 
 							minLength: {

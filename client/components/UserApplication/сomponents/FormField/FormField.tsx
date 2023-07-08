@@ -111,8 +111,8 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const value = event.target.value.trim();
-
-		if (isDiscordField && (discordRegex.test(value) || discordSecondRegex.test(value))) {
+		console.log('value :>> ', value);
+		if (isDiscordField && discordRegex.test(value)) {
 			setIsValidDiscord(true);
 		}
 	};
