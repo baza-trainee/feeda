@@ -5,12 +5,10 @@ export const AcceptLink = styled(Link)`
 	color: #0029ff;
 	/* text-decoration: underline !important; */
 `;
-export const CheckboxContainer = styled.div`
+export const CheckboxLabel = styled.label`
 	display: flex;
 	align-items: center;
-	label {
-		display: flex;
-	}
+
 	input {
 		cursor: pointer;
 		/* appearance: none; */
@@ -20,8 +18,8 @@ export const CheckboxContainer = styled.div`
 		height: 18px;
 	}
 	span {
-		display: flex;
-		align-items: center;
+		/* display: flex;
+		align-items: center; */
 		margin-right: 15px;
 		border: 2px solid #232323;
 		border-radius: 2px;
