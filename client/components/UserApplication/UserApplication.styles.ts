@@ -44,3 +44,9 @@ export const formTitle = css`
 		font-size: 45px;
 	}
 `;
+
+export const vaidDiscordUnderText = css`
+	color: #14905d;
+	font-size: 12px;
+	position: absolute;
+`;

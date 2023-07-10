@@ -3,7 +3,7 @@ import { theme } from 'styles/theme';
 
 export const buttonStyle = css`
 	width: 100%;
-	padding: 15px 34px;
+	padding: 16px 24px;
 	font-weight: 700;
 	font-size: 22px;
 	text-align: center;

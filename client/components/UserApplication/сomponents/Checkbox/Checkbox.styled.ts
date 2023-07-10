@@ -3,11 +3,11 @@ import Link from 'next/link';
 
 export const AcceptLink = styled(Link)`
 	color: #0029ff;
-	text-decoration: underline !important;
+	/* text-decoration: underline !important; */
 `;
 export const CheckboxContainer = styled.div`
 	display: flex;
-
+	align-items: center;
 	input {
 		cursor: pointer;
 		/* appearance: none; */
@@ -38,6 +38,7 @@ export const CheckboxContainer = styled.div`
 
 export const CheckboxText = styled.p`
 	width: 165px;
+	font-size: 12px;
 	@media screen and (min-width: 768px) {
 		font-size: 14px;
 		width: auto;

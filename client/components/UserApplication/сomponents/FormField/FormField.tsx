@@ -4,7 +4,14 @@ import { DeepMap, FieldError, FieldValues, Path, UseFormRegister } from 'react-h
 import { discordRegex } from '~components/UserApplication/helpers';
 
 /** @jsxImportSource @emotion/react */
-import { errorInputStyles, errorStyles, inputlStyles, labelStyles, validDiscordStyle } from './FormField.slyles';
+import {
+	errorInputStyles,
+	errorStyles,
+	inputlStyles,
+	labelStyles,
+	validDiscordNameStyle,
+	validDiscordStyle,
+} from './FormField.slyles';
 
 interface InputValidationOptions {
 	value: number | string | RegExp;
@@ -65,7 +72,7 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 	return (
 		<div style={{ height: 'auto' }}>
 			<label css={labelStyles}>
-				<p>{label}</p>
+				<p css={isValid && isDiscordField && isValidDiscord && !isFormSubmitted && validDiscordNameStyle}>{label}</p>
 				<input
 					css={[
 						inputlStyles,

@@ -44,3 +44,6 @@ export const inputlStyles = css`
 export const validDiscordStyle = css`
 	border-color: #14905d !important;
 `;
+export const validDiscordNameStyle = css`
+	color: #14905d !important;
+`;

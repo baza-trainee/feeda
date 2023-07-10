@@ -5,41 +5,30 @@ import { useForm } from 'react-hook-form';
 
 import Title from '~components/Button/Button';
 
-// import { useDiscordValidation } from './ hooks/useDiscordValidation';
 import {
 	cityPlaceholder,
 	cityRegex,
 	discordRegex,
-	// discordSecondRegex,
 	emailPlaceholder,
 	emailRegex,
 	experiencePlaceholder,
 	getExpValue,
 	getProjValue,
 	getTypeValue,
-	// handleNameChange,
-	// handleSurnameChange,
 	lastnamePlaceholder,
 	linkedInPlaceholder,
 	linkedRegex,
 	namePlaceholder,
 	nameRegex,
-	// onHandleCityChange,
-	// onHandleDiscordChange,
-	// onHandleEmailChange,
-	// onHandleLinkedChange,
-	// onHandlePhoneChange,
-	// onHandleStackChange,
 	phoneNumberFormat,
 	phoneNumberRegex,
 	projectPlaceholder,
 	requiredField,
 	stackPlaceholder,
 	typePlaceholder,
-	useCustomIds,
 } from './helpers';
 import { experience, projects, type } from './lists';
-import { formStyle, formTitle, formWrapperStyle } from './UserApplication.styles';
+import { formStyle, formTitle, formWrapperStyle, vaidDiscordUnderText } from './UserApplication.styles';
 import { CheckBox } from './сomponents/Checkbox/Checkbox';
 import { FormField } from './сomponents/FormField/FormField';
 import { CustomSelect } from './сomponents/SelectField/SelectField';
@@ -95,7 +84,7 @@ const UserApplication = () => {
 			{' '}
 			<form css={formStyle} onSubmit={handleSubmit(onFormSubmit)}>
 				<h1 css={formTitle}>Анкета</h1>
-				{/* <FormField
+				<FormField
 					label="Ім'я *"
 					autoComplete="on"
 					type="text"
@@ -118,8 +107,8 @@ const UserApplication = () => {
 							message: 'please enter valid name',
 						},
 					}}
-					// onChange={(name: string, value: string) => handleNameChange(name, value, clearErrors)}
 				/>
+
 				<FormField
 					label="Прізвище *"
 					autoComplete="off"
@@ -139,8 +128,8 @@ const UserApplication = () => {
 							message: 'maximum length 50 characters',
 						},
 					}}
-					// onChange={(name: string, value: string) => handleSurnameChange(name, value, clearErrors)}
 				/>
+
 				<FormField
 					label="Спеціалізація (стек) *"
 					autoComplete="off"
@@ -160,8 +149,8 @@ const UserApplication = () => {
 							message: 'maximum length 300 characters',
 						},
 					}}
-					// onChange={(name: string, value: string) => onHandleStackChange(name, value, clearErrors)}
 				/>
+
 				<FormField
 					label="Телефон *"
 					autoComplete="on"
@@ -177,8 +166,8 @@ const UserApplication = () => {
 							value: phoneNumberRegex,
 						},
 					}}
-					// onChange={(name: string, value: string) => onHandlePhoneChange(name, value, clearErrors)}
 				/>
+
 				<FormField
 					label="Електронна пошта *"
 					autoComplete="on"
@@ -202,8 +191,8 @@ const UserApplication = () => {
 							value: emailRegex,
 						},
 					}}
-					// onChange={(name: string, value: string) => onHandleEmailChange(name, value, clearErrors)}
-				/> */}
+				/>
+
 				<div>
 					<FormField
 						label="Акаунт в Discord *"
@@ -230,16 +219,13 @@ const UserApplication = () => {
 							},
 						}}
 						isFormSubmitted={isFormSubmitted}
-						// onBlur={setValidDiscord}
 					/>
 					{!errors.discord && discordValue !== undefined && isValidDiscordValue && (
-						<span css={{ color: '#14905D', fontSize: '12px', position: 'absolute' }}>
-							Не забудь перевірити запрошення
-						</span>
+						<span css={vaidDiscordUnderText}>Не забудь перевірити запрошення</span>
 					)}
 				</div>
 
-				{/* <FormField
+				<FormField
 					label="Акаунт в LinkedIn *"
 					autoComplete="off"
 					type="text"
@@ -262,8 +248,8 @@ const UserApplication = () => {
 							message: 'maximum length 128 characters',
 						},
 					}}
-					// onChange={(name: string, value: string) => onHandleLinkedChange(name, value, clearErrors)}
 				/>
+
 				<FormField
 					label="Місто (Країна)"
 					autoComplete="off"
@@ -286,8 +272,8 @@ const UserApplication = () => {
 							value: cityRegex,
 						},
 					}}
-					// onChange={(name: string, value: string) => onHandleCityChange(name, value, clearErrors)}
-				/> */}
+				/>
+
 				<CustomSelect
 					title={'Наявність досвіду  *'}
 					control={control}
@@ -318,208 +304,6 @@ const UserApplication = () => {
 					clearErrors={clearErrors}
 					valueGetter={(value) => getProjValue(value)}
 				/>
-
-				{/* <Controller
-					control={control}
-					name="experience"
-					rules={{ required: requiredField }}
-					render={({ field: { onChange, value, onBlur }, fieldState: { error } }) => {
-						const handleSelectChange = () => {
-							clearErrors('experience'); // Викликаємо clearErrors для поля "projects"
-						};
-
-						return (
-							<div>
-								<label css={labelStyles}>
-									Наявність досвіду *
-									<Select
-										instanceId={experienceId}
-										isSearchable={false}
-										styles={{
-											control: (provided) => ({
-												...provided,
-
-												border: `1px solid ${theme.colors.disabledBtnBg}`,
-												boxShadow: 'none',
-												borderRadius: '4px',
-												padding: '16px',
-											}),
-											indicatorSeparator: () => ({
-												display: 'none',
-											}),
-											valueContainer: (provided) => ({
-												...provided,
-												padding: 0,
-												margin: 0,
-											}),
-
-											input: (provided) => ({
-												...provided,
-												margin: 0,
-											}),
-
-											dropdownIndicator: () => ({
-												padding: 0,
-												display: 'flex',
-												alingItems: 'center',
-												justifyContent: 'center',
-												color: `${theme.colors.mainPlaceholder}`,
-											}),
-										}}
-										placeholder="Так / Ні"
-										options={experience}
-										value={getExpValue(value)}
-										onChange={(value) => {
-											onChange(value);
-											handleSelectChange();
-										}}
-										onBlur={() => onBlur()}
-									/>
-								</label>
-								{error && (
-									<span style={{ color: '#DF4242', display: 'block', marginTop: '4px', fontSize: '12px' }}>
-										{error.message}
-									</span>
-								)}
-							</div>
-						);
-					}}
-				/>
-				<Controller
-					control={control}
-					name="type"
-					rules={{ required: requiredField }}
-					render={({ field: { onChange, value, onBlur }, fieldState: { error } }) => {
-						const handleSelectChange = () => {
-							clearErrors('type'); // Викликаємо clearErrors для поля "projects"
-						};
-						return (
-							<div>
-								<label css={labelStyles}>
-									Тип участі *
-									<Select
-										instanceId={typeId}
-										isSearchable={false}
-										styles={{
-											control: (provided) => ({
-												...provided,
-
-												border: `1px solid ${theme.colors.disabledBtnBg}`,
-												boxShadow: 'none',
-												borderRadius: '4px',
-												padding: '16px',
-											}),
-											indicatorSeparator: () => ({
-												display: 'none',
-											}),
-											valueContainer: (provided) => ({
-												...provided,
-												padding: 0,
-												margin: 0,
-											}),
-
-											input: (provided) => ({
-												...provided,
-												margin: 0,
-											}),
-											// indicatorsContainer: () => ({
-											// 	display: 'none',
-											// }),
-											dropdownIndicator: () => ({
-												padding: 0,
-												display: 'flex',
-												alingItems: 'center',
-												justifyContent: 'center',
-												color: `${theme.colors.mainPlaceholder}`,
-											}),
-										}}
-										placeholder="Тип участі"
-										options={type}
-										value={getTypeValue(value)}
-										onChange={(value) => {
-											onChange(value);
-											handleSelectChange();
-										}}
-										onBlur={() => onBlur()}
-									/>
-								</label>
-								{error && (
-									<span style={{ color: '#DF4242', display: 'block', marginTop: '4px', fontSize: '12px' }}>
-										{error.message}
-									</span>
-								)}
-							</div>
-						);
-					}}
-				/>
-
-				<Controller
-					control={control}
-					name="projects"
-					rules={{ required: requiredField }}
-					render={({ field: { onChange, value, onBlur }, fieldState: { error } }) => {
-						const handleSelectChange = () => {
-							clearErrors('projects'); // Викликаємо clearErrors для поля "projects"
-						};
-						return (
-							<div>
-								<label css={labelStyles}>
-									Проєкт на вибір *
-									<Select
-										instanceId={projectId}
-										isSearchable={false}
-										styles={{
-											control: (provided) => ({
-												...provided,
-
-												border: `1px solid ${theme.colors.disabledBtnBg}`,
-												boxShadow: 'none',
-												borderRadius: '4px',
-												padding: '16px',
-											}),
-											indicatorSeparator: () => ({
-												display: 'none',
-											}),
-											valueContainer: (provided) => ({
-												...provided,
-												padding: 0,
-												margin: 0,
-											}),
-
-											input: (provided) => ({
-												...provided,
-												margin: 0,
-											}),
-											// indicatorsContainer: () => ({
-											// 	display: 'none',
-											// }),
-											dropdownIndicator: () => ({
-												padding: 0,
-												display: 'flex',
-												alingItems: 'center',
-												justifyContent: 'center',
-												color: `${theme.colors.mainPlaceholder}`,
-											}),
-										}}
-										placeholder="Проєкт"
-										options={projects}
-										value={getProjValue(value)}
-										onChange={(value) => {
-											onChange(value);
-											handleSelectChange();
-										}}
-										onBlur={() => onBlur()}
-									/>
-								</label>
-								{error && (
-									<span style={{ color: '#DF4242', display: 'block', marginTop: '4px', fontSize: '12px' }}>
-										{error.message}
-									</span>
-								)}
-							</div>
-						);
-					}}
-				/> */}
 
 				<CheckBox
 					checked={isСonditionsChecked}
