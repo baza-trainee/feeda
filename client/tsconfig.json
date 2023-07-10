@@ -27,7 +27,8 @@
 		"**/*.ts",
 		"**/*.tsx",
 		".next/types/**/*.ts",
-		"components/UserApplication/сomponents/Select/Select.jsx"
+		"components/UserApplication/сomponents/Select/Select.jsx",
+		"components/UserApplication/UserApplication.tsx"
 	],
 	"exclude": ["node_modules", "*/**/_backup*", "*/**/_legacy*", "*/**/_temp*"]
 }

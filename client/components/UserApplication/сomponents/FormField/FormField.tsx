@@ -71,11 +71,12 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 
 	return (
 		<div style={{ height: 'auto' }}>
-			<label css={labelStyles}>
+			<label css={[labelStyles]}>
 				<p css={isValid && isDiscordField && isValidDiscord && !isFormSubmitted && validDiscordNameStyle}>{label}</p>
 				<input
 					css={[
 						inputlStyles,
+
 						hasError && errorInputStyles,
 						isValid && isDiscordField && isValidDiscord && !isFormSubmitted && validDiscordStyle,
 					]}
@@ -84,12 +85,14 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 					{...register(name, inputProps)}
 					autoComplete={autoComplete}
 					// onFocus={handleFocus}
+
 					// onBlur={handleInputChange}
-					onChange={handleInputChange}
+					// onChange={handleInputChange}
 				/>
 			</label>
 			{children}
-			{errors && <div css={errorStyles}>{errorMessage}</div>}
+			{!isValid && <p css={errorStyles}>{errorMessage}</p>}
+			{isValid && isDiscordField && isValidDiscord && <p>hello</p>}
 		</div>
 	);
 };

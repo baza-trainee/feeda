@@ -48,10 +48,11 @@ const UserApplication = () => {
 	const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
 	//===========discord============//
+
 	const discordValue = watch('discord');
-	// console.log('discordValue', discordValue);
+	console.log(discordValue);
 	const isValidDiscordValue = discordValue !== '' && discordRegex.test(discordValue);
-	// console.log('isValidDiscordValue :>> ', isValidDiscordValue);
+
 	//===========discord============//
 	const onFormSubmit = (data: object) => {
 		setIsFormSubmitted(true);
@@ -199,7 +200,6 @@ const UserApplication = () => {
 						errors={errors?.discord}
 						inputProps={{
 							required: requiredField,
-
 							pattern: {
 								message: "введіть валідне ім'я користувача",
 								value: discordRegex,
@@ -214,11 +214,11 @@ const UserApplication = () => {
 								message: 'поле повинно містити не більше 37 символів',
 							},
 						}}
-						isFormSubmitted={isFormSubmitted}
+						// isFormSubmitted={isFormSubmitted}
 					/>
-					{!errors.discord && discordValue !== undefined && isValidDiscordValue && (
+					{/* {!errors.discord && discordValue !== undefined && isValidDiscordValue && (
 						<span css={vaidDiscordUnderText}>Не забудь перевірити запрошення</span>
-					)}
+					)} */}
 				</div>
 
 				<FormField
