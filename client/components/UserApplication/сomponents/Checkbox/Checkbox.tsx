@@ -1,8 +1,6 @@
 import React, { ChangeEvent } from 'react';
 
-import Link from 'next/link';
-
-import { CheckboxContainer, CheckboxText } from './Checkbox.styled';
+import { AcceptLink, CheckboxContainer, CheckboxText } from './Checkbox.styled';
 
 interface CheckBoxProps {
 	labeltxt: string;
@@ -25,7 +23,7 @@ export const CheckBox: React.FC<CheckBoxProps> = ({ labeltxt, id, linkText, href
 			<label htmlFor={id}>
 				<CheckboxText>
 					{labeltxt}
-					<Link href={href}>{linkText}</Link>
+					<AcceptLink href={href}>{linkText}</AcceptLink>
 				</CheckboxText>
 			</label>
 		</CheckboxContainer>

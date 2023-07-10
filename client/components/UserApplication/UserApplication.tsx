@@ -59,6 +59,8 @@ const UserApplication = () => {
 		watch,
 	} = useForm({ mode: 'onBlur' });
 
+	const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+
 	//===========discord============//
 	const discordValue = watch('discord');
 	console.log('discordValue', discordValue);
@@ -67,7 +69,7 @@ const UserApplication = () => {
 	//===========discord============//
 	const onFormSubmit = (data: object) => {
 		// alert(JSON.stringify(data));
-
+		setIsFormSubmitted(true);
 		console.log('data :>> ', data);
 		reset();
 		setIsСonditionsChecked(false);
@@ -93,7 +95,7 @@ const UserApplication = () => {
 			{' '}
 			<form css={formStyle} onSubmit={handleSubmit(onFormSubmit)}>
 				<h1 css={formTitle}>Анкета</h1>
-				<FormField
+				{/* <FormField
 					label="Ім'я *"
 					autoComplete="on"
 					type="text"
@@ -201,7 +203,7 @@ const UserApplication = () => {
 						},
 					}}
 					// onChange={(name: string, value: string) => onHandleEmailChange(name, value, clearErrors)}
-				/>
+				/> */}
 				<div>
 					<FormField
 						label="Акаунт в Discord *"
@@ -227,6 +229,7 @@ const UserApplication = () => {
 								message: 'maximum length 37 characters',
 							},
 						}}
+						isFormSubmitted={isFormSubmitted}
 						// onBlur={setValidDiscord}
 					/>
 					{!errors.discord && discordValue !== undefined && isValidDiscordValue && (
@@ -236,7 +239,7 @@ const UserApplication = () => {
 					)}
 				</div>
 
-				<FormField
+				{/* <FormField
 					label="Акаунт в LinkedIn *"
 					autoComplete="off"
 					type="text"
@@ -284,7 +287,7 @@ const UserApplication = () => {
 						},
 					}}
 					// onChange={(name: string, value: string) => onHandleCityChange(name, value, clearErrors)}
-				/>
+				/> */}
 				<CustomSelect
 					title={'Наявність досвіду  *'}
 					control={control}

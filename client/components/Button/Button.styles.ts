@@ -22,3 +22,8 @@ export const buttonStyle = css`
 		border: 1px solid #ffbd00;
 	}
 `;
+
+export const onClickButtonStyle = css`
+	background-color: #ffbd00;
+	color: #232323 !important;
+`;

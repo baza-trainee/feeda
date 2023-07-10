@@ -1,5 +1,10 @@
 import styled from '@emotion/styled';
+import Link from 'next/link';
 
+export const AcceptLink = styled(Link)`
+	color: #0029ff;
+	text-decoration: underline !important;
+`;
 export const CheckboxContainer = styled.div`
 	display: flex;
 
@@ -8,6 +13,9 @@ export const CheckboxContainer = styled.div`
 		/* appearance: none; */
 		opacity: 0;
 		position: absolute;
+		width: 18px;
+		height: 18px;
+		transform: translate(-15%, -15%);
 	}
 	span {
 		display: flex;

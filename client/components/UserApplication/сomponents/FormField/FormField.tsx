@@ -27,65 +27,9 @@ interface FormFieldProps<TFormValues extends FieldValues> {
 	onBlur?: (event: { target: { value: string } }) => void;
 	onFocus?: (event: { target: { value: string } }) => void;
 	children?: ReactNode;
+	isFormSubmitted?: boolean;
 }
 
-// export const FormField = <TFormValues extends Record<string, string | number>>({
-// 	label,
-// 	type,
-// 	placeholder,
-// 	register,
-// 	name,
-// 	errors,
-// 	inputProps,
-// 	autoComplete,
-// 	children,
-// }: // children,
-// FormFieldProps<TFormValues>) => {
-// 	const errorMessage = <>{errors?.message || 'Error!'}</>;
-
-// 	const hasError = !!errors;
-// 	const [isFocused, setIsFocused] = useState(false);
-// 	const isValid = !errors;
-// 	const handleFocus = () => {
-// 		setIsFocused(true);
-// 	};
-
-// 	// const handleBlur = () => {
-// 	// 	setIsFocused(false);
-// 	// };
-
-// 	// const handleBlur = () => {
-// 	// 	setIsFocused(true);
-// 	// };
-
-// 	// const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-// 	// 	const value = event.target.value.trim();
-// 	// 	const isValidtoDiscord = discordRegex.test(value) && value.length >= 2;
-// 	// 	if (isValidtoDiscord) setIsDiscordValid(true);
-// 	// 	if (onChange) {
-// 	// 		onChange(name, value);
-// 	// 	}
-// 	// };
-
-// 	return (
-// 		<div style={{ height: 'auto' }}>
-// 			<label css={labelStyles}>
-// 				<p>{label}</p>
-// 				<input
-// 					css={[inputlStyles, hasError && errorInputStyles, isValid && validDiscordStyle]}
-// 					type={type}
-// 					placeholder={placeholder}
-// 					{...register(name, inputProps)}
-// 					autoComplete={autoComplete}
-// 					// onBlur={handleBlur}
-// 					onFocus={handleFocus}
-// 				/>
-// 			</label>
-// 			{isFocused && children}
-// 			{errors && <div css={errorStyles}>{errorMessage}</div>}
-// 		</div>
-// 	);
-// };
 export const FormField = <TFormValues extends Record<string, string | number>>({
 	label,
 	type,
@@ -96,6 +40,7 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 	inputProps,
 	autoComplete,
 	children,
+	isFormSubmitted,
 }: FormFieldProps<TFormValues>) => {
 	const errorMessage = <>{errors?.message || 'Error!'}</>;
 
@@ -110,8 +55,10 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const value = event.target.value.trim();
 		console.log('value :>> ', value);
-		if (isDiscordField && discordRegex.test(value)) {
+		if (isDiscordField && discordRegex.test(value) && value.length >= 2) {
 			setIsValidDiscord(true);
+		} else {
+			setIsValidDiscord(false);
 		}
 	};
 
@@ -123,7 +70,7 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 					css={[
 						inputlStyles,
 						hasError && errorInputStyles,
-						isValid && isDiscordField && isValidDiscord && validDiscordStyle,
+						isValid && isDiscordField && isValidDiscord && !isFormSubmitted && validDiscordStyle,
 					]}
 					type={type}
 					placeholder={placeholder}
