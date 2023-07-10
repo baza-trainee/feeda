@@ -19,6 +19,7 @@ const Title = ({ children, isDisabled, func }: ButtonProps) => {
 
 	const onMouseDownHandler = () => {
 		setIsPressed(true);
+		console.log('isPressed', isPressed);
 	};
 
 	const onMouseUpHandler = () => {
@@ -27,10 +28,7 @@ const Title = ({ children, isDisabled, func }: ButtonProps) => {
 
 	return (
 		<button
-			css={[
-				buttonStyle,
-				isPressed && onClickButtonStyle, // Змінюємо колір кнопки на "червоний", коли кнопка натиснута
-			]}
+			css={[buttonStyle, isPressed && onClickButtonStyle]}
 			onClick={onClickHandler}
 			onMouseDown={onMouseDownHandler}
 			onMouseUp={onMouseUpHandler}

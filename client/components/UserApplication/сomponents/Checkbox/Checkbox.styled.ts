@@ -8,6 +8,9 @@ export const AcceptLink = styled(Link)`
 export const CheckboxContainer = styled.div`
 	display: flex;
 	align-items: center;
+	label {
+		display: flex;
+	}
 	input {
 		cursor: pointer;
 		/* appearance: none; */
@@ -15,7 +18,6 @@ export const CheckboxContainer = styled.div`
 		position: absolute;
 		width: 18px;
 		height: 18px;
-		transform: translate(-15%, -15%);
 	}
 	span {
 		display: flex;

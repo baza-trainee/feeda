@@ -3,8 +3,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { nanoid } from 'nanoid';
-
 import Title from '~components/Button/Button';
 
 import {
@@ -29,6 +27,7 @@ import {
 	stackPlaceholder,
 	typePlaceholder,
 } from './helpers';
+// import { conditionsId, dataId } from './helpers/checkBoxIds';
 import { experience, projects, type } from './lists';
 import { formStyle, formTitle, formWrapperStyle, vaidDiscordUnderText } from './UserApplication.styles';
 import { CheckBox } from './сomponents/Checkbox/Checkbox';
@@ -57,16 +56,14 @@ const UserApplication = () => {
 	const onFormSubmit = (data: object) => {
 		setIsFormSubmitted(true);
 		console.log('data :>> ', data);
-		reset();
+
 		setIsСonditionsChecked(false);
 		setIsDataChecked(false);
+		reset();
 	};
-	// Discord hook
-	// const [shouldDisplayMessage, onHandleDiscordChange, onBlurDiscord] = useDiscordValidation(discordRegex, clearErrors);
 
 	// ===================== checkbox================= //
-	const conditionsId = nanoid();
-	const dataId = nanoid();
+
 	const [isСonditionsChecked, setIsСonditionsChecked] = useState(false);
 	const [isDataChecked, setIsDataChecked] = useState(false);
 
@@ -95,11 +92,11 @@ const UserApplication = () => {
 						required: requiredField,
 						minLength: {
 							value: 2,
-							message: 'minimum length 2 characters',
+							message: 'поле повинно містити мінімум 2 символи',
 						},
 						maxLength: {
 							value: 50,
-							message: 'maximum length 50 characters',
+							message: 'поле повинно містити не більше 50 символів',
 						},
 						pattern: {
 							value: nameRegex,
@@ -141,11 +138,11 @@ const UserApplication = () => {
 						required: requiredField,
 						minLength: {
 							value: 2,
-							message: 'minimum length 2 characters',
+							message: 'поле повинно містити мінімум 2 символи',
 						},
 						maxLength: {
 							value: 300,
-							message: 'maximum length 300 characters',
+							message: 'поле повинно містити не більше 300 символів',
 						},
 					}}
 				/>
@@ -161,7 +158,7 @@ const UserApplication = () => {
 					inputProps={{
 						required: requiredField,
 						pattern: {
-							message: `please enter the number in this format: ${phoneNumberFormat}`,
+							message: `будь ласка введіть номер в такому форматі: ${phoneNumberFormat}`,
 							value: phoneNumberRegex,
 						},
 					}}
@@ -179,14 +176,14 @@ const UserApplication = () => {
 						required: requiredField,
 						minLength: {
 							value: 6,
-							message: 'minimum length 6 characters',
+							message: 'поле повинно містити мінімум 6 символів',
 						},
 						maxLength: {
 							value: 70,
-							message: 'maximum length 70 characters',
+							message: 'поле повинно містити не більше 70 символів',
 						},
 						pattern: {
-							message: 'Please enter valid email!',
+							message: 'будь ласка введіть валідну пошту',
 							value: emailRegex,
 						},
 					}}
@@ -204,17 +201,17 @@ const UserApplication = () => {
 							required: requiredField,
 
 							pattern: {
-								message: 'Please enter valid discord name!',
+								message: "введіть валідне ім'я користувача",
 								value: discordRegex,
 							},
 
 							minLength: {
 								value: 2,
-								message: 'minimum length 2 characters',
+								message: 'поле повинно містити мінімум 2 символи',
 							},
 							maxLength: {
 								value: 37,
-								message: 'maximum length 37 characters',
+								message: 'поле повинно містити не більше 37 символів',
 							},
 						}}
 						isFormSubmitted={isFormSubmitted}
@@ -235,16 +232,16 @@ const UserApplication = () => {
 					inputProps={{
 						required: requiredField,
 						pattern: {
-							message: 'Please enter valid link on your profile!',
+							message: 'будь ласка введіть правильну адресу',
 							value: linkedRegex,
 						},
 						minLength: {
 							value: 19,
-							message: 'minimum length 19 characters',
+							message: 'поле повинно містити мінімум 19 символів',
 						},
 						maxLength: {
 							value: 128,
-							message: 'maximum length 128 characters',
+							message: 'поле повинно містити не більше 128 символів',
 						},
 					}}
 				/>
@@ -260,11 +257,11 @@ const UserApplication = () => {
 					inputProps={{
 						minLength: {
 							value: 2,
-							message: 'minimum length 2 characters',
+							message: 'поле повинно містити мінімум 2 символи',
 						},
 						maxLength: {
 							value: 50,
-							message: 'maximum length 50 characters',
+							message: 'поле повинно містити не більше 50 символів',
 						},
 						pattern: {
 							message: 'please enter valid value',
@@ -277,7 +274,7 @@ const UserApplication = () => {
 					title={'Наявність досвіду  *'}
 					control={control}
 					name="experience"
-					rules={{ required: "Це поле обов'язкове" }}
+					rules={{ required: requiredField }}
 					options={experience}
 					placeholder={experiencePlaceholder}
 					clearErrors={clearErrors}
@@ -307,7 +304,7 @@ const UserApplication = () => {
 				<CheckBox
 					checked={isСonditionsChecked}
 					onChange={handleСonditionsCheckboxChange}
-					id={conditionsId}
+					// id={conditionsId}
 					href="/"
 					labeltxt="Ознайомлений/на з "
 					linkText="умовами участі в проєкті *"
@@ -316,7 +313,7 @@ const UserApplication = () => {
 				<CheckBox
 					checked={isDataChecked}
 					onChange={handleDataCheckboxChange}
-					id={dataId}
+					// id={dataId}
 					href="/"
 					linkText="обробкою персональних даних *"
 					labeltxt="Погоджуюсь з "

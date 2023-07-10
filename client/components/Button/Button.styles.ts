@@ -25,5 +25,6 @@ export const buttonStyle = css`
 
 export const onClickButtonStyle = css`
 	background-color: #ffbd00;
+	border: 1px solid #ffbd00 !important;
 	color: #232323 !important;
 `;

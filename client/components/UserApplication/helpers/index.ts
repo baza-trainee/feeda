@@ -1,14 +1,4 @@
 import { getExpValue, getProjValue, getTypeValue } from './getValues';
-// import {
-// 	handleNameChange,
-// 	handleSurnameChange,
-// 	onHandleCityChange,
-// 	onHandleDiscordChange,
-// 	onHandleEmailChange,
-// 	onHandleLinkedChange,
-// 	onHandlePhoneChange,
-// 	onHandleStackChange,
-// } from './handleChange';
 import {
 	cityPlaceholder,
 	emailPlaceholder,
@@ -21,15 +11,7 @@ import {
 	stackPlaceholder,
 	typePlaceholder,
 } from './placeholders';
-import {
-	cityRegex,
-	discordRegex,
-	// discordSecondRegex,
-	emailRegex,
-	linkedRegex,
-	nameRegex,
-	phoneNumberRegex,
-} from './regex';
+import { cityRegex, discordRegex, emailRegex, linkedRegex, nameRegex, phoneNumberRegex } from './regex';
 import { requiredField } from './requiredField';
 import { useCustomIds } from './selectsId';
 export {
@@ -42,17 +24,9 @@ export {
 	getProjValue,
 	getTypeValue,
 	requiredField,
-	// handleNameChange,
-	// handleSurnameChange,
-	// onHandleCityChange,
-	// onHandleEmailChange,
-	// onHandleLinkedChange,
-	// onHandlePhoneChange,
-	// onHandleStackChange,
 	useCustomIds,
 	nameRegex,
 	emailPlaceholder,
-	// discordSecondRegex,
 	linkedInPlaceholder,
 	cityRegex,
 	experiencePlaceholder,
@@ -62,5 +36,4 @@ export {
 	typePlaceholder,
 	projectPlaceholder,
 	cityPlaceholder,
-	// onHandleDiscordChange,
 };
