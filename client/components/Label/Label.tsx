@@ -9,14 +9,14 @@ interface labelProps {
 }
 
 const Label = ({ forHTML, children }: labelProps) => {
-	return (
-		<label
-			htmlFor={forHTML}
-			css={labelStyle}
-		>
-			{children}
-		</label>
-	);
+  return (
+    <label
+      htmlFor={forHTML}
+      css={labelStyle}
+    >
+      {children}
+    </label>
+  );
 };
 
 export default Label;

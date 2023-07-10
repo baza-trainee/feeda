@@ -8,25 +8,25 @@ import { Button , Div,Wrapper,  } from 'components/Condition/Condition.styles';
 import Container from 'components/Container/Container';
 
 export function StartPopUp () {
-	const [click, setClick] = useState(false);
+  const [click, setClick] = useState(false);
 
-	const handleClick = () => {
-		setClick(true);
-		console.log(click);
-	};
+  const handleClick = () => {
+    setClick(true);
+    console.log(click);
+  };
 
-	return (
-		<Div>
-			<Container>
-				{click ? (
-					<Agreement />
-				) : (
-					<Wrapper>
-						<Condition />
-						<Button onClick={handleClick}>Подати заявку</Button>
-					</Wrapper>
-				)}
-			</Container>
-		</Div>
-	);
+  return (
+    <Div>
+      <Container>
+        {click ? (
+          <Agreement />
+        ) : (
+          <Wrapper>
+            <Condition />
+            <Button onClick={handleClick}>Подати заявку</Button>
+          </Wrapper>
+        )}
+      </Container>
+    </Div>
+  );
 }

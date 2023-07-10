@@ -5,8 +5,8 @@ export const reactStyle = css`
 `;
 
 export const ObjectStyle = {
-	color: 'blue',
-	'&:hover': {
-		color: 'tomato'
-	}
+  color: 'blue',
+  '&:hover': {
+    color: 'tomato'
+  }
 };

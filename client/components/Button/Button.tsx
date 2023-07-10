@@ -11,18 +11,18 @@ interface ButtonProps {
 }
 
 const Title = ({ children, isDisabled, func }: ButtonProps) => {
-	const onClickHandler = () => {
-		func();
-	};
-	return (
-		<button
-			css={buttonStyle}
-			onClick={onClickHandler}
-			disabled={isDisabled}
-		>
-			{children}
-		</button>
-	);
+  const onClickHandler = () => {
+    func();
+  };
+  return (
+    <button
+      css={buttonStyle}
+      onClick={onClickHandler}
+      disabled={isDisabled}
+    >
+      {children}
+    </button>
+  );
 };
 
 export default Title;
