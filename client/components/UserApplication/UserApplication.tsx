@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { nanoid } from 'nanoid';
+
 import Title from '~components/Button/Button';
 
 import {
@@ -33,10 +35,6 @@ import { CheckBox } from './сomponents/Checkbox/Checkbox';
 import { FormField } from './сomponents/FormField/FormField';
 import { CustomSelect } from './сomponents/SelectField/SelectField';
 
-// interface IDiscord {
-// 	(fieldName: string, value: string): void;
-// }
-
 const UserApplication = () => {
 	const {
 		register,
@@ -52,12 +50,11 @@ const UserApplication = () => {
 
 	//===========discord============//
 	const discordValue = watch('discord');
-	console.log('discordValue', discordValue);
+	// console.log('discordValue', discordValue);
 	const isValidDiscordValue = discordValue !== '' && discordRegex.test(discordValue);
-	console.log('isValidDiscordValue :>> ', isValidDiscordValue);
+	// console.log('isValidDiscordValue :>> ', isValidDiscordValue);
 	//===========discord============//
 	const onFormSubmit = (data: object) => {
-		// alert(JSON.stringify(data));
 		setIsFormSubmitted(true);
 		console.log('data :>> ', data);
 		reset();
@@ -68,6 +65,8 @@ const UserApplication = () => {
 	// const [shouldDisplayMessage, onHandleDiscordChange, onBlurDiscord] = useDiscordValidation(discordRegex, clearErrors);
 
 	// ===================== checkbox================= //
+	const conditionsId = nanoid();
+	const dataId = nanoid();
 	const [isСonditionsChecked, setIsСonditionsChecked] = useState(false);
 	const [isDataChecked, setIsDataChecked] = useState(false);
 
@@ -308,7 +307,7 @@ const UserApplication = () => {
 				<CheckBox
 					checked={isСonditionsChecked}
 					onChange={handleСonditionsCheckboxChange}
-					id="ijd"
+					id={conditionsId}
 					href="/"
 					labeltxt="Ознайомлений/на з "
 					linkText="умовами участі в проєкті *"
@@ -317,7 +316,7 @@ const UserApplication = () => {
 				<CheckBox
 					checked={isDataChecked}
 					onChange={handleDataCheckboxChange}
-					id="ijs"
+					id={dataId}
 					href="/"
 					linkText="обробкою персональних даних *"
 					labeltxt="Погоджуюсь з "
