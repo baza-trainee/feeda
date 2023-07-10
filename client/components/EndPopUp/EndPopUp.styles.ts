@@ -8,10 +8,24 @@ export const Section = styled.section`
 	top: 50%;
 	transform: translate(-50%, -50%);
 	text-align: center;
+	width: 100%;
+	max-width: 286px;
 	margin: 0 auto;
 	padding: 24px;
 	border-radius: 16px;
 	border: 1px solid ${colors.disabledBtnBg};
+	@media screen and (${media.tablet}) {
+		max-width: 394px;
+		margin-bottom: 24px;
+		font-size: ${fonts.display.fontSize.mobile}px;
+		line-height: ${fonts.display.lineHeight.mobile};
+	}
+	@media screen and (${media.desktop}) {
+		max-width: 464px;
+		margin-bottom: 32px;
+		font-size: ${fonts.display.fontSize.tablet}px;
+		line-height: ${fonts.display.lineHeight.tablet};
+	}
 `;
 
 export const Title = styled.h1`
@@ -49,18 +63,15 @@ export const Desc = styled.p`
 
 export const Reminder = styled.h2`
 	color: ${colors.mainTitle};
-	width: 286px;
 	font-weight: ${fonts.title.fontWeight.tablet};
 	font-size: ${fonts.title.fontSize.tablet}px;
 	line-height: ${fonts.title.lineHeight};
 	letter-spacing: ${fonts.title.letterSpacing.tablet}px;
 	@media screen and (${media.tablet}) {
-		width: 394px;
 		font-weight: ${fonts.title.fontWeight.desktop};
 		font-size: ${fonts.title.fontSize.desktop}px;
 	}
 	@media screen and (${media.desktop}) {
-		width: 464px;
 		font-size: ${fonts.headline.fontSize.tablet}px;
 		line-height: ${fonts.headline.lineHeight.tablet};
 		font-weight: ${fonts.headline.fontWeight.tablet};
