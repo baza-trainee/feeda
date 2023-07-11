@@ -66,7 +66,9 @@ const UserApplication = () => {
 
 		setIsСonditionsChecked(false);
 		setIsDataChecked(false);
-		reset();
+		setTimeout(() => {
+			reset();
+		}, 0);
 	};
 
 	// ===================== checkbox================= //
@@ -169,7 +171,7 @@ const UserApplication = () => {
 							value: phoneNumberRegex,
 						},
 					}}
-				/>
+				/> */}
 
 				<FormField
 					label="Електронна пошта *"
@@ -194,7 +196,7 @@ const UserApplication = () => {
 							value: emailRegex,
 						},
 					}}
-				/> */}
+				/>
 
 				<div>
 					<FormField
