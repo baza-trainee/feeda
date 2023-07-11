@@ -2,7 +2,11 @@ import styled from '@emotion/styled';
 import { theme } from 'styles/theme';
 const { colors, fonts, media } = theme;
 
-export const Section = styled.section`
+interface ExistingUserProp {
+	existingUser?: boolean;
+}
+
+export const Section = styled.section<ExistingUserProp>`
 	position: fixed;
 	left: 50%;
 	top: 50%;
@@ -20,55 +24,13 @@ export const Section = styled.section`
 		line-height: ${fonts.display.lineHeight.mobile};
 	}
 	@media screen and (${media.desktop}) {
-		max-width: 464px;
+		max-width: ${(p) => (p.existingUser ? '912px' : '464px')};
 		font-size: ${fonts.display.fontSize.tablet}px;
 		line-height: ${fonts.display.lineHeight.tablet};
 	}
 `;
 
-export const SecondarySection = styled.section`
-	position: fixed;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	text-align: center;
-	width: 100%;
-	max-width: 286px;
-	margin: 0 auto;
-	padding: 24px;
-	border-radius: 16px;
-	border: 1px solid ${colors.disabledBtnBg};
-	@media screen and (${media.tablet}) {
-		max-width: 394px;
-		font-size: ${fonts.display.fontSize.mobile}px;
-		line-height: ${fonts.display.lineHeight.mobile};
-	}
-	@media screen and (${media.desktop}) {
-		max-width: 912px;
-		font-size: ${fonts.display.fontSize.tablet}px;
-		line-height: ${fonts.display.lineHeight.tablet};
-	}
-
-	h1 {
-		@media screen and (${media.desktop}) {
-			white-space: nowrap;
-		}
-	}
-
-	h2 {
-		@media screen and (${media.desktop}) {
-			max-width: 320px;
-		}
-	}
-
-	p {
-		@media screen and (${media.desktop}) {
-			max-width: 320px;
-		}
-	}
-`;
-
-export const Title = styled.h1`
+export const Title = styled.h1<ExistingUserProp>`
 	color: ${colors.mainTitle};
 	margin-bottom: 32px;
 	font-weight: ${fonts.headline.fontWeight.tablet};
@@ -83,10 +45,11 @@ export const Title = styled.h1`
 		margin-bottom: 32px;
 		font-size: ${fonts.display.fontSize.tablet}px;
 		line-height: ${fonts.display.lineHeight.tablet};
+		white-space: ${(p) => (p.existingUser ? 'nowrap' : '')};
 	}
 `;
 
-export const Desc = styled.p`
+export const Desc = styled.p<ExistingUserProp>`
 	color: ${colors.mainTitle};
 	margin-bottom: 32px;
 	font-weight: ${fonts.title.fontWeight.tablet};
@@ -98,10 +61,11 @@ export const Desc = styled.p`
 	}
 	@media screen and (${media.desktop}) {
 		margin: 0 auto 32px;
+		max-width: ${(p) => (p.existingUser ? '320px' : '')};
 	}
 `;
 
-export const Reminder = styled.h2`
+export const Reminder = styled.h2<ExistingUserProp>`
 	color: ${colors.mainTitle};
 	font-weight: ${fonts.title.fontWeight.tablet};
 	font-size: ${fonts.title.fontSize.tablet}px;
@@ -116,6 +80,7 @@ export const Reminder = styled.h2`
 		line-height: ${fonts.headline.lineHeight.tablet};
 		font-weight: ${fonts.headline.fontWeight.tablet};
 		margin: 0 auto;
+		max-width: ${(p) => (p.existingUser ? '320px' : '')};
 	}
 `;
 
