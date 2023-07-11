@@ -1,32 +1,26 @@
 'use client';
 
 import React, { useState } from 'react';
-
 import Agreement from 'components/Agreement/Agreement';
 import Condition from 'components/Condition/Condition';
-import { Button,Wrapper } from 'components/Condition/Condition.styles';
+import { Wrapper, Button } from './StartPopUp.styles';
 
-<<<<<<< HEAD:client/components/WelcomePage/WelcomePage.tsx
-const WelcomePage = () => {
-  const [isOpen, setIsOpen] = useState(false);
-=======
-export function StartPopUp () {
-  const [click, setClick] = useState(false);
->>>>>>> develop:client/components/StartPopUp/StartPopUp.tsx
+export function StartPopUp() {
+	const [click, setClick] = useState(false);
 
-  const openModal = () => {
-    setIsOpen(true);
-  };
+	const openModal = () => {
+		setClick(true);
+	};
 
-  const closeModal = () => {
-    setIsOpen(false);
-  };
+	const closeModal = () => {
+		setClick(false);
+	};
 
-  return (
-        <Wrapper>
-          <Condition />
-          <Button onClick={openModal}>Подати заявку</Button>
-          <Agreement onClose={closeModal} isOpen={isOpen} />
-        </Wrapper>  
-  );
-};
+	return (
+		<Wrapper>
+			<Condition />
+			<Button onClick={openModal}>Подати заявку</Button>
+			<Agreement onClose={closeModal} isOpen={click} />
+		</Wrapper>
+	);
+}
