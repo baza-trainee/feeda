@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 export const nameRegex = /^[-'A-Za-zА-Яа-я]+$/;
 
 export const phoneNumberRegex = /^\+\d{12}$/;

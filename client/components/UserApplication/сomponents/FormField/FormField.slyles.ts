@@ -12,7 +12,6 @@ export const errorStyles = css`
 export const labelStyles = css`
 	color: #353535;
 	font-size: 16px;
-	font-family: "'Exo 2' sans-serif";
 	font-style: normal;
 	font-weight: 400;
 	line-height: normal;
