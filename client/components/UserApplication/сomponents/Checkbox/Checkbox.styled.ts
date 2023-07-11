@@ -3,7 +3,6 @@ import Link from 'next/link';
 
 export const AcceptLink = styled(Link)`
 	color: #0029ff;
-	/* text-decoration: underline !important; */
 `;
 export const CheckboxLabel = styled.label`
 	display: flex;
@@ -11,15 +10,12 @@ export const CheckboxLabel = styled.label`
 
 	input {
 		cursor: pointer;
-		/* appearance: none; */
 		opacity: 0;
 		position: absolute;
 		width: 18px;
 		height: 18px;
 	}
 	span {
-		/* display: flex;
-		align-items: center; */
 		margin-right: 15px;
 		border: 2px solid #232323;
 		border-radius: 2px;

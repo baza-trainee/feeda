@@ -2,7 +2,6 @@ import { css } from '@emotion/react';
 import { theme } from 'styles/theme';
 
 export const formStyle = css`
-	font-family: ${theme.fonts.label.fontFamily};
 	padding: 31px;
 	width: 100%;
 	display: flex;

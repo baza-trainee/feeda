@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ReactNode, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { DeepMap, FieldError, FieldValues, Path, UseFormRegister } from 'react-hook-form';
 
 import { discordRegex } from '~components/UserApplication/helpers';
@@ -33,8 +33,6 @@ interface FormFieldProps<TFormValues extends FieldValues> {
 	onChange?: (name: string, value: string) => void;
 	autoComplete: string;
 	onBlur?: (event: { target: { value: string } }) => void;
-	onFocus?: (event: { target: { value: string } }) => void;
-	children?: ReactNode;
 	isFormSubmitted?: boolean;
 }
 
@@ -47,7 +45,6 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 	errors,
 	inputProps,
 	autoComplete,
-	children,
 	isFormSubmitted,
 }: FormFieldProps<TFormValues>) => {
 	const errorMessage = <>{errors?.message || 'Error!'}</>;
@@ -85,13 +82,9 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 					placeholder={placeholder}
 					{...register(name, inputProps)}
 					autoComplete={autoComplete}
-					// onFocus={handleFocus}
-
 					onBlur={handleInputChange}
-					// onChange={handleInputChange}
 				/>
 			</label>
-			{children}
 			{!isValid && <p css={errorStyles}>{errorMessage}</p>}
 			{isValid && isDiscordField && isValidDiscord && !isFormSubmitted && (
 				<p css={vaidDiscordUnderText}>Не забудь перевірити запрошення</p>

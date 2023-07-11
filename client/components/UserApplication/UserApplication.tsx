@@ -27,9 +27,8 @@ import {
 	stackPlaceholder,
 	typePlaceholder,
 } from './helpers';
-// import { conditionsId, dataId } from './helpers/checkBoxIds';
 import { experience, projects, type } from './lists';
-import { formStyle, formTitle, formWrapperStyle, vaidDiscordUnderText } from './UserApplication.styles';
+import { formStyle, formTitle, formWrapperStyle } from './UserApplication.styles';
 import { CheckBox } from './сomponents/Checkbox/Checkbox';
 import { FormField } from './сomponents/FormField/FormField';
 import { CustomSelect } from './сomponents/SelectField/SelectField';
@@ -50,21 +49,23 @@ const UserApplication = () => {
 
 	const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 	const [isActivationButton, setIsActivationButton] = useState(false);
-	//===========discord============//
 
+	const nameValue = watch('name');
+	const lastnameValue = watch('lastname');
+	const stackValue = watch('stack');
+	const phoneValue = watch('tel');
+	const emailValue = watch('email');
 	const discordValue = watch('discord');
-	console.log(discordValue);
-	// const isValidDiscordValue = discordValue !== '' && discordRegex.test(discordValue);
 
 	useEffect(() => {
-		if (discordValue) setIsActivationButton(true);
-	}, [discordValue]);
-	//===========discord============//
-	const onFormSubmit = (data: object) => {
-		setIsFormSubmitted(true);
-		console.log('data :>> ', data);
+		if (discordValue && nameValue && lastnameValue && stackValue && phoneValue && emailValue)
+			setIsActivationButton(true);
+	}, [discordValue, nameValue, lastnameValue, stackValue, phoneValue, emailValue]);
 
-		setIsСonditionsChecked(false);
+	const onFormSubmit = (data: object) => {
+		console.log('data :>> ', data);
+		setIsFormSubmitted(true);
+		setIsConditionsChecked(false);
 		setIsDataChecked(false);
 		setTimeout(() => {
 			reset();
@@ -73,11 +74,11 @@ const UserApplication = () => {
 
 	// ===================== checkbox================= //
 
-	const [isСonditionsChecked, setIsСonditionsChecked] = useState(false);
+	const [isConditionsChecked, setIsConditionsChecked] = useState(false);
 	const [isDataChecked, setIsDataChecked] = useState(false);
 
-	const handleСonditionsCheckboxChange = () => {
-		setIsСonditionsChecked(!isСonditionsChecked);
+	const handleConditionsCheckboxChange = () => {
+		setIsConditionsChecked(!isConditionsChecked);
 	};
 	const handleDataCheckboxChange = () => {
 		setIsDataChecked(!isDataChecked);
@@ -126,11 +127,11 @@ const UserApplication = () => {
 						required: requiredField,
 						minLength: {
 							value: 2,
-							message: 'minimum length 2 characters',
+							message: 'поле повинно містити мінімум 2 символи',
 						},
 						maxLength: {
 							value: 50,
-							message: 'maximum length 50 characters',
+							message: 'поле повинно містити не більше 50 символів',
 						},
 					}}
 				/>
@@ -224,9 +225,6 @@ const UserApplication = () => {
 						}}
 						isFormSubmitted={isFormSubmitted}
 					/>
-					{/* {!errors.discord && discordValue !== undefined && isValidDiscordValue && (
-						<span css={vaidDiscordUnderText}>Не забудь перевірити запрошення</span>
-					)} */}
 				</div>
 
 				<FormField
@@ -310,9 +308,8 @@ const UserApplication = () => {
 				/>
 
 				<CheckBox
-					checked={isСonditionsChecked}
-					onChange={handleСonditionsCheckboxChange}
-					// id={conditionsId}
+					checked={isConditionsChecked}
+					onChange={handleConditionsCheckboxChange}
 					href="/"
 					labeltxt="Ознайомлений/на з "
 					linkText="умовами участі в проєкті *"
@@ -321,14 +318,13 @@ const UserApplication = () => {
 				<CheckBox
 					checked={isDataChecked}
 					onChange={handleDataCheckboxChange}
-					// id={dataId}
 					href="/"
 					linkText="обробкою персональних даних *"
 					labeltxt="Погоджуюсь з "
 				/>
 
 				<Title
-					isDisabled={!isDataChecked || !isСonditionsChecked || !errors || !isActivationButton}
+					isDisabled={!isDataChecked || !isConditionsChecked || !errors || !isActivationButton}
 					func={handleSubmit(onFormSubmit)}
 				>
 					Відправити анкету
