@@ -1,6 +1,6 @@
 'use client';
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import Title from '~components/Button/Button';
@@ -37,22 +37,28 @@ import { CustomSelect } from './сomponents/SelectField/SelectField';
 const UserApplication = () => {
 	const {
 		register,
-		formState: { errors, isValid },
+		formState: { errors },
 		handleSubmit,
 		reset,
 		control,
 		clearErrors,
 		watch,
-	} = useForm({ mode: 'onBlur' });
+	} = useForm({
+		mode: 'onSubmit',
+		reValidateMode: 'onChange',
+	});
 
 	const [isFormSubmitted, setIsFormSubmitted] = useState(false);
-
+	const [isActivationButton, setIsActivationButton] = useState(false);
 	//===========discord============//
 
 	const discordValue = watch('discord');
 	console.log(discordValue);
-	const isValidDiscordValue = discordValue !== '' && discordRegex.test(discordValue);
+	// const isValidDiscordValue = discordValue !== '' && discordRegex.test(discordValue);
 
+	useEffect(() => {
+		if (discordValue) setIsActivationButton(true);
+	}, [discordValue]);
 	//===========discord============//
 	const onFormSubmit = (data: object) => {
 		setIsFormSubmitted(true);
@@ -81,7 +87,7 @@ const UserApplication = () => {
 			{' '}
 			<form css={formStyle} onSubmit={handleSubmit(onFormSubmit)}>
 				<h1 css={formTitle}>Анкета</h1>
-				<FormField
+				{/* <FormField
 					label="Ім'я *"
 					autoComplete="on"
 					type="text"
@@ -188,7 +194,7 @@ const UserApplication = () => {
 							value: emailRegex,
 						},
 					}}
-				/>
+				/> */}
 
 				<div>
 					<FormField
@@ -214,14 +220,14 @@ const UserApplication = () => {
 								message: 'поле повинно містити не більше 37 символів',
 							},
 						}}
-						// isFormSubmitted={isFormSubmitted}
+						isFormSubmitted={isFormSubmitted}
 					/>
 					{/* {!errors.discord && discordValue !== undefined && isValidDiscordValue && (
 						<span css={vaidDiscordUnderText}>Не забудь перевірити запрошення</span>
 					)} */}
 				</div>
 
-				<FormField
+				{/* <FormField
 					label="Акаунт в LinkedIn *"
 					autoComplete="off"
 					type="text"
@@ -299,7 +305,7 @@ const UserApplication = () => {
 					placeholder={projectPlaceholder}
 					clearErrors={clearErrors}
 					valueGetter={(value) => getProjValue(value)}
-				/>
+				/> */}
 
 				<CheckBox
 					checked={isСonditionsChecked}
@@ -319,7 +325,10 @@ const UserApplication = () => {
 					labeltxt="Погоджуюсь з "
 				/>
 
-				<Title isDisabled={!isDataChecked || !isСonditionsChecked || !isValid} func={handleSubmit(onFormSubmit)}>
+				<Title
+					isDisabled={!isDataChecked || !isСonditionsChecked || !errors || !isActivationButton}
+					func={handleSubmit(onFormSubmit)}
+				>
 					Відправити анкету
 				</Title>
 			</form>

@@ -86,13 +86,13 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 					autoComplete={autoComplete}
 					// onFocus={handleFocus}
 
-					// onBlur={handleInputChange}
+					onBlur={handleInputChange}
 					// onChange={handleInputChange}
 				/>
 			</label>
 			{children}
 			{!isValid && <p css={errorStyles}>{errorMessage}</p>}
-			{isValid && isDiscordField && isValidDiscord && <p>hello</p>}
+			{isValid && isDiscordField && isValidDiscord && !isFormSubmitted && <p>hello</p>}
 		</div>
 	);
 };
