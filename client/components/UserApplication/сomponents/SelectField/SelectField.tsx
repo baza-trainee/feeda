@@ -90,6 +90,24 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
 
 										transform: isDropdownOpen ? 'rotate(180deg)' : 'rotate(0)',
 									}),
+									menu: (provided) => ({
+										...provided,
+										border: 'none',
+										boxShadow: 'none',
+										backgroundColor: '#FCFCFC',
+										borderRadius: '4px',
+										margin: '4px 0 0 0 ',
+									}),
+									option: (provided, state) => ({
+										...provided,
+										backgroundColor: state.isFocused ? '#FDF5DD' : '#FCFCFC',
+										color: '#232323',
+										borderRadius: '4px',
+										height: '56px',
+										display: 'flex',
+										alignItems: 'center',
+										padding: '0 16px',
+									}),
 								}}
 								placeholder={placeholder}
 								options={options}

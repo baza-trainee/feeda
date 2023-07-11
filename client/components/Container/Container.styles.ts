@@ -6,6 +6,7 @@ export const Wrapper = styled.div`
 	width: 100%;
 	max-width: 760px;
 	padding: 0 10px;
+
 	margin: 0 auto;
 
 	@media screen and (${media.tablet}) {
