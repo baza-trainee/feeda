@@ -16,15 +16,55 @@ export const Section = styled.section`
 	border: 1px solid ${colors.disabledBtnBg};
 	@media screen and (${media.tablet}) {
 		max-width: 394px;
-		margin-bottom: 24px;
 		font-size: ${fonts.display.fontSize.mobile}px;
 		line-height: ${fonts.display.lineHeight.mobile};
 	}
 	@media screen and (${media.desktop}) {
 		max-width: 464px;
-		margin-bottom: 32px;
 		font-size: ${fonts.display.fontSize.tablet}px;
 		line-height: ${fonts.display.lineHeight.tablet};
+	}
+`;
+
+export const SecondarySection = styled.section`
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	width: 100%;
+	max-width: 286px;
+	margin: 0 auto;
+	padding: 24px;
+	border-radius: 16px;
+	border: 1px solid ${colors.disabledBtnBg};
+	@media screen and (${media.tablet}) {
+		max-width: 394px;
+		font-size: ${fonts.display.fontSize.mobile}px;
+		line-height: ${fonts.display.lineHeight.mobile};
+	}
+	@media screen and (${media.desktop}) {
+		max-width: 912px;
+		font-size: ${fonts.display.fontSize.tablet}px;
+		line-height: ${fonts.display.lineHeight.tablet};
+	}
+
+	h1 {
+		@media screen and (${media.desktop}) {
+			white-space: nowrap;
+		}
+	}
+
+	h2 {
+		@media screen and (${media.desktop}) {
+			max-width: 320px;
+		}
+	}
+
+	p {
+		@media screen and (${media.desktop}) {
+			max-width: 320px;
+		}
 	}
 `;
 
@@ -57,7 +97,7 @@ export const Desc = styled.p`
 		margin-bottom: 24px;
 	}
 	@media screen and (${media.desktop}) {
-		margin-bottom: 32px;
+		margin: 0 auto 32px;
 	}
 `;
 
@@ -75,6 +115,7 @@ export const Reminder = styled.h2`
 		font-size: ${fonts.headline.fontSize.tablet}px;
 		line-height: ${fonts.headline.lineHeight.tablet};
 		font-weight: ${fonts.headline.fontWeight.tablet};
+		margin: 0 auto;
 	}
 `;
 
