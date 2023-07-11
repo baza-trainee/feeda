@@ -9,6 +9,7 @@ import {
 	errorStyles,
 	inputlStyles,
 	labelStyles,
+	vaidDiscordUnderText,
 	validDiscordNameStyle,
 	validDiscordStyle,
 } from './FormField.slyles';
@@ -92,7 +93,9 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 			</label>
 			{children}
 			{!isValid && <p css={errorStyles}>{errorMessage}</p>}
-			{isValid && isDiscordField && isValidDiscord && !isFormSubmitted && <p>hello</p>}
+			{isValid && isDiscordField && isValidDiscord && !isFormSubmitted && (
+				<p css={vaidDiscordUnderText}>Не забудь перевірити запрошення</p>
+			)}
 		</div>
 	);
 };

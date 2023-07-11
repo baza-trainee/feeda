@@ -12,7 +12,7 @@ export const errorStyles = css`
 export const labelStyles = css`
 	color: #353535;
 	font-size: 16px;
-	font-family: Exo 2;
+	font-family: "'Exo 2' sans-serif";
 	font-style: normal;
 	font-weight: 400;
 	line-height: normal;
@@ -46,4 +46,9 @@ export const validDiscordStyle = css`
 `;
 export const validDiscordNameStyle = css`
 	color: #14905d !important;
+`;
+export const vaidDiscordUnderText = css`
+	color: #14905d;
+	font-size: 12px;
+	position: absolute;
 `;

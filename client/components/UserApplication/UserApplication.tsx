@@ -89,7 +89,7 @@ const UserApplication = () => {
 			{' '}
 			<form css={formStyle} onSubmit={handleSubmit(onFormSubmit)}>
 				<h1 css={formTitle}>Анкета</h1>
-				{/* <FormField
+				<FormField
 					label="Ім'я *"
 					autoComplete="on"
 					type="text"
@@ -171,7 +171,7 @@ const UserApplication = () => {
 							value: phoneNumberRegex,
 						},
 					}}
-				/> */}
+				/>
 
 				<FormField
 					label="Електронна пошта *"
@@ -229,7 +229,7 @@ const UserApplication = () => {
 					)} */}
 				</div>
 
-				{/* <FormField
+				<FormField
 					label="Акаунт в LinkedIn *"
 					autoComplete="off"
 					type="text"
@@ -307,7 +307,7 @@ const UserApplication = () => {
 					placeholder={projectPlaceholder}
 					clearErrors={clearErrors}
 					valueGetter={(value) => getProjValue(value)}
-				/> */}
+				/>
 
 				<CheckBox
 					checked={isСonditionsChecked}

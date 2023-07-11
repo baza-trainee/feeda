@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import { theme } from 'styles/theme';
 
 export const formStyle = css`
+	font-family: ${theme.fonts.label.fontFamily};
 	padding: 31px;
 	width: 100%;
 	display: flex;
@@ -43,10 +44,4 @@ export const formTitle = css`
 	@media screen and (min-width: 1024px) {
 		font-size: 45px;
 	}
-`;
-
-export const vaidDiscordUnderText = css`
-	color: #14905d;
-	font-size: 12px;
-	position: absolute;
 `;
