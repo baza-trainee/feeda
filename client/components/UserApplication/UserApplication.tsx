@@ -55,12 +55,13 @@ const UserApplication = () => {
 	const stackValue = watch('stack');
 	const phoneValue = watch('tel');
 	const emailValue = watch('email');
+	const linkedInvalue = watch('linkedin');
 	const discordValue = watch('discord');
 
 	useEffect(() => {
-		if (discordValue && nameValue && lastnameValue && stackValue && phoneValue && emailValue)
+		if (discordValue && nameValue && lastnameValue && stackValue && phoneValue && emailValue && linkedInvalue)
 			setIsActivationButton(true);
-	}, [discordValue, nameValue, lastnameValue, stackValue, phoneValue, emailValue]);
+	}, [discordValue, nameValue, lastnameValue, stackValue, phoneValue, emailValue, linkedInvalue]);
 
 	const onFormSubmit = (data: object) => {
 		console.log('data :>> ', data);
