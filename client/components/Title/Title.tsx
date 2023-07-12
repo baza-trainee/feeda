@@ -2,12 +2,12 @@
 /** @jsxImportSource @emotion/react */
 import { titleStyle } from './Title.styles';
 
-interface TitleProps {
+type TitleProps = {
 	children: string;
-}
+};
 
 const Title = ({ children }: TitleProps) => {
-	return <h1 css={titleStyle}>{children}</h1>;
+	return <h2 css={titleStyle}>{children}</h2>;
 };
 
 export default Title;

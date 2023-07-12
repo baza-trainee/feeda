@@ -6,7 +6,7 @@ export const titleStyle = css`
 	font-size: 22px;
 	line-height: ${theme.fonts.headline.lineHeight};
 	text-align: center;
-	color: ${theme.colors.mainBtnText};
+	color: ${theme.colors.mainTitle};
 
 	@media screen and (${theme.media.tablet}) {
 		font-size: 36px;
