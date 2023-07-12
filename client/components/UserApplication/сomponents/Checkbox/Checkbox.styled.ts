@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 
 export const AcceptLink = styled(Link)`
+	text-decoration: underline !important;
 	color: #0029ff;
 `;
 export const CheckboxLabel = styled.label`

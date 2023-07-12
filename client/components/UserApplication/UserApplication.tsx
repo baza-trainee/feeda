@@ -299,7 +299,7 @@ const UserApplication = () => {
 
 				<CheckBox
 					name="conditions"
-					labeltxt="Ознайомлений/на з"
+					labeltxt="Ознайомлений/на з "
 					linkText="умовами участі в проєкті *"
 					href="/"
 					checked={isConditionsChecked}
@@ -308,7 +308,7 @@ const UserApplication = () => {
 
 				<CheckBox
 					name="data"
-					labeltxt="Погоджуюсь з"
+					labeltxt="Погоджуюсь з "
 					linkText="обробкою персональних даних *"
 					href="/"
 					checked={isDataChecked}
