@@ -3,6 +3,7 @@ import React, { ChangeEvent } from 'react';
 import { AcceptLink, CheckboxLabel, CheckboxText } from './Checkbox.styled';
 
 interface CheckBoxProps {
+	name: string;
 	labeltxt: string;
 	id?: string;
 	linkText: string;

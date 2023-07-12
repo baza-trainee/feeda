@@ -199,33 +199,31 @@ const UserApplication = () => {
 					}}
 				/>
 
-				<div>
-					<FormField
-						label="Акаунт в Discord *"
-						autoComplete="off"
-						type="text"
-						register={register}
-						name="discord"
-						errors={errors?.discord}
-						inputProps={{
-							required: requiredField,
-							pattern: {
-								message: "введіть валідне ім'я користувача",
-								value: discordRegex,
-							},
+				<FormField
+					label="Акаунт в Discord *"
+					autoComplete="off"
+					type="text"
+					register={register}
+					name="discord"
+					errors={errors?.discord}
+					inputProps={{
+						required: requiredField,
+						pattern: {
+							message: "введіть валідне ім'я користувача",
+							value: discordRegex,
+						},
 
-							minLength: {
-								value: 2,
-								message: 'поле повинно містити мінімум 2 символи',
-							},
-							maxLength: {
-								value: 37,
-								message: 'поле повинно містити не більше 37 символів',
-							},
-						}}
-						isFormSubmitted={isFormSubmitted}
-					/>
-				</div>
+						minLength: {
+							value: 2,
+							message: 'поле повинно містити мінімум 2 символи',
+						},
+						maxLength: {
+							value: 37,
+							message: 'поле повинно містити не більше 37 символів',
+						},
+					}}
+					isFormSubmitted={isFormSubmitted}
+				/>
 
 				<FormField
 					label="Акаунт в LinkedIn *"
@@ -308,6 +306,7 @@ const UserApplication = () => {
 				/>
 
 				<CheckBox
+					name="conditions"
 					checked={isConditionsChecked}
 					onChange={handleConditionsCheckboxChange}
 					href="/"
@@ -316,6 +315,7 @@ const UserApplication = () => {
 				/>
 
 				<CheckBox
+					name="data"
 					checked={isDataChecked}
 					onChange={handleDataCheckboxChange}
 					href="/"
