@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 
 import { AcceptLink, CheckboxLabel, CheckboxText } from './Checkbox.styled';
 
@@ -9,12 +9,12 @@ interface CheckBoxProps {
 	linkText: string;
 	href: string;
 	checked: boolean;
-	onChange: (isChecked: boolean) => void;
+	onChange: () => void;
 }
 
 export const CheckBox: React.FC<CheckBoxProps> = ({ labeltxt, id, linkText, href, checked, onChange }) => {
-	const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
-		onChange(event.target.checked);
+	const handleCheckboxChange = () => {
+		onChange();
 	};
 
 	return (

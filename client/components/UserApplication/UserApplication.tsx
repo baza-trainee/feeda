@@ -78,14 +78,6 @@ const UserApplication = () => {
 	const [isConditionsChecked, setIsConditionsChecked] = useState(false);
 	const [isDataChecked, setIsDataChecked] = useState(false);
 
-	const handleConditionsCheckboxChange = () => {
-		setIsConditionsChecked(!isConditionsChecked);
-	};
-	const handleDataCheckboxChange = () => {
-		setIsDataChecked(!isDataChecked);
-	};
-	// ===================== checkbox================= //
-
 	return (
 		<div css={formWrapperStyle}>
 			<form css={formStyle} onSubmit={handleSubmit(onFormSubmit)}>
@@ -307,20 +299,20 @@ const UserApplication = () => {
 
 				<CheckBox
 					name="conditions"
-					checked={isConditionsChecked}
-					onChange={handleConditionsCheckboxChange}
-					href="/"
-					labeltxt="Ознайомлений/на з "
+					labeltxt="Ознайомлений/на з"
 					linkText="умовами участі в проєкті *"
+					href="/"
+					checked={isConditionsChecked}
+					onChange={() => setIsConditionsChecked(!isConditionsChecked)}
 				/>
 
 				<CheckBox
 					name="data"
-					checked={isDataChecked}
-					onChange={handleDataCheckboxChange}
-					href="/"
+					labeltxt="Погоджуюсь з"
 					linkText="обробкою персональних даних *"
-					labeltxt="Погоджуюсь з "
+					href="/"
+					checked={isDataChecked}
+					onChange={() => setIsDataChecked(!isDataChecked)}
 				/>
 
 				<Title
