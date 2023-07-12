@@ -16,12 +16,14 @@ export const Wrapper = styled.div`
 
 	@media screen and (${media.tablet}) {
 		max-width: 675px;
+		font-size: 36px;
 		gap: 48px;
-		padding: 0 47px;
+		/* padding: 0 47px; */
 	}
 
 	@media screen and (${media.desktop}) {
 		max-width: 759px;
+		/* font-size: 45px; */
 	}
 `;
 export const Button = styled.button`

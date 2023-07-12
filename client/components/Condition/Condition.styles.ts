@@ -35,6 +35,7 @@ export const Detail = styled.p`
 
 export const Span = styled.span`
 	color: #0029ff;
+	cursor: pointer;
 `;
 
 export const UnderSpan = styled.span`

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import Agreement from 'components/Agreement/Agreement';
 import Condition from 'components/Condition/Condition';
 import { Wrapper, Button } from './StartPopUp.styles';
@@ -18,8 +19,8 @@ export function StartPopUp() {
 
 	return (
 		<Wrapper>
-			<Condition />
-			<Button onClick={openModal}>Подати заявку</Button>
+			<Condition openModal={openModal} />
+				<Button>Заповнити анкету</Button>
 			<Agreement onClose={closeModal} isOpen={click} />
 		</Wrapper>
 	);
