@@ -1,20 +1,18 @@
 'use client';
+/** @jsxImportSource @emotion/react */
 import { ReactNode } from 'react';
-import { labelStyle, labelErrorStyle, labelSuccessStyle } from './Label.styles';
+import { LabelCss } from './Label.styles';
 
-interface labelProps {
+type labelProps = {
 	forHTML: string;
 	children: ReactNode | string;
-	isError: boolean;
-	isSuccess: boolean;
-}
+	state: 'error' | 'success' | 'default';
+};
 
-const Label = ({ forHTML, children, isError, isSuccess }: labelProps) => {
+export const Label = ({ forHTML, children, state }: labelProps) => {
 	return (
-		<label htmlFor={forHTML} css={() => (isError ? labelErrorStyle : isSuccess ? labelSuccessStyle : labelStyle)}>
+		<label htmlFor={forHTML} css={LabelCss[state]}>
 			{children}
 		</label>
 	);
 };
-
-export default Label;
