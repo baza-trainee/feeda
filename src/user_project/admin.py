@@ -43,6 +43,9 @@ class CommandAdmin(admin.ModelAdmin):
     list_display = ('id', )
 
 
+admin.site.register(TemplateLatter)
+
+
 # @admin.register(Command)
 # class CommandAdmin(admin.ModelAdmin):
 #     list_display = ('id', 'user', 'project')

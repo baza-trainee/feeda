@@ -5,6 +5,7 @@ from .views import *
 urlpatterns = [
     path('join/', join_project),
     path('participants-list/', get_all_participant),
+    path('participant-detail/<uuid:id>/', detail_participant),
     path('create-project/', create_project),
     path('projects/', list_projects),
     path('project/<str:project_url>/', detail_project),

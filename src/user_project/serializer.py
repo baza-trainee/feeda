@@ -3,6 +3,12 @@ from django.core.validators import RegexValidator
 from .models import *
 
 
+class SpecialitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Speciality
+        fields = '__all__'
+
+
 class TypeParticipantSerializer(serializers.ModelSerializer):
     """Тип учасника"""
     class Meta:
@@ -22,6 +28,12 @@ class JoinUserProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Participant
         fields = '__all__'
+
+
+class ParticipantUpdateDeleteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Participant
+        exclude = ('conditions_participation', 'processing_personal_data')
 
 
 class ParticipantsProjectSerializer(serializers.ModelSerializer):
@@ -105,6 +117,14 @@ class AllParticipantsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Participant
         fields = '__all__'
+
+
+class ParticipantFilerSerializer(serializers.ModelSerializer):
+    # speciality = SpecialitySerializer(many=True)
+
+    class Meta:
+        model = Participant
+        fields = ('id', 'first_name', 'last_name', 'speciality')
 
 
 class CommandSerializer(serializers.ModelSerializer):

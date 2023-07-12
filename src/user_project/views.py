@@ -1,5 +1,8 @@
 import json
 from .filters import *
+from django.core.mail import send_mail
+from rest_framework import generics
+from django_filters import rest_framework as filters
 from django.http import JsonResponse, HttpResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -8,6 +11,7 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from .models import *
 from .serializer import *
+from djoser import serializers
 import requests
 
 
@@ -48,6 +52,57 @@ def join_project(request):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@swagger_auto_schema(
+    methods=['PUT'],
+    request_body=ParticipantUpdateDeleteSerializer,
+    responses={
+        status.HTTP_200_OK: openapi.Response(
+            description='Participant retrieved successfully',
+            schema=ParticipantUpdateDeleteSerializer,
+        ),
+        status.HTTP_404_NOT_FOUND: openapi.Response(
+            description='Project not found',
+        ),
+    }
+)
+@swagger_auto_schema(
+    methods=['DELETE'],
+    responses={
+        status.HTTP_200_OK: openapi.Response(
+            description='Project deleted successfully',
+        ),
+        status.HTTP_404_NOT_FOUND: openapi.Response(
+            description='Project not found',
+        ),
+    }
+)
+@permission_classes([permissions.IsAdminUser])
+@api_view(['PUT', 'DELETE'])
+def detail_participant(request, id):
+    try:
+        participant = Participant.objects.get(id=id)
+        if request.method == 'PUT':
+            serializer = ParticipantUpdateDeleteSerializer(participant, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(status=status.HTTP_201_CREATED)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        elif request.method == 'DELETE':
+            participant.delete()
+            return Response(status=status.HTTP_200_OK)
+    except Participant.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+# def send_email(request):
+#     mail = TemplateLatter.objects.get(id=1)
+#     send_mail(
+#         subject='Welcome Baza Trainee Ukraine',
+#         message=mail.letter,
+#         from_email=EMAIL_HOST_USER,
+#         recipient_list=[serializer.validated_data['email']]
+#     )
 
 
 @permission_classes([permissions.IsAdminUser])
@@ -106,7 +161,7 @@ def delete_participant(request, id):
         status.HTTP_400_BAD_REQUEST: openapi.Response(description='Invalid input data'),
     }
 )
-# @permission_classes([permissions.IsAdminUser])
+@permission_classes([permissions.IsAdminUser])
 @api_view(['POST'])
 def create_project(request):
     """Створення нового проекта"""
@@ -155,7 +210,7 @@ def create_project(request):
 #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# @permission_classes([permissions.IsAdminUser])
+@permission_classes([permissions.IsAdminUser])
 @api_view(['GET'])
 def list_projects(request):
     """Список всіх проектів"""
@@ -312,10 +367,9 @@ def delete_command(request, id):
 @api_view(['GET'])
 def filter_project_list(request):
     """Фільтрація даних по ключовим словам"""
-    projects = Projects.objects.all()
-    projects_filter = ProjectsFilter(request.GET, queryset=projects)
-    filtered_projects = projects_filter.qs
-    serializer = ProjectsSerializer(filtered_projects, many=True)
+    participants = Participant.objects.all()
+    participants_filter = ParticipantFilter(request.GET, queryset=participants)
+    serializer = ParticipantFilerSerializer(participants_filter.qs, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
