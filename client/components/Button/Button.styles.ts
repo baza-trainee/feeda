@@ -7,12 +7,12 @@ export const buttonStyle = css`
 	font-size: 22px;
 	text-align: center;
 	border-radius: 4px;
-	color: ${theme.colors.mainTitle};
+	color: ${theme.colors.mainBtnText};
 	background-color: ${theme.colors.mainText};
-	border: none;
+	border: 1px solid transparent;
 
 	&:disabled {
-		color: ${theme.colors.disabledBtnText};
+		color: ${theme.colors.mainPlaceholder};
 		background-color: ${theme.colors.disabledBtnBg};
 	}
 
@@ -21,7 +21,7 @@ export const buttonStyle = css`
 		color: ${theme.colors.mainText};
 	}
 
-	&:hover {
+	&:not(:disabled):hover {
 		background-color: ${theme.colors.mainText};
 		border: 1px solid ${theme.colors.mainAccent};
 		color: ${theme.colors.mainAccent};
