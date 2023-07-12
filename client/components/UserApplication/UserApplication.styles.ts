@@ -17,7 +17,7 @@ export const formStyle = css`
 
 export const formWrapperStyle = css`
 	margin: auto;
-	/* padding: 128px 20px 107px 20px; */
+
 	padding: 0;
 	width: 335px;
 

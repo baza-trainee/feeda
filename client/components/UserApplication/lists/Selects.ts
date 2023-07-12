@@ -6,19 +6,15 @@ export const experience = [
 export const projects = [
 	{
 		value: 'project1',
-		label: 'project1',
+		label: 'проєкт1',
 	},
 	{
 		value: 'project2',
-		label: 'project2',
+		label: 'проєкт2',
 	},
 	{
 		value: 'project3',
-		label: 'project3',
-	},
-	{
-		value: 'project4',
-		label: 'project4',
+		label: 'проєкт3',
 	},
 ];
 
@@ -32,7 +28,7 @@ export const type = [
 		value: 'paid',
 	},
 	{
-		label: 'хакатон',
-		value: 'hackathon',
+		label: 'буткамп',
+		value: 'bootcamp',
 	},
 ];

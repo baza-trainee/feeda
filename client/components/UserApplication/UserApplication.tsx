@@ -88,7 +88,6 @@ const UserApplication = () => {
 
 	return (
 		<div css={formWrapperStyle}>
-			{' '}
 			<form css={formStyle} onSubmit={handleSubmit(onFormSubmit)}>
 				<h1 css={formTitle}>Анкета</h1>
 				<FormField
