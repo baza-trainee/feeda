@@ -111,9 +111,9 @@ class CommandSerializer(serializers.ModelSerializer):
     user = JoinUserProjectSerializer(many=True)
     project = ProjectsSerializer()
 
-    class Meta:
-        model = Command
-        fields = ('id', 'user', 'project')
+    # class Meta:
+    #     model = Command
+    #     fields = ('id', 'user', 'project')
 
 
 class CreateCommandSerializer(serializers.ModelSerializer):

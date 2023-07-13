@@ -45,10 +45,11 @@ INSTALLED_APPS = [
     'drf_yasg',
     'djoser',
     'django_filters',
-
     'src.users',
-    'src.user_project'
+    'src.user_project',
+    'django.test'
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -4,7 +4,7 @@ from .models import *
 
 @admin.register(Participant)
 class JoinProjectAdmin(admin.ModelAdmin):
-    list_display = ('id', 'project')
+    list_display = ('id', )
 
 
 @admin.register(TypeProject)
@@ -38,9 +38,9 @@ class ProjectAdmin(admin.ModelAdmin):
     prepopulated_fields = {'url': ('title',)}
 
 
-@admin.register(Command)
-class CommandAdmin(admin.ModelAdmin):
-    list_display = ('id', )
+# @admin.register(Command)
+# class CommandAdmin(admin.ModelAdmin):
+#     list_display = ('id', )
 
 
 # @admin.register(Command)

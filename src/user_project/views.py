@@ -50,7 +50,7 @@ def join_project(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@permission_classes([permissions.IsAdminUser])
+# @permission_classes([permissions.IsAdminUser])
 @api_view(['GET'])
 def get_all_participant(request):
     """Список всіх учасників"""
