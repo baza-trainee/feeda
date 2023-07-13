@@ -54,7 +54,10 @@ const Agreement: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 	}
 
 	const handleClick = () => {
-		setNext(true);
+		setNext((prev) => !prev);
+		if (next) {
+			onClose();
+		}
 	};
 
 	return (
