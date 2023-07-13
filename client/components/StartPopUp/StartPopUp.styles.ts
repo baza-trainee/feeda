@@ -12,13 +12,14 @@ export const Wrapper = styled.div`
 	margin: 0 auto;
 	width: 100%;
 	gap: 32px;
+	max-width: 334px;
 	padding: 0 30px;
 
 	@media screen and (${media.tablet}) {
 		max-width: 675px;
 		font-size: 36px;
 		gap: 48px;
-		/* padding: 0 47px; */
+		padding: 0 ;
 	}
 
 	@media screen and (${media.desktop}) {

@@ -8,7 +8,7 @@ type ConstructHome = {
 const ConstructHome: React.FC<ConstructHome> = ({ openModal }) => {
 	return (
 		<>
-			<Welcome>Вітаю! Ти за крок до роботи над цікавими проєктами в командах</Welcome>
+			<Welcome>Вітаю! <br /> Ти за крок до роботи над <br />цікавими проєктами в командах</Welcome>
 			<UnderHeader>
 				Вся комунікація в командах ведеться у <UnderSpan> Discord </UnderSpan>
 			</UnderHeader>

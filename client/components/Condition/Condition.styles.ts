@@ -27,7 +27,7 @@ export const Detail = styled.p`
 	font-size: ${fonts.title.fontSize.tablet}px;
 
 	@media screen and (${media.tablet}) {
-		max-width: 525px;
+		/* max-width: 525px; */
 		line-height: ${fonts.title.lineHeight};
 		font-size: ${fonts.title.fontSize.desktop}px;
 	}
