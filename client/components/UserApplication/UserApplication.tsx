@@ -101,7 +101,7 @@ const UserApplication = () => {
 						},
 						pattern: {
 							value: nameRegex,
-							message: 'please enter valid name',
+							message: "будь ласка введіть валіднe ім'я",
 						},
 					}}
 				/>

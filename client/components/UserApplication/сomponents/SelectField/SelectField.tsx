@@ -59,7 +59,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
 									control: (provided, { menuIsOpen }) => ({
 										...provided,
 										border: `1px solid ${
-											error ? 'red' : menuIsOpen ? '#49454F!important ' : theme.colors.disabledBtnBg
+											error ? 'red' : menuIsOpen ? '#939393 !important' : theme.colors.disabledBtnBg
 										}`,
 										boxShadow: 'none',
 

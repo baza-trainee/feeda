@@ -1,7 +1,9 @@
 import { css } from '@emotion/react';
 
 export const errorInputStyles = css`
-	border-color: #df4242 !important;
+	border-color: #df4242;
+	line-height: 16px;
+	letter-spacing: 0.5px;
 `;
 
 export const errorStyles = css`
@@ -12,17 +14,14 @@ export const errorStyles = css`
 export const labelStyles = css`
 	color: #353535;
 	font-size: 16px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: normal;
 	flex-direction: column;
 	display: flex;
 	gap: 4px;
+	line-height: normal;
 `;
 
 export const inputlStyles = css`
 	padding: 16px;
-	margin: 0;
 	border: 1px solid #cecece;
 	background-color: #fcfcfc;
 	border-radius: 4px;
@@ -47,6 +46,8 @@ export const validDiscordNameStyle = css`
 	color: #14905d !important;
 `;
 export const vaidDiscordUnderText = css`
+	line-height: 16px;
+	letter-spacing: 0.5px;
 	color: #14905d;
 	font-size: 12px;
 	position: absolute;
