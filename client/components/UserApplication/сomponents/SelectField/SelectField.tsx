@@ -23,6 +23,7 @@ interface CustomSelectProps {
 	valueGetter: (value: string) => OptionType | undefined | string;
 	title: string;
 }
+
 export const CustomSelect: React.FC<CustomSelectProps> = ({
 	control,
 	name,
@@ -107,6 +108,10 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
 										display: 'flex',
 										alignItems: 'center',
 										padding: '0 16px',
+										':active': {
+											color: '#FCFCFC',
+											backgroundColor: '#232323',
+										},
 									}),
 								}}
 								placeholder={placeholder}
