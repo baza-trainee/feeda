@@ -16,5 +16,6 @@ urlpatterns = [
     path('command-delete/<uuid:id>/', delete_command),
     path('filter-participant/', filter_participant_list),
     path('filter-project/', filter_project_list),
-    path('down/', downland_swagger)
+    path('down/', downland_swagger),
+    path('proj/', get_proj)
 ]

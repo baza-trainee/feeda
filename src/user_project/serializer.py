@@ -4,14 +4,9 @@ from .models import *
 
 
 class SpecialitySerializer(serializers.ModelSerializer):
+    """Спеціальніст учасника"""
     class Meta:
         model = Speciality
-        fields = '__all__'
-
-
-class StackSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Stack
         fields = '__all__'
 
 
@@ -28,7 +23,6 @@ class JoinUserProjectSerializer(serializers.ModelSerializer):
         max_length=25,
         validators=[RegexValidator(r'^\w+#\d{4}$', 'Invalid Discord username format')]
     )
-    stack = StackSerializer()
     # type_participant = TypeParticipantSerializer()
     # project = serializers.PrimaryKeyRelatedField(queryset=Projects.objects.all())
 
@@ -84,13 +78,16 @@ class CreateProjectSerializer(serializers.ModelSerializer):
 class ProjectsSerializer(serializers.ModelSerializer):
     """Список всіх проектів"""
 
-    participants_count = serializers.IntegerField()
+    # participants_count = serializers.IntegerField()
     complexity = ComplexitySerializer()
     # type_project = TypeProjectSerializer()
 
+    # def get_participants_count(self, obj):
+    #     return ProjectParticipants.objects.filter(project=obj).count()
+
     class Meta:
         model = Projects
-        fields = ('id', 'title', 'start_date_project', 'complexity', 'participants_count')
+        fields = ('id', 'title', 'start_date_project', 'complexity')
 
 
 class DetailProjectSerializer(serializers.ModelSerializer):
@@ -137,10 +134,14 @@ class ParticipantFilerSerializer(serializers.ModelSerializer):
 class ProjectParticipantsSerializer(serializers.ModelSerializer):
     user = JoinUserProjectSerializer(many=True)
     project = ProjectsSerializer()
+    project_participants = serializers.SerializerMethodField()
 
     class Meta:
         model = ProjectParticipants
-        fields = ('id', 'user', 'project')
+        fields = ('id', 'user', 'project', 'project_participants')
+
+    def get_project_participants(self, obj):
+        return obj.user.all().count()
 
 
 class CreateProjectParticipantsSerializer(serializers.ModelSerializer):
@@ -155,3 +156,17 @@ class CreateProjectParticipantsSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         representation['user'] = JoinUserProjectSerializer(instance.user.all(), many=True).data
         return representation
+
+
+# class ProjectParticipantsSerializers(serializers.ModelSerializer):
+#     # user = serializers.PrimaryKeyRelatedField(many=True, queryset=Participant.objects.all())
+#     user = JoinUserProjectSerializer(many=True)
+#     project = ProjectsSerializer()
+#     project_participants = serializers.SerializerMethodField()
+#
+#     class Meta:
+#         model = ProjectParticipants
+#         fields = ('id', 'user', 'project', 'project_participants')
+#
+#     def get_project_participants(self, obj):
+#         return obj.user.all().count()

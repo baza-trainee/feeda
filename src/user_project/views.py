@@ -229,12 +229,19 @@ def create_project(request):
 
 
 # @authentication_classes([TokenAuthentication])
-@permission_classes([permissions.IsAdminUser])
+@permission_classes([permissions.AllowAny])
 @api_view(['GET'])
 def list_projects(request):
     """Список всіх проектів"""
     projects = Projects.objects.all()
     serializer = ProjectsSerializer(projects, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def get_proj(request):
+    proj = ProjectParticipants.objects.all()
+    serializer = ProjectParticipantsSerializer(proj, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 

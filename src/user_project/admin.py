@@ -45,7 +45,6 @@ class CommandAdmin(admin.ModelAdmin):
 
 admin.site.register(TemplateLatter)
 
-admin.site.register(Stack)
 
 
 # @admin.register(Command)

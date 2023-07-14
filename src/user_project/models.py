@@ -12,13 +12,6 @@ class TemplateLatter(models.Model):
         return f'{self.letter}'
 
 
-class Stack(models.Model):
-    title = models.CharField(max_length=25)
-
-    def __str__(self):
-        return self.title
-
-
 class TypeProject(models.Model):
     project_type = models.CharField(max_length=15)
 
@@ -64,12 +57,12 @@ class Projects(models.Model):
     end_date_project = models.DateField(blank=True, null=True)
     address_site = models.URLField(blank=True, null=True, max_length=30)
     url = models.SlugField(unique=True, db_index=True, max_length=30)
-    participants = models.ManyToManyField(
-        'Participant',
-        blank=True,
-        null=True,
-        related_name='project_participants'
-    )
+    # participants = models.ManyToManyField(
+    #     'Participant',
+    #     blank=True,
+    #     null=True,
+    #     related_name='project_participants'
+    # )
 
     def __str__(self):
         return self.title
@@ -79,8 +72,8 @@ class Projects(models.Model):
             self.url = slugify(self.title)
         super().save(*args, **kwargs)
 
-    def participants_count(self):
-        return self.participants.all().count()
+    # def participants_count(self):
+    #     return self.participants.all().count()
 
 
 class Participant(models.Model):
@@ -94,7 +87,7 @@ class Participant(models.Model):
     city = models.CharField(max_length=50)
     experience = models.BooleanField(default=False)
     speciality = models.ForeignKey(Speciality, blank=True, null=True, on_delete=models.PROTECT)
-    stack = models.ManyToManyField(Stack)
+    stack = models.CharField(max_length=300, blank=True, null=True)
     project = models.ForeignKey(Projects, blank=True, null=True, on_delete=models.PROTECT)
     type_participant = models.ForeignKey(TypeParticipant, blank=True, null=True, on_delete=models.PROTECT)
     conditions_participation = models.BooleanField(default=False)
@@ -117,3 +110,6 @@ class ProjectParticipants(models.Model):
 
     def __str__(self):
         return f'{self.user} - {self.project}'
+
+    # def user_count(self):
+    #     return self.user.all().count
