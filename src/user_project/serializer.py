@@ -9,6 +9,12 @@ class SpecialitySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class StackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Stack
+        fields = '__all__'
+
+
 class TypeParticipantSerializer(serializers.ModelSerializer):
     """Тип учасника"""
     class Meta:
@@ -22,6 +28,7 @@ class JoinUserProjectSerializer(serializers.ModelSerializer):
         max_length=25,
         validators=[RegexValidator(r'^\w+#\d{4}$', 'Invalid Discord username format')]
     )
+    stack = StackSerializer()
     # type_participant = TypeParticipantSerializer()
     # project = serializers.PrimaryKeyRelatedField(queryset=Projects.objects.all())
 
@@ -127,21 +134,21 @@ class ParticipantFilerSerializer(serializers.ModelSerializer):
         fields = ('id', 'first_name', 'last_name', 'speciality')
 
 
-class CommandSerializer(serializers.ModelSerializer):
+class ProjectParticipantsSerializer(serializers.ModelSerializer):
     user = JoinUserProjectSerializer(many=True)
     project = ProjectsSerializer()
 
     class Meta:
-        model = Command
+        model = ProjectParticipants
         fields = ('id', 'user', 'project')
 
 
-class CreateCommandSerializer(serializers.ModelSerializer):
+class CreateProjectParticipantsSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(many=True, queryset=Participant.objects.all(), required=False)
     project = ProjectsSerializer
 
     class Meta:
-        model = Command
+        model = ProjectParticipants
         fields = '__all__'
 
     def to_representation(self, instance):

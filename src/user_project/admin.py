@@ -38,12 +38,14 @@ class ProjectAdmin(admin.ModelAdmin):
     prepopulated_fields = {'url': ('title',)}
 
 
-@admin.register(Command)
+@admin.register(ProjectParticipants)
 class CommandAdmin(admin.ModelAdmin):
     list_display = ('id', )
 
 
 admin.site.register(TemplateLatter)
+
+admin.site.register(Stack)
 
 
 # @admin.register(Command)
