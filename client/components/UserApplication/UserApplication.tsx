@@ -74,10 +74,9 @@ const UserApplication = () => {
 	};
 
 	// ===================== checkbox================= //
-
 	const [isConditionsChecked, setIsConditionsChecked] = useState(false);
 	const [isDataChecked, setIsDataChecked] = useState(false);
-
+	// ===================== checkbox================= //
 	return (
 		<div css={formWrapperStyle}>
 			<form css={formStyle} onSubmit={handleSubmit(onFormSubmit)}>
