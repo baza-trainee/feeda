@@ -13,7 +13,6 @@ import {
 } from './placeholders';
 import { cityRegex, discordRegex, emailRegex, linkedRegex, nameRegex, phoneNumberRegex } from './regex';
 import { requiredField } from './requiredField';
-import { useCustomIds } from './selectsId';
 export {
 	phoneNumberRegex,
 	phoneNumberFormat,
@@ -24,7 +23,6 @@ export {
 	getProjValue,
 	getTypeValue,
 	requiredField,
-	useCustomIds,
 	nameRegex,
 	emailPlaceholder,
 	linkedInPlaceholder,
