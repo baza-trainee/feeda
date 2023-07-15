@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
 import Select, { components } from 'react-select';
 
-import Image from 'next/image';
 /** @jsxImportSource @emotion/react */
 import { theme } from 'styles/theme';
 
