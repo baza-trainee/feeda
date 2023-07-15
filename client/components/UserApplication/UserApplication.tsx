@@ -56,14 +56,15 @@ const UserApplication = () => {
 		clearErrors,
 		watch,
 	} = useForm({
-		mode: 'onSubmit',
-		reValidateMode: 'onChange',
+		mode: 'onBlur',
+		reValidateMode: 'onBlur',
 	});
 
 	const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 	const [isActivationButton, setIsActivationButton] = useState(false);
 
 	const nameValue = watch('name');
+
 	const lastnameValue = watch('lastname');
 	const stackValue = watch('stack');
 	const phoneValue = watch('tel');
@@ -75,6 +76,9 @@ const UserApplication = () => {
 		if (discordValue && nameValue && lastnameValue && stackValue && phoneValue && emailValue && linkedInvalue)
 			setIsActivationButton(true);
 	}, [discordValue, nameValue, lastnameValue, stackValue, phoneValue, emailValue, linkedInvalue]);
+	// useEffect(() => {
+	// 	if (discordValue && nameValue) setIsActivationButton(true);
+	// }, [discordValue, nameValue]);
 
 	const onFormSubmit = (data: object) => {
 		console.log('data :>> ', data);
@@ -228,6 +232,7 @@ const UserApplication = () => {
 							},
 						}}
 						isFormSubmitted={isFormSubmitted}
+						discordValue={discordValue}
 					/>
 
 					<FormField
@@ -279,7 +284,6 @@ const UserApplication = () => {
 						}}
 					/>
 				</InputsWrapper>
-
 				<SelectWrapper>
 					<CustomSelect
 						title={'Наявність досвіду  *'}
@@ -331,7 +335,6 @@ const UserApplication = () => {
 						onChange={() => setIsDataChecked(!isDataChecked)}
 					/>
 				</CheckWrapper>
-
 				<Title
 					isDisabled={!isDataChecked || !isConditionsChecked || !errors || !isActivationButton}
 					func={handleSubmit(onFormSubmit)}

@@ -34,6 +34,7 @@ interface FormFieldProps<TFormValues extends FieldValues> {
 	autoComplete: string;
 	onBlur?: (event: { target: { value: string } }) => void;
 	isFormSubmitted?: boolean;
+	discordValue?: string;
 }
 
 export const FormField = <TFormValues extends Record<string, string | number>>({
@@ -45,48 +46,54 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 	errors,
 	inputProps,
 	autoComplete,
-	isFormSubmitted,
+	// isFormSubmitted,
+	discordValue,
 }: FormFieldProps<TFormValues>) => {
 	const errorMessage = <>{errors?.message || 'Error!'}</>;
 
 	const hasError = !!errors;
 
-	const [isValidDiscord, setIsValidDiscord] = useState(false);
+	// const [isValidDiscord, setIsValidDiscord] = useState(false);
 
 	const isValid = !errors;
 
 	const isDiscordField = name === 'discord';
 
-	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-		const value = event.target.value.trim();
-		console.log('value :>> ', value);
-		if (isDiscordField && discordRegex.test(value) && value.length >= 2) {
-			setIsValidDiscord(true);
-		} else {
-			setIsValidDiscord(false);
-		}
-	};
+	const isValidDiscordValue = discordValue && discordValue.length >= 2 && discordRegex.test(discordValue);
+
+	console.log(isValidDiscordValue);
+	console.log(discordValue);
+	// const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+	// 	const value = event.target.value.trim();
+	// 	console.log('value :>> ', value);
+	// 	if (isDiscordField && discordRegex.test(value) && value.length >= 2) {
+	// 		setIsValidDiscord(true);
+	// 	} else {
+	// 		setIsValidDiscord(false);
+	// 	}
+	// };
 
 	return (
 		<div style={{ position: 'relative' }}>
 			<label css={[labelStyles]}>
-				<p css={isValid && isDiscordField && isValidDiscord && !isFormSubmitted && validDiscordNameStyle}>{label}</p>
+				{/* <p css={isValid && isDiscordField && isValidDiscord && !isFormSubmitted && validDiscordNameStyle}>{label}</p> */}
+				<p css={isValid && isDiscordField && isValidDiscordValue && validDiscordNameStyle}>{label}</p>
 				<input
 					css={[
 						inputlStyles,
 
 						hasError && errorInputStyles,
-						isValid && isDiscordField && isValidDiscord && !isFormSubmitted && validDiscordStyle,
+						isValid && isDiscordField && isValidDiscordValue && validDiscordStyle,
 					]}
 					type={type}
 					placeholder={placeholder}
 					{...register(name, inputProps)}
 					autoComplete={autoComplete}
-					onBlur={handleInputChange}
+					// onBlur={handleInputChange}
 				/>
 			</label>
 			{!isValid && <p css={errorStyles}>{errorMessage}</p>}
-			{isValid && isDiscordField && isValidDiscord && !isFormSubmitted && (
+			{isValid && isDiscordField && isValidDiscordValue && (
 				<p css={vaidDiscordUnderText}>Не забудь перевірити запрошення</p>
 			)}
 		</div>
