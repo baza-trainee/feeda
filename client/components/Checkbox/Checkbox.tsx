@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 
 import { AcceptLink, CheckboxLabel, CheckboxText } from './Checkbox.styled';
 
@@ -12,7 +12,7 @@ interface CheckBoxProps {
 	onChange: () => void;
 }
 
-export const CheckBox: React.FC<CheckBoxProps> = ({ labeltxt, id, linkText, href, checked, onChange }) => {
+export const CheckBox = ({ labeltxt, id, linkText, href, checked, onChange }: CheckBoxProps) => {
 	const handleCheckboxChange = () => {
 		onChange();
 	};

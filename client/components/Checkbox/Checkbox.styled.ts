@@ -1,10 +1,6 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
 
-export const AcceptLink = styled(Link)`
-	text-decoration: underline;
-	color: #0029ff;
-`;
 export const CheckboxLabel = styled.label`
 	display: flex;
 	align-items: center;
@@ -41,4 +37,9 @@ export const CheckboxText = styled.p`
 		line-height: 150%;
 		width: auto;
 	}
+`;
+
+export const AcceptLink = styled(Link)`
+	text-decoration: underline;
+	color: #0029ff;
 `;

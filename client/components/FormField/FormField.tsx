@@ -68,7 +68,7 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 	};
 
 	return (
-		<div>
+		<div style={{ position: 'relative' }}>
 			<label css={[labelStyles]}>
 				<p css={isValid && isDiscordField && isValidDiscord && !isFormSubmitted && validDiscordNameStyle}>{label}</p>
 				<input

@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import { theme } from 'styles/theme';
 
 export const buttonStyle = css`
+	width: 100%;
 	padding: 16px 24px;
 	font-weight: 700;
 	font-size: 22px;

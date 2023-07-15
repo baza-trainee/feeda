@@ -1,5 +1,5 @@
 /* eslint-disable no-useless-escape */
-export const nameRegex = /^[-'A-Za-zА-Яа-я]+$/;
+export const nameRegex = /^[-'A-Za-zА-Яа-яЄєІіЇїҐґ]+$/;
 
 export const phoneNumberRegex = /^\+\d{12}$/;
 
@@ -9,4 +9,4 @@ export const discordRegex = /^(?:[A-Za-z]+#(\d{4})|[a-z0-9_.]*[a-z][a-z0-9_.]*)$
 
 export const linkedRegex = /^https:\/\/www\.linkedin\.com\/in\/[A-Za-zА-Яа-я0-9\-.:\/]+$/;
 
-export const cityRegex = /^[A-Za-zА-Яа-я\-',()\s]+$/;
+export const cityRegex = /^[A-Za-zА-Яа-яЄєІіЇїҐґ\-',()\s]+$/;

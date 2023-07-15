@@ -1,16 +1,5 @@
 import { css } from '@emotion/react';
 
-export const errorInputStyles = css`
-	border-color: #df4242;
-	line-height: 16px;
-	letter-spacing: 0.5px;
-`;
-
-export const errorStyles = css`
-	font-size: 12px;
-	color: rgb(223, 66, 66);
-	position: absolute;
-`;
 export const labelStyles = css`
 	color: #353535;
 	font-size: 16px;
@@ -18,6 +7,10 @@ export const labelStyles = css`
 	display: flex;
 	gap: 4px;
 	line-height: normal;
+`;
+
+export const validDiscordNameStyle = css`
+	color: #14905d !important;
 `;
 
 export const inputlStyles = css`
@@ -39,12 +32,23 @@ export const inputlStyles = css`
 	}
 `;
 
+export const errorInputStyles = css`
+	border-color: #df4242;
+	line-height: 16px;
+	letter-spacing: 0.5px;
+`;
+
 export const validDiscordStyle = css`
 	border-color: #14905d !important;
 `;
-export const validDiscordNameStyle = css`
-	color: #14905d !important;
+
+export const errorStyles = css`
+	font-size: 12px;
+	color: rgb(223, 66, 66);
+	position: absolute;
+	bottom: -20px;
 `;
+
 export const vaidDiscordUnderText = css`
 	line-height: 16px;
 	letter-spacing: 0.5px;

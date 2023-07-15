@@ -1,21 +1,7 @@
-import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { theme } from 'styles/theme';
 
-export const formStyle = css`
-	padding: 32px;
-	/* width: 100%; */
-	display: flex;
-	flex-direction: column;
-	gap: 28px;
-	@media screen and (min-width: 768px) {
-		padding: 32px;
-	}
-	@media screen and (min-width: 1280px) {
-		padding: 32px;
-	}
-`;
-
-export const formWrapperStyle = css`
+export const FormWrapper = styled.div`
 	margin: 0 auto;
 	width: 335px;
 	border: 1px solid ${theme.colors.disabledBtnBg};
@@ -27,7 +13,20 @@ export const formWrapperStyle = css`
 		width: 456px;
 	}
 `;
-export const formTitle = css`
+
+export const Form = styled.form`
+	padding: 32px;
+
+	@media screen and (min-width: 768px) {
+		padding: 32px;
+	}
+	@media screen and (min-width: 1280px) {
+		padding: 32px;
+	}
+`;
+
+export const FormTitle = styled.h1`
+	margin-bottom: 32px;
 	font-size: 32px;
 	font-weight: 600;
 	line-height: 44px;
@@ -39,5 +38,38 @@ export const formTitle = css`
 	@media screen and (min-width: 1280px) {
 		font-size: 45px;
 		line-height: 52px;
+	}
+`;
+
+export const CheckWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	margin-bottom: 40px;
+	@media screen and (min-width: 768px) {
+		gap: 31px;
+		margin-bottom: 47px;
+	}
+	@media screen and (min-width: 1280px) {
+		gap: 27px;
+		margin-bottom: 45px;
+	}
+`;
+
+const Wrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 28px;
+`;
+
+export const InputsWrapper = styled(Wrapper)`
+	margin-bottom: 28px;
+`;
+
+export const SelectWrapper = styled(Wrapper)`
+	margin-bottom: 44px;
+
+	@media screen and (min-width: 768px) {
+		margin-bottom: 51px;
 	}
 `;

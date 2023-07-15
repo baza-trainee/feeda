@@ -1,13 +1,14 @@
+/** @jsxImportSource @emotion/react */
 import { useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
 import Select from 'react-select';
 
-/** @jsxImportSource @emotion/react */
 import { theme } from 'styles/theme';
 
-import { DropdownIndicator } from '../../../DropdownIndicator/DropdownIndicator';
-import { labelStyles } from '../FormField/FormField.slyles';
-import { errorTextStyles } from './SelectField.styles';
+import { DropdownIndicator } from '../DropdownIndicator/DropdownIndicator';
+import { Label } from './SelectField.styles';
+import { ErrorText } from './SelectField.styles';
+
 interface OptionType {
 	label: string;
 	value: string;
@@ -24,7 +25,7 @@ interface CustomSelectProps {
 	title: string;
 }
 
-export const CustomSelect: React.FC<CustomSelectProps> = ({
+export const CustomSelect = ({
 	control,
 	name,
 	rules,
@@ -33,7 +34,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
 	clearErrors,
 	valueGetter,
 	title,
-}) => {
+}: CustomSelectProps) => {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 	return (
@@ -49,8 +50,8 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
 				const computedValue = typeof valueGetter === 'function' ? valueGetter(value) : value;
 
 				return (
-					<div>
-						<label css={labelStyles}>
+					<div style={{ position: 'relative' }}>
+						<Label>
 							{title}
 							<Select
 								components={{ DropdownIndicator }}
@@ -132,8 +133,8 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
 									onBlur();
 								}}
 							/>
-						</label>
-						{error && <span css={errorTextStyles}>{error.message}</span>}
+						</Label>
+						{error && <ErrorText>{error.message}</ErrorText>}
 					</div>
 				);
 			}}
