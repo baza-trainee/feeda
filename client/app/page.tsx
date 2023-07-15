@@ -1,4 +1,4 @@
-// import { EndPopUp } from '~components/EndPopUp/EndPopUp';
+import { EndPopUp } from '~components/EndPopUp/EndPopUp';
 import { StartPopUp } from '~components/StartPopUp/StartPopUp';
 
 export const metadata = {
@@ -10,7 +10,7 @@ export default function Home() {
 	return (
 		<main>
 			<StartPopUp />
-			{/* <EndPopUp /> */}
+			<EndPopUp />
 		</main>
 	);
 }
