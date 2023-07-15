@@ -20,14 +20,13 @@ export const Welcome = styled.h2`
 	}
 `;
 
-export const Detail = styled.p`
+export const Text = styled.p`
 	color: ${colors.mainTitle};
 	text-align: center;
 	line-height: normal;
 	font-size: ${fonts.title.fontSize.tablet}px;
 
 	@media screen and (${media.tablet}) {
-		/* max-width: 525px; */
 		line-height: ${fonts.title.lineHeight};
 		font-size: ${fonts.title.fontSize.desktop}px;
 	}
@@ -38,19 +37,6 @@ export const Span = styled.span`
 	cursor: pointer;
 `;
 
-export const UnderSpan = styled.span`
-	color: ${colors.mainTitle};
-	margin-left: 5px;
-	font-weight: bold;
-`;
-
-export const UnderHeader = styled.p`
-	text-align: center;
-	line-height: normal;
-	font-size: ${fonts.title.fontSize.tablet}px;
-
-	@media screen and (${media.tablet}) {
-		line-height: ${fonts.title.lineHeight};
-		font-size: ${fonts.title.fontSize.desktop}px;
-	}
+export const Div = styled.div`
+	max-width: 525px;
 `;

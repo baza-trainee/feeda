@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { theme } from 'styles/theme';
 const { colors, media } = theme;
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.section`
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -14,17 +14,16 @@ export const Wrapper = styled.div`
 	gap: 32px;
 	max-width: 334px;
 	padding: 0 30px;
+	text-align: center;
 
 	@media screen and (${media.tablet}) {
 		max-width: 675px;
-		font-size: 36px;
 		gap: 48px;
 		padding: 0 ;
 	}
 
 	@media screen and (${media.desktop}) {
 		max-width: 759px;
-		/* font-size: 45px; */
 	}
 `;
 export const Button = styled.button`
@@ -39,3 +38,5 @@ export const Button = styled.button`
 
 	cursor: pointer;
 `;
+
+

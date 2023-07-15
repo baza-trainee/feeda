@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 import Agreement from 'components/Agreement/Agreement';
 import Condition from 'components/Condition/Condition';
 import { Wrapper, Button } from './StartPopUp.styles';

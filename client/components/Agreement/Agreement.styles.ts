@@ -13,8 +13,6 @@ export const Header = styled.h2`
 	@media screen and (${media.tablet}) {
 		font-size: 36px;
 		line-height: 44px;
-		max-width: 768px;
-		margin-top: 90px;
 	}
 
 	@media screen and (${media.desktop}) {
@@ -30,6 +28,9 @@ export const Container = styled.div`
 	font-size: ${fonts.title.fontSize.mobile}px;
 	line-height: ${fonts.label.lineHeight.mobile};
 	overflow-y: scroll;
+	text-align: left;
+	margin: 0;
+	max-width: 585px;
 
 	@media screen and (${media.tablet}) {
 		font-size: ${fonts.title.fontSize.tablet};
