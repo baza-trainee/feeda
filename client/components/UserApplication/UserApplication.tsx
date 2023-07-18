@@ -43,7 +43,7 @@ const UserApplication = () => {
 		clearErrors,
 		watch,
 	} = useForm({
-		mode: 'onBlur',
+		mode: 'onSubmit',
 		reValidateMode: 'onBlur',
 	});
 
@@ -59,8 +59,10 @@ const UserApplication = () => {
 	const discordValue = watch('discord');
 
 	useEffect(() => {
+		console.log('hello :>> ', 'hello');
 		if (discordValue && nameValue && lastnameValue && stackValue && phoneValue && emailValue && linkedInvalue)
 			setIsActivationButton(true);
+		else setIsActivationButton(false);
 	}, [discordValue, nameValue, lastnameValue, stackValue, phoneValue, emailValue, linkedInvalue]);
 
 	const onFormSubmit = (data: object) => {
