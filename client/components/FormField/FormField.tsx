@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React from 'react';
 import { DeepMap, FieldError, FieldValues, Path, UseFormRegister } from 'react-hook-form';
 
 import { discordRegex } from '~components/UserApplication/helpers';
@@ -46,14 +46,11 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 	errors,
 	inputProps,
 	autoComplete,
-	// isFormSubmitted,
 	discordValue,
 }: FormFieldProps<TFormValues>) => {
 	const errorMessage = <>{errors?.message || 'Error!'}</>;
 
 	const hasError = !!errors;
-
-	// const [isValidDiscord, setIsValidDiscord] = useState(false);
 
 	const isValid = !errors;
 
@@ -61,27 +58,12 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 
 	const isValidDiscordValue = discordValue && discordValue.length >= 2 && discordRegex.test(discordValue);
 
-	console.log(isValidDiscordValue);
-	console.log(discordValue);
-	// const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-	// 	const value = event.target.value.trim();
-	// 	console.log('value :>> ', value);
-	// 	if (isDiscordField && discordRegex.test(value) && value.length >= 2) {
-	// 		setIsValidDiscord(true);
-	// 	} else {
-	// 		setIsValidDiscord(false);
-	// 	}
-	// };
-
 	return (
 		<div style={{ position: 'relative' }}>
 			<label css={[labelStyles]}>
-				{/* <p css={isValid && isDiscordField && isValidDiscord && !isFormSubmitted && validDiscordNameStyle}>{label}</p> */}
-				<p css={isValid && isDiscordField && isValidDiscordValue && validDiscordNameStyle}>{label}</p>
 				<input
 					css={[
 						inputlStyles,
-
 						hasError && errorInputStyles,
 						isValid && isDiscordField && isValidDiscordValue && validDiscordStyle,
 					]}
@@ -89,13 +71,17 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 					placeholder={placeholder}
 					{...register(name, inputProps)}
 					autoComplete={autoComplete}
-					// onBlur={handleInputChange}
 				/>
+				<p data-category="label-text" css={isValid && isDiscordField && isValidDiscordValue && validDiscordNameStyle}>
+					{label}
+				</p>
+				{isValid && isDiscordField && isValidDiscordValue && (
+					<p data-category="noerrors" css={vaidDiscordUnderText}>
+						Не забудь перевірити запрошення
+					</p>
+				)}
+				{!isValid && <p css={errorStyles}>{errorMessage}</p>}
 			</label>
-			{!isValid && <p css={errorStyles}>{errorMessage}</p>}
-			{isValid && isDiscordField && isValidDiscordValue && (
-				<p css={vaidDiscordUnderText}>Не забудь перевірити запрошення</p>
-			)}
 		</div>
 	);
 };

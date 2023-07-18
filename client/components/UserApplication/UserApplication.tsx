@@ -31,20 +31,7 @@ import {
 	typePlaceholder,
 } from './helpers';
 import { experience, projects, type } from './lists';
-import {
-	CheckWrapper,
-	// checkWrapper,
-	Form,
-	// formStyle,
-	FormTitle,
-	// formTitle,
-	FormWrapper,
-	InputsWrapper,
-	// formWrapperStyle,
-	// inputsWrapper,
-	// selectWrapper,
-	SelectWrapper,
-} from './UserApplication.styles';
+import { CheckWrapper, Form, FormTitle, FormWrapper, InputsWrapper, SelectWrapper } from './UserApplication.styles';
 
 const UserApplication = () => {
 	const {
@@ -60,7 +47,6 @@ const UserApplication = () => {
 		reValidateMode: 'onBlur',
 	});
 
-	const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 	const [isActivationButton, setIsActivationButton] = useState(false);
 
 	const nameValue = watch('name');
@@ -76,13 +62,10 @@ const UserApplication = () => {
 		if (discordValue && nameValue && lastnameValue && stackValue && phoneValue && emailValue && linkedInvalue)
 			setIsActivationButton(true);
 	}, [discordValue, nameValue, lastnameValue, stackValue, phoneValue, emailValue, linkedInvalue]);
-	// useEffect(() => {
-	// 	if (discordValue && nameValue) setIsActivationButton(true);
-	// }, [discordValue, nameValue]);
 
 	const onFormSubmit = (data: object) => {
 		console.log('data :>> ', data);
-		setIsFormSubmitted(true);
+
 		setIsConditionsChecked(false);
 		setIsDataChecked(false);
 		setTimeout(() => {
@@ -231,7 +214,6 @@ const UserApplication = () => {
 								message: 'поле повинно містити не більше 37 символів',
 							},
 						}}
-						isFormSubmitted={isFormSubmitted}
 						discordValue={discordValue}
 					/>
 
