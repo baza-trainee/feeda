@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
+
 import Modal from '~components/Modal/Modal';
-import { Wrapper, Button, Heading, TextWrapper, Span } from './StartPopUp.styles';
+
+import { Button, Heading, Span, TextWrapper, Wrapper } from './StartPopUp.styles';
 
 export function StartPopUp() {
 	const [modal, setModal] = useState(false);

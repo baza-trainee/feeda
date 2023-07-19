@@ -1,6 +1,59 @@
 import styled from '@emotion/styled';
 import { theme } from 'styles/theme';
-const { fonts, media } = theme;
+const { media } = theme;
+
+export const Overplay = styled.div`
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	top: 0;
+`;
+
+export const Background = styled.div`
+	position: absolute;
+	width: 100vw;
+	height: 100%;
+	z-index: -1;
+	background-color: white;
+	left: 0;
+`;
+
+export const Content = styled.div`
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	gap: 32px;
+
+	padding: 90px 29px 70px;
+	margin: 0 auto;
+
+	border-radius: 4px;
+	max-height: 100vh;
+	max-width: 617px;
+
+	#terms,
+	#agreement {
+		margin-bottom: 16px;
+	}
+
+	@media screen and (${media.tablet}) {
+		padding-top: 112px;
+		padding-bottom: 134px;
+	}
+
+	@media screen and (${media.desktop}) {
+		padding-top: 128px;
+		padding-bottom: 113px;
+		max-width: 829px;
+		#terms,
+		#agreement {
+			margin-bottom: 48px;
+		}
+	}
+`;
 
 export const Header = styled.h2`
 	font-size: 22px;
@@ -17,6 +70,30 @@ export const Header = styled.h2`
 		font-size: 42px;
 		line-height: 52px;
 		max-width: 800px;
+	}
+`;
+
+export const Agreement = styled.p`
+	display: flex;
+	width: 100%;
+	font-size: 18px;
+
+	@media screen and (max-width: 767px) {
+		overflow-y: scroll;
+		padding-right: 24px;
+
+		&::-webkit-scrollbar {
+			width: 8px;
+		}
+
+		&::-webkit-scrollbar-thumb {
+			border-radius: 12px;
+			background: #cecece;
+		}
+	}
+
+	@media screen and (${media.tablet}) and (max-width: 1279px) {
+		font-size: 14px;
 	}
 `;
 
@@ -53,19 +130,6 @@ export const TermsList = styled.ol`
 	}
 `;
 
-export const Agreement = styled.p`
-	display: flex;
-	width: 100%;
-	margin-left: 1px;
-`;
-
-export const AgreementInput = styled.textarea`
-	width: 100%;
-	height: 1.1rem;
-	border: none;
-	background: transparent;
-`;
-
 export const AcceptBtn = styled.button`
 	background-color: black;
 	color: #fcfcfc;
@@ -91,42 +155,5 @@ export const CloseDiv = styled.div`
 	@media screen and (${media.desktop}) {
 		top: 40px;
 		right: 40px;
-	}
-`;
-
-export const ModalOverplay = styled.div`
-	background-color: white;
-
-	position: fixed;
-	top: 0;
-	left: 0;
-
-	width: 100%;
-	min-height: 100vh;
-	overflow: hidden;
-`;
-
-export const ModalContent = styled.div`
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	gap: 64px;
-
-	padding: 90px 29px 70px;
-	margin: 0 auto;
-
-	border-radius: 4px;
-	max-height: 100vh;
-	max-width: 617px;
-
-	@media screen and (${media.tablet}) {
-		padding-top: 112px;
-		padding-bottom: 134px;
-	}
-
-	@media screen and (${media.desktop}) {
-		padding-top: 128px;
-		padding-bottom: 113px;
-		max-width: 829px;
 	}
 `;

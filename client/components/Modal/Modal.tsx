@@ -1,22 +1,21 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
 
+import { ArrayAgreement } from './ArrayAgreement';
 import {
 	AcceptBtn,
 	Agreement,
-	AgreementInput,
-	TermsList,
+	Background,
 	CloseDiv,
-	TermsWrapper,
+	Content,
 	Header,
-	ModalOverplay,
-	ModalContent,
+	Overplay,
+	TermsList,
+	TermsWrapper,
 } from './Modal.styles';
-
-import { ArrayAgreement } from './ArrayAgreement';
 
 interface ModalProps {
 	isOpen: boolean;
@@ -73,31 +72,34 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 	};
 
 	return (
-		<ModalOverplay onClick={onClose}>
-			<ModalContent ref={modalContentRef} onClick={(e) => e.stopPropagation()}>
+		<Overplay onClick={onClose}>
+			<Background />
+			<Content ref={modalContentRef} onClick={(e) => e.stopPropagation()}>
 				{next ? (
 					<>
 						<Header>
 							Згода на обробку
 							<br /> персональних даних
 						</Header>
-						<Agreement>
-							Я,
-							<div
-								style={{
-									width: '100%',
-									height: '1rem',
-									borderBottom: '1px solid black',
-								}}
-							>
-								<AgreementInput rows={2} />
-							</div>
+						<Agreement id="agreement">
+							Відповідно до Закону України «Про захист персональних даних» від 1 червня 2010 року № 2297-VІ, шляхом
+							підписання цього тексту, даю згоду ГО «Бі Ай Ті» на обробку моїх персональних даних: прізвище, ім&apos;я,
+							номер телефону, електронна пошта.
+							<br />
+							<br />
+							Мої персональні дані, на обробку яких я даю цю згоду, можуть бути передані третім особам тільки у
+							випадках, передбачених законодавством України.
+							<br />
+							<br />
+							*Для фізичних осіб, які через свої релігійні переконання відмовляються від прийняття реєстраційного номера
+							облікової картки платника податків та офіційно повідомили про це відповідний контролюючий орган і мають
+							відмітку у паспорті про наявність права здійснювати будь-які платежі за серією та номером паспорта
 						</Agreement>
 					</>
 				) : (
 					<>
 						<Header>Умови та правила участі в проєкті</Header>
-						<TermsWrapper>
+						<TermsWrapper id="terms">
 							<TermsList>
 								{ArrayAgreement.map((text: string, index: number) => {
 									return (
@@ -117,8 +119,8 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 				<CloseDiv>
 					<Image src="/close.svg" width={24} height={24} alt="Close" onClick={onClose} />
 				</CloseDiv>
-			</ModalContent>
-		</ModalOverplay>
+			</Content>
+		</Overplay>
 	);
 };
 
