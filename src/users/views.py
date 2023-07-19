@@ -17,82 +17,82 @@ import jwt
 from rest_framework_simplejwt.views import *
 
 
-class RegisterUser(APIView):
-    def post(self, request):
-        serializer = UserRegisterSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-class UserLogin(APIView):
-
-    @swagger_auto_schema(
-        request_body=openapi.Schema(
-            type=openapi.TYPE_OBJECT,
-            properties={
-                'email': openapi.Schema(type=openapi.FORMAT_EMAIL),
-                'password': openapi.Schema(type=openapi.FORMAT_PASSWORD)
-            },
-            required=[
-                'email', 'password'
-            ]
-        ),
-        responses={
-            status.HTTP_200_OK: openapi.Response(description='User login'),
-            status.HTTP_400_BAD_REQUEST: openapi.Response(description='Invalid input data'),
-        }
-    )
-    def post(self, request):
-        email = request.data['email']
-        password = request.data['password']
-        user = CustomUser.objects.filter(email=email).first()
-
-        if user is None:
-            raise AuthenticationFailed('User not found')
-
-        if not user.check_password(password):
-            raise AuthenticationFailed('Incorrect data')
-
-        payload = {
-            'id': str(user.id),
-            'email': user.email,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=30),
-            'iat': datetime.datetime.utcnow(),
-            'is_superuser': user.is_superuser,
-            'is_staff': user.is_staff
-        }
-
-        token = jwt.encode(payload, settings.JWT_SECRET_KEY, algorithm='HS256')
-
-        return Response({'token': token})
-
-
-class Logout(APIView):
-
-    @swagger_auto_schema(
-        request_body=openapi.Schema(
-            type=openapi.TYPE_OBJECT,
-            properties={
-                'token': openapi.Schema(type=openapi.TYPE_STRING)
-            },
-            required=[
-                'token'
-            ]
-        ),
-        responses={
-            status.HTTP_200_OK: openapi.Response(description='User login'),
-            status.HTTP_400_BAD_REQUEST: openapi.Response(description='Invalid input data'),
-        }
-    )
-    def post(self, request):
-        token = request.META.get('HTTP_AUTHORIZATION', '').split(' ')[1]
-
-        try:
-            payload = jwt.decode(token, settings.JWT_SECRET_KEY, algorithm=settings.ALGORITHM)
-        except jwt.ExpiredSignatureError:
-            return Response({'error': 'Expired JWT'}, status=status.HTTP_401_UNAUTHORIZED)
-
-        return Response({'message': 'Logged out'})
+# class RegisterUser(APIView):
+#     def post(self, request):
+#         serializer = UserRegisterSerializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         return Response(serializer.data, status=status.HTTP_201_CREATED)
+#
+#
+# class UserLogin(APIView):
+#
+#     @swagger_auto_schema(
+#         request_body=openapi.Schema(
+#             type=openapi.TYPE_OBJECT,
+#             properties={
+#                 'email': openapi.Schema(type=openapi.FORMAT_EMAIL),
+#                 'password': openapi.Schema(type=openapi.FORMAT_PASSWORD)
+#             },
+#             required=[
+#                 'email', 'password'
+#             ]
+#         ),
+#         responses={
+#             status.HTTP_200_OK: openapi.Response(description='User login'),
+#             status.HTTP_400_BAD_REQUEST: openapi.Response(description='Invalid input data'),
+#         }
+#     )
+#     def post(self, request):
+#         email = request.data['email']
+#         password = request.data['password']
+#         user = CustomUser.objects.filter(email=email).first()
+#
+#         if user is None:
+#             raise AuthenticationFailed('User not found')
+#
+#         if not user.check_password(password):
+#             raise AuthenticationFailed('Incorrect data')
+#
+#         payload = {
+#             'id': str(user.id),
+#             'email': user.email,
+#             'exp': datetime.datetime.utcnow() + datetime.timedelta(days=30),
+#             'iat': datetime.datetime.utcnow(),
+#             'is_superuser': user.is_superuser,
+#             'is_staff': user.is_staff
+#         }
+#
+#         token = jwt.encode(payload, settings.JWT_SECRET_KEY, algorithm='HS256')
+#
+#         return Response({'token': token})
+#
+#
+# class Logout(APIView):
+#
+#     @swagger_auto_schema(
+#         request_body=openapi.Schema(
+#             type=openapi.TYPE_OBJECT,
+#             properties={
+#                 'token': openapi.Schema(type=openapi.TYPE_STRING)
+#             },
+#             required=[
+#                 'token'
+#             ]
+#         ),
+#         responses={
+#             status.HTTP_200_OK: openapi.Response(description='User login'),
+#             status.HTTP_400_BAD_REQUEST: openapi.Response(description='Invalid input data'),
+#         }
+#     )
+#     def post(self, request):
+#         token = request.META.get('HTTP_AUTHORIZATION', '').split(' ')[1]
+#
+#         try:
+#             payload = jwt.decode(token, settings.JWT_SECRET_KEY, algorithm=settings.ALGORITHM)
+#         except jwt.ExpiredSignatureError:
+#             return Response({'error': 'Expired JWT'}, status=status.HTTP_401_UNAUTHORIZED)
+#
+#         return Response({'message': 'Logged out'})
 
 
 class RequestPasswordResetEmail(generics.GenericAPIView):
