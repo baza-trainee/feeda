@@ -9,6 +9,7 @@ interface labelProps {
 }
 
 const Label = ({ forHTML, children }: labelProps) => {
+<<<<<<< HEAD
   return (
     <label
       htmlFor={forHTML}
@@ -17,6 +18,13 @@ const Label = ({ forHTML, children }: labelProps) => {
       {children}
     </label>
   );
+=======
+	return (
+		<label htmlFor={forHTML} css={labelStyle}>
+			{children}
+		</label>
+	);
+>>>>>>> develop
 };
 
 export default Label;

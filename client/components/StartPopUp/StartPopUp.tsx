@@ -1,20 +1,20 @@
 'use client';
 
 import React, { useState } from 'react';
+<<<<<<< HEAD
 
 import Agreement from 'components/Agreement/Agreement';
 import Condition from 'components/Condition/Condition';
 import { Button , Div,Wrapper,  } from 'components/Condition/Condition.styles';
 import Container from 'components/Container/Container';
+=======
+>>>>>>> develop
 
-export function StartPopUp () {
-  const [click, setClick] = useState(false);
+import Modal from '~components/Modal/Modal';
 
-  const handleClick = () => {
-    setClick(true);
-    console.log(click);
-  };
+import { Button, Heading, Span, TextWrapper, Wrapper } from './StartPopUp.styles';
 
+<<<<<<< HEAD
   return (
     <Div>
       <Container>
@@ -29,4 +29,37 @@ export function StartPopUp () {
       </Container>
     </Div>
   );
+=======
+export function StartPopUp() {
+	const [modal, setModal] = useState(false);
+
+	const openModal = () => {
+		setModal(true);
+	};
+
+	const closeModal = () => {
+		setModal(false);
+	};
+
+	return (
+		<Wrapper>
+			<Heading>
+				Вітаю! <br /> Ти за крок до роботи над
+				<br />
+				цікавими проєктами в командах
+			</Heading>
+			<TextWrapper>
+				<p>
+					Вся комунікація в командах ведеться у <b> Discord </b>
+					<br />
+					<br />
+					Тобі залишилось ознайомитися з <Span onClick={openModal}>умовами та правилами участі на проєкті </Span>
+					та заповнити анкету
+				</p>
+			</TextWrapper>
+			<Button>Заповнити анкету</Button>
+			<Modal onClose={closeModal} isOpen={modal} />
+		</Wrapper>
+	);
+>>>>>>> develop
 }
