@@ -1,6 +1,7 @@
-"use client";
-import { ReactNode } from "react";
-import { labelStyle } from "./Label.styles";
+'use client';
+import { ReactNode } from 'react';
+
+import { labelStyle } from './Label.styles';
 
 interface labelProps {
 	forHTML: string;
@@ -9,10 +10,7 @@ interface labelProps {
 
 const Label = ({ forHTML, children }: labelProps) => {
 	return (
-		<label
-			htmlFor={forHTML}
-			css={labelStyle}
-		>
+		<label htmlFor={forHTML} css={labelStyle}>
 			{children}
 		</label>
 	);

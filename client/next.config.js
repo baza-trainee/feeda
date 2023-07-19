@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 module.exports = {
-  reactStrictMode: true,
-  productionBrowserSourceMaps: true,
+	reactStrictMode: true,
 	images: {
 		dangerouslyAllowSVG: true,
 		contentDispositionType: 'attachment',

@@ -1,16 +1,17 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import Image from "next/image";
+import React, { useState } from 'react';
+
+import Image from 'next/image';
 
 import {
-  Header,
-  Container,
   AcceptBtn,
-  VerifyCont,
-  InfoP,
   CloseDiv,
-} from "./Agreement.styles";
+  Container,
+  Header,
+  InfoP,
+  VerifyCont,
+} from './Agreement.styles';
 
 const Agreement = () => {
   const [next, setNext] = useState(false);
