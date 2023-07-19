@@ -1,15 +1,8 @@
 'use client';
-<<<<<<< HEAD
-import { ReactNode } from 'react';
-
-/** @jsxImportSource @emotion/react */
-import { buttonStyle } from './Button.styles';
-=======
 import { ReactNode, useState } from 'react';
 
 /** @jsxImportSource @emotion/react */
 import { buttonStyle, onClickButtonStyle } from './Button.styles';
->>>>>>> develop
 
 interface ButtonProps {
 	children: ReactNode | string;
