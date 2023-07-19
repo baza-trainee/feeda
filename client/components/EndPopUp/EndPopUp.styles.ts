@@ -2,11 +2,19 @@ import styled from '@emotion/styled';
 import { theme } from 'styles/theme';
 const { colors, fonts, media } = theme;
 
+export const Wrapper = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	min-height: 100vh;
+	padding: 0 29px;
+	@media screen and (${media.desktop}) {
+		padding: 0;
+	}
+`;
+
 export const Section = styled.section`
-	position: fixed;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
 	text-align: center;
 	width: 100%;
 	max-width: 335px;
@@ -20,7 +28,7 @@ export const Section = styled.section`
 		line-height: ${fonts.display.lineHeight.mobile};
 	}
 	@media screen and (${media.desktop}) {
-		max-width: 596px;
+		max-width: 593px;
 		font-size: ${fonts.display.fontSize.tablet}px;
 		line-height: ${fonts.display.lineHeight.tablet};
 	}
@@ -58,12 +66,7 @@ export const Desc = styled.p`
 	}
 `;
 
-export const Link = styled.a`
-	color: ${colors.secondaryAccent};
-	text-decoration: underline;
-`;
-
-export const Reminder = styled.h2`
+export const Reminder = styled.p`
 	color: ${colors.mainTitle};
 	font-weight: ${fonts.title.fontWeight.tablet};
 	font-size: ${fonts.title.fontSize.tablet}px;
@@ -79,10 +82,10 @@ export const Reminder = styled.h2`
 		font-weight: ${fonts.headline.fontWeight.tablet};
 		margin: 0 auto;
 	}
-`;
 
-export const Span = styled.span`
-	color: ${colors.secondaryAccent};
+	& span {
+		color: ${colors.secondaryAccent};
+	}
 `;
 
 export const Img = styled.img`
