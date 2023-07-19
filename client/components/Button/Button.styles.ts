@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import { theme } from 'styles/theme';
 
 export const buttonStyle = css`
+	width: 100%;
 	padding: 16px 24px;
 	font-weight: 700;
 	font-size: 22px;
@@ -9,11 +10,16 @@ export const buttonStyle = css`
 	border-radius: 4px;
 	color: ${theme.colors.mainBtnText};
 	background-color: ${theme.colors.mainText};
-	border: 1px solid transparent;
+	border: 1px solid ${theme.colors.mainText};
 
 	&:disabled {
-		color: ${theme.colors.mainPlaceholder};
-		background-color: ${theme.colors.disabledBtnBg};
+		color: #939393;
+		background-color: #cecece;
+		border: 1px solid #cecece;
+	}
+	&:not(:disabled):hover {
+		color: #ffbd00;
+		border: 1px solid #ffbd00;
 	}
 
 	&:active {
@@ -26,4 +32,10 @@ export const buttonStyle = css`
 		border: 1px solid ${theme.colors.mainAccent};
 		color: ${theme.colors.mainAccent};
 	}
+`;
+
+export const onClickButtonStyle = css`
+	background-color: #ffbd00;
+	border: 1px solid #ffbd00 !important;
+	color: #232323 !important;
 `;

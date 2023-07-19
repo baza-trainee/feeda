@@ -7,7 +7,7 @@ type TitleProps = {
 };
 
 const Title = ({ children }: TitleProps) => {
-	return <h2 css={titleStyle}>{children}</h2>;
+  return <h2 css={titleStyle}>{children}</h2>;
 };
 
 export default Title;

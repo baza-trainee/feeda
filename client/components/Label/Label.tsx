@@ -1,6 +1,7 @@
 'use client';
 /** @jsxImportSource @emotion/react */
 import { ReactNode } from 'react';
+
 import { LabelCss } from './Label.styles';
 
 type labelProps = {

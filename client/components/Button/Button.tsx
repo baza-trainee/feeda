@@ -1,8 +1,8 @@
 'use client';
+import { ReactNode, useState } from 'react';
 
 /** @jsxImportSource @emotion/react */
-import { buttonStyle } from './Button.styles';
-import { ReactNode } from 'react';
+import { buttonStyle, onClickButtonStyle } from './Button.styles';
 
 type ButtonProps = {
 	children: ReactNode | string;
@@ -11,11 +11,29 @@ type ButtonProps = {
 };
 
 const Button = ({ children, isDisabled, func }: ButtonProps) => {
+	const [isPressed, setIsPressed] = useState(false);
+
 	const onClickHandler = () => {
 		func();
 	};
+
+	const onMouseDownHandler = () => {
+		setIsPressed(true);
+		console.log('isPressed', isPressed);
+	};
+
+	const onMouseUpHandler = () => {
+		setIsPressed(false);
+	};
+
 	return (
-		<button css={buttonStyle} onClick={onClickHandler} disabled={isDisabled}>
+		<button
+			css={[buttonStyle, isPressed && onClickButtonStyle]}
+			onClick={onClickHandler}
+			onMouseDown={onMouseDownHandler}
+			onMouseUp={onMouseUpHandler}
+			disabled={isDisabled}
+		>
 			{children}
 		</button>
 	);
