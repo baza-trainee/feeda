@@ -1,10 +1,11 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { Button , Wrapper, Div, } from "components/Condition/Condition.styles";
-import Agreement from "components/Agreement/Agreement";
-import Container from "components/Container/Container";
-import Condition from "components/Condition/Condition";
+import React, { useState } from 'react';
+
+import Agreement from 'components/Agreement/Agreement';
+import Condition from 'components/Condition/Condition';
+import { Button , Div,Wrapper,  } from 'components/Condition/Condition.styles';
+import Container from 'components/Container/Container';
 
 export function StartPopUp () {
   const [click, setClick] = useState(false);
@@ -28,4 +29,4 @@ export function StartPopUp () {
       </Container>
     </Div>
   );
-};
+}

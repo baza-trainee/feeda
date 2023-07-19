@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 export const Welcome = styled.h2`
   color: var(--neutral-1000, #121212);
@@ -37,7 +37,7 @@ export const UnderSpan = styled.span`
 color: #121212;
 margin-left:5px;
 font-weight: bold;
-`
+`;
 
 export const Button = styled.button`
   display: flex;
@@ -67,4 +67,4 @@ text-align: center;
 font-size: 22px;
 font-family: Exo 2;
 line-height: 140%;
-`
+`;

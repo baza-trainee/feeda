@@ -1,6 +1,6 @@
-import styled from "@emotion/styled"
-import { theme } from "styles/theme"
-const { colors, fonts, media } = theme
+import styled from '@emotion/styled';
+import { theme } from 'styles/theme';
+const { colors, fonts, media } = theme;
 
 export const Section = styled.section`
   position: fixed;
@@ -14,7 +14,7 @@ export const Section = styled.section`
 
   border-radius: 16px;
   border: 1px solid ${colors.disabledBtnBg};
-`
+`;
 export const Title = styled.h1`
   color: ${colors.mainTitle};
 
@@ -33,7 +33,7 @@ export const Title = styled.h1`
     font-size: ${fonts.display.fontSize.desktop}px;
     line-height: ${fonts.display.lineHeight.desktop};
   }
-`
+`;
 
 export const Desc = styled.p`
   color: ${colors.mainTitle};
@@ -55,7 +55,7 @@ export const Desc = styled.p`
     font-size: ${fonts.title.fontSize.desktop}px;
     font-weight: ${fonts.title.fontWeight.desktop};
   }
-`
+`;
 export const Reminder = styled.h2`
   color: ${colors.mainTitle};
   width: 464px;
@@ -74,7 +74,7 @@ export const Reminder = styled.h2`
     font-size: ${fonts.headline.fontSize.desktop}px;
     line-height: ${fonts.headline.lineHeight.desktop};
   }
-`
+`;
 export const Span = styled.span`
   color: ${colors.secondaryAccent};
-`
+`;
