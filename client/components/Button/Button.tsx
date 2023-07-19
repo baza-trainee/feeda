@@ -1,15 +1,8 @@
 'use client';
-<<<<<<< HEAD
-import { ReactNode } from 'react';
-
-/** @jsxImportSource @emotion/react */
-import { buttonStyle } from './Button.styles';
-=======
 import { ReactNode, useState } from 'react';
 
 /** @jsxImportSource @emotion/react */
 import { buttonStyle, onClickButtonStyle } from './Button.styles';
->>>>>>> develop
 
 interface ButtonProps {
 	children: ReactNode | string;
@@ -18,20 +11,6 @@ interface ButtonProps {
 }
 
 const Title = ({ children, isDisabled, func }: ButtonProps) => {
-<<<<<<< HEAD
-  const onClickHandler = () => {
-    func();
-  };
-  return (
-    <button
-      css={buttonStyle}
-      onClick={onClickHandler}
-      disabled={isDisabled}
-    >
-      {children}
-    </button>
-  );
-=======
 	const [isPressed, setIsPressed] = useState(false);
 
 	const onClickHandler = () => {
@@ -58,7 +37,6 @@ const Title = ({ children, isDisabled, func }: ButtonProps) => {
 			{children}
 		</button>
 	);
->>>>>>> develop
 };
 
 export default Title;

@@ -1,25 +1,6 @@
 import { breakpointDesktop, breakpointTablet } from './vars';
 
 export const colors = {
-<<<<<<< HEAD
-  mainBg: '',
-  secondaryBg: '',
-  buttonBg: '',
-  error: '#DC0C31',
-  link: '#0029FF',
-  white: '#FFFFFF',
-  //   neutral colors
-  mainBtnText: '#FCFCFC',
-  disabledBtnBg: '#CECECE',
-  mainPlaceholder: '#939393',
-  disabledBtnText: '#464646',
-  mainLabel: '#353535',
-  mainText: '#232323',
-  mainTitle: '#121212',
-  //   primary color
-  mainAccent: '#FFBD00',
-  secondaryAccent: '#3342CC',
-=======
 	mainBg: '',
 	secondaryBg: '',
 	buttonBg: '',
@@ -37,7 +18,6 @@ export const colors = {
 	//   primary color
 	mainAccent: '#FFBD00',
 	secondaryAccent: '#3342CC',
->>>>>>> develop
 };
 
 export const fonts = {

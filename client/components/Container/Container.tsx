@@ -8,9 +8,5 @@ interface ContainerTypes {
 }
 
 export default function Container({ children }: ContainerTypes) {
-<<<<<<< HEAD
-  return <Wrapper>{children}</Wrapper>;
-=======
 	return <Wrapper>{children}</Wrapper>;
->>>>>>> develop
 }
