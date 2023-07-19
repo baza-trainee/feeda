@@ -14,10 +14,7 @@ const eho = Exo_2({
 export default function RootLayout({ children }: { children: JSX.Element }) {
 	return (
 		<EmotionRegistry>
-			<html
-				lang='en'
-				className={eho.className}
-			>
+			<html lang="uk" className={eho.className}>
 				<body>{children}</body>
 			</html>
 		</EmotionRegistry>

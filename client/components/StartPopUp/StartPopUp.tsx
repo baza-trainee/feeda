@@ -1,11 +1,20 @@
 'use client';
 
 import React, { useState } from 'react';
+<<<<<<< HEAD
+=======
+
+import Agreement from 'components/Agreement/Agreement';
+import Condition from 'components/Condition/Condition';
+import { Button , Div,Wrapper,  } from 'components/Condition/Condition.styles';
+import Container from 'components/Container/Container';
+>>>>>>> develop
 
 import Modal from '~components/Modal/Modal';
 
 import { Button, Heading, Span, TextWrapper, Wrapper } from './StartPopUp.styles';
 
+<<<<<<< HEAD
 export function StartPopUp() {
 	const [modal, setModal] = useState(false);
 
@@ -37,4 +46,20 @@ export function StartPopUp() {
 			<Modal onClose={closeModal} isOpen={modal} />
 		</Wrapper>
 	);
+=======
+  return (
+    <Div>
+      <Container>
+        {click ? (
+          <Agreement />
+        ) : (
+          <Wrapper>
+            <Condition />
+            <Button onClick={handleClick}>Подати заявку</Button>
+          </Wrapper>
+        )}
+      </Container>
+    </Div>
+  );
+>>>>>>> develop
 }

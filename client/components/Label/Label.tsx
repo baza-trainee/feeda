@@ -10,10 +10,7 @@ interface labelProps {
 
 const Label = ({ forHTML, children }: labelProps) => {
 	return (
-		<label
-			htmlFor={forHTML}
-			css={labelStyle}
-		>
+		<label htmlFor={forHTML} css={labelStyle}>
 			{children}
 		</label>
 	);
