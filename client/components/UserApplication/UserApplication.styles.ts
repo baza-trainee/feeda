@@ -16,13 +16,6 @@ export const FormWrapper = styled.div`
 
 export const Form = styled.form`
 	padding: 32px;
-
-	@media screen and (min-width: 768px) {
-		padding: 32px;
-	}
-	@media screen and (min-width: 1280px) {
-		padding: 32px;
-	}
 `;
 
 export const FormTitle = styled.h1`
