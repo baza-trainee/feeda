@@ -17,15 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from .yasg import urlpatterns as doc_url
-from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('djoser.urls')),
     # path('auth/', include('djoser.urls.authtoken')),
     path('auth/', include('djoser.urls.jwt')),
-    path('auth/token/', TokenObtainPairView.as_view()),
-    path('auth/token/refresh/', TokenRefreshView.as_view()),
     path('user-project/', include('src.user_project.urls')),
     path('users/', include('src.users.urls'))
 ]

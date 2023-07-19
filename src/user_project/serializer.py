@@ -28,6 +28,12 @@ class JoinUserProjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Participant
+        exclude = ('stack',)
+
+
+class AddParticipantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Participant
         fields = '__all__'
 
 
@@ -145,8 +151,9 @@ class ProjectParticipantsSerializer(serializers.ModelSerializer):
 
 
 class CreateProjectParticipantsSerializer(serializers.ModelSerializer):
+    # user = JoinUserProjectSerializer(many=True)
     user = serializers.PrimaryKeyRelatedField(many=True, queryset=Participant.objects.all(), required=False)
-    project = ProjectsSerializer
+    project = ProjectsSerializer()
 
     class Meta:
         model = ProjectParticipants
@@ -154,6 +161,7 @@ class CreateProjectParticipantsSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
+        # representation = super(CreateProjectParticipantsSerializer).to_representation(instance)
         representation['user'] = JoinUserProjectSerializer(instance.user.all(), many=True).data
         return representation
 

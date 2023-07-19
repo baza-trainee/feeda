@@ -4,6 +4,7 @@ from .views import *
 
 urlpatterns = [
     path('join/', join_project),
+    path('add-participant/', add_participant),
     path('participants-list/', get_all_participant),
     path('participant-detail/<uuid:id>/', detail_participant),
     path('send/<uuid:id>/', send_email),
@@ -16,6 +17,5 @@ urlpatterns = [
     path('command-delete/<uuid:id>/', delete_command),
     path('filter-participant/', filter_participant_list),
     path('filter-project/', filter_project_list),
-    path('down/', downland_swagger),
-    path('proj/', get_proj)
+    path('down/', downland_swagger)
 ]

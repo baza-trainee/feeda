@@ -1,4 +1,6 @@
 import json
+import os
+from django.template.loader import render_to_string
 from .filters import *
 from django.core.mail import send_mail
 from rest_framework import generics
@@ -7,6 +9,9 @@ from django.http import JsonResponse, HttpResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.authentication import TokenAuthentication
+from django.contrib.admin.views.decorators import staff_member_required
+from django.core.mail import EmailMessage
+from django.core.exceptions import PermissionDenied
 from rest_framework import permissions, status
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -57,19 +62,40 @@ def join_project(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@permission_classes([permissions.IsAdminUser])
+@api_view(['POST'])
+def add_participant(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied('You are not an administrator.')
+
+    serializer = AddParticipantSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['GET'])
 def send_email(request, id):
+    if not request.user.is_superuser:
+        raise PermissionDenied("You are not an administrator.")
+
     user = CustomUser.objects.get(id=id)
     user_email = user.email
     letter = TemplateLatter.objects.get(id=1)
-    send_mail(
-        subject='Welcome Baza Trainee Ukraine',
-        message=letter,
-        from_email=settings.EMAIL_HOST_USER,
-        recipient_list=[user_email],
-        fail_silently=False
-    )
+    pdf_file_path = letter.pad_file_path
+    subject = 'Welcome Baza Trainee Ukraine'
+    from_email = settings.EMAIL_HOST_USER
+    to_email = user_email
+
+    context = render_to_string('template.html', {'letter': letter})
+    file_name = os.path.basename(pdf_file_path)
+    email = EmailMessage(subject, context, from_email, [to_email])
+
+    with open(pdf_file_path, 'rb') as f:
+        email.attach(file_name, f.read(), 'application/pdf')
+
+    email.send()
+    return Response({'message': 'Email message send!'})
 
 
 @swagger_auto_schema(
@@ -99,6 +125,9 @@ def send_email(request, id):
 @permission_classes([permissions.IsAdminUser])
 @api_view(['PUT', 'DELETE'])
 def detail_participant(request, id):
+    if not request.user.is_superuser:
+        raise PermissionDenied("You are not an administrator.")
+
     try:
         participant = Participant.objects.get(id=id)
         if request.method == 'PUT':
@@ -127,6 +156,9 @@ def detail_participant(request, id):
 @api_view(['GET'])
 def get_all_participant(request):
     """Список всіх учасників"""
+    if not request.user.is_superuser:
+        raise PermissionDenied("You are not an administrator.")
+
     participants = Participant.objects.all()
     serializer = AllParticipantsSerializer(participants, many=True)
     return Response(serializer.data)
@@ -147,6 +179,9 @@ def get_all_participant(request):
 @api_view(['DELETE'])
 def delete_participant(request, id):
     """Видалити учасника"""
+    if not request.user.is_superuser:
+        raise PermissionDenied("You are not an administrator.")
+
     try:
         participant = Participant.objects.get(id=id)
         participant.delete()
@@ -183,6 +218,9 @@ def delete_participant(request, id):
 @api_view(['POST'])
 def create_project(request):
     """Створення нового проекта"""
+    if not request.user.is_superuser:
+        raise PermissionDenied("You are not an administrator.")
+
     serializer = CreateProjectSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -233,15 +271,11 @@ def create_project(request):
 @api_view(['GET'])
 def list_projects(request):
     """Список всіх проектів"""
+    if not request.user.is_superuser:
+        raise PermissionDenied("You are not an administrator.")
+
     projects = Projects.objects.all()
     serializer = ProjectsSerializer(projects, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-@api_view(['GET'])
-def get_proj(request):
-    proj = ProjectParticipants.objects.all()
-    serializer = ProjectParticipantsSerializer(proj, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -285,6 +319,9 @@ def get_proj(request):
 @api_view(['GET', 'PUT', 'DELETE'])
 def detail_project(request, project_url):
     """Отримання, оновлення, видалення проекта"""
+    if not request.user.is_superuser:
+        raise PermissionDenied("You are not an administrator.")
+
     try:
         project = Projects.objects.get(url=project_url)
         if request.method == 'GET':
@@ -324,6 +361,9 @@ def detail_project(request, project_url):
 @api_view(['POST'])
 def create_command(request):
     """Створення команди"""
+    if not request.user.is_superuser:
+        raise PermissionDenied("You are not an administrator.")
+
     serializer = CreateProjectParticipantsSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -331,9 +371,16 @@ def create_command(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# @authentication_classes([TokenAuthentication])
+# @permission_classes([permissions.IsAdminUser])
+# @staff_member_required()
 @api_view(['GET'])
 def commands_list(request):
     """Список всіх команд"""
+
+    if not request.user.is_superuser:
+        raise PermissionDenied("You are not an administrator.")
+
     project_participants = ProjectParticipants.objects.all()
     serializer = ProjectParticipantsSerializer(project_participants, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
@@ -352,10 +399,13 @@ def commands_list(request):
         ),
     }
 )
-@permission_classes([permissions.IsAdminUser])
+# @permission_classes([permissions.IsAdminUser])
 @api_view(['PUT'])
 def command_update(request, id):
     """Оновлення даних команди"""
+    if not request.user.is_superuser:
+        raise PermissionDenied("You are not an administrator.")
+
     try:
         command = ProjectParticipants.objects.get(id=id)
         serializer = CreateProjectParticipantsSerializer(command, data=request.data)
@@ -370,6 +420,9 @@ def command_update(request, id):
 @api_view(['DELETE'])
 def delete_command(request, id):
     """Видалити команду"""
+    if not request.user.is_superuser:
+        raise PermissionDenied("You are not an administrator.")
+
     try:
         command = ProjectParticipants.objects.get(id=id)
         command.delete()
@@ -393,6 +446,9 @@ def delete_command(request, id):
 @api_view(['GET'])
 def filter_participant_list(request):
     """Фільтрація учасників по ключовим словам"""
+    if not request.user.is_superuser:
+        raise PermissionDenied("You are not an administrator.")
+
     participants = Participant.objects.all()
     participants_filter = ParticipantFilter(request.GET, queryset=participants)
     serializer = ParticipantFilerSerializer(participants_filter.qs, many=True)
@@ -410,9 +466,12 @@ def filter_participant_list(request):
         ),
     }
 )
-# @permission_classes([permissions.IsAdminUser])
 @api_view(['GET'])
 def filter_project_list(request):
+    """Фільтрація прроектів"""
+    if not request.user.is_superuser:
+        raise PermissionDenied("You are not an administrator.")
+
     projects = Projects.objects.all()
     projects_filter = ProjectsFilter(request.GET, queryset=projects)
     serializer = ProjectsSerializer(projects_filter.qs, many=True)
