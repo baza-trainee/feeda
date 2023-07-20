@@ -1,35 +1,41 @@
-'use client';
-
 import React, { useEffect, useRef, useState } from 'react';
 
-import Image from 'next/image';
+import { useGlobalState } from '~/hooks/useGlobalState';
+import Button from '~components/Button/Button';
+import Title from '~components/Title/Title';
 
 import { ArrayAgreement } from './ArrayAgreement';
-import {
-	AcceptBtn,
-	Agreement,
-	Background,
-	CloseDiv,
-	Content,
-	Header,
-	Overplay,
-	TermsList,
-	TermsWrapper,
-} from './Modal.styles';
+import { Agreement, Background, Content, Overplay, TermsList, TermsWrapper } from './Modal.styles';
 
-interface ModalProps {
-	isOpen: boolean;
-	onClose: () => void;
-}
-
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
-	const [next, setNext] = useState(false);
+export function Modal(): JSX.Element {
+	const [termsApproved, setTermsApproved] = useState(false);
+	const [agreementApproved, setAgreementApproved] = useState(false);
 	const modalContentRef = useRef<HTMLDivElement>(null);
+	const { state, setState } = useGlobalState();
+
+	const closeModal = () => {
+		setState((prev) => ({ ...prev, visible: false }));
+	};
+
+	useEffect(() => {
+		const data = {
+			...state,
+			approved: {
+				terms: termsApproved,
+				agreement: agreementApproved,
+			},
+		};
+
+		state.location === 'start' && agreementApproved && closeModal();
+
+		setState((prev) => ({ ...prev, ...data }));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [agreementApproved, termsApproved]);
 
 	useEffect(() => {
 		const handleClickKey = (e: KeyboardEvent) => {
 			if (e.key === 'Escape') {
-				onClose();
+				setState((prev) => ({ ...prev, visible: false }));
 			}
 		};
 		document.addEventListener('keydown', handleClickKey);
@@ -37,7 +43,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 		return () => {
 			document.removeEventListener('keydown', handleClickKey);
 		};
-	}, [onClose]);
+	}, [setState]);
 
 	useEffect(() => {
 		const modalContent = modalContentRef.current;
@@ -60,27 +66,31 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 		};
 	}, []);
 
-	if (!isOpen) {
-		return null;
-	}
-
 	const handleClick = () => {
-		setNext((prev) => !prev);
-		if (next) {
-			onClose();
+		if (state.modal === 'agreement') {
+			setAgreementApproved(true);
+			closeModal();
+			return;
+		} else if (state.location === 'start' && state.modal === 'terms') {
+			setTermsApproved(true);
+			setState((prev) => ({ ...prev, modal: 'agreement' }));
+			return;
+		} else if (state.modal === 'terms') {
+			setTermsApproved(true);
+			closeModal();
 		}
 	};
 
-	return (
-		<Overplay onClick={onClose}>
+	return state.visible ? (
+		<Overplay onClick={closeModal}>
 			<Background />
 			<Content ref={modalContentRef} onClick={(e) => e.stopPropagation()}>
-				{next ? (
+				{state.modal === 'agreement' && (
 					<>
-						<Header>
+						<Title>
 							Згода на обробку
 							<br /> персональних даних
-						</Header>
+						</Title>
 						<Agreement id="agreement">
 							Відповідно до Закону України «Про захист персональних даних» від 1 червня 2010 року № 2297-VІ, шляхом
 							підписання цього тексту, даю згоду ГО «Бі Ай Ті» на обробку моїх персональних даних: прізвище, ім&apos;я,
@@ -96,9 +106,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 							відмітку у паспорті про наявність права здійснювати будь-які платежі за серією та номером паспорта
 						</Agreement>
 					</>
-				) : (
+				)}
+				{state.modal === 'terms' && (
 					<>
-						<Header>Умови та правила участі в проєкті</Header>
+						<Title>Умови та правила участі в проєкті</Title>
 						<TermsWrapper id="terms">
 							<TermsList>
 								{ArrayAgreement.map((text: string, index: number) => {
@@ -115,13 +126,13 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 						</TermsWrapper>
 					</>
 				)}
-				<AcceptBtn onClick={handleClick}>Приймаю</AcceptBtn>
-				<CloseDiv>
-					<Image src="/close.svg" width={24} height={24} alt="Close" onClick={onClose} />
-				</CloseDiv>
+				<Button func={handleClick}>Приймаю</Button>
+				<Button func={closeModal} closeButton />
 			</Content>
 		</Overplay>
+	) : (
+		<></>
 	);
-};
+}
 
 export default Modal;
