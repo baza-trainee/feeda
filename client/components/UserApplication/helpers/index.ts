@@ -11,9 +11,20 @@ import {
 	stackPlaceholder,
 	typePlaceholder,
 } from './placeholders';
-import { cityRegex, discordRegex, emailRegex, linkedRegex, nameRegex, phoneNumberRegex } from './regex';
+import {
+	cityRegex,
+	discordRegex,
+	emailRegex,
+	lastNameRegex,
+	linkedRegex,
+	nameRegex,
+	phoneNumberRegex,
+	stackRegex,
+} from './regex';
 import { requiredField } from './requiredField';
 export {
+	lastNameRegex,
+	stackRegex,
 	phoneNumberRegex,
 	phoneNumberFormat,
 	emailRegex,

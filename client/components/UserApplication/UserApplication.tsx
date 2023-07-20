@@ -19,6 +19,7 @@ import {
 	getProjValue,
 	getTypeValue,
 	lastnamePlaceholder,
+	lastNameRegex,
 	linkedInPlaceholder,
 	linkedRegex,
 	namePlaceholder,
@@ -28,6 +29,7 @@ import {
 	projectPlaceholder,
 	requiredField,
 	stackPlaceholder,
+	stackRegex,
 	typePlaceholder,
 } from './helpers';
 import { experience, projects, type } from './lists';
@@ -43,7 +45,7 @@ const UserApplication = () => {
 		clearErrors,
 		watch,
 	} = useForm({
-		mode: 'onSubmit',
+		mode: 'onBlur',
 		reValidateMode: 'onBlur',
 	});
 
@@ -127,6 +129,10 @@ const UserApplication = () => {
 								value: 50,
 								message: 'поле повинно містити не більше 50 символів',
 							},
+							pattern: {
+								value: lastNameRegex,
+								message: 'будь ласка введіть валіднe прізвище',
+							},
 						}}
 					/>
 
@@ -147,6 +153,10 @@ const UserApplication = () => {
 							maxLength: {
 								value: 300,
 								message: 'поле повинно містити не більше 300 символів',
+							},
+							pattern: {
+								value: stackRegex,
+								message: 'будь ласка введіть валіднe значення',
 							},
 						}}
 					/>
