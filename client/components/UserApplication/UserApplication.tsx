@@ -99,8 +99,8 @@ const UserApplication = () => {
 								message: 'поле повинно містити мінімум 2 символи',
 							},
 							maxLength: {
-								value: 50,
-								message: 'поле повинно містити не більше 50 символів',
+								value: 20,
+								message: 'поле повинно містити не більше 20 символів',
 							},
 							pattern: {
 								value: nameRegex,
