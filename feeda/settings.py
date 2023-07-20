@@ -41,12 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rest_framework_simplejwt',
-    # 'rest_framework.authtoken',
+    # 'rest_framework_simplejwt',
+    # 'rest_framework_simplejwt.token_blacklist',
+    'rest_framework.authtoken',
     'drf_yasg',
     'djoser',
     'django_filters',
     'phonenumber_field',
+    'corsheaders',
 
     'src.users',
     'src.user_project'
@@ -55,6 +57,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -122,8 +125,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        # 'rest_framework.authentication.TokenAuthentication'
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.TokenAuthentication'
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
         # 'rest_framework.authentication.BasicAuthentication',
 
     ),
@@ -132,7 +135,7 @@ REST_FRAMEWORK = {
     # ],
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
-    ),
+    )
 }
 
 DJOSER = {
@@ -175,6 +178,24 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_METHODS = (
+    'DELETE',
+    'GET',
+    'POST',
+    'PATH',
+    'PUT'
+)
+
+CORS_ALLOWED_HEADERS = (
+    "accept",
+    "authorization",
+    "content-type",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with"
+)
 
 load_dotenv(find_dotenv())
 DISCORD_CLIENT_ID = os.getenv('DISCORD_CLIENT_ID')
@@ -193,10 +214,10 @@ ALGORITHM = os.getenv('ALGORITHM')
 
 
 # SIMPLE_JWT = {
-#     "ACCESS_TOKEN_LIFETIME": timedelta(days=7),
-#     "REFRESH_TOKEN_LIFETIME": timedelta(days=15),
-#     "ROTATE_REFRESH_TOKENS": False,
-#     "BLACKLIST_AFTER_ROTATION": False,
+#     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=1),
+#     "REFRESH_TOKEN_LIFETIME": timedelta(minutes=2),
+#     "ROTATE_REFRESH_TOKENS": True,
+#     "BLACKLIST_AFTER_ROTATION": True,
 #     "UPDATE_LAST_LOGIN": False,
 #
 #     "ALGORITHM": "HS256",
@@ -231,4 +252,4 @@ ALGORITHM = os.getenv('ALGORITHM')
 #     "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
 #     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 # }
-#
+

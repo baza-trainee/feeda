@@ -99,7 +99,7 @@ class Participant(models.Model):
 
 class ProjectParticipants(models.Model):
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ManyToManyField(Participant, blank=True, null=True)
+    user = models.ManyToManyField(Participant)
     project = models.ForeignKey(
         Projects,
         blank=True,
