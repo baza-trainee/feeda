@@ -1,12 +1,14 @@
-'use client';
+import Title from '~components/Title/Title';
 
-import { Desc, Img, Reminder, Section, Title, Wrapper } from './EndPopUp.styles';
+import { Desc, Img, Reminder, Section, Wrapper } from './EndPopUp.styles';
 
 export function EndPopUp() {
 	return (
 		<Wrapper>
 			<Section>
-				<Title>Дякуємо!</Title>
+				<Title main finish>
+					Дякуємо!
+				</Title>
 				<Desc>Твоя анкета буде оброблена протягом доби</Desc>
 				<Reminder>
 					Не забудь перевірити запрошення

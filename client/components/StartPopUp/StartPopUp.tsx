@@ -1,40 +1,39 @@
-'use client';
+import React from 'react';
 
-import React, { useState } from 'react';
+import { useGlobalState } from '~/hooks/useGlobalState';
+import Button from '~components/Button/Button';
+import Title from '~components/Title/Title';
 
-import Modal from '~components/Modal/Modal';
+import { Span, TextWrapper, Wrapper } from './StartPopUp.styles';
 
-import { Button, Heading, Span, TextWrapper, Wrapper } from './StartPopUp.styles';
+export function StartPopUp(): JSX.Element {
+	const { state, setState } = useGlobalState();
 
-export function StartPopUp() {
-	const [modal, setModal] = useState(false);
-
-	const openModal = () => {
-		setModal(true);
+	const handleClick = () => {
+		setState((prev) => ({ ...prev, location: 'application' }));
 	};
 
-	const closeModal = () => {
-		setModal(false);
+	const showModal = () => {
+		setState((prev) => ({ ...prev, modal: state.modal || 'terms', visible: true }));
 	};
 
 	return (
 		<Wrapper>
-			<Heading>
+			<Title main>
 				Вітаю! <br /> Ти за крок до роботи над
 				<br />
 				цікавими проєктами в командах
-			</Heading>
+			</Title>
 			<TextWrapper>
 				<p>
 					Вся комунікація в командах ведеться у <b> Discord </b>
 					<br />
 					<br />
-					Тобі залишилось ознайомитися з <Span onClick={openModal}>умовами та правилами участі на проєкті </Span>
+					Тобі залишилось ознайомитися з <Span onClick={showModal}>умовами та правилами участі на проєкті </Span>
 					та заповнити анкету
 				</p>
 			</TextWrapper>
-			<Button>Заповнити анкету</Button>
-			<Modal onClose={closeModal} isOpen={modal} />
+			<Button func={handleClick}>Заповнити анкету</Button>
 		</Wrapper>
 	);
 }

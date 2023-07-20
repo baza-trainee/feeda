@@ -2,49 +2,37 @@ import styled from '@emotion/styled';
 import { theme } from 'styles/theme';
 
 export const FormWrapper = styled.div`
-	margin: 0 auto;
-	width: 335px;
-	border: 1px solid ${theme.colors.disabledBtnBg};
-	border-radius: 16px;
+	padding: 80px 0 124px 0;
 	@media screen and (min-width: 768px) {
-		width: 464px;
 	}
 	@media screen and (min-width: 1280px) {
-		width: 456px;
+		padding: 128px 0 111px 0;
 	}
 `;
 
 export const Form = styled.form`
+	margin: 0 auto;
 	padding: 32px;
-`;
-
-export const FormTitle = styled.h1`
-	margin-bottom: 32px;
-	font-size: 32px;
-	font-weight: 600;
-	line-height: 44px;
-	text-align: center;
+	width: 100%;
+	max-width: 335px;
+	border: 1px solid ${theme.colors.disabledBtnBg};
+	border-radius: 16px;
 	@media screen and (min-width: 768px) {
-		font-size: 36px;
-		line-height: 44px;
+		max-width: 464px;
 	}
 	@media screen and (min-width: 1280px) {
-		font-size: 45px;
-		line-height: 52px;
+		max-width: 456px;
 	}
 `;
 
 export const CheckWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 16px;
 	margin-bottom: 40px;
 	@media screen and (min-width: 768px) {
-		gap: 31px;
 		margin-bottom: 47px;
 	}
 	@media screen and (min-width: 1280px) {
-		gap: 27px;
 		margin-bottom: 45px;
 	}
 `;

@@ -4,24 +4,24 @@ const { media } = theme;
 
 export const Overplay = styled.div`
 	position: fixed;
+	z-index: 10;
 	width: 100vw;
 	height: 100vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	top: 0;
-`;
-
-export const Background = styled.div`
-	position: absolute;
-	width: 100vw;
-	height: 100%;
-	z-index: -1;
-	background-color: white;
 	left: 0;
 `;
 
+export const Background = styled.div`
+	width: 100vw;
+	height: 100%;
+	background-color: white;
+`;
+
 export const Content = styled.div`
+	position: absolute;
 	display: flex;
 	align-items: center;
 	flex-direction: column;
@@ -33,6 +33,7 @@ export const Content = styled.div`
 	border-radius: 4px;
 	max-height: 100vh;
 	max-width: 617px;
+	width: 100%;
 
 	#terms,
 	#agreement {
@@ -52,24 +53,6 @@ export const Content = styled.div`
 		#agreement {
 			margin-bottom: 48px;
 		}
-	}
-`;
-
-export const Header = styled.h2`
-	font-size: 22px;
-	font-weight: 700;
-	text-align: center;
-	line-height: normal;
-
-	@media screen and (${media.tablet}) {
-		font-size: 36px;
-		line-height: 44px;
-	}
-
-	@media screen and (${media.desktop}) {
-		font-size: 42px;
-		line-height: 52px;
-		max-width: 800px;
 	}
 `;
 
@@ -127,33 +110,5 @@ export const TermsList = styled.ol`
 	@media screen and (${media.desktop}) {
 		line-height: 1.4;
 		letter-spacing: 0.25px;
-	}
-`;
-
-export const AcceptBtn = styled.button`
-	background-color: black;
-	color: #fcfcfc;
-
-	font-size: 22px;
-	font-weight: 700;
-
-	cursor: pointer;
-	padding: 16px 24px;
-	border-radius: 4px;
-`;
-
-export const CloseDiv = styled.div`
-	position: absolute;
-	top: 29px;
-	right: 29px;
-
-	@media screen and (${media.tablet}) {
-		top: 32px;
-		right: 32px;
-	}
-
-	@media screen and (${media.desktop}) {
-		top: 40px;
-		right: 40px;
 	}
 `;

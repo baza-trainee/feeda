@@ -17,24 +17,6 @@ export const Wrapper = styled.section`
 	}
 `;
 
-export const Heading = styled.h2`
-	color: ${colors.mainTitle};
-	text-align: center;
-	font-size: 22px;
-	line-height: normal;
-	font-weight: 700;
-
-	@media screen and (${media.tablet}) {
-		font-size: 36px;
-		line-height: 44px;
-	}
-
-	@media screen and (${media.desktop}) {
-		font-size: 45px;
-		line-height: 52px;
-	}
-`;
-
 export const TextWrapper = styled.div`
 	max-width: 329px;
 	color: ${colors.mainTitle};
@@ -51,18 +33,5 @@ export const TextWrapper = styled.div`
 
 export const Span = styled.span`
 	color: #0029ff;
-	cursor: pointer;
-`;
-
-export const Button = styled.button`
-	padding: 16px 24px;
-
-	font-size: 22px;
-	font-weight: 700;
-
-	border-radius: 4px;
-	background: ${colors.mainText};
-	color: ${colors.mainBtnText};
-
 	cursor: pointer;
 `;

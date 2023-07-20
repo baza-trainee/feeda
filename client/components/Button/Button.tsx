@@ -1,42 +1,39 @@
-'use client';
 import { ReactNode, useState } from 'react';
 
-/** @jsxImportSource @emotion/react */
-import { buttonStyle, onClickButtonStyle } from './Button.styles';
+import Image from 'next/image';
 
-interface ButtonProps {
-	children: ReactNode | string;
+/** @jsxImportSource @emotion/react */
+import { Btn, CloseBtn } from './Button.styles';
+
+type ButtonProps = {
+	children?: ReactNode | string;
 	isDisabled?: boolean;
 	func: () => void;
-}
+	closeButton?: boolean;
+};
 
-const Title = ({ children, isDisabled, func }: ButtonProps) => {
+const Button = ({ children, isDisabled, func, closeButton }: ButtonProps) => {
 	const [isPressed, setIsPressed] = useState(false);
 
 	const onClickHandler = () => {
 		func();
 	};
 
-	const onMouseDownHandler = () => {
-		setIsPressed(true);
-		console.log('isPressed', isPressed);
-	};
-
-	const onMouseUpHandler = () => {
-		setIsPressed(false);
-	};
-
-	return (
-		<button
-			css={[buttonStyle, isPressed && onClickButtonStyle]}
+	return !closeButton ? (
+		<Btn
 			onClick={onClickHandler}
-			onMouseDown={onMouseDownHandler}
-			onMouseUp={onMouseUpHandler}
-			disabled={isDisabled}
+			onMouseDown={() => setIsPressed(true)}
+			onMouseUp={() => setIsPressed(false)}
+			disabled={isDisabled || false}
+			isPressed={isPressed}
 		>
 			{children}
-		</button>
+		</Btn>
+	) : (
+		<CloseBtn>
+			<Image src="/close.svg" width={24} height={24} alt="Close" onClick={func} />
+		</CloseBtn>
 	);
 };
 
-export default Title;
+export default Button;

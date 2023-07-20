@@ -1,13 +1,30 @@
-'use client';
+import { ReactNode } from 'react';
+
 /** @jsxImportSource @emotion/react */
-import { titleStyle } from './Title.styles';
+import { marginApplication, marginFinish, mobileStyle, titleStyle } from './Title.styles';
 
-interface TitleProps {
-	children: string;
-}
+type TitleProps = {
+	children: ReactNode;
+	main?: boolean;
+	application?: boolean;
+	finish?: boolean;
+};
 
-const Title = ({ children }: TitleProps) => {
-  return <h2 css={titleStyle}>{children}</h2>;
+const Title = ({ children, main, application, finish }: TitleProps) => {
+	return main ? (
+		<h1
+			css={[
+				titleStyle,
+				finish && marginFinish,
+				application && marginApplication,
+				(application || finish) && mobileStyle,
+			]}
+		>
+			{children}
+		</h1>
+	) : (
+		<h2 css={titleStyle}>{children}</h2>
+	);
 };
 
 export default Title;
