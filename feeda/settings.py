@@ -121,6 +121,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+    {
+        'NAME': 'src.users.validators.CustomPasswordValidator'
+    }
 ]
 
 # REST_FRAMEWORK = {
@@ -136,8 +139,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         # 'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication'
-        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
-        # 'rest_framework.authentication.BasicAuthentication',
 
     ),
     # 'DEFAULT_PERMISSION_CLASSES': [
@@ -145,7 +146,10 @@ REST_FRAMEWORK = {
     # ],
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
-    )
+    ),
+    'DEFAULT_SETTINGS': {
+        'DEFAULT_TOKEN_EXPIRE_TIME': timedelta(minutes=1),
+    }
 }
 
 DJOSER = {

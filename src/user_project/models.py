@@ -80,6 +80,7 @@ class Participant(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=50)
+    comment = models.CharField(max_length=50, blank=True, null=True)
     phone_number = PhoneNumberField(blank=True, null=True)
     email = models.EmailField(unique=True, max_length=70)
     account_discord = models.CharField(max_length=37)
@@ -99,7 +100,7 @@ class Participant(models.Model):
 
 class ProjectParticipants(models.Model):
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ManyToManyField(Participant)
+    user = models.ManyToManyField(Participant, blank=True, null=True)
     project = models.ForeignKey(
         Projects,
         blank=True,

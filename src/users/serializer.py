@@ -54,19 +54,17 @@ class ResetPasswordRequestEmailSerializer(serializers.ModelSerializer):
 class NewPasswordSerializer(serializers.ModelSerializer):
     """Збереження нового пароля"""
 
-    old_password = serializers.CharField(min_length=1, write_only=True)
-    password = serializers.CharField(min_length=6, write_only=True)
-    confirm_password = serializers.CharField(min_length=6, write_only=True)
+    password = serializers.CharField(min_length=8, max_length=12, write_only=True)
+    confirm_password = serializers.CharField(min_length=8, max_length=12, write_only=True)
     token = serializers.CharField(min_length=1, write_only=True)
     uidb64 = serializers.CharField(min_length=1, write_only=True)
 
     class Meta:
         model = CustomUser
-        fields = ('old_password', 'password', 'confirm_password', 'token', 'uidb64')
+        fields = ('password', 'confirm_password', 'token', 'uidb64')
 
     def validate(self, attrs):
         try:
-            old_password = attrs.get('old_password')
             password = attrs.get('password')
             confirm_password = attrs.get('confirm_password')
             token = attrs.get('token')
@@ -77,9 +75,6 @@ class NewPasswordSerializer(serializers.ModelSerializer):
 
             if not PasswordResetTokenGenerator().check_token(user, token):
                 raise AuthenticationFailed('Invalid token')
-
-            if not authenticate(email=user.email, password=old_password):
-                raise AuthenticationFailed('Invalid password')
 
             if password != confirm_password:
                 raise AuthenticationFailed('Passwords do not match')

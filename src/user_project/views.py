@@ -107,6 +107,24 @@ def add_participant(request):
     method='GET',
     responses={
         status.HTTP_200_OK: openapi.Response(
+            description='User success',
+        ),
+        status.HTTP_404_NOT_FOUND: openapi.Response(
+            description='Invalid data user',
+        ),
+    }
+)
+@api_view(['GET'])
+def get_participant(request, id):
+    participant = Participant.objects.get(id=id)
+    serializer = DetailParticipantSerializer(participant, many=False)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@swagger_auto_schema(
+    method='GET',
+    responses={
+        status.HTTP_200_OK: openapi.Response(
             description='Email send successfully',
         ),
         status.HTTP_404_NOT_FOUND: openapi.Response(
@@ -442,6 +460,8 @@ def command_update(request, id):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except ProjectParticipants.DoesNotExist:
         return Response({"message": "no such command was found"}, status=status.HTTP_404_NOT_FOUND)
 

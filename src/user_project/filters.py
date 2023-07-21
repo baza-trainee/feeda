@@ -1,6 +1,6 @@
 import django_filters
 from django_filters import rest_framework as filters
-from .serializer import SpecialitySerializer, ProjectsSerializer
+from .serializer import SpecialitySerializer, ProjectsSerializer, AddParticipantSerializer
 from .models import *
 
 
@@ -15,7 +15,9 @@ class ProjectsFilter(django_filters.FilterSet):
 
 class ParticipantFilter(django_filters.FilterSet):
     speciality = SpecialitySerializer
+    stack = AddParticipantSerializer
+    last_name = AddParticipantSerializer
 
     class Meta:
         model = Participant
-        fields = ('speciality', )
+        fields = ('speciality', 'last_name', 'stack')

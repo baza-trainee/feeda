@@ -28,13 +28,15 @@ class JoinUserProjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Participant
-        exclude = ('stack',)
+        exclude = ('stack', 'comment')
 
 
 class AddParticipantSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Participant
         fields = '__all__'
+        exclude = ('conditions_participation', 'processing_personal_data')
 
 
 class ParticipantUpdateDeleteSerializer(serializers.ModelSerializer):
@@ -153,7 +155,7 @@ class ProjectParticipantsSerializer(serializers.ModelSerializer):
 class CreateProjectParticipantsSerializer(serializers.ModelSerializer):
     # user = JoinUserProjectSerializer(many=True)
     user = serializers.PrimaryKeyRelatedField(many=True, queryset=Participant.objects.all(), required=False)
-    project = ProjectsSerializer()
+    project = ProjectsSerializer(read_only=True)
 
     class Meta:
         model = ProjectParticipants
@@ -166,15 +168,12 @@ class CreateProjectParticipantsSerializer(serializers.ModelSerializer):
         return representation
 
 
-# class ProjectParticipantsSerializers(serializers.ModelSerializer):
-#     # user = serializers.PrimaryKeyRelatedField(many=True, queryset=Participant.objects.all())
-#     user = JoinUserProjectSerializer(many=True)
-#     project = ProjectsSerializer()
-#     project_participants = serializers.SerializerMethodField()
-#
-#     class Meta:
-#         model = ProjectParticipants
-#         fields = ('id', 'user', 'project', 'project_participants')
-#
-#     def get_project_participants(self, obj):
-#         return obj.user.all().count()
+class DetailParticipantSerializer(serializers.ModelSerializer):
+    speciality = SpecialitySerializer()
+    project = ProjectsSerializer()
+    type_participant = TypeParticipantSerializer()
+
+    class Meta:
+        model = Participant
+        # fields = '__all__'
+        exclude = ('conditions_participation', 'processing_personal_data')

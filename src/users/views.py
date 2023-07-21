@@ -9,6 +9,7 @@ from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnico
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.urls import reverse
 from django.conf import settings
+from django.utils import timezone
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
@@ -66,6 +67,7 @@ class CustomAuthToken(ObtainAuthToken):
             return Response({'message': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
 
         token, created = Token.objects.get_or_create(user=user)
+        # token.life_tome_token = timezone.now() + datetime.timedelta(minutes=1)
 
         return Response({'token': token.key})
 
