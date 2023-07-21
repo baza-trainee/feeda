@@ -1,7 +1,11 @@
+import secrets
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 from .manager import CustomUserManager
 import uuid
+from django.utils import timezone
 
 
 class CustomUser(AbstractUser):

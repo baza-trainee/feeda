@@ -62,6 +62,35 @@ def join_project(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(
+    method='POST',
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'first_name': openapi.Schema(type=openapi.TYPE_STRING),
+            'last_name': openapi.Schema(type=openapi.TYPE_STRING),
+            'speciality': openapi.Schema(type=openapi.TYPE_STRING),
+            'phone_number': openapi.Schema(type=openapi.TYPE_INTEGER),
+            'email': openapi.Schema(type=openapi.FORMAT_EMAIL),
+            'account_discord': openapi.Schema(type=openapi.TYPE_STRING),
+            'account_linkedin': openapi.Schema(type=openapi.TYPE_STRING),
+            'city': openapi.Schema(type=openapi.TYPE_STRING),
+            'experience': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+            'project': openapi.Schema(type=openapi.TYPE_STRING),
+            'stack': openapi.Schema(type=openapi.TYPE_STRING),
+            'conditions_participation': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+            'processing_personal_data': openapi.Schema(type=openapi.TYPE_BOOLEAN)
+        },
+        required=[
+            'first_name', 'last_name', 'speciality', 'phone_number', 'email', 'account_discord',
+            'account_linkedin', 'city', 'experience', 'project', 'conditions_participation', 'processing_personal_data'
+        ]
+    ),
+    responses={
+        status.HTTP_201_CREATED: openapi.Response(description='Join successfully'),
+        status.HTTP_400_BAD_REQUEST: openapi.Response(description='Invalid input data'),
+    }
+)
 @api_view(['POST'])
 def add_participant(request):
     if not request.user.is_superuser:
@@ -74,6 +103,17 @@ def add_participant(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(
+    method='GET',
+    responses={
+        status.HTTP_200_OK: openapi.Response(
+            description='Email send successfully',
+        ),
+        status.HTTP_404_NOT_FOUND: openapi.Response(
+            description='Invalid data user',
+        ),
+    }
+)
 @api_view(['GET'])
 def send_email(request, id):
     if not request.user.is_superuser:
@@ -141,15 +181,6 @@ def detail_participant(request, id):
             return Response(status=status.HTTP_200_OK)
     except Participant.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-
-# def send_email(request):
-#     mail = TemplateLatter.objects.get(id=1)
-#     send_mail(
-#         subject='Welcome Baza Trainee Ukraine',
-#         message=mail.letter,
-#         from_email=EMAIL_HOST_USER,
-#         recipient_list=[serializer.validated_data['email']]
-#     )
 
 
 @permission_classes([permissions.IsAdminUser])
@@ -315,7 +346,6 @@ def list_projects(request):
         ),
     }
 )
-@permission_classes([permissions.AllowAny])
 @api_view(['GET', 'PUT', 'DELETE'])
 def detail_project(request, project_url):
     """Отримання, оновлення, видалення проекта"""

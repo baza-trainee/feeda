@@ -5,6 +5,7 @@ from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnico
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from djoser.serializers import UserCreateSerializer
 from django.urls import reverse
@@ -32,18 +33,12 @@ from .utils import *
 #         return instance
 
 
-class LogoutSerializer(serializers.Serializer):
-    refresh = serializers.CharField()
+class AuthTokenSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField()
 
-    def validate(self, attrs):
-        self.token = attrs['refresh']
-        return attrs
-
-    def save(self, **kwargs):
-        try:
-            RefreshToken(self.token).blacklist()
-        except TokenError:
-            self.fail('Bad token')
+    class Meta:
+        model = Token
+        fields = ('email', 'created')
 
 
 class ResetPasswordRequestEmailSerializer(serializers.ModelSerializer):
