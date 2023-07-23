@@ -59,11 +59,15 @@ class CustomAuthToken(ObtainAuthToken):
         serializer = AuthTokenSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         email = serializer.validated_data['email']
+        password = serializer.validated_data['password']
         # token, created = Token.objects.get_or_create(user=user)
 
         try:
             user = CustomUser.objects.get(email=email)
         except CustomUser.DoesNotExist:
+            return Response({'message': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not user.check_password(password):
             return Response({'message': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
 
         token, created = Token.objects.get_or_create(user=user)

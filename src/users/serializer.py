@@ -35,10 +35,11 @@ from .utils import *
 
 class AuthTokenSerializer(serializers.ModelSerializer):
     email = serializers.EmailField()
+    password = serializers.CharField(min_length=2)
 
     class Meta:
         model = Token
-        fields = ('email', 'created')
+        fields = ('email', 'password', 'created')
 
 
 class ResetPasswordRequestEmailSerializer(serializers.ModelSerializer):

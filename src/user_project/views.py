@@ -137,20 +137,20 @@ def send_email(request, id):
     if not request.user.is_superuser:
         raise PermissionDenied("You are not an administrator.")
 
-    user = CustomUser.objects.get(id=id)
+    user = Participant.objects.get(id=id)
     user_email = user.email
     letter = TemplateLatter.objects.get(id=1)
-    pdf_file_path = letter.pad_file_path
+    pdf_file = letter.pdf_file
     subject = 'Welcome Baza Trainee Ukraine'
     from_email = settings.EMAIL_HOST_USER
     to_email = user_email
 
-    context = render_to_string('template.html', {'letter': letter})
-    file_name = os.path.basename(pdf_file_path)
-    email = EmailMessage(subject, context, from_email, [to_email])
+    # file_name = str(os.path.basename(pdf_file))
+    email = EmailMessage(subject, letter.letter, from_email, [to_email])
 
-    with open(pdf_file_path, 'rb') as f:
-        email.attach(file_name, f.read(), 'application/pdf')
+    if pdf_file:
+        with open(pdf_file.path, 'rb') as f:
+            email.attach(pdf_file.name, f.read(), 'application/pdf')
 
     email.send()
     return Response({'message': 'Email message send!'})

@@ -81,6 +81,7 @@ class CreateProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Projects
         fields = '__all__'
+        # exclude = ('url', )
 
 
 class ProjectsSerializer(serializers.ModelSerializer):
@@ -101,7 +102,6 @@ class ProjectsSerializer(serializers.ModelSerializer):
 class DetailProjectSerializer(serializers.ModelSerializer):
     """Детальна інформація про проект"""
 
-    participants = ParticipantsProjectSerializer(many=True)
     type_project = TypeProjectSerializer(read_only=True)
     complexity = ComplexitySerializer(read_only=True)
     project_status = StatusProjectSerializer(read_only=True)
@@ -120,7 +120,7 @@ class DetailProjectSerializer(serializers.ModelSerializer):
         instance.end_date_project = validated_data.get('end_date_project', instance.end_date_project)
         instance.address_site = validated_data.get('address_site', instance.address_site)
         instance.url = validated_data.get('url', instance.url)
-        instance.participants.set(validated_data.get('participants', instance.participants))
+        # instance.participants.set(validated_data.get('participants', instance.participants))
         instance.save()
         return instance
 
