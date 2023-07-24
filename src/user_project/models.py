@@ -82,7 +82,7 @@ class Participant(models.Model):
     last_name = models.CharField(max_length=50)
     comment = models.CharField(max_length=50, blank=True, null=True)
     phone_number = PhoneNumberField(blank=True, null=True)
-    email = models.EmailField(unique=True, max_length=70)
+    email = models.EmailField(max_length=70)
     account_discord = models.CharField(max_length=37)
     account_linkedin = models.CharField(max_length=128)
     city = models.CharField(max_length=50)

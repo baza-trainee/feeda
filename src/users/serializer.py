@@ -4,6 +4,7 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework.exceptions import AuthenticationFailed
+from django.core.validators import EmailValidator
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
@@ -41,11 +42,19 @@ class AuthTokenSerializer(serializers.ModelSerializer):
         model = Token
         fields = ('email', 'password', 'created')
 
+    def validate(self, attrs):
+        email = attrs.get('email')
+
+        if len(email) < 12:
+            raise serializers.ValidationError('Email invalid')
+
 
 class ResetPasswordRequestEmailSerializer(serializers.ModelSerializer):
     """Відправка email на пошту з посиланням на скидання паролю"""
 
-    email = serializers.EmailField(min_length=2)
+    email = serializers.EmailField(
+        min_length=2
+    )
 
     class Meta:
         model = CustomUser
