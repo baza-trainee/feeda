@@ -8,4 +8,5 @@
     "**/node_modules": true
   },
   "git.ignoreLimitWarning": true,
+  "editor.fontFamily": "FiraCode"
 }
