@@ -30,7 +30,7 @@ import requests
         properties={
             'first_name': openapi.Schema(type=openapi.TYPE_STRING),
             'last_name': openapi.Schema(type=openapi.TYPE_STRING),
-            'speciality': openapi.Schema(type=openapi.TYPE_STRING),
+            'stack': openapi.Schema(type=openapi.TYPE_STRING),
             'phone_number': openapi.Schema(type=openapi.TYPE_INTEGER),
             'email': openapi.Schema(type=openapi.FORMAT_EMAIL),
             'account_discord': openapi.Schema(type=openapi.TYPE_STRING),
@@ -58,6 +58,10 @@ def join_project(request):
     serializer = JoinUserProjectSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
+        # data_ins = {
+        #     'first_name': type(instance.first_name)
+        # }
+        # print(data_ins)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -72,18 +76,17 @@ def join_project(request):
             'speciality': openapi.Schema(type=openapi.TYPE_STRING),
             'phone_number': openapi.Schema(type=openapi.TYPE_INTEGER),
             'email': openapi.Schema(type=openapi.FORMAT_EMAIL),
+            'comment': openapi.Schema(type=openapi.TYPE_STRING),
             'account_discord': openapi.Schema(type=openapi.TYPE_STRING),
             'account_linkedin': openapi.Schema(type=openapi.TYPE_STRING),
             'city': openapi.Schema(type=openapi.TYPE_STRING),
             'experience': openapi.Schema(type=openapi.TYPE_BOOLEAN),
             'project': openapi.Schema(type=openapi.TYPE_STRING),
-            'stack': openapi.Schema(type=openapi.TYPE_STRING),
-            'conditions_participation': openapi.Schema(type=openapi.TYPE_BOOLEAN),
-            'processing_personal_data': openapi.Schema(type=openapi.TYPE_BOOLEAN)
+            'stack': openapi.Schema(type=openapi.TYPE_STRING)
         },
         required=[
             'first_name', 'last_name', 'speciality', 'phone_number', 'email', 'account_discord',
-            'account_linkedin', 'city', 'experience', 'project', 'conditions_participation', 'processing_personal_data'
+            'account_linkedin', 'experience', 'project'
         ]
     ),
     responses={
@@ -192,7 +195,7 @@ def detail_participant(request, id):
             serializer = ParticipantUpdateDeleteSerializer(participant, data=request.data)
             if serializer.is_valid():
                 serializer.save()
-                return Response(status=status.HTTP_201_CREATED)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         elif request.method == 'DELETE':
             participant.delete()

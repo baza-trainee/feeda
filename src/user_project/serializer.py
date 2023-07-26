@@ -28,14 +28,29 @@ class JoinUserProjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Participant
-        exclude = ('stack', 'comment')
+        exclude = ('comment',)
+
+    def validate(self, attrs):
+        first_name = attrs.get('first_name')
+        last_name = attrs.get('last_name')
+
+        if len(first_name) < 2:
+            raise serializers.ValidationError('Invalid first name')
+        if len(last_name) < 2:
+            raise serializers.ValidationError('Invalid last name')
+
+        return attrs
 
 
 class AddParticipantSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Participant
-        fields = '__all__'
+        # fields = (
+        #     'first_name', 'last_name', 'comment', 'phone_number',
+        #     'email', 'account_discord', 'account_linkedin', 'city',
+        #     'experience', 'speciality', 'stack', 'project', 'type_participant'
+        # )
         exclude = ('conditions_participation', 'processing_personal_data')
 
 
