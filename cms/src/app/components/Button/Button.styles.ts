@@ -55,3 +55,7 @@ export const TextBtn = styled(PrimaryBtn)`
 
   transition: all 250ms ease-in;
 `;
+
+export const IconBtn = styled(PrimaryBtn)`
+  padding: 8px;
+`;
