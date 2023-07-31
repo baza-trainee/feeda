@@ -1,6 +1,10 @@
 import styled from '@emotion/styled';
 
 export const PrimaryBtn = styled.button<{ isPressed: boolean; disabled: boolean }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
   width: 100%;
   padding: 16px 24px;
   font-weight: 700;
