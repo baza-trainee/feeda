@@ -11,8 +11,7 @@ export const Wrapper = styled.div`
   background-color: #fcfcfc66;
   /* cursor: pointer; */
 `;
-
-export const PopUpWindow = styled.div`
+export const PopUpWindow = styled.div<{ borderColor: string }>`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -20,7 +19,7 @@ export const PopUpWindow = styled.div`
   width: 329px;
   padding: 32px 39px;
   border-radius: 16px;
-  border: 1px solid #cecece;
+  border: 1px solid ${({ borderColor }) => borderColor || '#cecece'};
   background: #fcfcfc;
   z-index: 2;
   box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.25);

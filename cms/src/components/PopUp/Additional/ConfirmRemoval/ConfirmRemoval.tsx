@@ -2,7 +2,9 @@ import Image from 'next/image';
 
 import round_checkmark from '../../../../../public/round-checkmark.svg';
 import { ControlBtn } from '../ControlBtn/ControlBtn';
-import { ButtonsWrapper, ContentWrapper, PopUpText, PopUpTitle } from './ConfirmRemoval.styles';
+import { PopUpText } from '../PopUpText/PopUpText';
+import { PopUpTitle } from '../PopUpTitle/PopUpTitle';
+import { ButtonsWrapper, ContentWrapper } from './ConfirmRemoval.styles';
 
 type ConfirmRemovalProps = {
   yesCallback: () => void;

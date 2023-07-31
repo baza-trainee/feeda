@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import { ConfirmRemoval } from './Additional/ConfirmRemoval/ConfirmRemoval';
+import { SuccessNotification } from './Additional/SuccessNotification/SuccessNotification';
 import { PopUp } from './PopUp';
 
 const body = document.querySelector('body');
@@ -27,8 +28,9 @@ export function PopUpTester() {
   return (
     <>
       {show && (
-        <PopUp closeModalFunc={() => setShow(!show)}>
-          <ConfirmRemoval yesCallback={yesCallback} noCallback={noCallback} target="учасника" />
+        <PopUp borderColor="#29CA56" closeModalFunc={() => setShow(!show)}>
+          {/* <ConfirmRemoval yesCallback={yesCallback} noCallback={noCallback} target="учасника" /> */}
+          <SuccessNotification />
         </PopUp>
       )}
       <button type="button" onClick={() => setShow(!show)}>
