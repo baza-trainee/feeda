@@ -1,6 +1,11 @@
 'use client';
 /** @jsxImportSource @emotion/react */
 
+import Image from 'next/image';
+
+import logo from '../../../public/logo.svg';
+import menuIcon from '../../../public/menu.svg';
+import searchIcon from '../../../public/search.svg';
 import {
   DesktopContent,
   LogoWrapper,
@@ -10,10 +15,6 @@ import {
   SearchWrapper,
   Wrapper,
 } from './Header.styles';
-import menuIcon from '../../../public/menu.svg';
-import searchIcon from '../../../public/search.svg';
-import logo from '../../../public/logo.svg';
-import Image from 'next/image';
 
 export function Header() {
   return (
@@ -25,12 +26,12 @@ export function Header() {
         <h1>...Page name...</h1>
       </DesktopContent>
       <MenuWrapper>
-        <MenuBtn>
+        <MenuBtn onClick={() => console.log('Open menu')}>
           <Image src={menuIcon} width={24} alt="Відкрити меню" />
         </MenuBtn>
       </MenuWrapper>
       <SearchWrapper>
-        <SearchInput placeholder="Ключове слово" />
+        <SearchInput placeholder="Ключове слово" onInput={(ev) => console.log(ev.target.value)} />
         <Image src={searchIcon} width={24} alt="Пошук" />
       </SearchWrapper>
     </Wrapper>

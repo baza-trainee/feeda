@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { fonts, media, colors } from '../../styles/theme';
+import { colors,fonts, media } from '../../styles/theme';
 
 export const Wrapper = styled.header`
   display: flex;
