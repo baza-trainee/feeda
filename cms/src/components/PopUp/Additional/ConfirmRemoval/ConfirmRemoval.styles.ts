@@ -6,6 +6,10 @@ export const ContentWrapper = styled.div`
   width: fit-content;
 `;
 
+export const TextWrapper = styled.div`
+  width: 211px;
+`;
+
 export const ButtonsWrapper = styled.div`
   display: flex;
   align-items: center;

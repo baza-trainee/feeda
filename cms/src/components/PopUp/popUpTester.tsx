@@ -27,9 +27,13 @@ export function PopUpTester() {
 
   return (
     <>
+      {/* {show && (
+        <PopUp closeModalFunc={() => setShow(!show)}>
+          <ConfirmRemoval yesCallback={yesCallback} noCallback={noCallback} target="учасника" />
+        </PopUp>
+      )} */}
       {show && (
         <PopUp borderColor="#29CA56" closeModalFunc={() => setShow(!show)}>
-          {/* <ConfirmRemoval yesCallback={yesCallback} noCallback={noCallback} target="учасника" /> */}
           <SuccessNotification />
         </PopUp>
       )}
