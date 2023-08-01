@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { PopUp } from '../../PopUp';
 import { PopUpText } from '../PopUpText/PopUpText';
 import { PopUpTitle } from '../PopUpTitle/PopUpTitle';
@@ -9,6 +11,12 @@ type SuccessNotificationProps = {
 };
 
 export function SuccessNotification({ closeModalFunc }: SuccessNotificationProps) {
+  useEffect(() => {
+    setTimeout(() => {
+      closeModalFunc();
+    }, 2000);
+  }, []);
+
   return (
     <PopUp borderColor="#29CA56" width="256px" closeModalFunc={closeModalFunc}>
       <Wrapper>

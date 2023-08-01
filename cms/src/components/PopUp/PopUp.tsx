@@ -1,9 +1,9 @@
 import { PopUpWindow, Wrapper } from './PopUp.styles';
 
-let body = null;
-if (document) {
-  body = document.querySelector('body');
-}
+// let body = null;
+// if (document) {
+const body = document.querySelector('body');
+// }
 
 type PopUpProps = {
   children: React.ReactNode;
@@ -13,11 +13,11 @@ type PopUpProps = {
 };
 
 export function PopUp({ children, borderColor, width, closeModalFunc }: PopUpProps) {
-  body?.style.overflow = 'hidden';
+  body.style.overflow = 'hidden';
 
   const closeModal = () => {
     console.log('layout');
-    body?.style.overflow = 'auto';
+    body.style.overflow = 'auto';
     closeModalFunc();
   };
 

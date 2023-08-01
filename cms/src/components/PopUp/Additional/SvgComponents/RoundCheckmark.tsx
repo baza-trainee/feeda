@@ -18,7 +18,7 @@ export function RoundCheckmark({ stroke, css }: RoundCheckmarkProps) {
       </g>
       <defs>
         <clipPath id="a">
-          <path fill="fff" d="M0 0h24v24H0z" />
+          <path fill="#fff" d="M0 0h24v24H0z" />
         </clipPath>
       </defs>
     </svg>

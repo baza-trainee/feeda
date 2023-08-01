@@ -3,7 +3,7 @@ import { ControlBtn } from '../ControlBtn/ControlBtn';
 import { PopUpText } from '../PopUpText/PopUpText';
 import { PopUpTitle } from '../PopUpTitle/PopUpTitle';
 import { RoundCheckmark } from '../SvgComponents/RoundCheckmark';
-import { ButtonsWrapper, ContentWrapper, iconStyles,TextWrapper } from './ConfirmRemoval.styles';
+import { ButtonsWrapper, ContentWrapper, iconStyles, TextWrapper } from './ConfirmRemoval.styles';
 
 type ConfirmRemovalProps = {
   yesCallback: () => void;
@@ -16,7 +16,7 @@ export function ConfirmRemoval({ yesCallback, noCallback, closeModalFunc, target
   return (
     <PopUp closeModalFunc={closeModalFunc}>
       <ContentWrapper>
-        <RoundCheckmark css={[iconStyles]} stroke="#29ca56" />
+        <RoundCheckmark css={[iconStyles]} />
         <TextWrapper>
           <PopUpTitle>Видалити {target}</PopUpTitle>
           <PopUpText>Ви впевнені, що хочете видалити {target}?</PopUpText>

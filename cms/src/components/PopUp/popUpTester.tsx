@@ -4,7 +4,6 @@ import { useState } from 'react';
 
 import { ConfirmRemoval } from './Additional/ConfirmRemoval/ConfirmRemoval';
 import { SuccessNotification } from './Additional/SuccessNotification/SuccessNotification';
-import { PopUp } from './PopUp';
 
 const body = document.querySelector('body');
 
@@ -27,15 +26,15 @@ export function PopUpTester() {
 
   return (
     <>
-      {show && (
+      {/* {show && (
         <ConfirmRemoval
           yesCallback={yesCallback}
           noCallback={noCallback}
           target="учасника"
           closeModalFunc={() => setShow(!show)}
         />
-      )}
-      {/* {show && <SuccessNotification closeModalFunc={() => setShow(!show)} />} */}
+      )} */}
+      {show && <SuccessNotification closeModalFunc={() => setShow(!show)} />} 
       <button type="button" onClick={() => setShow(!show)}>
         Open Modal
       </button>
