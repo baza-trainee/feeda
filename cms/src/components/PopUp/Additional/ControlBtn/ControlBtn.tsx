@@ -11,7 +11,7 @@ type ControlBtnProps = {
   style?: React.CSSProperties;
   type: 'accept' | 'cancel' | 'other';
   isDisabled?: boolean;
-  callback: () => void;
+  callback?: () => void;
 };
 
 export function ControlBtn({ text, type, color, isDisabled, style, callback }: ControlBtnProps) {

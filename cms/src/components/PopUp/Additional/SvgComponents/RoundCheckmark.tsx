@@ -2,12 +2,16 @@
 
 type RoundCheckmarkProps = {
   stroke?: string;
-  css?: object[];
 };
 
-export function RoundCheckmark({ stroke, css }: RoundCheckmarkProps) {
+export function RoundCheckmark({ stroke }: RoundCheckmarkProps) {
   return (
-    <svg css={css} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+    <svg
+      style={{ width: 24, height: 24, marginRight: 16 }}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
       <g clipPath="url(#a)">
         <path
           fillRule="evenodd"

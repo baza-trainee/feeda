@@ -1,40 +1,51 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import { ConfirmRemoval } from './Additional/ConfirmRemoval/ConfirmRemoval';
-import { SuccessNotification } from './Additional/SuccessNotification/SuccessNotification';
-
-const body = document.querySelector('body');
+import { PopUp } from './PopUp';
 
 /* Компонент-приклад як використовувати поп-ап, просто імпортуй цей компонет на свою сторінку. */
 /* Якщо є питання звертайся до tipanazar */
 
+const toggleOverflow = (body: HTMLBodyElement | null, overflow: string) => {
+  if (body) {
+    body.style.overflow = overflow;
+  }
+};
+
 export function PopUpTester() {
   const [show, setShow] = useState(false);
+  const bodyRef = useRef<HTMLBodyElement | null>(null);
+  if (document) {
+    bodyRef.current = document.querySelector('body');
+  }
+  useEffect(() => {
+    toggleOverflow(bodyRef.current, 'hidden');
+  }, [show]);
 
   const yesCallback = () => {
     console.log('yes');
-    body.style.overflow = 'auto';
+    toggleOverflow(bodyRef.current, 'auto');
     setShow(!show);
   };
   const noCallback = () => {
     console.log('no');
-    body.style.overflow = 'auto';
+    toggleOverflow(bodyRef.current, 'auto');
     setShow(!show);
   };
 
   return (
     <>
-      {/* {show && (
-        <ConfirmRemoval
+      {show && (
+        <PopUp
+          type="видалення"
+          target="учасника"
           yesCallback={yesCallback}
           noCallback={noCallback}
-          target="учасника"
           closeModalFunc={() => setShow(!show)}
         />
-      )} */}
-      {show && <SuccessNotification closeModalFunc={() => setShow(!show)} />} 
+      )}
+      {/* {show && <PopUp type="повідомлення" mobileWidth="256px" closeModalFunc={() => setShow(!show)} />} */}
       <button type="button" onClick={() => setShow(!show)}>
         Open Modal
       </button>
