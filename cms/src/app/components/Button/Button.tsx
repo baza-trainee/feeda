@@ -1,7 +1,8 @@
 'use client';
 /** @jsxImportSource @emotion/react */
 import { ReactNode, useState } from 'react';
-import { PrimaryBtn, TextBtn, IconBtn } from './Button.styles';
+
+import { IconBtn, PrimaryBtn, TextBtn } from './Button.styles';
 
 type IconType = 'exit' | 'add' | 'delete' | 'edit' | 'plus';
 
@@ -17,7 +18,7 @@ type ButtonProps = {
 export const Button = ({ children, isDisabled, func, variant, icon = null, btnType = 'button' }: ButtonProps) => {
   const [isPressed, setIsPressed] = useState(false);
 
-  const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onClickHandler = () => {
     if (func) func();
   };
 
