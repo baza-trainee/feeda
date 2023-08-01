@@ -2,27 +2,19 @@
 /** @jsxImportSource @emotion/react */
 
 import Image from 'next/image';
+import Link from 'next/link';
 
-import logo from '../../../public/logo.svg';
 import menuIcon from '../../../public/menu.svg';
 import searchIcon from '../../../public/search.svg';
-import {
-  DesktopContent,
-  LogoWrapper,
-  MenuBtn,
-  MenuWrapper,
-  SearchInput,
-  SearchWrapper,
-  Wrapper,
-} from './Header.styles';
+import { DesktopContent, logoStyles, MenuBtn, MenuWrapper, SearchInput, SearchWrapper, Wrapper } from './Header.styles';
 
 export function Header() {
   return (
     <Wrapper>
       <DesktopContent>
-        <LogoWrapper>
-          <Image src={logo} width={128} height={40} alt="Feeda" />
-        </LogoWrapper>
+        <Link href="/" css={logoStyles}>
+          Feeda
+        </Link>
         <h1>...Page name...</h1>
       </DesktopContent>
       <MenuWrapper>

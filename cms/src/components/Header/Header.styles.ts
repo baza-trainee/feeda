@@ -1,6 +1,7 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { colors,fonts, media } from '../../styles/theme';
+import { colors, fonts, media } from '../../styles/theme';
 
 export const Wrapper = styled.header`
   display: flex;
@@ -28,13 +29,20 @@ export const DesktopContent = styled.div`
   }
 `;
 
-export const LogoWrapper = styled.div`
+export const logoStyles = css`
   margin-right: 16px;
   padding: 16px;
   border-radius: 0px 0px 4px 4px;
+  color: ${colors.mainTitle};
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.22;
   background-color: ${colors.mainAccent};
   @media screen and (${media.desktop}) {
-    padding: 24px 134px 24px 24px;
+    padding: 16px 24px;
+    width: 238px;
+    font-size: 45px;
+    line-height: 1.15;
   }
 `;
 
@@ -63,15 +71,15 @@ export const SearchWrapper = styled.div`
   display: flex;
   align-items: center;
   border-radius: 4px;
-  width: 239px;
-  height: 56px;
+  max-width: 239px;
   padding-right: 16px;
   margin-left: auto;
   border: 1px solid #cecece;
   @media screen and (${media.tablet}) {
-    width: 223px;
+    max-width: 223px;
   }
   @media screen and (${media.desktop}) {
+    max-width: 100vw;
     width: 388px;
   }
 `;
@@ -80,8 +88,11 @@ export const SearchInput = styled.input`
   padding: 16px 0 16px 16px;
   border: 0;
   border-radius: 4px 0 0 4px;
+  color: ${colors.mainText};
   width: 100%;
-  color: #767676;
   font-size: 16px;
-  background-color: #fcfcfc;
+  background-color: transparent;
+  &::-webkit-input-placeholder {
+    color: #767676;
+  }
 `;
