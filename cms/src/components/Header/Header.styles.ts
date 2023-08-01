@@ -39,8 +39,7 @@ export const logoStyles = css`
   line-height: 1.22;
   background-color: ${colors.mainAccent};
   @media screen and (${media.desktop}) {
-    padding: 16px 24px;
-    width: 238px;
+    padding: 16px 134px 16px 24px;
     font-size: 45px;
     line-height: 1.15;
   }
@@ -69,6 +68,7 @@ export const MenuBtn = styled.button`
 
 export const SearchWrapper = styled.div`
   display: flex;
+  width: 100%;
   align-items: center;
   border-radius: 4px;
   max-width: 239px;
@@ -79,13 +79,12 @@ export const SearchWrapper = styled.div`
     max-width: 223px;
   }
   @media screen and (${media.desktop}) {
-    max-width: 100vw;
-    width: 388px;
+    max-width: 388px;
   }
 `;
 
 export const SearchInput = styled.input`
-  padding: 16px 0 16px 16px;
+  padding: 16px;
   border: 0;
   border-radius: 4px 0 0 4px;
   color: ${colors.mainText};
