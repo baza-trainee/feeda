@@ -11,12 +11,12 @@ export const Wrapper = styled.div`
   background-color: #fcfcfc66;
   /* cursor: pointer; */
 `;
-export const PopUpWindow = styled.div<{ borderColor: string }>`
+export const PopUpWindow = styled.div<{ borderColor: string; width: string }>`
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 329px;
+  width: ${({ width }) => width || ' 329px'};
   padding: 32px;
   border-radius: 16px;
   border: 1px solid ${({ borderColor }) => borderColor || '#cecece'};

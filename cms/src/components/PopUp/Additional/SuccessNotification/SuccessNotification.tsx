@@ -1,18 +1,23 @@
-import Image from 'next/image';
-
-import round_checkmark from '../../../../../public/round-checkmark.svg';
+import { PopUp } from '../../PopUp';
 import { PopUpText } from '../PopUpText/PopUpText';
 import { PopUpTitle } from '../PopUpTitle/PopUpTitle';
-import { TextWrapper, Wrapper } from './SuccessNotification.styles';
+import { RoundCheckmark } from '../SvgComponents/RoundCheckmark';
+import { iconStyles, TextWrapper, Wrapper } from './SuccessNotification.styles';
 
-export function SuccessNotification() {
+type SuccessNotificationProps = {
+  closeModalFunc: () => void;
+};
+
+export function SuccessNotification({ closeModalFunc }: SuccessNotificationProps) {
   return (
-    <Wrapper>
-      <Image style={{ marginRight: 16, fill: 'green' }} src={round_checkmark} alt="Галочка" />
-      <TextWrapper>
-        <PopUpTitle color="#29CA56">Успіх!</PopUpTitle>
-        <PopUpText>Ваші дані було успішно збережено.</PopUpText>
-      </TextWrapper>
-    </Wrapper>
+    <PopUp borderColor="#29CA56" width="256px" closeModalFunc={closeModalFunc}>
+      <Wrapper>
+        <RoundCheckmark css={[iconStyles]} stroke="#29ca56" />
+        <TextWrapper>
+          <PopUpTitle color="#29CA56">Успіх!</PopUpTitle>
+          <PopUpText>Ваші дані було успішно збережено.</PopUpText>
+        </TextWrapper>
+      </Wrapper>
+    </PopUp>
   );
 }

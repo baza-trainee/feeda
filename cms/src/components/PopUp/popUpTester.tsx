@@ -27,16 +27,15 @@ export function PopUpTester() {
 
   return (
     <>
-      {/* {show && (
-        <PopUp closeModalFunc={() => setShow(!show)}>
-          <ConfirmRemoval yesCallback={yesCallback} noCallback={noCallback} target="учасника" />
-        </PopUp>
-      )} */}
       {show && (
-        <PopUp borderColor="#29CA56" closeModalFunc={() => setShow(!show)}>
-          <SuccessNotification />
-        </PopUp>
+        <ConfirmRemoval
+          yesCallback={yesCallback}
+          noCallback={noCallback}
+          target="учасника"
+          closeModalFunc={() => setShow(!show)}
+        />
       )}
+      {/* {show && <SuccessNotification closeModalFunc={() => setShow(!show)} />} */}
       <button type="button" onClick={() => setShow(!show)}>
         Open Modal
       </button>

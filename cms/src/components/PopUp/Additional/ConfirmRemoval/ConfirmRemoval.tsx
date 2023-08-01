@@ -1,22 +1,22 @@
-import Image from 'next/image';
-
-import round_checkmark from '../../../../../public/round-checkmark.svg';
+import { PopUp } from '../../PopUp';
 import { ControlBtn } from '../ControlBtn/ControlBtn';
 import { PopUpText } from '../PopUpText/PopUpText';
 import { PopUpTitle } from '../PopUpTitle/PopUpTitle';
-import { ButtonsWrapper, ContentWrapper, TextWrapper } from './ConfirmRemoval.styles';
+import { RoundCheckmark } from '../SvgComponents/RoundCheckmark';
+import { ButtonsWrapper, ContentWrapper, iconStyles,TextWrapper } from './ConfirmRemoval.styles';
 
 type ConfirmRemovalProps = {
   yesCallback: () => void;
   noCallback: () => void;
+  closeModalFunc: () => void;
   target: 'проєкт' | 'учасника';
 };
 
-export function ConfirmRemoval({ yesCallback, noCallback, target }: ConfirmRemovalProps) {
+export function ConfirmRemoval({ yesCallback, noCallback, closeModalFunc, target }: ConfirmRemovalProps) {
   return (
-    <>
+    <PopUp closeModalFunc={closeModalFunc}>
       <ContentWrapper>
-        <Image style={{ marginRight: 16 }} src={round_checkmark} alt="Галочка" />
+        <RoundCheckmark css={[iconStyles]} stroke="#29ca56" />
         <TextWrapper>
           <PopUpTitle>Видалити {target}</PopUpTitle>
           <PopUpText>Ви впевнені, що хочете видалити {target}?</PopUpText>
@@ -26,6 +26,6 @@ export function ConfirmRemoval({ yesCallback, noCallback, target }: ConfirmRemov
         <ControlBtn style={{ marginRight: '24px' }} type="accept" callback={yesCallback} />
         <ControlBtn type="cancel" callback={noCallback} />
       </ButtonsWrapper>
-    </>
+    </PopUp>
   );
 }

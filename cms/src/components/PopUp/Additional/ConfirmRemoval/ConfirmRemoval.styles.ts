@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const ContentWrapper = styled.div`
@@ -8,6 +9,12 @@ export const ContentWrapper = styled.div`
 
 export const TextWrapper = styled.div`
   width: 211px;
+`;
+
+export const iconStyles = css`
+  width: 24px;
+  height: 24px;
+  margin-right: 16px;
 `;
 
 export const ButtonsWrapper = styled.div`
