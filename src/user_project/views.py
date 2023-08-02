@@ -456,7 +456,7 @@ def command_update(request, id):
 
     try:
         command = ProjectParticipants.objects.get(id=id)
-        serializer = CreateProjectParticipantsSerializer(command, data=request.data)
+        serializer = UpdateProjectParticipantsSerializer(command, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

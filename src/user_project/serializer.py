@@ -168,6 +168,16 @@ class CreateProjectParticipantsSerializer(serializers.ModelSerializer):
         return representation
 
 
+class UpdateProjectParticipantsSerializer(serializers.ModelSerializer):
+    """Серіалайзер оновлення команди"""
+    user = serializers.PrimaryKeyRelatedField(many=False, queryset=Participant.objects.all(), required=False)
+    project = serializers.PrimaryKeyRelatedField(many=False, queryset=ProjectParticipants.objects.all(), required=True)
+
+    class Meta:
+        model = ProjectParticipants
+        fields = ('user', 'project')
+
+
 class DetailParticipantSerializer(serializers.ModelSerializer):
     speciality = SpecialitySerializer()
     project = ProjectsSerializer()
