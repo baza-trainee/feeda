@@ -1,0 +1,73 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+client/node_modules
+client/.pnp
+client/.pnp.js
+client/package-lock.json
+cms/node_modules
+cms/.pnp
+cms/.pnp.js
+cms/package-lock.json
+
+# testing
+client/coverage
+cms/coverage
+
+# next.js
+client/.next/
+client/out/
+cms/.next/
+cms/out/
+
+# production
+client/build
+cms/build
+
+# misc
+client/.DS_Store
+client/*.pem
+cms/.DS_Store
+cms/*.pem
+
+# debug
+client/npm-debug.log*
+cms/npm-debug.log*
+
+# local env files
+client/.env*.local
+cms/.env*.local
+
+# vercel
+client/.vercel
+cms/.vercel
+
+# typescript
+client/*.tsbuildinfo
+client/next-env.d.ts
+cms/*.tsbuildinfo
+cms/next-env.d.ts
+
+# vscode settings
+.vscode/*
+!.vscode/settings.json
+client/.vscode/*
+client/!.vscode/settings.json
+cms/.vscode/*
+cms/!.vscode/settings.json
+
+# temp folders
+client/_legacy*
+client/_backup*
+client/_temp*
+cms/_legacy*
+cms/_backup*
+cms/_temp*
+
+# temp files
+client/*._legacy*
+client/*._backup*
+client/*._temp*
+cms/*._legacy*
+cms/*._backup*
+cms/*._temp*
