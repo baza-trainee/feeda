@@ -105,6 +105,13 @@ DATABASES = {
     }
 }
 
+#### Для redner
+# DATABASES = {
+#     'default': {
+#         'default': ''
+#     }
+# }
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -219,9 +226,6 @@ CORS_ALLOWED_HEADERS = (
 )
 
 load_dotenv(find_dotenv())
-DISCORD_CLIENT_ID = os.getenv('DISCORD_CLIENT_ID')
-DISCORD_PUBLIC_KEY = os.getenv('DISCORD_PUBLIC_KEY')
-DISCORD_SECRET_KEY = os.getenv('DISCORD_SECRET_KEY')
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
