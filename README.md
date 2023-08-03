@@ -1,32 +1,18 @@
-**Local use**
+# Local usage
 
-1. Make sure you have installedd and authorized `Docker Desktop`
+1. Make sure you have installedd, authorized and TURNED ON `Docker Desktop`
 
-2. Go to the server directory `cd server`
+2. Go to Docker Desktop:
 
-3. Tape in command line (Terminal) `docker-compose up`, if not working `docker compose up`
+- paste to search `maxvibe/feeda`
+- choose Tag `test`
+- click button `Pull`
+  ![Screenshot](docker-search.png)
 
-4. Go to Docker Desktop and open `my-django-app` in `server`
-   ![Screenshot](docker.png)
+3. Go to Terminal(cmd or comand line) and enter `docker run -p 8000:8000 maxvibe/feeda:test`
 
-5. Then go to the terminal
-   ![Screenshot](docker-terminal.png)
+4. Go to [http://localhost:8000/admin](http://localhost:8000/admin) and login just created superuser
 
-6. Make migrations by 2 commands:
+5. Use API as `http://localhost:8000/[endpoint]`
 
-- `python manage.py makemigrations`
-- `python manage.py migrate`
-
-7. Then create superuser (it will be our admin for DB usage):
-
-- `python manage.py createsuperuser`
-  - add email Email:[random@eamail.com]
-  - add pass Password:[random pass] (while pasting, the pass will not appear, коли вводиш пароль не відображається)
-- if you see the message `Bypass password validation and create user anyway? [y/N]: y` - just paste `y`
-
-8. Go to web and login just created superuser
-   ![Screenshot](go-to-localweb.png)
-
-9. Use API as `http://localhost:8000/`
-
-10. After all this steps are done, next time you don't have to do them, just start docker server from Docker Desktop, that's will be enougth.
+### After all this steps are done, next time you don't have to do them, just start docker server from Docker Desktop, that will be enougth.
