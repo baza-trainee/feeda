@@ -1,6 +1,6 @@
 **Local use**
 
-1. Make sure you have installedd and authorized `Docker Desktop`
+1. Make sure you have installedd, authorized and TURNED ON `Docker Desktop`
 
 2. Go to the server directory `cd server`
 
