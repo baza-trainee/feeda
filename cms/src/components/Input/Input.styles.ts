@@ -1,9 +1,20 @@
-import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
-export const inputStyles = css`
-  background-color: red;
+export const InputWrapper = styled.div`
+  border: solid 1px green;
+  &:has(input:focused) {
+    outline: 2px solid #939393;
+  }
 `;
 
-export const labelStyles = css`
+export const InputComp = styled.input`
+  color: red;
+`;
+
+export const LabelComp = styled.label`
   color: blue;
+`;
+
+export const SupportLabelComp = styled.label`
+  color: pink;
 `;

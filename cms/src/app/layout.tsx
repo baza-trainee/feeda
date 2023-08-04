@@ -1,5 +1,6 @@
 import { Exo_2 } from 'next/font/google';
 
+import { InputTester } from '../components/Input/inputTester';
 import EmotionRegistry from './registry';
 
 const eho = Exo_2({
@@ -18,7 +19,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={eho.className}>
       <EmotionRegistry>
-        <body>{children}</body>
+        <body>
+          {children} <InputTester />
+        </body>
       </EmotionRegistry>
     </html>
   );
