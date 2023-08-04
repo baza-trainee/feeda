@@ -6,7 +6,16 @@ import Link from 'next/link';
 
 import menuIcon from '../../../public/menu.svg';
 import searchIcon from '../../../public/search.svg';
-import { DesktopContent, logoStyles, MenuBtn, MenuWrapper, SearchInput, SearchWrapper, Wrapper } from './Header.styles';
+import {
+  DesktopContent,
+  logoStyles,
+  MenuBtn,
+  MenuWrapper,
+  PageTitle,
+  SearchInput,
+  SearchWrapper,
+  Wrapper,
+} from './Header.styles';
 
 export function Header() {
   return (
@@ -15,7 +24,11 @@ export function Header() {
         <Link href="/" css={logoStyles}>
           Feeda
         </Link>
-        <h1>...Page name...</h1>
+        {/* <h1>...Page name...</h1> */}
+        <PageTitle>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rem vero officiis ad repellendus quisquam neque
+          perspiciatis cum. Saepe, maxime? Quis nobis ipsam nulla, tenetur placeat dolore deserunt officiis quasi ut.
+        </PageTitle>
       </DesktopContent>
       <MenuWrapper>
         <MenuBtn onClick={() => console.log('Open menu')}>

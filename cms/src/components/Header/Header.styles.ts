@@ -7,6 +7,7 @@ export const Wrapper = styled.header`
   display: flex;
   align-items: center;
   padding: 0 29px;
+  max-width: 100vw;
   @media screen and (${media.tablet}) {
     padding: 0 32px;
   }
@@ -14,18 +15,15 @@ export const Wrapper = styled.header`
 
 export const DesktopContent = styled.div`
   display: none;
+  white-space: nowrap;
+  overflow: hidden;
   @media screen and (${media.tablet}) {
     display: flex;
     align-items: center;
-    color: ${colors.mainLabel};
-    text-overflow: ellipsis;
-    font-size: ${fonts.headline.fontSize.tablet}px;
-    font-weight: ${fonts.headline.fontWeight.tablet};
-    line-height: ${fonts.headline.lineHeight.tablet};
+    padding-right: 39px;
   }
   @media screen and (${media.desktop}) {
-    font-size: ${fonts.headline.fontSize.desktop}px;
-    line-height: ${fonts.headline.lineHeight.desktop};
+    padding-right: 34px;
   }
 `;
 
@@ -43,6 +41,15 @@ export const logoStyles = css`
     font-size: 45px;
     line-height: 1.15;
   }
+`;
+
+export const PageTitle = styled.h1`
+  font-size: ${fonts.headline.fontSize.desktop}px;
+  font-weight: ${fonts.headline.fontWeight.tablet}px;
+  line-height: ${fonts.headline.lineHeight.desktop};
+  color: ${colors.mainTitle};
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 export const MenuWrapper = styled.div`
@@ -68,7 +75,6 @@ export const MenuBtn = styled.button`
 
 export const SearchWrapper = styled.div`
   display: flex;
-  width: 100%;
   align-items: center;
   border-radius: 4px;
   max-width: 239px;
@@ -77,9 +83,11 @@ export const SearchWrapper = styled.div`
   border: 1px solid #cecece;
   @media screen and (${media.tablet}) {
     max-width: 223px;
+    min-width: 223px;
   }
   @media screen and (${media.desktop}) {
     max-width: 388px;
+    min-width: 388px;
   }
 `;
 

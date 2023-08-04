@@ -2,8 +2,8 @@
 /** @jsxImportSource @emotion/react */
 import { useState } from 'react';
 
-import { IconBtn, PrimaryBtn, TextBtn } from './Button.styles';
 import { IconSprite, IconType } from '../IconSprite/IconSprite';
+import { IconBtn, PrimaryBtn, TextBtn } from './Button.styles';
 
 type ButtonProps = {
   isDisabled?: boolean;
