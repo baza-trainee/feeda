@@ -15,8 +15,8 @@ import {
 } from './PopUp.styles';
 
 type PopUpProps = {
-  type: 'видалення' | 'повідомлення';
-  target?: 'проєкт' | 'учасника';
+  type: 'delete' | 'success';
+  target?: 'project' | 'member';
   borderColor?: string;
   mobileWidth?: string;
   yesCallback?: () => void;
@@ -26,7 +26,7 @@ type PopUpProps = {
 
 export function PopUp({ type, target, borderColor, mobileWidth, closeModalFunc, yesCallback, noCallback }: PopUpProps) {
   useEffect(() => {
-    if (type === 'повідомлення') {
+    if (type === 'success') {
       setTimeout(() => {
         closeModalFunc();
       }, 2000);
@@ -38,18 +38,21 @@ export function PopUp({ type, target, borderColor, mobileWidth, closeModalFunc, 
     console.log('layout');
     closeModalFunc();
   };
-
+  const copy = {
+    project: 'проєкт',
+    member: 'учасника',
+  };
   return (
     <>
       <Wrapper onClick={closeModal} />
       <PopUpWindow borderColor={borderColor} mobileWidth={mobileWidth}>
-        {type === 'видалення' && (
+        {type === 'delete' && (
           <>
             <ContentWrapper>
               <RoundCheckmark />
               <TextWrapperRemoval>
-                <PopUpTitle>Видалити {target}</PopUpTitle>
-                <PopUpText>Ви впевнені, що хочете видалити {target}?</PopUpText>
+                <PopUpTitle>Видалити {copy[target]}</PopUpTitle>
+                <PopUpText>Ви впевнені, що хочете видалити {copy[target]}?</PopUpText>
               </TextWrapperRemoval>
             </ContentWrapper>
             <ButtonsWrapper>
@@ -58,7 +61,7 @@ export function PopUp({ type, target, borderColor, mobileWidth, closeModalFunc, 
             </ButtonsWrapper>
           </>
         )}
-        {type === 'повідомлення' && (
+        {type === 'success' && (
           <NotificationWrapper>
             <RoundCheckmark stroke="#29ca56" />
             <TextWrapperNotification>

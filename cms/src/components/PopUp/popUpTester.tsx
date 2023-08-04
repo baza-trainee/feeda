@@ -38,14 +38,14 @@ export function PopUpTester() {
     <>
       {show && (
         <PopUp
-          type="видалення"
-          target="учасника"
+          type="delete"
+          target="project"
           yesCallback={yesCallback}
           noCallback={noCallback}
           closeModalFunc={() => setShow(!show)}
         />
       )}
-      {/* {show && <PopUp type="повідомлення" mobileWidth="256px" closeModalFunc={() => setShow(!show)} />} */}
+      {/* {show && <PopUp type="success" mobileWidth="256px" closeModalFunc={() => setShow(!show)} />} */}
       <button type="button" onClick={() => setShow(!show)}>
         Open Modal
       </button>
