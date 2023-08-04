@@ -4,12 +4,14 @@ import styled from '@emotion/styled';
 import { colors, fonts, media } from '../../styles/theme';
 
 export const Wrapper = styled.header`
-  display: flex;
-  align-items: center;
-  padding: 0 29px;
   max-width: 100vw;
+  margin-bottom: 24px;
   @media screen and (${media.tablet}) {
-    padding: 0 32px;
+    display: flex;
+    align-items: center;
+  }
+  @media screen and (${media.desktop}) {
+    margin-bottom: 32px;
   }
 `;
 
@@ -43,20 +45,35 @@ export const logoStyles = css`
   }
 `;
 
+export const pageMobileTitleStyles = css`
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  margin-top: 16px;
+  @media screen and (${media.tablet}) {
+    display: none;
+  }
+`;
+
 export const PageTitle = styled.h1`
   font-size: ${fonts.headline.fontSize.desktop}px;
-  font-weight: ${fonts.headline.fontWeight.tablet}px;
+  font-weight: ${fonts.headline.fontWeight.tablet};
   line-height: ${fonts.headline.lineHeight.desktop};
   color: ${colors.mainTitle};
   text-overflow: ellipsis;
   overflow: hidden;
 `;
 
+export const MobileHeaderWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 export const MenuWrapper = styled.div`
   width: 72px;
   height: 72px;
   padding: 16px;
-  margin-right: 10px;
+  margin-right: 24px;
   border-radius: 0px 0px 8px 8px;
   background-color: ${colors.mainAccent};
   @media screen and (${media.tablet}) {
