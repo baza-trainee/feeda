@@ -18,7 +18,6 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint', 'simple-import-sort'],
   rules: {
-
     quotes: ['error', 'single', { avoidEscape: true }],
     semi: ['error', 'always'],
     'simple-import-sort/imports': [
