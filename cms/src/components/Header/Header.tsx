@@ -25,7 +25,7 @@ export function Header() {
         <Link href="/" css={logoStyles}>
           Feeda
         </Link>
-        <PageTitle>Page name...</PageTitle>
+        <PageTitle title="page name...">Page name...</PageTitle>
       </DesktopContent>
       <MobileHeaderWrapper>
         <MenuWrapper>
