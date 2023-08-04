@@ -19,6 +19,7 @@ export const DesktopContent = styled.div`
   display: none;
   white-space: nowrap;
   overflow: hidden;
+  margin-right: auto;
   @media screen and (${media.tablet}) {
     display: flex;
     align-items: center;
@@ -98,6 +99,9 @@ export const SearchWrapper = styled.div`
   padding-right: 16px;
   margin-left: auto;
   border: 1px solid #cecece;
+  &:has(input:focus) {
+    outline: #939393 solid 2px;
+  }
   @media screen and (${media.tablet}) {
     max-width: 223px;
     min-width: 223px;
