@@ -1,26 +1,46 @@
 'use client';
 
-import Next from '../../../public/next.svg';
-import Vercel from '../../../public/vercel.svg';
+import { useState } from 'react';
+
 import { Input } from './Input';
 
 export function InputTester() {
+  // const [inputValue, setInputValue] = useState('standart text inside...');
+  const [inputValue, setInputValue] = useState('');
+  // console.log(inputValue.test(/^[0-9]{1,10}$/));
   return (
-    <Input
-      placeholder="placeholder"
-      type="text"
-      value="value"
-      name="test"
-      id="test"
-      label="label"
-      supportLabel="supportLabel"
-      //   disabled={false}
-      //   begIcon={<Next />}
-      //   endIcon={<Vercel />}
-      onInputFunc={(ev) => console.log(ev.target.value)}
-      //   inputCss
-      //   labelCss,
-      //   supportLabelCss,
-    />
+    <div style={{ width: '300px', margin: '0 auto' }}>
+      <Input
+        placeholder="placeholder"
+        type="text"
+        value={inputValue}
+        name="test"
+        id="test"
+        label="label"
+        supportLabel="supportLabel"
+        pattern="[0-9]{1,10}"
+        // disabled={true}
+        dropdownList={[
+          'one',
+          'two',
+          'three',
+          'four',
+          'five',
+          'six',
+          'seven',
+          'eight',
+          'nine',
+          'ten',
+          'eleven',
+          'twelve',
+        ]}
+        begIconId="pencil"
+        endIconId="arrowDown"
+        onInputFunc={(ev) => setInputValue(ev.target.value)}
+        //   inputCss
+        //   labelCss,
+        //   supportLabelCss,
+      />
+    </div>
   );
 }
