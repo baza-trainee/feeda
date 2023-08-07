@@ -7,6 +7,8 @@ export const MainWrapper = styled.div``;
 export const LabelComp = styled.label<{ inputValueLen: number; isDisabled: boolean; checkIsValid: boolean }>`
   --txtColor: ${({ inputValueLen, isDisabled }) =>
     isDisabled ? colors.disabledBtnBg : inputValueLen ? colors.mainPlaceholder : colors.mainLabel};
+  display: inline-block;
+  margin-bottom: 4px;
   font-size: 16px;
   font-weight: 400;
   color: var(--txtColor);
@@ -22,7 +24,6 @@ export const LabelComp = styled.label<{ inputValueLen: number; isDisabled: boole
 `;
 
 export const InputWrapper = styled.div<{
-  isDisabled: boolean;
   checkIsValid: boolean;
   dropdownList: boolean;
   endIconId: boolean;
@@ -33,7 +34,8 @@ export const InputWrapper = styled.div<{
   border: solid 1px #14905d;
   border-radius: 4px;
   border: 1px solid #cecece;
-  margin: 4px 0;
+  /* margin: 4px 0; */
+  padding: 0 16px;
   background: '#fcfcfc';
   &:has(input:invalid) {
     outline: 2px solid #dc0c31;
@@ -65,16 +67,6 @@ export const InputWrapper = styled.div<{
     }
   }}
 
-/* ${({ dropdownList, endIconId }) => {
-    if (dropdownList && endIconId) {
-      return '&:last-child { \
-        background-color: red;';
-    }
-  }} */
-  &:last-child {
-    background-color: red;
-  }
-
   &:has(input:focus) {
     outline: 2px solid #939393;
     & ~ label {
@@ -83,7 +75,7 @@ export const InputWrapper = styled.div<{
   }
 `;
 
-export const InputComp = styled.input`
+export const InputComp = styled.input<{ dropdownList: boolean }>`
   display: inline-block;
   width: 100%;
   border-radius: 4px;
@@ -96,13 +88,23 @@ export const InputComp = styled.input`
   &::-webkit-input-placeholder {
     color: ${colors.mainPlaceholder};
   }
+  ${({ dropdownList }) => {
+    if (dropdownList) {
+      return '& + div > svg { \
+        transition: transform 0.2s ease-in-out; \
+      } \
+      &:focus + div > svg { \
+        transform: rotateX(180deg);  \
+      }';
+    }
+  }}
 `;
 
 export const InputIconWrapper = styled.div<{ isDisabled: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px 12px 16px 16px;
+  padding: 16px 12px 16px 0;
   color: ${({ isDisabled }) => (isDisabled ? colors.disabledBtnBg : 'initial')};
 `;
 
@@ -113,15 +115,13 @@ export const DropdownList = styled.ul`
   transform: translate(-50%, 100%);
   bottom: -3px;
   background-color: white;
-  /* max-height: 168px; */
   max-height: 0;
   overflow-y: auto;
   transition: max-height 0.2s ease-in-out;
 `;
 
 export const DropdownItem = styled.li`
-  /* border-bottom: 1px solid #939393; */
-  border-radius: 5px;
+  border-radius: 4px;
   margin-bottom: 4px;
   padding: 18px 16px;
   font-size: 16px;
@@ -129,14 +129,22 @@ export const DropdownItem = styled.li`
   color: ${colors.mainText};
   background-color: #fcfcfc;
   cursor: pointer;
+  &:hover {
+    background-color: #fdf5dd;
+  }
+  &:active {
+    background-color: #232323;
+    color: ${colors.mainBtnText};
+  }
   &:last-child {
-    /* border-bottom: none; */
     margin-bottom: 4px;
   }
 `;
 
 export const SupportLabelComp = styled.label<{ isDisabled: boolean }>`
   color: ${({ isDisabled }) => (isDisabled ? colors.disabledBtnBg : '#49454f')};
+  display: inline-block;
+  margin-top: 4px;
   font-size: 12px;
   font-weight: 400;
   line-height: 1.33;

@@ -1,8 +1,6 @@
 // 'use client';
 
-import { useRef, useState } from 'react';
-
-import { IconSprite } from '../IconSprite/IconSprite';
+import { IconSprite, IconType } from '../IconSprite/IconSprite';
 import {
   DropdownItem,
   DropdownList,
@@ -18,24 +16,19 @@ type InputProps = {
   placeholder?: string;
   type?: string;
   value: string;
-  // onInputFunc: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onInputFunc: (e: React.ChangeEvent<HTMLInputElement> | string) => void;
-  dropdownList?: string[];
-  name?: string;
-  className?: string;
+  onInputFunc: (e: string) => void;
+  name: string;
   id?: string;
   label?: string;
   supportLabel?: string;
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   required?: boolean;
   minLength?: number;
   maxLength?: number;
   pattern?: string;
-  inputCss?: object[];
-  labelCss?: object[];
-  supportLabelCss?: object[];
-  begIconId?: string;
-  endIconId?: string;
+  begIconId?: IconType | undefined;
+  endIconId?: IconType | undefined;
+  dropdownList?: string[];
 };
 
 export function Input({
@@ -47,38 +40,28 @@ export function Input({
   id,
   label,
   supportLabel,
-  disabled,
+  disabled = false,
   required,
   minLength,
   maxLength,
   pattern,
   begIconId,
   endIconId,
-  inputCss,
-  labelCss,
-  supportLabelCss,
   dropdownList,
 }: InputProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
   const listMarkup = dropdownList
-    ?.filter((item) => item.includes(value))
-    .map((item) => (
-      <DropdownItem
-        key={item}
-        onClick={() => {
-          if (inputRef.current) {
-            inputRef.current.value = item;
-          }
-        }}
-      >
-        {item}
-      </DropdownItem>
-    ));
+    ?.filter((item) => item.toLowerCase().includes(value.toLowerCase()))
+    .map((item) => {
+      return (
+        <DropdownItem key={item} onClick={() => onInputFunc(item)}>
+          {item}
+        </DropdownItem>
+      );
+    });
   return (
     <MainWrapper>
       {label && (
         <LabelComp
-          css={labelCss}
           htmlFor={id}
           inputValueLen={value.length}
           isDisabled={disabled}
@@ -99,18 +82,17 @@ export function Input({
         )}
         <InputComp
           id={id}
-          css={inputCss}
           placeholder={placeholder}
           type={type || 'text'}
           value={value}
           name={name}
-          onInput={onInputFunc}
+          onInput={(ev) => onInputFunc((ev.target as HTMLInputElement).value)}
           disabled={disabled}
           required={required}
           maxLength={maxLength}
           minLength={minLength}
           pattern={pattern}
-          ref={inputRef}
+          dropdownList={Boolean(dropdownList)}
         />
         {endIconId && (
           <InputIconWrapper isDisabled={disabled}>
@@ -120,7 +102,7 @@ export function Input({
         {dropdownList && <DropdownList>{listMarkup}</DropdownList>}
       </InputWrapper>
       {supportLabel && (
-        <SupportLabelComp css={supportLabelCss} htmlFor={id} isDisabled={disabled} pattern={pattern}>
+        <SupportLabelComp htmlFor={id} isDisabled={disabled}>
           {supportLabel}
         </SupportLabelComp>
       )}
