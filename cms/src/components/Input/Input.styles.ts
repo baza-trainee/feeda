@@ -104,8 +104,27 @@ export const InputIconWrapper = styled.div<{ isDisabled: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px 12px 16px 0;
+  padding: 16px 0;
   color: ${({ isDisabled }) => (isDisabled ? colors.disabledBtnBg : 'initial')};
+`;
+
+export const NonStdInputIconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 16px;
+  &:last-child {
+    margin-right: 0;
+  }
+`;
+export const NonStdInput = styled.div`
+  display: flex;
+  align-items: center;
+  position: absolute;
+  background-color: white;
+  z-index: -1;
+  padding: 16px;
+  top: 0;
+  left: 0;
 `;
 
 export const DropdownList = styled.ul`
@@ -121,6 +140,8 @@ export const DropdownList = styled.ul`
 `;
 
 export const DropdownItem = styled.li`
+  display: flex;
+  align-items: center;
   border-radius: 4px;
   margin-bottom: 4px;
   padding: 18px 16px;

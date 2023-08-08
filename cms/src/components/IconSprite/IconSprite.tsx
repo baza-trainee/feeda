@@ -1,11 +1,25 @@
-import Add from '../../../public/add.svg';
-import ArrowDown from '../../../public/arrow_down.svg';
-import Delete from '../../../public/delete.svg';
-import Edit from '../../../public/edit.svg';
-import Exit from '../../../public/exit.svg';
-import Pencil from '../../../public/pencil.svg';
-import Plus from '../../../public/plus.svg';
-import Team from '../../../public/team.svg';
+import {
+  Add,
+  ArrowDown,
+  Backend,
+  ComplexityActive,
+  ComplexityInactive,
+  Delete,
+  Design,
+  Doc,
+  Edit,
+  Exit,
+  Finished,
+  Front,
+  NoRole,
+  Ongoing,
+  Pencil,
+  Plus,
+  Qa,
+  Seo,
+  Team,
+  TeamBuilding,
+} from '../../../public';
 
 export const IconSprite = ({ icon }: { icon: IconType }) => {
   const icons: Record<IconType, JSX.Element> = {
@@ -17,6 +31,18 @@ export const IconSprite = ({ icon }: { icon: IconType }) => {
     pencil: <Pencil />,
     team: <Team />,
     arrowDown: <ArrowDown />,
+    complexityInactive: <ComplexityInactive />,
+    complexityActive: <ComplexityActive />,
+    teamBuilding: <TeamBuilding />,
+    ongoing: <Ongoing />,
+    finished: <Finished />,
+    design: <Design />,
+    backend: <Backend />,
+    front: <Front />,
+    qa: <Qa />,
+    seo: <Seo />,
+    doc: <Doc />,
+    noRole: <NoRole />,
   };
 
   const selectedIcon = icons[icon];
@@ -37,6 +63,18 @@ export const iconTypes = {
   pencil: 'pencil',
   team: 'team',
   arrowDown: 'arrowDown',
+  complexityInactive: 'complexityInactive',
+  complexityActive: 'complexityActive',
+  teamBuilding: 'teamBuilding',
+  ongoing: 'ongoing',
+  finished: 'finished',
+  design: 'design',
+  backend: 'backend',
+  front: 'front',
+  qa: 'qa',
+  seo: 'seo',
+  doc: 'doc',
+  noRole: 'noRole',
 } as const;
 
 export type IconType = keyof typeof iconTypes;

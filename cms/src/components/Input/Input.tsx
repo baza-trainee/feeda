@@ -1,6 +1,9 @@
 // 'use client';
 
+import { useEffect, useState } from 'react';
+
 import { IconSprite, IconType } from '../IconSprite/IconSprite';
+import { DropdownMarkup } from './DropdownMarkup';
 import {
   DropdownItem,
   DropdownList,
@@ -9,6 +12,8 @@ import {
   InputWrapper,
   LabelComp,
   MainWrapper,
+  NonStdInput,
+  NonStdInputIconWrapper,
   SupportLabelComp,
 } from './Input.styles';
 
@@ -49,15 +54,7 @@ export function Input({
   endIconId,
   dropdownList,
 }: InputProps) {
-  const listMarkup = dropdownList
-    ?.filter((item) => item.toLowerCase().includes(value.toLowerCase()))
-    .map((item) => {
-      return (
-        <DropdownItem key={item} onClick={() => onInputFunc(item)}>
-          {item}
-        </DropdownItem>
-      );
-    });
+  // const drop
   return (
     <MainWrapper>
       {label && (
@@ -76,30 +73,63 @@ export function Input({
         endIconId={Boolean(endIconId)}
       >
         {begIconId && (
-          <InputIconWrapper isDisabled={disabled}>
+          <InputIconWrapper style={{ paddingRight: 12 }} isDisabled={disabled}>
             <IconSprite icon={begIconId} />
           </InputIconWrapper>
         )}
-        <InputComp
-          id={id}
-          placeholder={placeholder}
-          type={type || 'text'}
-          value={value}
-          name={name}
-          onInput={(ev) => onInputFunc((ev.target as HTMLInputElement).value)}
-          disabled={disabled}
-          required={required}
-          maxLength={maxLength}
-          minLength={minLength}
-          pattern={pattern}
-          dropdownList={Boolean(dropdownList)}
-        />
+        {type === 'complexity' ? (
+          <>
+            <InputComp
+              id={id}
+              placeholder="Важкість проєкту"
+              type="text"
+              value={value}
+              name={name}
+              readOnly={true}
+              // onInput={(ev) => onInputFunc((ev.target as HTMLInputElement).value)}
+              disabled={disabled}
+              required={required}
+              dropdownList={Boolean(dropdownList)}
+            />
+            <NonStdInput style={{ display: value ? 'flex' : 'none' }}>
+              {[1, 2, 3, 4, 5].map((item) => (
+                <NonStdInputIconWrapper key={item}>
+                  <IconSprite icon={item.toString() <= value.toString() ? 'complexityActive' : 'complexityInactive'} />
+                </NonStdInputIconWrapper>
+              ))}
+            </NonStdInput>
+          </>
+        ) : type === 'role' ? (
+          <></>
+        ) : type === 'status' ? (
+          <></>
+        ) : (
+          <InputComp
+            id={id}
+            placeholder={placeholder}
+            type={type || 'text'}
+            value={value}
+            name={name}
+            onInput={(ev) => onInputFunc((ev.target as HTMLInputElement).value)}
+            disabled={disabled}
+            required={required}
+            maxLength={maxLength}
+            minLength={minLength}
+            pattern={pattern}
+            dropdownList={Boolean(dropdownList)}
+          />
+        )}
+
         {endIconId && (
-          <InputIconWrapper isDisabled={disabled}>
+          <InputIconWrapper style={{ paddingLeft: 12 }} isDisabled={disabled}>
             <IconSprite icon={endIconId} />
           </InputIconWrapper>
         )}
-        {dropdownList && <DropdownList>{listMarkup}</DropdownList>}
+        {dropdownList && (
+          <DropdownList>
+            <DropdownMarkup type={type || 'text'} onInputFunc={onInputFunc} dropdownList={dropdownList} value={value} />
+          </DropdownList>
+        )}
       </InputWrapper>
       {supportLabel && (
         <SupportLabelComp htmlFor={id} isDisabled={disabled}>

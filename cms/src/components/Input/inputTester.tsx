@@ -7,11 +7,13 @@ import { Input } from './Input';
 export function InputTester() {
   // const [inputValue, setInputValue] = useState('standart text inside...');
   const [inputValue, setInputValue] = useState('');
+  console.log(inputValue);
   return (
     <div style={{ width: '300px', margin: '0 auto' }}>
       <Input
         placeholder="placeholder"
-        type="text"
+        // type="text"
+        type="complexity"
         value={inputValue}
         name="test"
         id="test"
@@ -20,7 +22,7 @@ export function InputTester() {
         // pattern="[0-9]{1,10}"
         // // disabled={true}
         // begIconId="pencil"
-        // endIconId="arrowDown"
+        endIconId="arrowDown"
         onInputFunc={setInputValue}
         dropdownList={[
           'one',
