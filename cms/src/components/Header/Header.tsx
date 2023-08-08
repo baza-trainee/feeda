@@ -7,12 +7,14 @@ import MenuIcon from '../../../public/menu.svg';
 import SearchIcon from '../../../public/search.svg';
 import {
   DesktopContent,
+  Logo,
   logoStyles,
   MenuBtn,
   MenuWrapper,
   MobileHeaderWrapper,
   pageMobileTitleStyles,
   PageTitle,
+  SearchIconBox,
   SearchInput,
   SearchWrapper,
   Wrapper,
@@ -22,10 +24,10 @@ export function Header() {
   return (
     <Wrapper>
       <DesktopContent>
-        <Link href="/" css={logoStyles}>
-          Feeda
-        </Link>
-        <PageTitle title="page name...">Page name...</PageTitle>
+        <Logo>
+          <Link href="/">Feeda</Link>
+        </Logo>
+        <PageTitle title="page name...">Сайт притулку для вуличних тварин Murrfecto</PageTitle>
       </DesktopContent>
       <MobileHeaderWrapper>
         <MenuWrapper>
@@ -35,10 +37,12 @@ export function Header() {
         </MenuWrapper>
         <SearchWrapper>
           <SearchInput placeholder="Ключове слово" maxLength={50} onInput={(ev) => console.log(ev.target.value)} />
-          <SearchIcon />
+          <SearchIconBox>
+            <SearchIcon />
+          </SearchIconBox>
         </SearchWrapper>
       </MobileHeaderWrapper>
-      <PageTitle css={[pageMobileTitleStyles]}>Page name...</PageTitle>
+      <PageTitle css={[pageMobileTitleStyles]}>Сайт притулку для вуличних тварин Murrfecto</PageTitle>
     </Wrapper>
   );
 }
