@@ -10,7 +10,7 @@ const initialState: ProjectsState = {
 export const fetchProjects = createAsyncThunk('projects/fetchProjects', async () => {
   const { data } = await axios.get<ProjectData[]>(`http://localhost:8000/user-project/projects/`, {
     headers: {
-      Authorization: 'token', //prev should to implement auth,
+      Authorization: `Token 778524f2b854fdb4aad7f9f1f748e6392a250f21`, //implement auth,
     },
   });
 
