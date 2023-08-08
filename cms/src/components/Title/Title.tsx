@@ -3,10 +3,10 @@
 import { MainTitle, SecondaryTitle } from './Title.styles';
 
 type TitleProps = {
-  children: string;
+  title: string;
   main?: boolean;
 };
 
-export const Title = ({ children, main }: TitleProps) => {
-  return main ? <MainTitle>{children}</MainTitle> : <SecondaryTitle>{children}</SecondaryTitle>;
+export const Title = ({ title, main }: TitleProps) => {
+  return main ? <MainTitle>{title}</MainTitle> : <SecondaryTitle>{title}</SecondaryTitle>;
 };
