@@ -1,7 +1,7 @@
 'use client';
 
 import { Card } from './Card/Card';
-import { List, ListItem } from './CardsCondent.styles';
+import { List, ListItem } from './CardsContent.styles';
 
 export function CardsContent() {
   const data = [];
