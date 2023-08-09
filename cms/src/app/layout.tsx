@@ -4,6 +4,7 @@ import { Header } from '../components/Header/Header';
 import { InputTester } from '../components/Input/inputTester';
 import { LayoutContainer } from '../components/LayoutContainer/LayoutContainer';
 import EmotionRegistry from './registry';
+import { ReduxProvider } from '../store/ReduxProvider';
 
 const eho = Exo_2({
   weight: ['400', '500', '600', '700'],
@@ -22,10 +23,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={eho.className}>
       <EmotionRegistry>
         <body>
-          <LayoutContainer>
-            <Header />
-            {children}
-          </LayoutContainer>
+          <ReduxProvider>
+            <LayoutContainer>
+              <Header />
+              {children}
+            </LayoutContainer>
+          </ReduxProvider>
         </body>
       </EmotionRegistry>
     </html>
