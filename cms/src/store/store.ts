@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+
 import projecsReducer from '../slices/projects';
 
 export const store = configureStore({
