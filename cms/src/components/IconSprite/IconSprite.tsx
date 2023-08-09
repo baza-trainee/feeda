@@ -18,6 +18,7 @@ import {
   Seo,
   Team,
   TeamBuilding,
+  Trash,
 } from '../../../public';
 
 export const IconSprite = ({ icon }: { icon: IconType }) => {
@@ -42,6 +43,7 @@ export const IconSprite = ({ icon }: { icon: IconType }) => {
     seo: <Seo />,
     doc: <Doc />,
     noRole: <EmptyCircle />,
+    trash: <Trash />,
   };
 
   const selectedIcon = icons[icon];
@@ -74,6 +76,7 @@ export const iconTypes = {
   seo: 'seo',
   doc: 'doc',
   noRole: 'noRole',
+  trash: 'trash',
 } as const;
 
 export type IconType = keyof typeof iconTypes;

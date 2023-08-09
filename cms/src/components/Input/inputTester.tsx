@@ -21,27 +21,27 @@ export function InputTester() {
             // type="role"
             // defaultValue={'standart text inside...'}
             name="test"
-            id="test"
-            label="label"
-            supportLabel="supportLabel"
+            // id="test"
+            // label="label"
+            // supportLabel="supportLabel"
             // pattern="[0-9]{1,10}"
             // disabled={true}
             begIconId="pencil"
             endIconId="arrowDown"
-            dropdownList={[
-              'one',
-              'two',
-              'three',
-              'Vasya Pupkin',
-              'Taras Bulba',
-              'Homer Simpson',
-              'X',
-              'Elon Musk',
-              'Bill Gates',
-              'Steve Jobs',
-              'Mark Zuckerberg',
-              'Very very very very very very long name...',
-            ]}
+            // dropdownList={[
+            //   'one',
+            //   'two',
+            //   'three',
+            //   'Vasya Pupkin',
+            //   'Taras Bulba',
+            //   'Homer Simpson',
+            //   'X',
+            //   'Elon Musk',
+            //   'Bill Gates',
+            //   'Steve Jobs',
+            //   'Mark Zuckerberg',
+            //   'Very very very very very very long name...',
+            // ]}
           />
         </div>
 

@@ -53,7 +53,9 @@ export function Input({
   dropdownList,
 }: InputProps) {
   const [inputValue, setInputValue] = useState(defaultValue);
-  console.log('Input rerender');
+  if (type === 'role' || type === 'complexity' || type === 'status') {
+    dropdownList = [];
+  }
   if (type === 'role' || type === 'status') {
     const icon = listContent[type].find((item) => item.name === inputValue)?.icon;
     icon && (begIconId = icon);
