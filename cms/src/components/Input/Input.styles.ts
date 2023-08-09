@@ -34,7 +34,6 @@ export const InputWrapper = styled.div<{
   border: solid 1px #14905d;
   border-radius: 4px;
   border: 1px solid #cecece;
-  /* margin: 4px 0; */
   padding: 0 16px;
   background: '#fcfcfc';
   &:has(input:invalid) {

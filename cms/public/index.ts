@@ -2,11 +2,11 @@ import Add from './add.svg';
 import ArrowDown from './arrow_down.svg';
 import Backend from './backend_role.svg';
 import ComplexityActive from './complexity_active.svg';
-import ComplexityInactive from './complexity_inactive.svg';
 import Delete from './delete.svg';
 import Design from './design_role.svg';
 import Doc from './doc_role.svg';
 import Edit from './edit.svg';
+import EmptyCircle from './empty_circle.svg';
 import Exit from './exit.svg';
 import Finished from './finished_status.svg';
 import Front from './front_role.svg';
@@ -24,7 +24,7 @@ export {
   ArrowDown,
   Backend,
   ComplexityActive,
-  ComplexityInactive,
+  EmptyCircle,
   Delete,
   Design,
   Doc,

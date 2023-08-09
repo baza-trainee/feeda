@@ -1,14 +1,13 @@
 'use client';
 
-import { useState } from 'react';
-
 import { Button } from '../Button/Button';
 import { Input } from './Input';
 
 export function InputTester() {
   const handleSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
-    console.log(ev.target.test.value);
+    const form = ev.target as HTMLFormElement;
+    console.log(form.test.value);
   };
   return (
     <div style={{ width: '300px', margin: '0 auto' }}>
@@ -17,14 +16,15 @@ export function InputTester() {
           placeholder="placeholder"
           type="text"
           // type="complexity"
-          defaultValue={'standart text inside...'}
+          // type="role"
+          // defaultValue={'standart text inside...'}
           name="test"
           id="test"
-          // label="label"
-          // supportLabel="supportLabel"
+          label="label"
+          supportLabel="supportLabel"
           // pattern="[0-9]{1,10}"
-          // // disabled={true}
-          // begIconId="pencil"
+          // disabled={true}
+          begIconId="pencil"
           endIconId="arrowDown"
           dropdownList={[
             'one',

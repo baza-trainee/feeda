@@ -1,11 +1,10 @@
 // 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 import { IconSprite, IconType } from '../IconSprite/IconSprite';
-import { DropdownMarkup } from './DropdownMarkup';
+import { DropdownMarkup, listContent } from './DropdownMarkup';
 import {
-  DropdownItem,
   DropdownList,
   InputComp,
   InputIconWrapper,
@@ -21,11 +20,11 @@ type InputProps = {
   placeholder?: string;
   type?: string;
   defaultValue?: string;
-  // onInputFunc: (e: string) => void;
   name: string;
   id?: string;
   label?: string;
   supportLabel?: string;
+  readonly?: boolean;
   disabled?: boolean | undefined;
   required?: boolean;
   minLength?: number;
@@ -40,13 +39,13 @@ export function Input({
   placeholder,
   type,
   defaultValue = '',
-  // onInputFunc,
   name,
   id,
   label,
   supportLabel,
   disabled = false,
   required,
+  readonly,
   minLength,
   maxLength,
   pattern,
@@ -54,16 +53,12 @@ export function Input({
   endIconId,
   dropdownList,
 }: InputProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState(defaultValue);
-  // useEffect(() => {
-  //   inputRef.current && (inputRef.current.value = inputValue);
-  // }, [inputValue]);
-  // console.log(inputValue);
   console.log('Input rerender');
-  // const setInputValueHook = (value: string) => {
-  //   dropdownList && setInputValue(value);
-  // };
+  if (type === 'role' || type === 'status') {
+    const icon = listContent[type].find((item) => item.name === inputValue)?.icon;
+    icon && (begIconId = icon);
+  }
   return (
     <MainWrapper>
       {label && (
@@ -92,7 +87,6 @@ export function Input({
               id={id}
               placeholder="Важкість проєкту"
               type="text"
-              // defaultValue={defaultValue}
               name={name}
               readOnly={true}
               disabled={disabled}
@@ -111,15 +105,12 @@ export function Input({
               ))}
             </NonStdInput>
           </>
-        ) : type === 'role' ? (
-          <></>
-        ) : type === 'status' ? (
-          <></>
         ) : (
           <InputComp
             id={id}
             placeholder={placeholder}
-            type={type || 'text'}
+            readOnly={readonly}
+            type={(type === 'role' && 'text') || (type === 'status' && 'text') || type || 'text'}
             name={name}
             disabled={disabled}
             required={required}
@@ -127,7 +118,7 @@ export function Input({
             minLength={minLength}
             pattern={pattern}
             dropdownList={Boolean(dropdownList)}
-            onChange={dropdownList ? (ev) => setInputValue(ev.target.value) : undefined}
+            onChange={dropdownList || pattern ? (ev) => setInputValue(ev.target.value) : undefined}
             value={dropdownList ? inputValue : undefined}
             defaultValue={dropdownList ? undefined : defaultValue}
           />
