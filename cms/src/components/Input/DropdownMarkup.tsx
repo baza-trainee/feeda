@@ -13,7 +13,7 @@ export function DropdownMarkup({ type, onInputFunc, dropdownList, value }: Dropd
   if (type === 'complexity') {
     result = [1, 2, 3, 4, 5].map((item, idx) => {
       return (
-        <DropdownItem key={item} onClick={() => onInputFunc(item.toString())}>
+        <DropdownItem key={idx} onClick={() => onInputFunc(item.toString())}>
           {[0, 1, 2, 3, 4].map((item) => (
             <NonStdInputIconWrapper key={item}>
               <IconSprite icon={item <= idx ? 'complexityActive' : 'complexityInactive'} />

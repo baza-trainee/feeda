@@ -108,6 +108,15 @@ export const InputIconWrapper = styled.div<{ isDisabled: boolean }>`
   color: ${({ isDisabled }) => (isDisabled ? colors.disabledBtnBg : 'initial')};
 `;
 
+export const NonStdInput = styled.div`
+  display: flex;
+  align-items: center;
+  position: absolute;
+  z-index: -1;
+  padding: 16px;
+  top: 0;
+  left: 0;
+`;
 export const NonStdInputIconWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -115,16 +124,6 @@ export const NonStdInputIconWrapper = styled.div`
   &:last-child {
     margin-right: 0;
   }
-`;
-export const NonStdInput = styled.div`
-  display: flex;
-  align-items: center;
-  position: absolute;
-  background-color: white;
-  z-index: -1;
-  padding: 16px;
-  top: 0;
-  left: 0;
 `;
 
 export const DropdownList = styled.ul`

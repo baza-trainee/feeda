@@ -1,6 +1,6 @@
 // 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { IconSprite, IconType } from '../IconSprite/IconSprite';
 import { DropdownMarkup } from './DropdownMarkup';
@@ -20,8 +20,8 @@ import {
 type InputProps = {
   placeholder?: string;
   type?: string;
-  value: string;
-  onInputFunc: (e: string) => void;
+  defaultValue?: string;
+  // onInputFunc: (e: string) => void;
   name: string;
   id?: string;
   label?: string;
@@ -39,8 +39,8 @@ type InputProps = {
 export function Input({
   placeholder,
   type,
-  value,
-  onInputFunc,
+  defaultValue = '',
+  // onInputFunc,
   name,
   id,
   label,
@@ -54,21 +54,30 @@ export function Input({
   endIconId,
   dropdownList,
 }: InputProps) {
-  // const drop
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [inputValue, setInputValue] = useState(defaultValue);
+  // useEffect(() => {
+  //   inputRef.current && (inputRef.current.value = inputValue);
+  // }, [inputValue]);
+  // console.log(inputValue);
+  console.log('Input rerender');
+  // const setInputValueHook = (value: string) => {
+  //   dropdownList && setInputValue(value);
+  // };
   return (
     <MainWrapper>
       {label && (
         <LabelComp
           htmlFor={id}
-          inputValueLen={value.length}
+          inputValueLen={inputValue.length}
           isDisabled={disabled}
-          checkIsValid={Boolean(pattern && value?.length)}
+          checkIsValid={Boolean(pattern && inputValue.length)}
         >
           {label}
         </LabelComp>
       )}
       <InputWrapper
-        checkIsValid={Boolean(pattern && value?.length)}
+        checkIsValid={Boolean(pattern && inputValue.length)}
         dropdownList={Boolean(dropdownList)}
         endIconId={Boolean(endIconId)}
       >
@@ -83,18 +92,21 @@ export function Input({
               id={id}
               placeholder="Важкість проєкту"
               type="text"
-              value={value}
+              // defaultValue={defaultValue}
               name={name}
               readOnly={true}
-              // onInput={(ev) => onInputFunc((ev.target as HTMLInputElement).value)}
               disabled={disabled}
               required={required}
               dropdownList={Boolean(dropdownList)}
+              value={inputValue}
+              style={{ color: 'transparent' }}
             />
-            <NonStdInput style={{ display: value ? 'flex' : 'none' }}>
+            <NonStdInput style={{ display: inputValue ? 'flex' : 'none' }}>
               {[1, 2, 3, 4, 5].map((item) => (
                 <NonStdInputIconWrapper key={item}>
-                  <IconSprite icon={item.toString() <= value.toString() ? 'complexityActive' : 'complexityInactive'} />
+                  <IconSprite
+                    icon={item.toString() <= inputValue.toString() ? 'complexityActive' : 'complexityInactive'}
+                  />
                 </NonStdInputIconWrapper>
               ))}
             </NonStdInput>
@@ -108,15 +120,16 @@ export function Input({
             id={id}
             placeholder={placeholder}
             type={type || 'text'}
-            value={value}
             name={name}
-            onInput={(ev) => onInputFunc((ev.target as HTMLInputElement).value)}
             disabled={disabled}
             required={required}
             maxLength={maxLength}
             minLength={minLength}
             pattern={pattern}
             dropdownList={Boolean(dropdownList)}
+            onChange={dropdownList ? (ev) => setInputValue(ev.target.value) : undefined}
+            value={dropdownList ? inputValue : undefined}
+            defaultValue={dropdownList ? undefined : defaultValue}
           />
         )}
 
@@ -127,7 +140,12 @@ export function Input({
         )}
         {dropdownList && (
           <DropdownList>
-            <DropdownMarkup type={type || 'text'} onInputFunc={onInputFunc} dropdownList={dropdownList} value={value} />
+            <DropdownMarkup
+              type={type || 'text'}
+              onInputFunc={setInputValue}
+              dropdownList={dropdownList}
+              value={inputValue}
+            />
           </DropdownList>
         )}
       </InputWrapper>
