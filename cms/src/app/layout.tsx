@@ -1,5 +1,7 @@
 import { Exo_2 } from 'next/font/google';
 
+import { Header } from '../components/Header/Header';
+import { LayoutContainer } from '../components/LayoutContainer/LayoutContainer';
 import EmotionRegistry from './registry';
 import { ReduxProvider } from '../store/ReduxProvider';
 
@@ -20,7 +22,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={eho.className}>
       <EmotionRegistry>
         <body>
-          <ReduxProvider>{children}</ReduxProvider>
+          <ReduxProvider>
+            <LayoutContainer>
+              <Header />
+              {children}
+            </LayoutContainer>
+          </ReduxProvider>
         </body>
       </EmotionRegistry>
     </html>

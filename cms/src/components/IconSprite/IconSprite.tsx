@@ -1,11 +1,11 @@
-import Exit from '../../../public/exit.svg';
 import Add from '../../../public/add.svg';
-import Edit from '../../../public/edit.svg';
-import Delete from '../../../public/delete.svg';
-import Plus from '../../../public/plus.svg';
-import Pensil from '../../../public/pensil.svg';
-import Team from '../../../public/team.svg';
 import ArrowDown from '../../../public/arrow_down.svg';
+import Delete from '../../../public/delete.svg';
+import Edit from '../../../public/edit.svg';
+import Exit from '../../../public/exit.svg';
+import Pensil from '../../../public/pensil.svg';
+import Plus from '../../../public/plus.svg';
+import Team from '../../../public/team.svg';
 
 export const IconSprite = ({ icon }: { icon: IconType }) => {
   const icons: Record<IconType, JSX.Element> = {
