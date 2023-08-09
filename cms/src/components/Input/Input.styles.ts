@@ -2,8 +2,6 @@ import styled from '@emotion/styled';
 
 import { colors } from '../../styles/theme';
 
-export const MainWrapper = styled.div``;
-
 export const LabelComp = styled.label<{ inputValueLen: number; isDisabled: boolean; checkIsValid: boolean }>`
   --txtColor: ${({ inputValueLen, isDisabled }) =>
     isDisabled ? colors.disabledBtnBg : inputValueLen ? colors.mainPlaceholder : colors.mainLabel};

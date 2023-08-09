@@ -10,7 +10,6 @@ import {
   InputIconWrapper,
   InputWrapper,
   LabelComp,
-  MainWrapper,
   NonStdInput,
   NonStdInputIconWrapper,
   SupportLabelComp,
@@ -60,7 +59,7 @@ export function Input({
     icon && (begIconId = icon);
   }
   return (
-    <MainWrapper>
+    <>
       {label && (
         <LabelComp
           htmlFor={id}
@@ -145,6 +144,6 @@ export function Input({
           {supportLabel}
         </SupportLabelComp>
       )}
-    </MainWrapper>
+    </>
   );
 }
