@@ -1,12 +1,14 @@
 import styled from '@emotion/styled';
 import { StylesConfig } from 'react-select';
 
+export type SelectStateIconType = 'orange' | 'green' | 'yellow';
+export type SelectRoleIconType = 'green' | 'yellow' | 'orange' | 'red' | 'violet' | 'blue' | 'empty';
+export type SelectDifficultyType = 1 | 2 | 3 | 4 | 5;
+
 export const SelectItem = styled.div`
   display: flex;
   align-items: center;
 `;
-
-export type SelectItemIconType = 'orange' | 'green' | 'yellow';
 
 export const SelectIconWrapper = styled.div`
   width: 40px;
@@ -14,16 +16,51 @@ export const SelectIconWrapper = styled.div`
   padding: 8px;
 `;
 
-export const SelectItemIcon = styled.div<{ type: SelectItemIconType }>`
+export const SelectIcon = styled.div`
   width: 100%;
   height: 100%;
   border-radius: 50%;
+`;
 
+export const SelectDifficultyIcon = styled(SelectIcon)<{ type: SelectDifficultyType }>`
+  width: 24px;
+  height: 24px;
+  border: 1px solid black;
+  background-color: white;
+
+  &:nth-child(-n + ${({ type }) => type}) {
+    background-color: black;
+  }
+`;
+
+export const SelectDifficulty = styled(SelectItem)`
+  gap: 16px;
+  padding: 8px;
+`;
+
+export const SelectStateIcon = styled(SelectIcon)<{ type: SelectStateIconType }>`
   background-color: ${({ type }) => {
-    if (type === 'green') return '#74BE4F';
+    if (type === 'green') return '#14905D';
     if (type === 'orange') return '#EB903C';
     if (type === 'yellow') return '#EBCF3C';
     return 'transparent';
+  }};
+`;
+
+export const SelectRoleIcon = styled(SelectIcon)<{ type: SelectRoleIconType }>`
+  background-color: ${({ type }) => {
+    if (type === 'green') return '#74BE4F';
+    if (type === 'orange') return '#D36C0C';
+    if (type === 'yellow') return '#C0971F';
+    if (type === 'red') return '#D92A13';
+    if (type === 'violet') return '#5E4DB2';
+    if (type === 'blue') return '#0055CC';
+    if (type === 'empty') return 'none';
+    return 'transparent';
+  }};
+  border: ${({ type }) => {
+    if (type === 'empty') return '1px solid black';
+    return 'none';
   }};
 `;
 
