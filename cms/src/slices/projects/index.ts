@@ -1,5 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const initialState: ProjectsState = {
@@ -8,9 +7,9 @@ const initialState: ProjectsState = {
 };
 
 export const fetchProjects = createAsyncThunk('projects/fetchProjects', async () => {
-  const { data } = await axios.get<ProjectData[]>(`http://localhost:8000/user-project/projects/`, {
+  const { data } = await axios.get<ProjectData[]>('http://localhost:8000/user-project/projects/', {
     headers: {
-      Authorization: `Token 778524f2b854fdb4aad7f9f1f748e6392a250f21`, //implement auth,
+      Authorization: 'Token 778524f2b854fdb4aad7f9f1f748e6392a250f21', //implement auth,
     },
   });
 
@@ -44,7 +43,7 @@ interface ProjectsState {
   loading: 'loading' | 'success' | 'rejected';
 }
 
-interface ProjectData {
+export interface ProjectData {
   id: number;
   title: string;
   start_date_project: string;
