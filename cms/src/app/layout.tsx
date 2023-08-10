@@ -1,20 +1,35 @@
-import { Inter } from 'next/font/google'
+import { Exo_2 } from 'next/font/google';
 
-const inter = Inter({ subsets: ['latin'] })
+import { Header } from '../components/Header/Header';
+import { LayoutContainer } from '../components/LayoutContainer/LayoutContainer';
+import EmotionRegistry from './registry';
+import { ReduxProvider } from '../store/ReduxProvider';
+
+const eho = Exo_2({
+  weight: ['400', '500', '600', '700'],
+  style: ['normal'],
+  subsets: ['latin', 'cyrillic'],
+  display: 'swap',
+});
 
 export const metadata = {
   title: 'Feeda | CMS',
   description: 'Admin panel',
-}
+};
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className={eho.className}>
+      <EmotionRegistry>
+        <body>
+          <ReduxProvider>
+            <LayoutContainer>
+              <Header />
+              {children}
+            </LayoutContainer>
+          </ReduxProvider>
+        </body>
+      </EmotionRegistry>
     </html>
-  )
+  );
 }

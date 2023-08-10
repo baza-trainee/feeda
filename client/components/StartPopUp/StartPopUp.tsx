@@ -1,31 +1,39 @@
-"use client";
+import React from 'react';
 
-import React, { useState } from "react";
-import { Button , Wrapper, Div, } from "components/Condition/Condition.styles";
-import Agreement from "components/Agreement/Agreement";
-import Container from "components/Container/Container";
-import Condition from "components/Condition/Condition";
+import { useGlobalState } from '~/hooks/useGlobalState';
+import Button from '~components/Button/Button';
+import Title from '~components/Title/Title';
 
-export function StartPopUp () {
-  const [click, setClick] = useState(false);
+import { Span, TextWrapper, Wrapper } from './StartPopUp.styles';
 
-  const handleClick = () => {
-    setClick(true);
-    console.log(click);
-  };
+export function StartPopUp(): JSX.Element {
+	const { state, setState } = useGlobalState();
 
-  return (
-    <Div>
-      <Container>
-        {click ? (
-          <Agreement />
-        ) : (
-          <Wrapper>
-            <Condition />
-            <Button onClick={handleClick}>Подати заявку</Button>
-          </Wrapper>
-        )}
-      </Container>
-    </Div>
-  );
-};
+	const handleClick = () => {
+		setState((prev) => ({ ...prev, location: 'application' }));
+	};
+
+	const showModal = () => {
+		setState((prev) => ({ ...prev, modal: state.modal || 'terms', visible: true }));
+	};
+
+	return (
+		<Wrapper>
+			<Title main>
+				Вітаю! <br /> Ти за крок до роботи над
+				<br />
+				цікавими проєктами в командах
+			</Title>
+			<TextWrapper>
+				<p>
+					Вся комунікація в командах ведеться у <b> Discord </b>
+					<br />
+					<br />
+					Тобі залишилось ознайомитися з <Span onClick={showModal}>умовами та правилами участі на проєкті </Span>
+					та заповнити анкету
+				</p>
+			</TextWrapper>
+			<Button func={handleClick}>Заповнити анкету</Button>
+		</Wrapper>
+	);
+}

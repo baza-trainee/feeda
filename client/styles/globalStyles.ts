@@ -1,7 +1,10 @@
 'use client';
 import { css } from '@emotion/react';
 
+<<<<<<< HEAD
 import { animations } from './animations';
+=======
+>>>>>>> develop
 import { reset } from './reset';
 import { theme } from './theme';
 
@@ -13,7 +16,12 @@ const common = css`
 `;
 
 export const globalStyles = css`
+<<<<<<< HEAD
 	${animations}
 	${common}
     ${reset}
+=======
+	${common}
+	${reset}
+>>>>>>> develop
 `;

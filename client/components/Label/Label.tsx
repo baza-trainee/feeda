@@ -1,21 +1,19 @@
-"use client";
-import { ReactNode } from "react";
-import { labelStyle } from "./Label.styles";
+'use client';
+/** @jsxImportSource @emotion/react */
+import { ReactNode } from 'react';
 
-interface labelProps {
+import { LabelCss } from './Label.styles';
+
+type labelProps = {
 	forHTML: string;
 	children: ReactNode | string;
-}
+	state: 'error' | 'success' | 'default';
+};
 
-const Label = ({ forHTML, children }: labelProps) => {
+export const Label = ({ forHTML, children, state }: labelProps) => {
 	return (
-		<label
-			htmlFor={forHTML}
-			css={labelStyle}
-		>
+		<label htmlFor={forHTML} css={LabelCss[state]}>
 			{children}
 		</label>
 	);
 };
-
-export default Label;

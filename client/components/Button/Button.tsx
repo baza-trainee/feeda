@@ -1,26 +1,38 @@
-"use client";
-import { ReactNode } from "react";
-/** @jsxImportSource @emotion/react */
-import { buttonStyle } from "./Button.styles";
+import { ReactNode, useState } from 'react';
 
-interface ButtonProps {
-	children: ReactNode | string;
+import Image from 'next/image';
+
+/** @jsxImportSource @emotion/react */
+import { Btn, CloseBtn } from './Button.styles';
+
+type ButtonProps = {
+	children?: ReactNode | string;
 	isDisabled?: boolean;
 	func: () => void;
-}
+	closeButton?: boolean;
+};
 
-const Button = ({ children, isDisabled, func }: ButtonProps) => {
+const Button = ({ children, isDisabled, func, closeButton }: ButtonProps) => {
+	const [isPressed, setIsPressed] = useState(false);
+
 	const onClickHandler = () => {
 		func();
 	};
-	return (
-		<button
-			css={buttonStyle}
+
+	return !closeButton ? (
+		<Btn
 			onClick={onClickHandler}
-			disabled={isDisabled}
+			onMouseDown={() => setIsPressed(true)}
+			onMouseUp={() => setIsPressed(false)}
+			disabled={isDisabled || false}
+			isPressed={isPressed}
 		>
 			{children}
-		</button>
+		</Btn>
+	) : (
+		<CloseBtn>
+			<Image src="/close.svg" width={24} height={24} alt="Close" onClick={func} />
+		</CloseBtn>
 	);
 };
 
