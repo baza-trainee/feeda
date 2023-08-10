@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const initialState: MembersState = {
+const initialState: ParticipantsState = {
   list: [],
   loading: 'success',
 };
 
-export const fetchMembers = createAsyncThunk('members/fetchMembers', async () => {
-  const { data } = await axios.get<MembersData[]>('http://localhost:8000/user-project/participants-list/', {
+export const fetchParticipants = createAsyncThunk('participants/fetchParticipants', async () => {
+  const { data } = await axios.get<ParticipantData[]>('http://localhost:8000/user-project/participants-list/', {
     headers: {
       Authorization: 'Token 778524f2b854fdb4aad7f9f1f748e6392a250f21', //implement auth,
     },
@@ -16,33 +16,33 @@ export const fetchMembers = createAsyncThunk('members/fetchMembers', async () =>
   return data;
 });
 
-export const membersSlice = createSlice({
-  name: 'members',
+export const participantsSlice = createSlice({
+  name: 'participants',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchMembers.pending, (state) => {
+    builder.addCase(fetchParticipants.pending, (state) => {
       state.loading = 'loading';
       console.log(state.loading);
     });
-    builder.addCase(fetchMembers.fulfilled, (state, { payload }) => {
+    builder.addCase(fetchParticipants.fulfilled, (state, { payload }) => {
       state.list = payload;
       state.loading = 'success';
       console.log(state.loading);
     });
-    builder.addCase(fetchMembers.rejected, (state) => {
+    builder.addCase(fetchParticipants.rejected, (state) => {
       state.loading = 'rejected';
       console.log(state.loading);
     });
   },
 });
 
-interface MembersState {
-  list: MembersData[];
+interface ParticipantsState {
+  list: ParticipantData[];
   loading: 'loading' | 'success' | 'rejected';
 }
 
-interface MembersData {
+export interface ParticipantData {
   id: string;
   first_name: string;
   last_name: string;
@@ -61,4 +61,4 @@ interface MembersData {
   type_participant: 'Безкоштовний' | 'Платний' | 'Буткамп';
 }
 
-export default membersSlice.reducer;
+export default participantsSlice.reducer;

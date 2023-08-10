@@ -43,7 +43,7 @@ interface ProjectsState {
   loading: 'loading' | 'success' | 'rejected';
 }
 
-interface ProjectData {
+export interface ProjectData {
   id: number;
   title: string;
   start_date_project: string;

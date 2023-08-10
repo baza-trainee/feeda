@@ -1,11 +1,10 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
-import { fetchMembers } from '../../slices/members/index';
+import { ParticipantData } from '../../slices/participants/index';
+import { ProjectData } from '../../slices/projects/index';
 import { Button } from '../Button/Button';
 import { IconSprite } from '../IconSprite/IconSprite';
 import { listContent } from '../Input/DropdownMarkup';
@@ -13,30 +12,24 @@ import {
   FirstBlockWrapper,
   List,
   ListItem,
-  ParticipationType,
   SecondBlockWrapper,
   ThirdBlockElementsWrapper,
   ThirdBlockWrapper,
 } from './CardsContent.styles';
 
 type CardsContentType = {
-  type: 'members' | 'projects';
+  type: 'participants' | 'projects';
+  data: ParticipantData[] | ProjectData[];
 };
 
-export function CardsContent({ type }: CardsContentType) {
-  const dispatch = useDispatch();
-  const membersList = useSelector((state: any) => state.members.list);
-  useEffect(() => {
-    dispatch(fetchMembers());
-  }, []);
-  console.log(membersList);
-
+export function CardsContent({ type, data }: CardsContentType) {
+  const router = useRouter();
   return (
     <List>
-      {membersList.map((item: any) => {
+      {data.map((item: any) => {
         return (
           <ListItem key={item.id}>
-            <Link href="/">
+            <Link href={type === 'participants' ? `participants/${item.id}` : `projects/${item.id}`}>
               <FirstBlockWrapper>
                 <Button
                   variant="icon"
@@ -52,25 +45,24 @@ export function CardsContent({ type }: CardsContentType) {
                   func={(ev) => {
                     ev.preventDefault();
                     ev.stopPropagation();
+                    router.push(`${type}/edit/${item.id}`);
                   }}
                 />
-                <ParticipationType>{item.type_participant}</ParticipationType>
+                <p>{item.type_participant}</p>
               </FirstBlockWrapper>
-              <SecondBlockWrapper>
-                <h2>
-                  {item.last_name} {item.first_name}
-                </h2>
-                <p>{item.stack}</p>
+              <SecondBlockWrapper type={type}>
+                <h2>{type === 'participants' ? `${item.last_name} ${item.first_name}` : item.title}</h2>
+                <p>{type === 'participants' ? item.stack : `${item.participants} Учасник`}</p>
               </SecondBlockWrapper>
               <ThirdBlockWrapper>
-                {type === 'members' && (
+                {type === 'participants' && (
                   <>
                     <ThirdBlockElementsWrapper>
                       <p id="name">Досвід</p>
                       <p id="value">{item.experience ? 'Так' : 'Ні'}</p>
                     </ThirdBlockElementsWrapper>
                     <ThirdBlockElementsWrapper>
-                      <p id="name">Проєкт</p>
+                      <p id="name">Проєкти</p>
                       <p id="value">{item.project}</p>
                     </ThirdBlockElementsWrapper>
                     <ThirdBlockElementsWrapper>
@@ -90,14 +82,28 @@ export function CardsContent({ type }: CardsContentType) {
                   <>
                     <ThirdBlockElementsWrapper>
                       <p id="name">Складість</p>
-                      <p id="value">!!!!!</p>
+                      <div id="complexity">
+                        {listContent.complexity.map((complexity, idx) => (
+                          <div id="complexity-icon" key={idx}>
+                            <IconSprite
+                              icon={
+                                complexity <= Number.parseInt(item.complexity.complexity)
+                                  ? 'complexityActive'
+                                  : 'complexityInactive'
+                              }
+                            />
+                          </div>
+                        ))}
+                      </div>
                     </ThirdBlockElementsWrapper>
                     <ThirdBlockElementsWrapper>
                       <p id="name">Стан</p>
                       <div id="icon-wrapper">
-                        <IconSprite icon="design" />
+                        <IconSprite
+                          icon={listContent.status.find((searchItem) => searchItem.name === item.status)?.icon}
+                        />
                       </div>
-                      <p id="value">Design</p>
+                      <p id="value">{item.status}</p>
                     </ThirdBlockElementsWrapper>
                   </>
                 )}
