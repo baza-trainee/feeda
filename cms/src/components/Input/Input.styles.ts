@@ -13,7 +13,7 @@ export const LabelComp = styled.label<{ inputValueLen: number; isDisabled: boole
 
   ${({ checkIsValid }) => {
     if (checkIsValid) {
-      return '  &:has(+ div > input:invalid) {  \
+      return '&:has(+ div > input:invalid) {  \
         color: #dc0c31; \
       } \
       &:has(+ div > input:valid) {  \
