@@ -38,8 +38,8 @@ export function ParticipantsForm() {
   const { control, clearErrors, getValues } = useForm();
   const handleSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
-    const { first_name, last_name, stack, speciality } = ev.target;
-    console.log(speciality);
+    // const { first_name, last_name, stack, speciality } = ev.target;
+    console.log('submit');
     // const form = ev.target as HTMLFormElement;
     // console.log(form);
     // console.log(getValues());
@@ -127,6 +127,7 @@ export function ParticipantsForm() {
           type="email"
           required={true}
           pattern={emailRegex.source}
+          supportLabel="support"
         />
       </div>
       {/*  */}

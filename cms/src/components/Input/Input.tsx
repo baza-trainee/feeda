@@ -81,7 +81,7 @@ export function Input({
         )}
       </InputWrapper>
       {supportLabel && (
-        <SupportLabelComp htmlFor={id} isDisabled={disabled}>
+        <SupportLabelComp id="support-label" htmlFor={id} isDisabled={disabled}>
           {supportLabel}
         </SupportLabelComp>
       )}

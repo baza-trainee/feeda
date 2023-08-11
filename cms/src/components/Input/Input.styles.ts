@@ -40,12 +40,12 @@ export const InputWrapper = styled.div<{ checkIsValid: boolean }>`
     if (checkIsValid) {
       return '&:has(input:valid) { \
         outline: 2px solid #14905D; \
-        & ~ label { \
+        & + label#support-label { \
           color: #14905D; \
         }}  \
         &:has(input:invalid) {  \
           outline: 2px solid #dc0c31; \
-          & ~ label { \
+          & + label#support-label { \
             color: #dc0c31; \
           } \
         }';
@@ -54,7 +54,7 @@ export const InputWrapper = styled.div<{ checkIsValid: boolean }>`
 
   &:has(input:focus) {
     outline: 2px solid #939393;
-    & ~ label {
+    & + label#support-label {
       color: #49454f;
     }
   }
