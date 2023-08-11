@@ -10,6 +10,10 @@ export const SelectItem = styled.div`
   align-items: center;
 `;
 
+export const SelectTextItem = styled(SelectItem)`
+  padding: 8px;
+`;
+
 export const SelectIconWrapper = styled.div`
   width: 40px;
   height: 40px;

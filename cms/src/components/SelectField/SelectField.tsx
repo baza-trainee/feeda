@@ -1,59 +1,11 @@
 'use client';
 
-import { css } from '@emotion/react';
 import { useState } from 'react';
 import { Control, Controller } from 'react-hook-form';
-
-import { Label } from './SelectField.style';
-import { ErrorText } from './SelectField.style';
-
 import Select from 'react-select';
-import {
-  SelectIconWrapper,
-  SelectItem,
-  SelectStateIcon,
-  SelectText,
-  SelectStateIconType,
-  SelectRoleIcon,
-  SelectRoleIconType,
-  SelectDifficulty,
-  SelectDifficultyIcon,
-  SelectDifficultyType,
-} from './SelectField.style';
+
 import { DropdownIndicator } from '../DropdownIndicator/DropdownIndicator';
-import { selectStyles } from './SelectField.style';
-
-export const ProjectState = ({ type, title }: { type: SelectStateIconType; title: string }) => {
-  return (
-    <SelectItem>
-      <SelectIconWrapper>
-        <SelectStateIcon type={type} />
-      </SelectIconWrapper>
-      <SelectText>{title}</SelectText>
-    </SelectItem>
-  );
-};
-
-export const MemberRole = ({ type, title }: { type: SelectRoleIconType; title: string }) => {
-  return (
-    <SelectItem>
-      <SelectIconWrapper>
-        <SelectRoleIcon type={type} />
-      </SelectIconWrapper>
-      <SelectText>{title}</SelectText>
-    </SelectItem>
-  );
-};
-
-export const ProjectDifficulty = ({ type }: { type: SelectDifficultyType }) => {
-  return (
-    <SelectDifficulty>
-      {[1, 2, 3, 4, 5].map((item) => (
-        <SelectDifficultyIcon key={item} type={type} />
-      ))}
-    </SelectDifficulty>
-  );
-};
+import { Label, ErrorText, selectStyles } from './SelectField.style';
 
 interface OptionType {
   label: JSX.Element;
@@ -67,9 +19,9 @@ interface CustomSelectProps {
   options: OptionType[];
   placeholder: string | JSX.Element;
   clearErrors: (name?: string | string[]) => void;
-  valueGetter: (value: string) => OptionType | undefined | string;
+  valueGetter: (value: string | number) => OptionType | undefined | string | number;
   title: string;
-  defaultValue: string | number;
+  defaultValue: OptionType;
 }
 
 export const CustomSelect = ({
