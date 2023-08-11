@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { cityRegex, discordRegex, emailRegex, linkedRegex, nameRegex, phoneNumberRegex } from '~/src/hooks/regexs';
@@ -11,6 +12,8 @@ import { CustomSelect } from '../SelectField/SelectField';
 import { Form } from './ParticipantsForm.styles';
 
 export function ParticipantsForm() {
+  const [test, setTest] = useState('');
+  console.log(test);
   const { control, clearErrors, getValues } = useForm();
   const handleSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
@@ -20,7 +23,6 @@ export function ParticipantsForm() {
     // console.log(form);
     // console.log(getValues());
   };
-  console.log(nameRegex.source);
   return (
     <Form onSubmit={handleSubmit}>
       <p id="form-part-title">Особиста інформація</p>
@@ -137,6 +139,7 @@ export function ParticipantsForm() {
           options={projectType}
         />
       </div> */}
+      <Button btnType="button" variant="primary" title="test" func={() => setTest('ss')} />
       <Button btnType="submit" variant="primary" title="submit" />
     </Form>
   );
