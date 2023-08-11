@@ -1,4 +1,4 @@
-import { SelectRoleIconType, SelectItem, SelectIconWrapper, SelectRoleIcon, SelectText } from '../SelectField.style';
+import { SelectIconWrapper, SelectItem, SelectRoleIcon, SelectRoleIconType, SelectText } from '../SelectField.style';
 
 export const MemberRole = ({ type, title }: { type: SelectRoleIconType; title: string }) => {
   return (

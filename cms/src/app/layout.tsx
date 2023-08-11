@@ -2,8 +2,8 @@ import { Exo_2 } from 'next/font/google';
 
 import { Header } from '../components/Header/Header';
 import { LayoutContainer } from '../components/LayoutContainer/LayoutContainer';
-import EmotionRegistry from './registry';
 import { ReduxProvider } from '../store/ReduxProvider';
+import EmotionRegistry from './registry';
 
 const eho = Exo_2({
   weight: ['400', '500', '600', '700'],
