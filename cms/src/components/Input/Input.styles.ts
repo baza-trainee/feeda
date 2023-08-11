@@ -10,12 +10,18 @@ export const LabelComp = styled.label<{ inputValueLen: number; isDisabled: boole
   font-size: 16px;
   font-weight: 400;
   color: var(--txtColor);
-  &:has(+ div > input:invalid) {
-    color: #dc0c31;
-  }
-  &:has(+ div > input:valid) {
-    color: ${({ checkIsValid }) => (checkIsValid ? '#14905D' : 'var(--txtColor)')};
-  }
+
+  ${({ checkIsValid }) => {
+    if (checkIsValid) {
+      return '  &:has(+ div > input:invalid) {  \
+        color: #dc0c31; \
+      } \
+      &:has(+ div > input:valid) {  \
+        color: #14905D  \
+      }';
+    }
+  }}
+
   &:has(+ div > input:focus) {
     color: var(--txtColor);
   }
@@ -28,13 +34,7 @@ export const InputWrapper = styled.div<{ checkIsValid: boolean }>`
   border-radius: 4px;
   border: 1px solid #cecece;
   padding: 0 16px;
-  background: '#fcfcfc';
-  &:has(input:invalid) {
-    outline: 2px solid #dc0c31;
-    & ~ label {
-      color: #dc0c31;
-    }
-  }
+  background: #fcfcfc;
 
   ${({ checkIsValid }) => {
     if (checkIsValid) {
@@ -42,7 +42,13 @@ export const InputWrapper = styled.div<{ checkIsValid: boolean }>`
         outline: 2px solid #14905D; \
         & ~ label { \
           color: #14905D; \
-        }}';
+        }}  \
+        &:has(input:invalid) {  \
+          outline: 2px solid #dc0c31; \
+          & ~ label { \
+            color: #dc0c31; \
+          } \
+        }';
     }
   }}
 
