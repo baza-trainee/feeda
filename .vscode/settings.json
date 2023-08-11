@@ -1,5 +1,11 @@
 {
   "editor.formatOnSave": true,
+  "[typescript]": {
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.formatOnSave": true
+  },
   "editor.codeActionsOnSave": {
     "source.fixAll": false,
     "source.fixAll.eslint": true
@@ -7,5 +13,5 @@
   "search.exclude": {
     "**/node_modules": true
   },
-  "git.ignoreLimitWarning": true,
+  "git.ignoreLimitWarning": true
 }
