@@ -3,11 +3,11 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+import { commonVariants } from '../../hooks/commonVariants';
 import { ParticipantData } from '../../slices/participants/index';
 import { ProjectData } from '../../slices/projects/index';
 import { Button } from '../Button/Button';
 import { IconSprite } from '../IconSprite/IconSprite';
-import { listContent } from '../Input/DropdownMarkup';
 import {
   FirstBlockWrapper,
   List,
@@ -69,7 +69,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                       <p id="name">Роль</p>
                       <div id="icon-wrapper">
                         <IconSprite
-                          icon={listContent.role.find((searchItem) => searchItem.name === item.speciality)?.icon}
+                          icon={commonVariants.role.find((searchItem) => searchItem.name === item.speciality)?.icon}
                         />
                         {/*!!!*/}
                       </div>
@@ -83,7 +83,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                     <ThirdBlockElementsWrapper>
                       <p id="name">Складість</p>
                       <div id="complexity">
-                        {listContent.complexity.map((complexity, idx) => (
+                        {commonVariants.complexity.map((complexity, idx) => (
                           <div id="complexity-icon" key={idx}>
                             <IconSprite
                               icon={
@@ -100,7 +100,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                       <p id="name">Стан</p>
                       <div id="icon-wrapper">
                         <IconSprite
-                          icon={listContent.status.find((searchItem) => searchItem.name === item.status)?.icon}
+                          icon={commonVariants.status.find((searchItem) => searchItem.name === item.status)?.icon}
                         />
                       </div>
                       <p id="value">{item.status}</p>
