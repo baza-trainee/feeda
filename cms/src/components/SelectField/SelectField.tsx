@@ -51,7 +51,7 @@ export const CustomSelect = ({
         const computedValue = typeof valueGetter === 'function' ? valueGetter(value) : value;
 
         return (
-          <div style={{ position: 'relative' }}>
+          <div style={{ position: 'relative' }} id="input-wrapper">
             <Label>
               {title}
               <Select

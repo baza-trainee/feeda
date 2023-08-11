@@ -42,7 +42,7 @@ export function Input({
 }: InputProps) {
   const [inputValue, setInputValue] = useState(defaultValue);
   return (
-    <>
+    <div id="input-wrapper">
       {label && (
         <LabelComp
           htmlFor={id}
@@ -85,6 +85,6 @@ export function Input({
           {supportLabel}
         </SupportLabelComp>
       )}
-    </>
+    </div>
   );
 }

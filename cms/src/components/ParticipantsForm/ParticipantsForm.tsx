@@ -2,37 +2,13 @@
 
 import { useForm } from 'react-hook-form';
 
-import { commonVariants } from '~/src/hooks/commonVariants';
 import { cityRegex, discordRegex, emailRegex, linkedRegex, nameRegex, phoneNumberRegex } from '~/src/hooks/regexs';
 
 import { Button } from '../Button/Button';
-import { IconSprite } from '../IconSprite/IconSprite';
 import { Input } from '../Input/Input';
 import { experienceVariants, membersRole, projectType } from '../SelectField/lists';
 import { CustomSelect } from '../SelectField/SelectField';
-
-// 'button' |
-//   'checkbox' |
-//   'color' |
-//   'date' |
-//   'datetime-local' |
-//   'email' |
-//   'file' |
-//   'hidden' |
-//   'image' |
-//   'month' |
-//   'number' |
-//   'password' |
-//   'radio' |
-//   'range' |
-//   'reset' |
-//   'search' |
-//   'submit' |
-//   'tel' |
-//   'text' |
-//   'time' |
-//   'url' |
-//   'week';
+import { Form } from './ParticipantsForm.styles';
 
 export function ParticipantsForm() {
   const { control, clearErrors, getValues } = useForm();
@@ -44,9 +20,9 @@ export function ParticipantsForm() {
     // console.log(form);
     // console.log(getValues());
   };
-  //   console.log(phoneNumberRegex.source);
+  console.log(nameRegex.source);
   return (
-    <form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <p id="form-part-title">Особиста інформація</p>
       <div id="two-inputs-wrapper">
         <Input name="first_name" label="Ім'я *" required={true} placeholder="Ім'я" pattern={nameRegex.source} />
@@ -93,7 +69,16 @@ export function ParticipantsForm() {
         <Input name="city" label="Місто (Країна)" placeholder="Країна" pattern={cityRegex.source} />
         <Input name="comment" label="Коментар" />
       </div>
-      <p id="form-part-title">Контактна інформація</p>
+      <div id="titleAndButtonWrapper">
+        <p id="form-part-title">Контактна інформація</p>
+        <Button
+          btnType="button"
+          variant="text"
+          title="Відправити листа"
+          isDisabled={true}
+          func={() => console.log('Відправити листа')}
+        />
+      </div>
       <div id="two-inputs-wrapper">
         <Input
           name="account_discord"
@@ -127,12 +112,33 @@ export function ParticipantsForm() {
           type="email"
           required={true}
           pattern={emailRegex.source}
-          supportLabel="support"
         />
       </div>
-      {/*  */}
+      {/* <div id="titleAndButtonWrapper">
+        <p id="form-part-title">Проєкт</p>
+        <Button
+          btnType="button"
+          variant="text"
+          title="Додати проєкт"
+          icon="plus"
+          func={() => console.log('Додати проєкт')}
+        />
+      </div>
+      <div id="two-inputs-wrapper">
+        <CustomSelect
+          name="participation_type"
+          title="Тип участі *"
+          placeholder="Платний"
+          rules={{ required: true }}
+          control={control}
+          clearErrors={clearErrors}
+          valueGetter={(ev) => ev}
+          //   defaultValue={undefined}
+          options={projectType}
+        />
+      </div> */}
       <Button btnType="submit" variant="primary" title="submit" />
-    </form>
+    </Form>
   );
 }
 // phone and email
