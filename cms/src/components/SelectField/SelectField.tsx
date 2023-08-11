@@ -5,7 +5,7 @@ import { Control, Controller } from 'react-hook-form';
 import Select from 'react-select';
 
 import { DropdownIndicator } from '../DropdownIndicator/DropdownIndicator';
-import { Label, ErrorText, selectStyles } from './SelectField.style';
+import { ErrorText, Label, selectStyles } from './SelectField.style';
 
 interface OptionType {
   label: JSX.Element;
