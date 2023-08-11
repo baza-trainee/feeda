@@ -18,6 +18,7 @@ import Qa from './qa_role.svg';
 import Seo from './seo_role.svg';
 import Team from './team.svg';
 import TeamBuilding from './team_building_status.svg';
+import Trash from './trash.svg';
 
 export {
   Add,
@@ -40,4 +41,5 @@ export {
   Seo,
   Team,
   TeamBuilding,
+  Trash,
 };
