@@ -28,7 +28,7 @@ export function ParticipantsForm() {
         <Input name="first_name" label="Ім'я *" required={true} placeholder="Ім'я" pattern={nameRegex.source} />
         <Input name="last_name" label="Прізвище *" required={true} placeholder="Прізвище" pattern={nameRegex.source} />
       </div>
-      <div id="two-inputs-wrapper stackRole">
+      <div className="stackAndRole" id="two-inputs-wrapper">
         <Input name="stack" label="Стек *" required={true} placeholder="HTML,CSS,TS,Node" />
         <CustomSelect
           name="speciality"
@@ -108,7 +108,7 @@ export function ParticipantsForm() {
         <Input
           name="email"
           label="E-mail *"
-          placeholder="xxx@xxxx"
+          placeholder="xxx@xxxx.xxx"
           type="email"
           required={true}
           pattern={emailRegex.source}

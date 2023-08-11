@@ -9,10 +9,13 @@ export const Form = styled.form`
     font-weight: 700;
     margin-bottom: 16px;
   }
-  & > div#two-inputs-wrapper {
+  & div#titleAndButtonWrapper > p {
+    margin-bottom: 8px;
+  }
+  & div#two-inputs-wrapper {
     margin-bottom: 25px;
 
-    & input:first-of-type {
+    & div#input-wrapper {
       margin-bottom: 25px;
     }
   }
