@@ -87,15 +87,26 @@ export const projectDifficulty: ListProps[] = [
 
 export const projectType: ListProps[] = [
   {
-    value: 'for free',
-    label: <ProjectType title="безкоштовний" />,
+    value: 'Безкоштовний',
+    label: <ProjectType title="Безкоштовний" />,
   },
   {
-    value: 'paid',
-    label: <ProjectType title="платний" />,
+    value: 'Платний',
+    label: <ProjectType title="Платний" />,
   },
   {
-    value: 'bootcamp',
-    label: <ProjectType title="буткамп" />,
+    value: 'Буткамп',
+    label: <ProjectType title="Буткамп" />,
+  },
+];
+
+export const experienceVariants: ListProps[] = [
+  {
+    value: 'Так',
+    label: <ProjectType title="Так" />,
+  },
+  {
+    value: 'Ні',
+    label: <ProjectType title="Ні" />,
   },
 ];
