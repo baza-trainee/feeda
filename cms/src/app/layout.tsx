@@ -1,7 +1,6 @@
 import { Exo_2 } from 'next/font/google';
 
 import { Header } from '../components/Header/Header';
-import { InputTester } from '../components/Input/inputTester';
 import { LayoutContainer } from '../components/LayoutContainer/LayoutContainer';
 import { ReduxProvider } from '../store/ReduxProvider';
 import EmotionRegistry from './registry';
