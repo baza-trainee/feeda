@@ -7,6 +7,18 @@ export const Form = styled.form`
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 0.15px;
+    @media screen and (${media.tablet}) {
+      width: fit-content;
+    }
+  }
+  & div#form-part {
+    margin-bottom: 32px;
+    &:last-of-type {
+      margin-bottom: 52px;
+      @media screen and (${media.tablet}) {
+        margin-bottom: 68px;
+      }
+    }
   }
   & p#form-part-title {
     color: ${colors.mainText};
@@ -25,9 +37,6 @@ export const Form = styled.form`
       justify-content: space-between;
       & > p {
         margin-bottom: 0;
-      }
-      & > button {
-        width: fit-content;
       }
     }
   }
@@ -54,7 +63,22 @@ export const Form = styled.form`
       }
     }
   }
-  & div#form-part-title {
-    margin-bottom: 32px;
+
+  & div#project-wrapper {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 24px;
+    & > div#input-wrapper {
+      width: 100%;
+      margin-right: 16px;
+    }
+    & > button {
+      padding: 16px 28px;
+      height: min-content;
+      width: min-content;
+    }
+    &:last-of-type {
+      margin-bottom: 0;
+    }
   }
 `;

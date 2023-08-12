@@ -72,7 +72,6 @@ export const CustomSelect = ({
                 onMenuClose={() => setIsDropdownOpen(false)}
                 onBlur={() => {
                   setIsDropdownOpen(false);
-
                   onBlur();
                 }}
               />

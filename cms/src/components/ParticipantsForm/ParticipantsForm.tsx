@@ -12,32 +12,49 @@ import { CustomSelect } from '../SelectField/SelectField';
 import { Form } from './ParticipantsForm.styles';
 
 export function ParticipantsForm() {
-  const [test, setTest] = useState('');
-  console.log(test);
+  const [projectsAmount, setProjectsAmount] = useState(0);
+  // console.log(test);
   const { control, clearErrors, getValues } = useForm();
   const handleSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     console.log('submit');
     // const form = ev.target as HTMLFormElement;
     // console.log(form);
-    // console.log(getValues());
+    console.log(getValues());
   };
   return (
     <Form onSubmit={handleSubmit}>
-      <div id="form-part-title">
+      <div id="form-part">
         <p id="form-part-title">Особиста інформація</p>
         <div id="two-inputs-wrapper">
-          <Input name="first_name" label="Ім'я *" required={true} placeholder="Ім'я" pattern={nameRegex.source} />
+          <Input
+            name="first_name"
+            label="Ім'я *"
+            required={true}
+            placeholder="Ім'я"
+            pattern={nameRegex.source}
+            control={control}
+            clearErrors={clearErrors}
+          />
           <Input
             name="last_name"
             label="Прізвище *"
             required={true}
             placeholder="Прізвище"
             pattern={nameRegex.source}
+            control={control}
+            clearErrors={clearErrors}
           />
         </div>
         <div className="stackAndRole" id="two-inputs-wrapper">
-          <Input name="stack" label="Стек *" required={true} placeholder="HTML,CSS,TS,Node" />
+          <Input
+            name="stack"
+            label="Стек *"
+            required={true}
+            placeholder="HTML,CSS,TS,Node"
+            control={control}
+            clearErrors={clearErrors}
+          />
           <CustomSelect
             name="speciality"
             title="Роль"
@@ -74,11 +91,18 @@ export function ParticipantsForm() {
           />
         </div>
         <div id="two-inputs-wrapper">
-          <Input name="city" label="Місто (Країна)" placeholder="Країна" pattern={cityRegex.source} />
-          <Input name="comment" label="Коментар" />
+          <Input
+            name="city"
+            label="Місто (Країна)"
+            placeholder="Країна"
+            pattern={cityRegex.source}
+            control={control}
+            clearErrors={clearErrors}
+          />
+          <Input name="comment" label="Коментар" control={control} clearErrors={clearErrors} />
         </div>
       </div>
-      <div id="form-part-title">
+      <div id="form-part">
         <div id="titleAndButtonWrapper">
           <p id="form-part-title">Контактна інформація</p>
           <Button
@@ -96,6 +120,8 @@ export function ParticipantsForm() {
             placeholder="XXXX#XXXX"
             required={true}
             pattern={discordRegex.source}
+            control={control}
+            clearErrors={clearErrors}
           />
           <Input
             name="account_linkedin"
@@ -104,6 +130,8 @@ export function ParticipantsForm() {
             type="url"
             required={true}
             pattern={linkedRegex.source}
+            control={control}
+            clearErrors={clearErrors}
           />
         </div>
         <div id="two-inputs-wrapper">
@@ -114,6 +142,8 @@ export function ParticipantsForm() {
             placeholder="+380666658497"
             required={true}
             pattern={phoneNumberRegex.source}
+            control={control}
+            clearErrors={clearErrors}
           />
           <Input
             name="email"
@@ -122,33 +152,39 @@ export function ParticipantsForm() {
             type="email"
             required={true}
             pattern={emailRegex.source}
+            control={control}
+            clearErrors={clearErrors}
           />
         </div>
       </div>
-      <div id="titleAndButtonWrapper">
-        <p id="form-part-title">Проєкт</p>
-        <Button
-          btnType="button"
-          variant="text"
-          title="Додати проєкт"
-          icon="plus"
-          func={() => console.log('Додати проєкт')}
-        />
+      <div id="form-part">
+        <div id="titleAndButtonWrapper">
+          <p id="form-part-title">Проєкт</p>
+          <Button
+            btnType="button"
+            variant="text"
+            title="Додати проєкт"
+            icon="plus"
+            func={() => setProjectsAmount(projectsAmount + 1)}
+          />
+        </div>
+        {Array.from({ length: projectsAmount }, (_, index) => (
+          <div id="project-wrapper" key={index}>
+            <CustomSelect
+              name="project"
+              title="Проєкт *"
+              placeholder="Назва"
+              rules={{ required: true }}
+              control={control}
+              clearErrors={clearErrors}
+              valueGetter={(ev) => ev}
+              //   defaultValue={undefined}
+              options={projectType}
+            />
+            <Button btnType="button" variant="icon" icon="trash" func={() => setProjectsAmount(projectsAmount - 1)} />
+          </div>
+        ))}
       </div>
-      <div id="two-inputs-wrapper">
-        {/* <CustomSelect
-          name="project"
-          title="Проєкт *"
-          placeholder="Назва"
-          rules={{ required: true }}
-          control={control}
-          clearErrors={clearErrors}
-          valueGetter={(ev) => ev}
-          //   defaultValue={undefined}
-          // options={projectType}
-        /> */}
-      </div>
-      <Button btnType="button" variant="primary" title="test" func={() => setTest('ss')} />
       <Button btnType="submit" variant="primary" title="submit" />
     </Form>
   );
