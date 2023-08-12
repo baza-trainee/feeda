@@ -59,7 +59,6 @@ export function Input({
         const handleChange = () => {
           clearErrors(name);
         };
-
         return (
           <div id="input-wrapper">
             {label && (
@@ -78,7 +77,6 @@ export function Input({
                   <IconSprite icon={begIconId} />
                 </InputIconWrapper>
               )}
-
               <InputComp
                 id={id}
                 placeholder={placeholder}
@@ -90,16 +88,12 @@ export function Input({
                 maxLength={maxLength}
                 minLength={minLength}
                 pattern={pattern}
-                onChange={
-                  pattern || label
-                    ? (ev) => {
-                        setInputValue(ev.target.value);
-                        handleChange();
-                        onChange(ev.target.value);
-                      }
-                    : undefined
-                }
                 defaultValue={defaultValue}
+                onChange={(ev) => {
+                  if (pattern || label) setInputValue(ev.target.value);
+                  handleChange();
+                  onChange(ev.target.value);
+                }}
               />
               {endIconId && (
                 <InputIconWrapper style={{ paddingLeft: 12 }} isDisabled={disabled}>

@@ -26,7 +26,7 @@ export function CardsContent({ type, data }: CardsContentType) {
   const router = useRouter();
   return (
     <List>
-      {data.map((item: any) => {
+      {data.map((item: ParticipantData | ProjectData) => {
         return (
           <ListItem key={item.id}>
             <Link href={type === 'participants' ? `participants/${item.id}` : `projects/${item.id}`}>
