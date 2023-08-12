@@ -5,7 +5,7 @@ import { Control, Controller } from 'react-hook-form';
 import Select from 'react-select';
 
 import { DropdownIndicator } from '../DropdownIndicator/DropdownIndicator';
-import { Label, ErrorText, selectStyles } from './SelectField.style';
+import { ErrorText, Label, selectStyles } from './SelectField.style';
 
 interface OptionType {
   label: JSX.Element;
@@ -51,7 +51,7 @@ export const CustomSelect = ({
         const computedValue = typeof valueGetter === 'function' ? valueGetter(value) : value;
 
         return (
-          <div style={{ position: 'relative' }}>
+          <div style={{ position: 'relative' }} id="input-wrapper">
             <Label>
               {title}
               <Select

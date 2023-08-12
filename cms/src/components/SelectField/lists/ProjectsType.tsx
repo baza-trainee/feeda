@@ -1,4 +1,4 @@
-import { SelectTextItem, SelectText } from '../SelectField.style';
+import { SelectText,SelectTextItem } from '../SelectField.style';
 
 export const ProjectType = ({ title }: { title: string }) => {
   return (

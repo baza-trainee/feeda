@@ -1,5 +1,6 @@
-import styled from '@emotion/styled';
 import { StylesConfig } from 'react-select';
+
+import styled from '@emotion/styled';
 
 export type SelectStateIconType = 'orange' | 'green' | 'yellow';
 export type SelectRoleIconType = 'green' | 'yellow' | 'orange' | 'red' | 'violet' | 'blue' | 'empty';
