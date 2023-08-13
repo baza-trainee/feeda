@@ -1,18 +1,22 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+axios.defaults.baseURL = 'http://localhost:8000/user-project/';
+axios.defaults.headers.Authorization = 'Token 778524f2b854fdb4aad7f9f1f748e6392a250f21';
+
 const initialState: ParticipantsState = {
   list: [],
   loading: 'success',
 };
 
 export const fetchParticipants = createAsyncThunk('participants/fetchParticipants', async () => {
-  const { data } = await axios.get<ParticipantData[]>('http://localhost:8000/user-project/participants-list/', {
-    headers: {
-      Authorization: 'Token 778524f2b854fdb4aad7f9f1f748e6392a250f21', //implement auth,
-    },
-  });
+  const { data } = await axios.get<ParticipantData[]>('participants-list/');
+  return data;
+});
 
+export const createParticipant = createAsyncThunk('participants/createParticipant', async (formData: object) => {
+  console.log('Request: ', formData);
+  const { data } = await axios.post<ParticipantData[]>('add-participant/', formData);
   return data;
 });
 
@@ -33,6 +37,22 @@ export const participantsSlice = createSlice({
     builder.addCase(fetchParticipants.rejected, (state) => {
       state.loading = 'rejected';
       console.log(state.loading);
+    });
+    // - - -
+    builder.addCase(createParticipant.pending, (state) => {
+      state.loading = 'loading';
+      console.log(state.loading);
+    });
+    builder.addCase(createParticipant.fulfilled, (state, { payload }) => {
+      // state.list = payload;
+      console.log(payload);
+      state.loading = 'success';
+      console.log(state.loading);
+    });
+    builder.addCase(createParticipant.rejected, (state, { payload }) => {
+      state.loading = 'rejected';
+      console.log(state.loading);
+      console.log('Error: ', payload);
     });
   },
 });

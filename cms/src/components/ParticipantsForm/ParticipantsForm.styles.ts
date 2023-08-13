@@ -81,4 +81,31 @@ export const Form = styled.form`
       margin-bottom: 0;
     }
   }
+
+  & div#buttons-wrapper {
+    & > button {
+      line-height: 30.8px;
+    }
+    & > button:first-of-type {
+      margin-bottom: 16px;
+      font-size: 22px;
+      font-weight: 700;
+    }
+    @media screen and (${media.tablet}) {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+      width: fit-content;
+      & > button:first-of-type {
+        margin-bottom: 0;
+        margin-right: 16px;
+      }
+    }
+    @media screen and (${media.desktop}) {
+      & > button:last-of-type {
+        font-size: 22px;
+        font-weight: 400;
+      }
+    }
+  }
 `;

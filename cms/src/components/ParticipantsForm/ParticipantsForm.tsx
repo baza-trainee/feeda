@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 
 import { cityRegex, discordRegex, emailRegex, linkedRegex, nameRegex, phoneNumberRegex } from '~/src/hooks/regexs';
+import { createParticipant } from '~/src/slices/participants';
 
 import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
@@ -12,15 +14,26 @@ import { CustomSelect } from '../SelectField/SelectField';
 import { Form } from './ParticipantsForm.styles';
 
 export function ParticipantsForm() {
-  const [projectsAmount, setProjectsAmount] = useState(0);
-  // console.log(test);
+  const dispatch = useDispatch();
   const { control, clearErrors, getValues } = useForm();
+  const [projectsAmount, setProjectsAmount] = useState(0);
+
   const handleSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     console.log('submit');
-    // const form = ev.target as HTMLFormElement;
-    // console.log(form);
-    console.log(getValues());
+    const formData = getValues();
+    formData.experience = formData.experience.value;
+    formData.speciality = formData.speciality.value;
+    formData.type_participant = formData.type_participant.value;
+    formData.projects = [];
+    for (const key in formData) {
+      if (key.includes('project_')) {
+        formData.projects.push(formData[key].value);
+        delete formData[key];
+      }
+    }
+    // console.log(formData);
+    dispatch(createParticipant(formData));
   };
   return (
     <Form onSubmit={handleSubmit}>
@@ -32,7 +45,7 @@ export function ParticipantsForm() {
             label="Ім'я *"
             required={true}
             placeholder="Ім'я"
-            pattern={nameRegex.source}
+            // pattern={nameRegex.source}
             control={control}
             clearErrors={clearErrors}
           />
@@ -41,7 +54,7 @@ export function ParticipantsForm() {
             label="Прізвище *"
             required={true}
             placeholder="Прізвище"
-            pattern={nameRegex.source}
+            // pattern={nameRegex.source}
             control={control}
             clearErrors={clearErrors}
           />
@@ -95,7 +108,7 @@ export function ParticipantsForm() {
             name="city"
             label="Місто (Країна)"
             placeholder="Країна"
-            pattern={cityRegex.source}
+            // pattern={cityRegex.source}
             control={control}
             clearErrors={clearErrors}
           />
@@ -119,7 +132,7 @@ export function ParticipantsForm() {
             label="Discord *"
             placeholder="XXXX#XXXX"
             required={true}
-            pattern={discordRegex.source}
+            // pattern={discordRegex.source}
             control={control}
             clearErrors={clearErrors}
           />
@@ -129,7 +142,7 @@ export function ParticipantsForm() {
             placeholder="www.linkedin.com/in/"
             type="url"
             required={true}
-            pattern={linkedRegex.source}
+            // pattern={linkedRegex.source}
             control={control}
             clearErrors={clearErrors}
           />
@@ -139,9 +152,9 @@ export function ParticipantsForm() {
             name="phone_number"
             label="Телефон *"
             type="tel"
-            placeholder="+380666658497"
+            placeholder="+ХХХХХХХХХХХХ"
             required={true}
-            pattern={phoneNumberRegex.source}
+            // pattern={phoneNumberRegex.source}
             control={control}
             clearErrors={clearErrors}
           />
@@ -151,7 +164,9 @@ export function ParticipantsForm() {
             placeholder="xxx@xxxx.xxx"
             type="email"
             required={true}
-            pattern={emailRegex.source}
+            minLength={6}
+            maxLength={70}
+            // pattern={emailRegex.source}
             control={control}
             clearErrors={clearErrors}
           />
@@ -171,7 +186,7 @@ export function ParticipantsForm() {
         {Array.from({ length: projectsAmount }, (_, index) => (
           <div id="project-wrapper" key={index}>
             <CustomSelect
-              name="project"
+              name={`project_${index}`}
               title="Проєкт *"
               placeholder="Назва"
               rules={{ required: true }}
@@ -185,20 +200,11 @@ export function ParticipantsForm() {
           </div>
         ))}
       </div>
-      <Button btnType="submit" variant="primary" title="submit" />
+
+      <div id="buttons-wrapper">
+        <Button btnType="submit" variant="primary" title="Зберегти зміни" />
+        <Button btnType="reset" variant="text" title="Скасувати" />
+      </div>
     </Form>
   );
 }
-//   "first_name": "string",
-//   "last_name": "string",
-//   "speciality": "string",
-//   "phone_number": 0,
-//   "email": "Unknown Type: email",
-//   "account_discord": "string",
-//   "account_linkedin": "string",
-//   "comment": "string",
-//   "city": "string",
-//   "experience": true,
-//   "project": {},
-//   "type_participant": {},
-//   "stack": "string"
