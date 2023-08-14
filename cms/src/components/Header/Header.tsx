@@ -8,7 +8,6 @@ import SearchIcon from '../../../public/search.svg';
 import {
   DesktopContent,
   Logo,
-  logoStyles,
   MenuBtn,
   MenuWrapper,
   MobileHeaderWrapper,
