@@ -38,7 +38,7 @@ export function PopUpTester() {
     <>
       {show && (
         <PopUp
-          type="delete"
+          type="success"
           target="project"
           yesCallback={yesCallback}
           noCallback={noCallback}

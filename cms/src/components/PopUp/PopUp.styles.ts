@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
   height: 100vh;
   background-color: #fcfcfc66;
 `;
-export const PopUpWindow = styled.div<{ borderColor: string | undefined; mobileWidth: string | undefined }>`
+export const PopUpWindow = styled.div<{ borderColor: false | '#29ca56'; mobileWidth: string | undefined }>`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -28,7 +28,7 @@ export const PopUpWindow = styled.div<{ borderColor: string | undefined; mobileW
 `;
 
 export const PopUpText = styled.p`
-  color: #262626;
+  color: ${colors.mainText};
   font-size: 16px;
   margin-left: auto;
 `;
@@ -46,6 +46,10 @@ export const ContentWrapper = styled.div`
   display: flex;
   margin-bottom: 16px;
   width: fit-content;
+  & > svg {
+    height: fit-content;
+    margin-right: 16px;
+  }
 `;
 
 export const TextWrapperRemoval = styled.div`
@@ -64,8 +68,13 @@ export const ButtonsWrapper = styled.div`
 export const NotificationWrapper = styled.div`
   display: flex;
   width: fit-content;
+  & > svg {
+    height: 24px;
+    width: 24px;
+    margin-right: 16px;
+    color: #29ca56;
+  }
 `;
-
 
 export const TextWrapperNotification = styled.div`
   width: 152px;

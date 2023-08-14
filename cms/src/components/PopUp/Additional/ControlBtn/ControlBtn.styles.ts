@@ -9,6 +9,11 @@ export const btn = css`
   padding: 5px 0;
   background-color: white;
   cursor: pointer;
+  & > svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
 `;
 
 export const btnAccept = css`

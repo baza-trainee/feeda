@@ -1,8 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import Image from 'next/image';
 
-import checkmark from '../../../../../public/checkmark.svg';
-import cross from '../../../../../public/cross.svg';
+import { IconSprite } from '../../../IconSprite/IconSprite';
 import { btn, btnAccept, btnCancel } from './ControlBtn.styles';
 
 type ControlBtnProps = {
@@ -17,12 +15,12 @@ type ControlBtnProps = {
 export function ControlBtn({ text, type, color, isDisabled, style, callback }: ControlBtnProps) {
   return type === 'accept' ? (
     <button css={[btn, btnAccept]} style={style} type="button" disabled={isDisabled} onClick={callback}>
-      <Image style={{ marginRight: '8px' }} src={checkmark} width={16} alt="Так" />
+      <IconSprite icon="checkmark" />
       Так
     </button>
   ) : type === 'cancel' ? (
     <button css={[btn, btnCancel]} style={style} type="button" disabled={isDisabled} onClick={callback}>
-      <Image style={{ marginRight: '8px' }} src={cross} width={16} alt="Скасувати" />
+      <IconSprite icon="cross" />
       Скасувати
     </button>
   ) : (

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
+import { IconSprite } from '../IconSprite/IconSprite';
 import { ControlBtn } from './Additional/ControlBtn/ControlBtn';
-import { RoundCheckmark } from './Additional/SvgComponents/RoundCheckmark';
 import {
   ButtonsWrapper,
   ContentWrapper,
@@ -17,14 +17,13 @@ import {
 type PopUpProps = {
   type: 'delete' | 'success';
   target?: 'project' | 'member';
-  borderColor?: string;
   mobileWidth?: string;
   yesCallback?: () => void;
   noCallback?: () => void;
   closeModalFunc: () => void;
 };
 
-export function PopUp({ type, target, borderColor, mobileWidth, closeModalFunc, yesCallback, noCallback }: PopUpProps) {
+export function PopUp({ type, target, mobileWidth, closeModalFunc, yesCallback, noCallback }: PopUpProps) {
   useEffect(() => {
     if (type === 'success') {
       setTimeout(() => {
@@ -45,14 +44,14 @@ export function PopUp({ type, target, borderColor, mobileWidth, closeModalFunc, 
   return (
     <>
       <Wrapper onClick={closeModal} />
-      <PopUpWindow borderColor={borderColor} mobileWidth={mobileWidth}>
+      <PopUpWindow borderColor={type === 'success' && '#29ca56'} mobileWidth={mobileWidth}>
         {type === 'delete' && (
           <>
             <ContentWrapper>
-              <RoundCheckmark />
+              <IconSprite icon="roundCheckmark" />
               <TextWrapperRemoval>
-                <PopUpTitle>Видалити {copy[target]}</PopUpTitle>
-                <PopUpText>Ви впевнені, що хочете видалити {copy[target]}?</PopUpText>
+                <PopUpTitle>Видалити {target && copy[target]}</PopUpTitle>
+                <PopUpText>Ви впевнені, що хочете видалити {target && copy[target]}?</PopUpText>
               </TextWrapperRemoval>
             </ContentWrapper>
             <ButtonsWrapper>
@@ -63,7 +62,7 @@ export function PopUp({ type, target, borderColor, mobileWidth, closeModalFunc, 
         )}
         {type === 'success' && (
           <NotificationWrapper>
-            <RoundCheckmark stroke="#29ca56" />
+            <IconSprite icon="roundCheckmark" />
             <TextWrapperNotification>
               <PopUpTitle color="#29CA56">Успіх!</PopUpTitle>
               <PopUpText>Ваші дані було успішно збережено.</PopUpText>
