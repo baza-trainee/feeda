@@ -16,7 +16,6 @@ export default function ParticipantsPage() {
   useEffect(() => {
     dispatch(fetchParticipants());
   }, []);
-  console.log(participantsList);
   return (
     <Wrapper>
       <Link href="participants/create">

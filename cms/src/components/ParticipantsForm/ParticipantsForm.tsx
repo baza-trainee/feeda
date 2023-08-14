@@ -23,7 +23,6 @@ type Props = {
 export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: Props) {
   const { control, clearErrors, getValues } = useForm();
   const [projectsAmount, setProjectsAmount] = useState(0);
-  console.log(defaultValues);
   return (
     <Form
       onSubmit={(ev) => {

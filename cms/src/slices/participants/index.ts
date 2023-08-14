@@ -26,6 +26,16 @@ export const getParticipant = createAsyncThunk('participants/getParticipant', as
   return data;
 });
 
+export const updateParticipant = createAsyncThunk(
+  'participants/updateParticipant',
+  async ({ formData, userId }: { formData: object; userId: string }) => {
+    console.log('Id: ', userId);
+    console.log('Data: ', formData);
+    const { data } = await axios.put<ParticipantData>(`participant-detail/${userId}`, formData);
+    return data;
+  }
+);
+
 export const participantsSlice = createSlice({
   name: 'participants',
   initialState,
@@ -58,11 +68,24 @@ export const participantsSlice = createSlice({
     builder.addCase(getParticipant.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(getParticipant.fulfilled, (state, { payload }) => {
+    builder.addCase(getParticipant.fulfilled, (state) => {
       // state.list = payload;
       state.isLoading = false;
     });
     builder.addCase(getParticipant.rejected, (state, { payload }) => {
+      state.isLoading = false;
+      console.log('Error: ', payload);
+    });
+    // - - -
+    builder.addCase(updateParticipant.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(updateParticipant.fulfilled, (state, { payload }) => {
+      // state.list = payload;
+      console.log(payload);
+      state.isLoading = false;
+    });
+    builder.addCase(updateParticipant.rejected, (state, { payload }) => {
       state.isLoading = false;
       console.log('Error: ', payload);
     });

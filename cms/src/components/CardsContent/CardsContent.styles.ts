@@ -67,11 +67,16 @@ export const FirstBlockWrapper = styled.div`
 
 export const SecondBlockWrapper = styled.div<{ type: 'participants' | 'projects' }>`
   & > h2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    height: 60px;
     margin-bottom: 8px;
-    color: ${colors.mainText};
-    font-size: ${({ type }) => (type === 'participants' ? '24px' : '22px')};
-    font-weight: 700;
     line-height: calc(30 / 24);
+    font-weight: 700;
+    font-size: ${({ type }) => (type === 'participants' ? '24px' : '22px')};
+    color: ${colors.mainText};
   }
   & > p {
     color: ${colors.mainPlaceholder};
