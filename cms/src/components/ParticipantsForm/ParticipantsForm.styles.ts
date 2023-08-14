@@ -83,6 +83,37 @@ export const Form = styled.form`
   }
 
   & div#buttons-wrapper {
+    & > a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      /* margin-bottom: 16px; */
+      border: 0;
+      padding: 16px;
+      border-radius: 4px;
+      font-size: 22px;
+      font-weight: 700;
+      color: ${colors.mainBtnText};
+      background-color: #232323;
+      transition: all 250ms ease-in;
+
+      &:hover {
+        background-color: #fdf5dd;
+        color: #232323;
+      }
+      &:focus {
+        background-color: #232323;
+        color: #fdf5dd;
+      }
+
+      @media screen and (${media.tablet}) {
+        width: fit-content;
+        margin-left: auto;
+      }
+    }
+
     & > button {
       line-height: 30.8px;
     }

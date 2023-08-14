@@ -10,12 +10,13 @@ import { CardsContent } from '../../components/CardsContent/CardsContent';
 import { fetchParticipants } from '../../slices/participants/index';
 import { Wrapper } from './page.styles';
 
-export default function AddParticipantPage() {
+export default function ParticipantsPage() {
   const dispatch = useDispatch();
   const participantsList = useSelector((state: any) => state.participants.list);
   useEffect(() => {
     dispatch(fetchParticipants());
   }, []);
+  console.log(participantsList);
   return (
     <Wrapper>
       <Link href="participants/create">

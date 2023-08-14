@@ -2,59 +2,57 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 
-import { cityRegex, discordRegex, emailRegex, linkedRegex, nameRegex, phoneNumberRegex } from '~/src/hooks/regexs';
-import { createParticipant } from '~/src/slices/participants';
+import Link from 'next/link';
 
+import { ParticipantData } from '~/src/slices/participants';
+
+import { cityRegex, discordRegex, emailRegex, linkedRegex, nameRegex, phoneNumberRegex } from '../../hooks/regexs';
 import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
 import { experienceVariants, membersRole, projectType } from '../SelectField/lists';
 import { CustomSelect } from '../SelectField/SelectField';
 import { Form } from './ParticipantsForm.styles';
 
-export function ParticipantsForm() {
-  const dispatch = useDispatch();
+type Props = {
+  handleSubmit?: (formData: object) => void;
+  formVariant: 'create' | 'edit' | 'view';
+  defaultValues?: ParticipantData;
+};
+
+export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: Props) {
   const { control, clearErrors, getValues } = useForm();
   const [projectsAmount, setProjectsAmount] = useState(0);
-
-  const handleSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
-    ev.preventDefault();
-    console.log('submit');
-    const formData = getValues();
-    formData.experience = formData.experience.value;
-    formData.speciality = formData.speciality.value;
-    formData.type_participant = formData.type_participant.value;
-    formData.projects = [];
-    for (const key in formData) {
-      if (key.includes('project_')) {
-        formData.projects.push(formData[key].value);
-        delete formData[key];
-      }
-    }
-    // console.log(formData);
-    dispatch(createParticipant(formData));
-  };
+  console.log(defaultValues);
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form
+      onSubmit={(ev) => {
+        ev.preventDefault();
+        formVariant !== 'view' && handleSubmit(getValues());
+      }}
+    >
       <div id="form-part">
         <p id="form-part-title">Особиста інформація</p>
         <div id="two-inputs-wrapper">
           <Input
             name="first_name"
             label="Ім'я *"
+            readonly={formVariant === 'view'}
             required={true}
             placeholder="Ім'я"
-            // pattern={nameRegex.source}
+            defaultValue={defaultValues?.first_name}
+            pattern={nameRegex.source}
             control={control}
             clearErrors={clearErrors}
           />
           <Input
             name="last_name"
             label="Прізвище *"
+            readonly={formVariant === 'view'}
             required={true}
             placeholder="Прізвище"
-            // pattern={nameRegex.source}
+            defaultValue={defaultValues?.last_name}
+            pattern={nameRegex.source}
             control={control}
             clearErrors={clearErrors}
           />
@@ -63,7 +61,9 @@ export function ParticipantsForm() {
           <Input
             name="stack"
             label="Стек *"
+            readonly={formVariant === 'view'}
             required={true}
+            defaultValue={defaultValues?.stack}
             placeholder="HTML,CSS,TS,Node"
             control={control}
             clearErrors={clearErrors}
@@ -72,10 +72,15 @@ export function ParticipantsForm() {
             name="speciality"
             title="Роль"
             placeholder="Роль"
+            // readonly={formVariant === 'view' }
             control={control}
             clearErrors={clearErrors}
             valueGetter={(ev) => ev}
-            defaultValue={membersRole[6]}
+            defaultValue={
+              defaultValues && membersRole.find((item) => item.value === defaultValues?.speciality.title.toLowerCase())
+                ? membersRole.find((item) => item.value === defaultValues?.speciality.title.toLowerCase())
+                : membersRole[6]
+            }
             options={membersRole}
           />
         </div>
@@ -84,22 +89,30 @@ export function ParticipantsForm() {
             name="experience"
             title="Досвід *"
             placeholder="Так/Ні"
+            // readonly={formVariant === 'view' }
             rules={{ required: true }}
             control={control}
             clearErrors={clearErrors}
             valueGetter={(ev) => ev}
-            //   defaultValue={membersRole[6]}
+            defaultValue={defaultValues?.experience ? experienceVariants[0] : experienceVariants[1]}
             options={experienceVariants}
           />
           <CustomSelect
             name="type_participant"
             title="Тип участі *"
             placeholder="Платний"
+            readonly={formVariant === 'view'}
             rules={{ required: true }}
             control={control}
             clearErrors={clearErrors}
             valueGetter={(ev) => ev}
-            //   defaultValue={undefined}
+            defaultValue={
+              defaultValues && projectType.find((item) => item === defaultValues?.type_participant)?.value ? (
+                projectType.find((item) => item === defaultValues?.type_participant)?.value
+              ) : (
+                <></>
+              )
+            }
             options={projectType}
           />
         </div>
@@ -108,11 +121,20 @@ export function ParticipantsForm() {
             name="city"
             label="Місто (Країна)"
             placeholder="Країна"
-            // pattern={cityRegex.source}
+            readonly={formVariant === 'view'}
+            pattern={cityRegex.source}
+            defaultValue={defaultValues?.city}
             control={control}
             clearErrors={clearErrors}
           />
-          <Input name="comment" label="Коментар" control={control} clearErrors={clearErrors} />
+          <Input
+            name="comment"
+            label="Коментар"
+            readonly={formVariant === 'view'}
+            defaultValue={defaultValues?.comment}
+            control={control}
+            clearErrors={clearErrors}
+          />
         </div>
       </div>
       <div id="form-part">
@@ -122,7 +144,7 @@ export function ParticipantsForm() {
             btnType="button"
             variant="text"
             title="Відправити листа"
-            isDisabled={true}
+            isDisabled={formVariant === 'create'}
             func={() => console.log('Відправити листа')}
           />
         </div>
@@ -132,7 +154,9 @@ export function ParticipantsForm() {
             label="Discord *"
             placeholder="XXXX#XXXX"
             required={true}
-            // pattern={discordRegex.source}
+            readonly={formVariant === 'view'}
+            defaultValue={defaultValues?.account_discord}
+            pattern={discordRegex.source}
             control={control}
             clearErrors={clearErrors}
           />
@@ -141,8 +165,10 @@ export function ParticipantsForm() {
             label="LinkedIn *"
             placeholder="www.linkedin.com/in/"
             type="url"
+            readonly={formVariant === 'view'}
             required={true}
-            // pattern={linkedRegex.source}
+            defaultValue={defaultValues?.account_linkedin}
+            pattern={linkedRegex.source}
             control={control}
             clearErrors={clearErrors}
           />
@@ -152,9 +178,11 @@ export function ParticipantsForm() {
             name="phone_number"
             label="Телефон *"
             type="tel"
-            placeholder="+ХХХХХХХХХХХХ"
+            placeholder="+XXXXXXXXXXXX"
+            readonly={formVariant === 'view'}
             required={true}
-            // pattern={phoneNumberRegex.source}
+            defaultValue={defaultValues?.phone_number}
+            pattern={phoneNumberRegex.source}
             control={control}
             clearErrors={clearErrors}
           />
@@ -163,10 +191,12 @@ export function ParticipantsForm() {
             label="E-mail *"
             placeholder="xxx@xxxx.xxx"
             type="email"
+            readonly={formVariant === 'view'}
             required={true}
+            defaultValue={defaultValues?.email}
             minLength={6}
             maxLength={70}
-            // pattern={emailRegex.source}
+            pattern={emailRegex.source}
             control={control}
             clearErrors={clearErrors}
           />
@@ -180,6 +210,7 @@ export function ParticipantsForm() {
             variant="text"
             title="Додати проєкт"
             icon="plus"
+            isDisabled={formVariant === 'view'}
             func={() => setProjectsAmount(projectsAmount + 1)}
           />
         </div>
@@ -192,6 +223,7 @@ export function ParticipantsForm() {
               rules={{ required: true }}
               control={control}
               clearErrors={clearErrors}
+              // readonly={formVariant === 'view' }
               valueGetter={(ev) => ev}
               //   defaultValue={undefined}
               options={projectType}
@@ -202,8 +234,14 @@ export function ParticipantsForm() {
       </div>
 
       <div id="buttons-wrapper">
-        <Button btnType="submit" variant="primary" title="Зберегти зміни" />
-        <Button btnType="reset" variant="text" title="Скасувати" />
+        {formVariant === 'view' ? (
+          <Link href={`/participants/edit/${defaultValues?.id}`}>Редагувати</Link>
+        ) : (
+          <>
+            <Button btnType="submit" variant="primary" title="Зберегти зміни" />
+            <Button btnType="reset" variant="text" title="Скасувати" />
+          </>
+        )}
       </div>
     </Form>
   );

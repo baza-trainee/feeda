@@ -48,7 +48,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                     router.push(`${type}/edit/${item.id}`);
                   }}
                 />
-                <p>{item.type_participant}</p>
+                <p>{item.type_participant.value}</p>
               </FirstBlockWrapper>
               <SecondBlockWrapper type={type}>
                 <h2>{type === 'participants' ? `${item.last_name} ${item.first_name}` : item.title}</h2>
@@ -69,11 +69,13 @@ export function CardsContent({ type, data }: CardsContentType) {
                       <p id="name">Роль</p>
                       <div id="icon-wrapper">
                         <IconSprite
-                          icon={commonVariants.role.find((searchItem) => searchItem.name === item.speciality)?.icon}
+                          icon={
+                            commonVariants.role.find((searchItem) => searchItem.name === item.speciality.value)?.icon
+                          }
                         />
                         {/*!!!*/}
                       </div>
-                      <p id="value">{item.speciality}</p>
+                      <p id="value">{item.speciality.value}</p>
                       {/*!!!*/}
                     </ThirdBlockElementsWrapper>
                   </>

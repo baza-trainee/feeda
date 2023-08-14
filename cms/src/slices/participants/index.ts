@@ -2,11 +2,12 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:8000/user-project/';
-axios.defaults.headers.Authorization = 'Token 778524f2b854fdb4aad7f9f1f748e6392a250f21';
+axios.defaults.headers.Authorization = 'Token d27095b128eef9d7d8c2060e6187982a71257c6a';
 
 const initialState: ParticipantsState = {
   list: [],
-  loading: 'success',
+  isLoading: false,
+  error: null,
 };
 
 export const fetchParticipants = createAsyncThunk('participants/fetchParticipants', async () => {
@@ -16,7 +17,12 @@ export const fetchParticipants = createAsyncThunk('participants/fetchParticipant
 
 export const createParticipant = createAsyncThunk('participants/createParticipant', async (formData: object) => {
   console.log('Request: ', formData);
-  const { data } = await axios.post<ParticipantData[]>('add-participant/', formData);
+  const { data } = await axios.post<any>('add-participant/', formData);
+  return data;
+});
+
+export const getParticipant = createAsyncThunk('participants/getParticipant', async (id: string) => {
+  const { data } = await axios.get<ParticipantData>(`get-participant/${id}/`);
   return data;
 });
 
@@ -26,32 +32,38 @@ export const participantsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchParticipants.pending, (state) => {
-      state.loading = 'loading';
-      console.log(state.loading);
+      state.isLoading = true;
     });
     builder.addCase(fetchParticipants.fulfilled, (state, { payload }) => {
       state.list = payload;
-      state.loading = 'success';
-      console.log(state.loading);
+      state.isLoading = false;
     });
     builder.addCase(fetchParticipants.rejected, (state) => {
-      state.loading = 'rejected';
-      console.log(state.loading);
+      state.isLoading = false;
     });
     // - - -
     builder.addCase(createParticipant.pending, (state) => {
-      state.loading = 'loading';
-      console.log(state.loading);
+      state.isLoading = true;
     });
     builder.addCase(createParticipant.fulfilled, (state, { payload }) => {
       // state.list = payload;
       console.log(payload);
-      state.loading = 'success';
-      console.log(state.loading);
+      state.isLoading = false;
     });
     builder.addCase(createParticipant.rejected, (state, { payload }) => {
-      state.loading = 'rejected';
-      console.log(state.loading);
+      state.isLoading = false;
+      console.log('Error: ', payload);
+    });
+    // - - -
+    builder.addCase(getParticipant.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getParticipant.fulfilled, (state, { payload }) => {
+      // state.list = payload;
+      state.isLoading = false;
+    });
+    builder.addCase(getParticipant.rejected, (state, { payload }) => {
+      state.isLoading = false;
       console.log('Error: ', payload);
     });
   },
@@ -59,7 +71,8 @@ export const participantsSlice = createSlice({
 
 interface ParticipantsState {
   list: ParticipantData[];
-  loading: 'loading' | 'success' | 'rejected';
+  isLoading: boolean;
+  error: string | null;
 }
 
 export interface ParticipantData {
@@ -77,8 +90,8 @@ export interface ParticipantData {
   conditions_participation: boolean;
   processing_personal_data: boolean;
   speciality: object;
-  project: object;
-  type_participant: 'Безкоштовний' | 'Платний' | 'Буткамп';
+  project: string[];
+  // type_participant: 'Безкоштовний' | 'Платний' | 'Буткамп';
 }
 
 export default participantsSlice.reducer;
