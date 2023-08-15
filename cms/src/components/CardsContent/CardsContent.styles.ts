@@ -72,7 +72,7 @@ export const SecondBlockWrapper = styled.div<{ type: 'participants' | 'projects'
     overflow: hidden;
     -webkit-line-clamp: 1;
     line-height: calc(30 / 24);
-    font-weight: 700;
+    font-weight: 600;
     font-size: ${({ type }) => (type === 'participants' ? '24px' : '22px')};
     color: ${colors.mainText};
   }
