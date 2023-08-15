@@ -16,7 +16,7 @@ padding-right: 1.5rem;
 }
 `;
 
-export const Overplay = styled.div<{ visible: boolean }>`
+export const Overplay = styled.div<{ visible?: boolean }>`
 	overflow-y: auto;
 	position: fixed;
 	z-index: 10;
@@ -27,7 +27,7 @@ export const Overplay = styled.div<{ visible: boolean }>`
 	background-color: ${colors.mainBg};
 `;
 
-export const Content = styled.div<{ agreement: boolean }>`
+export const Content = styled.div<{ agreement?: boolean }>`
 	line-height: ${fonts.body.lineHeight.tablet};
 	letter-spacing: ${fonts.modal.letterSpacing}px;
 	display: flex;

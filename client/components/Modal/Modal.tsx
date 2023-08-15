@@ -11,8 +11,8 @@ export function Modal(): JSX.Element {
 	const modalContentRef = useRef<HTMLDivElement>(null);
 	const { state, setState } = useGlobalState();
 
-	const closeModal = async () => {
-		await setState((prev) => ({ ...prev, visible: false }));
+	const closeModal = () => {
+		setState((prev) => ({ ...prev, visible: false }));
 	};
 
 	useEffect(() => {
@@ -54,7 +54,7 @@ export function Modal(): JSX.Element {
 			setState((prev) => ({
 				...prev,
 				approved: {
-					...prev.approved,
+					terms: prev.approved?.terms || false,
 					agreement: true,
 				},
 			}));
@@ -64,7 +64,7 @@ export function Modal(): JSX.Element {
 			setState((prev) => ({
 				...prev,
 				approved: {
-					...prev.approved,
+					agreement: prev.approved?.agreement || false,
 					terms: true,
 				},
 				modal: 'agreement',
@@ -74,7 +74,7 @@ export function Modal(): JSX.Element {
 			setState((prev) => ({
 				...prev,
 				approved: {
-					...prev.approved,
+					agreement: prev.approved?.agreement || false,
 					terms: true,
 				},
 			}));
