@@ -1,64 +1,38 @@
-<<<<<<< HEAD
-import styled from '@emotion/styled';
+import { css } from '@emotion/react';
+import { theme } from 'styles/theme';
+const { colors, fonts, media } = theme;
 
-import { colors, fonts, media } from '~styles/theme';
-const { mainTitle } = fonts;
-const { fontWeight, fontSize, lineHeight } = mainTitle;
-
-export const Heading = styled.h2<{ secondary: boolean | undefined }>`
+export const titleStyle = css`
+	font-weight: ${fonts.mainTitle.fontWeight.tablet};
+	font-size: ${fonts.mainTitle.fontSize.mobile}rem;
+	line-height: normal;
 	text-align: center;
-
-	font-weight: ${fontWeight};
-	font-size: ${({ secondary }) => (secondary ? fontSize.secondary : fontSize.mobile)}rem;
-	line-height: ${({ secondary }) => (secondary ? lineHeight.secondary : lineHeight.mobile)};
-
-	color: ${colors.grey1000};
+	color: ${colors.mainTitle};
 
 	@media screen and (${media.tablet}) {
-		font-size: ${fontSize.tablet}rem;
-		line-height: ${lineHeight.tablet};
+		font-size: ${fonts.mainTitle.fontSize.tablet}rem;
+		line-height: ${fonts.mainTitle.lineHeight.tablet};
 	}
 
 	@media screen and (${media.desktop}) {
-		font-size: ${fontSize.desktop}rem;
-		line-height: ${lineHeight.desktop};
-	}
-=======
-import { css } from '@emotion/react';
-import { theme } from 'styles/theme';
-
-export const titleStyle = css`
-	font-weight: 700;
-	font-size: 22px;
-	line-height: normal;
-	text-align: center;
-	color: ${theme.colors.mainTitle};
-
-	@media screen and (${theme.media.tablet}) {
-		font-size: 36px;
-		line-height: 44px;
-	}
-
-	@media screen and (${theme.media.desktop}) {
-		font-size: 45px;
-		line-height: 52px;
+		font-size: ${fonts.mainTitle.fontSize.desktop}rem;
+		line-height: ${fonts.mainTitle.lineHeight.desktop};
 	}
 `;
 
 export const mobileStyle = css`
-	font-weight: 600;
-	font-size: 32px;
-	line-height: 40px;
+	font-weight: ${fonts.mainTitle.fontWeight.mobile};
+	font-size: ${fonts.mainTitle.fontSize.secondary}rem;
+	line-height: ${fonts.mainTitle.lineHeight.secondary};
 `;
 
 export const marginFinish = css`
-	margin-bottom: 32px;
-	@media screen and (min-width: 768px) and (max-width: 1279px) {
-		margin-bottom: 24px;
+	margin-bottom: 2rem;
+	@media screen and (${media.tablet}) and (max-width: 1279px) {
+		margin-bottom: 1.5rem;
 	}
 `;
 
 export const marginApplication = css`
-	margin-bottom: 32px;
->>>>>>> develop
+	margin-bottom: 2rem;
 `;

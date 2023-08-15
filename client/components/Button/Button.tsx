@@ -1,7 +1,6 @@
 import { ReactNode, useState } from 'react';
 
-import Image from 'next/image';
-
+import CloseIcon from '../../public/close.svg';
 /** @jsxImportSource @emotion/react */
 import { Btn, CloseBtn } from './Button.styles';
 
@@ -30,8 +29,13 @@ const Button = ({ children, isDisabled, func, closeButton }: ButtonProps) => {
 			{children}
 		</Btn>
 	) : (
-		<CloseBtn>
-			<Image src="/close.svg" width={24} height={24} alt="Close" onClick={func} />
+		<CloseBtn
+			onClick={func}
+			onMouseDown={() => setIsPressed(true)}
+			onMouseUp={() => setIsPressed(false)}
+			isPressed={isPressed}
+		>
+			<CloseIcon />
 		</CloseBtn>
 	);
 };

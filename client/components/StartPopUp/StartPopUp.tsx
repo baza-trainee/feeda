@@ -1,13 +1,15 @@
 import React from 'react';
 
 import { useGlobalState } from '~/hooks/useGlobalState';
+import useMobileDetect from '~/hooks/useMobileDetect';
 import Button from '~components/Button/Button';
 import Title from '~components/Title/Title';
 
-import { Span, TextWrapper, Wrapper } from './StartPopUp.styles';
+import { Disc, Terms, TextWrapper, Wrapper } from './StartPopUp.styles';
 
 export function StartPopUp(): JSX.Element {
 	const { state, setState } = useGlobalState();
+	const mobile = useMobileDetect().isMobile();
 
 	const handleClick = () => {
 		setState((prev) => ({ ...prev, location: 'application' }));
@@ -26,10 +28,10 @@ export function StartPopUp(): JSX.Element {
 			</Title>
 			<TextWrapper>
 				<p>
-					Вся комунікація в командах ведеться у <b> Discord </b>
+					Вся комунікація в командах{mobile && <br />} ведеться у <Disc> Discord </Disc>
 					<br />
 					<br />
-					Тобі залишилось ознайомитися з <Span onClick={showModal}>умовами та правилами участі на проєкті </Span>
+					Тобі залишилось ознайомитися з <Terms onClick={showModal}>умовами та правилами участі на проєкті </Terms>
 					та заповнити анкету
 				</p>
 			</TextWrapper>

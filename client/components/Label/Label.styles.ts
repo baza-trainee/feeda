@@ -1,15 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { theme } from 'styles/theme';
+import { colors } from 'styles/theme';
+const { error, validInput, inputLabel } = colors;
 
 export const LabelCss = {
 	error: css`
-		color: ${theme.colors.error};
+		color: ${error};
 	`,
 	success: css`
-		color: #14905d;
+		color: ${validInput};
 	`,
 	default: css`
-		color: ${theme.colors.mainLabel};
+		color: ${inputLabel};
 	`,
 };

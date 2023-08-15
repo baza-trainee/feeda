@@ -1,59 +1,93 @@
 import styled from '@emotion/styled';
-import { media, theme } from 'styles/theme';
+import { theme } from 'styles/theme';
+const { colors, fonts, media } = theme;
 
 export const Btn = styled.button<{ isPressed: boolean; disabled: boolean }>`
 	display: block;
-	padding: 16px 24px;
+	padding: 1rem 1.5rem;
 	margin: 0 auto;
-	font-weight: 700;
-	font-size: 22px;
+	font-weight: ${fonts.button.fontWeight};
+	font-size: ${fonts.button.fontSize}rem;
 	border-radius: 4px;
-	color: ${theme.colors.mainBtnText};
-	background-color: ${theme.colors.mainText};
-	border: 1px solid ${theme.colors.mainText};
+	color: ${colors.grey100};
+	background-color: ${colors.mainText};
+	border: 1px solid ${colors.mainText};
 	cursor: pointer;
 
 	&:disabled {
-		color: #939393;
-		background-color: #cecece;
-		border: 1px solid #cecece;
+		color: ${colors.grey400};
+		background-color: ${colors.grey200};
+		border: 1px solid ${colors.grey200};
 	}
 
 	&:active {
-		background-color: ${theme.colors.mainAccent};
-		color: ${theme.colors.mainText};
+		background-color: ${colors.accent};
+		color: ${colors.mainText};
 		${({ disabled }) =>
 			disabled &&
-			' background-color: #cecece; !important; border: 1px solid #cecece !important; color: #939393 !important;'}
+			`background-color: ${colors.grey200}; !important; border: 1px solid ${colors.grey200} !important; color: ${colors.grey400} !important;`}
 	}
 
 	&:not(:disabled):hover,
 	:not(:disabled):focus {
-		background-color: ${theme.colors.mainText};
-		border: 1px solid ${theme.colors.mainAccent};
-		color: ${theme.colors.mainAccent};
+		background-color: ${colors.mainText};
+		border: 1px solid ${colors.accent};
+		color: ${colors.accent};
 	}
 	${({ isPressed }) =>
-		isPressed
-			? ' background-color: #ffbd00 !important; border: 1px solid #ffbd00 !important; color: #232323 !important;'
-			: ''}
+		isPressed &&
+		`background-color: ${colors.accent} !important; border: 1px solid ${colors.accent} !important; color: ${colors.mainText} !important;`}
 
 	transition: all 250ms ease-in;
 `;
 
-export const CloseBtn = styled.div`
+export const CloseBtn = styled.div<{ isPressed: boolean }>`
 	position: absolute;
-	top: 29px;
-	right: 29px;
+	top: 1.875rem;
+	right: 1.875rem;
 	cursor: pointer;
 
+	${({ isPressed }) =>
+		isPressed &&
+		`svg {
+	rect:first-child {
+		fill: ${colors.accent};
+	}
+	rect:last-child {
+		stroke: ${colors.mainText};
+	}
+	& path {
+		fill: ${colors.mainText};
+		stroke: ${colors.accent};
+	}
+}`}
+
+	&:hover,
+	&:focus svg {
+		rect:first-child {
+			fill: ${colors.grey1000};
+		}
+		rect:last-child {
+			stroke: ${colors.accent};
+		}
+		& path {
+			fill: ${colors.accent};
+			stroke: ${colors.grey1000};
+		}
+	}
+
 	@media screen and (${media.tablet}) {
-		top: 32px;
-		right: 32px;
+		top: 2rem;
+		right: 2rem;
 	}
 
 	@media screen and (${media.desktop}) {
-		top: 40px;
-		right: 40px;
+		top: 2.5rem;
+		right: 2.5rem;
+	}
+
+	& path,
+	rect {
+		transition: all 400ms ease-in-out;
 	}
 `;

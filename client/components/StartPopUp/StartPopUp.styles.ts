@@ -9,29 +9,39 @@ export const Wrapper = styled.section`
 	flex-direction: column;
 
 	min-height: 100vh;
-	gap: 32px;
-	padding: 0 30px;
+	gap: 2rem;
+	padding: 0 1rem;
 
 	@media screen and (${media.tablet}) {
-		gap: 48px;
+		gap: 3rem;
+		padding: 0 1.875rem;
 	}
 `;
 
 export const TextWrapper = styled.div`
-	max-width: 329px;
-	color: ${colors.mainTitle};
+	max-width: 20.57rem;
+	color: ${colors.grey1000};
 	text-align: center;
 	line-height: normal;
-	font-size: ${fonts.title.fontSize.tablet}px;
+	letter-spacing: normal;
+	font-size: ${fonts.startPopUp.fontSize.mobile}rem;
 
 	@media screen and (${media.tablet}) {
-		max-width: 525px;
-		line-height: ${fonts.title.lineHeight};
-		font-size: ${fonts.title.fontSize.desktop}px;
+		max-width: 32.88rem;
+		line-height: ${fonts.startPopUp.lineHeight};
+		font-size: ${fonts.startPopUp.fontSize.tablet}rem;
 	}
 `;
 
-export const Span = styled.span`
-	color: #0029ff;
+export const Disc = styled.span`
+	font-weight: ${fonts.startPopUp.fontWeight.tablet};
+	@media screen and (${media.mobile}) {
+		letter-spacing: ${fonts.startPopUp.letterSpacing}px;
+		font-weight: ${fonts.startPopUp.fontWeight.mobile};
+	}
+`;
+
+export const Terms = styled.span`
+	color: ${colors.link};
 	cursor: pointer;
 `;

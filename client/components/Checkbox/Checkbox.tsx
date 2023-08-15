@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { ApprovedTypes, useGlobalState } from '~/hooks/useGlobalState';
 
-import { Box, CheckboxLabel, Input, Span, Wrapper } from './Checkbox.styled';
+import { Box, Input, Span, Wrapper } from './Checkbox.styled';
 
 interface CheckBoxProps {
 	name: string;
@@ -40,7 +40,7 @@ export const CheckBox = ({ name, labeltxt, id, linkText }: CheckBoxProps) => {
 	return (
 		<>
 			<Wrapper>
-				<CheckboxLabel>
+				<label>
 					<Input
 						type="checkbox"
 						id={id}
@@ -49,7 +49,7 @@ export const CheckBox = ({ name, labeltxt, id, linkText }: CheckBoxProps) => {
 					/>
 					<Box id="box" />
 					{labeltxt}
-				</CheckboxLabel>
+				</label>
 				{name === 'terms' && screenWidth < 768 && <br />}
 				<Span onClick={showModal}>{linkText}</Span>
 			</Wrapper>
