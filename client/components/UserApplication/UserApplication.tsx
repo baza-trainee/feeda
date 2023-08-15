@@ -44,7 +44,7 @@ export function UserApplication(): JSX.Element {
 		clearErrors,
 		watch,
 	} = useForm({
-		mode: 'onSubmit',
+		mode: 'onBlur',
 		reValidateMode: 'onBlur',
 	});
 
