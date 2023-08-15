@@ -1,5 +1,5 @@
 /* eslint-disable no-useless-escape */
-export const nameRegex = /^[-'A-Za-zА-Яа-яЄєІіЇїҐґ]{2,20}$/;
+export const nameRegex = /^[-'A-Za-zА-Яа-яЄєІіЇїҐґЁё]{2,20}$/;
 
 export const phoneNumberRegex = /^\+\d{12}$/;
 
