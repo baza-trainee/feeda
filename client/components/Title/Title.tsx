@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-'use client';
-/** @jsxImportSource @emotion/react */
-import { Heading } from './Title.styles';
-
-interface TitleProps {
-	children: string;
-	secondary?: boolean;
-}
-
-export function Title({ children, secondary }: TitleProps) {
-	return <Heading secondary={secondary}>{children}</Heading>;
-}
-=======
 import { ReactNode } from 'react';
 
 /** @jsxImportSource @emotion/react */
@@ -42,4 +28,3 @@ const Title = ({ children, main, application, finish }: TitleProps) => {
 };
 
 export default Title;
->>>>>>> develop
