@@ -10,18 +10,18 @@ import { getParticipant } from '~/src/slices/participants';
 
 export default function ParticipantProfile() {
   const pathname = usePathname();
-  const { isLoading, error } = useSelector((state: any) => state.participants);
-  const [defaultValues, setDefaultValues] = useState(null);
   const dispatch = useDispatch();
+  const [defaultValues, setDefaultValues] = useState(null);
+  const { isLoading, error, participant } = useSelector((state: any) => state.participants);
+  const userId = pathname.split('/')[pathname.split('/').length - 1];
+
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await dispatch(getParticipant(pathname.split('/')[pathname.split('/').length - 1])); //!!!! ПЕРЕРОБИТИ
-      if (result.meta.requestStatus === 'fulfilled') {
-        setDefaultValues(result.payload);
-      }
-    };
-    fetchData();
-  }, []);
+    if (participant?.id !== userId) {
+      dispatch(getParticipant(userId));
+    }
+    participant && setDefaultValues(participant);
+  }, [participant]);
+
   return (
     <div>
       {isLoading ? (

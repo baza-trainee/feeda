@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 
 import Link from 'next/link';
 
-import { ParticipantData } from '~/src/slices/participants';
+import { ParticipantData, sendEmail } from '~/src/slices/participants';
 
-import { cityRegex, discordRegex, emailRegex, linkedRegex, nameRegex, phoneNumberRegex } from '../../hooks/regexs';
+import { cityRegex, discordRegex, emailRegex, linkedRegex, nameRegex, phoneNumberRegex } from '../../helpers/regexs';
 import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
 import { experienceVariants, membersRole, projectType } from '../SelectField/lists';
@@ -21,6 +22,7 @@ type Props = {
 };
 
 export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: Props) {
+  const dispatch = useDispatch();
   const { control, clearErrors, getValues } = useForm();
   const [projectsAmount, setProjectsAmount] = useState(0);
   return (
@@ -75,11 +77,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             control={control}
             clearErrors={clearErrors}
             valueGetter={(ev) => ev}
-            defaultValue={
-              defaultValues && membersRole.find((item) => item.value === defaultValues?.speciality.title.toLowerCase())
-                ? membersRole.find((item) => item.value === defaultValues?.speciality.title.toLowerCase())
-                : membersRole[6]
-            }
+            defaultValue={membersRole[6]}
             options={membersRole}
           />
         </div>
@@ -144,7 +142,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             variant="text"
             title="Відправити листа"
             isDisabled={formVariant === 'create'}
-            func={() => console.log('Відправити листа')}
+            func={() => defaultValues && dispatch(sendEmail(defaultValues.id))}
           />
         </div>
         <div id="two-inputs-wrapper">

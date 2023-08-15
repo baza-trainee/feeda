@@ -1,11 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+import { membersRole } from '~/src/components/SelectField/lists';
+
 axios.defaults.baseURL = 'http://localhost:8000/user-project/';
-axios.defaults.headers.Authorization = 'Token d27095b128eef9d7d8c2060e6187982a71257c6a';
+axios.defaults.headers.Authorization = 'Token 81e6d032dc58be58e8274b05c6c21cd741149871';
 
 const initialState: ParticipantsState = {
   list: [],
+  participant: null,
   isLoading: false,
   error: null,
 };
@@ -35,6 +38,14 @@ export const updateParticipant = createAsyncThunk(
     return data;
   }
 );
+
+// export const deleteParticipant = createAsyncThunk('participants/deleteParticipant', async (id: string) => {
+
+export const sendEmail = createAsyncThunk('participants/sendEmail', async (userId: string) => {
+  console.log('Id: ', userId);
+  const { data } = await axios.get<any>(`send/${userId}/`);
+  return data;
+});
 
 export const participantsSlice = createSlice({
   name: 'participants',
@@ -68,8 +79,11 @@ export const participantsSlice = createSlice({
     builder.addCase(getParticipant.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(getParticipant.fulfilled, (state) => {
-      // state.list = payload;
+    builder.addCase(getParticipant.fulfilled, (state, { payload }) => {
+      state.participant = { ...payload };
+      // state.participant.type_participant =
+      //   membersRole.find((item) => item.value === state.participant.type_participant.title.toLowerCase()) ||
+      //   membersRole[6];
       state.isLoading = false;
     });
     builder.addCase(getParticipant.rejected, (state, { payload }) => {
@@ -89,11 +103,25 @@ export const participantsSlice = createSlice({
       state.isLoading = false;
       console.log('Error: ', payload);
     });
+    // - - -
+    builder.addCase(sendEmail.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(sendEmail.fulfilled, (state, { payload }) => {
+      // state.list = payload;
+      console.log(payload);
+      state.isLoading = false;
+    });
+    builder.addCase(sendEmail.rejected, (state, { payload }) => {
+      state.isLoading = false;
+      console.log('Error: ', payload);
+    });
   },
 });
 
 interface ParticipantsState {
   list: ParticipantData[];
+  participant: ParticipantData | null;
   isLoading: boolean;
   error: string | null;
 }

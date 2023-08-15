@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { commonVariants } from '../../hooks/commonVariants';
+import { commonVariants } from '../../helpers/commonVariants';
 import { ParticipantData } from '../../slices/participants/index';
 import { ProjectData } from '../../slices/projects/index';
 import { Button } from '../Button/Button';
@@ -21,7 +21,6 @@ type CardsContentType = {
   type: 'participants' | 'projects';
   data: ParticipantData[] | ProjectData[];
 };
-
 export function CardsContent({ type, data }: CardsContentType) {
   const router = useRouter();
   return (
@@ -48,11 +47,21 @@ export function CardsContent({ type, data }: CardsContentType) {
                     router.push(`${type}/edit/${item.id}`);
                   }}
                 />
-                <p>{item.type_participant.title}</p>
+                <p>{item.type_participant?.title}</p>
               </FirstBlockWrapper>
               <SecondBlockWrapper type={type}>
-                <h2>{type === 'participants' ? `${item.last_name} ${item.first_name}` : item.title}</h2>
-                <p>{type === 'participants' ? item.stack : `${item.participants} Учасник`}</p>
+                {type === 'participants' ? (
+                  <>
+                    <h2 title={item.last_name}>{item.last_name}</h2>
+                    <h2 title={item.first_name}>{item.first_name}</h2>
+                    <p title={item.stack}>{item.stack || 'None'}</p>
+                  </>
+                ) : (
+                  <>
+                    <h2 title={item.title}>{item.title}</h2>
+                    <p title={item.participants}>{item.participants} Учасник</p>
+                  </>
+                )}
               </SecondBlockWrapper>
               <ThirdBlockWrapper>
                 {type === 'participants' && (
@@ -63,7 +72,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                     </ThirdBlockElementsWrapper>
                     <ThirdBlockElementsWrapper>
                       <p id="name">Проєкти</p>
-                      <p id="value">{item.project?.length || 0}</p>
+                      <p id="value">{item.project_count || 0}</p>
                     </ThirdBlockElementsWrapper>
                     <ThirdBlockElementsWrapper>
                       <p id="name">Роль</p>

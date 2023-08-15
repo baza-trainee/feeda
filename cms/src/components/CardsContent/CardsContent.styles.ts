@@ -25,8 +25,8 @@ export const ListItem = styled.li`
   & > a {
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    padding: 24px 16px;
+    gap: 16px;
+    padding: 16px;
     border-radius: 8px;
     background-color: #fdf5dd;
     cursor: pointer;
@@ -70,18 +70,23 @@ export const SecondBlockWrapper = styled.div<{ type: 'participants' | 'projects'
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    -webkit-line-clamp: 2;
-    height: 60px;
-    margin-bottom: 8px;
+    -webkit-line-clamp: 1;
     line-height: calc(30 / 24);
     font-weight: 700;
     font-size: ${({ type }) => (type === 'participants' ? '24px' : '22px')};
     color: ${colors.mainText};
   }
+  & > h2 + h2 {
+    margin-bottom: 8px;
+  }
   & > p {
     color: ${colors.mainPlaceholder};
     font-size: 16px;
     font-weight: 400;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 1;
   }
 `;
 
