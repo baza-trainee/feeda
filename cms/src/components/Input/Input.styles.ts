@@ -33,19 +33,21 @@ export const InputWrapper = styled.div<{ checkIsValid: boolean }>`
   border: solid 1px #14905d;
   border-radius: 4px;
   border: 1px solid #cecece;
-  padding: 0 16px;
   background: #fcfcfc;
+
+  & + label#support-label {
+    visibility: hidden;
+  }
 
   ${({ checkIsValid }) => {
     if (checkIsValid) {
       return '&:has(input:valid) { \
         outline: 2px solid #14905D; \
-        & + label#support-label { \
-          color: #14905D; \
-        }}  \
+      } \
         &:has(input:invalid) {  \
           outline: 2px solid #dc0c31; \
           & + label#support-label { \
+            visibility: visible; \
             color: #dc0c31; \
           } \
         }';
@@ -55,7 +57,7 @@ export const InputWrapper = styled.div<{ checkIsValid: boolean }>`
   &:has(input:focus) {
     outline: 2px solid #939393;
     & + label#support-label {
-      color: #49454f;
+      visibility: hidden;
     }
   }
 `;
