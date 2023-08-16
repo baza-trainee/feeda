@@ -23,6 +23,7 @@ class JoinUserProjectSerializer(serializers.ModelSerializer):
         max_length=25,
         validators=[RegexValidator(r'^\w+#\d{4}$', 'Invalid Discord username format')]
     )
+    project = serializers.PrimaryKeyRelatedField(queryset=Projects.objects.all(), many=True, write_only=True)
     # type_participant = TypeParticipantSerializer()
     # project = serializers.PrimaryKeyRelatedField(queryset=Projects.objects.all())
 
@@ -31,11 +32,25 @@ class JoinUserProjectSerializer(serializers.ModelSerializer):
         exclude = ('stack', 'comment')
 
 
+class DetailProjectAddParticipantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Projects
+        fields = ('id', 'title')
+
+
 class AddParticipantSerializer(serializers.ModelSerializer):
+    first_name = serializers.CharField(min_length=2)
+    last_name = serializers.CharField(min_length=2)
+    account_discord = serializers.CharField(min_length=7)
+    account_linkedin = serializers.CharField(min_length=19)
+    stack = serializers.CharField(required=True, min_length=2)
+    city = serializers.CharField(min_length=2)
+    # speciality = serializers.PrimaryKeyRelatedField(queryset=Speciality.objects.all())
+    # project = serializers.PrimaryKeyRelatedField(queryset=Projects.objects.all())
 
     class Meta:
         model = Participant
-        fields = '__all__'
+        # fields = ('id', 'first_name', 'last_name', 'comment', 'phone_number', 'speciality')
         exclude = ('conditions_participation', 'processing_personal_data')
 
 
@@ -81,22 +96,29 @@ class CreateProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Projects
         fields = '__all__'
-        # exclude = ('url', )
 
 
 class ProjectsSerializer(serializers.ModelSerializer):
     """Список всіх проектів"""
 
     # participants_count = serializers.IntegerField()
+    participants_count = serializers.SerializerMethodField()
     complexity = ComplexitySerializer()
+    type_project = TypeProjectSerializer()
+    project_status = StatusProjectSerializer()
     # type_project = TypeProjectSerializer()
 
     # def get_participants_count(self, obj):
     #     return ProjectParticipants.objects.filter(project=obj).count()
 
+    def get_participants_count(self, obj):
+        return obj.participant_set.count()
+
     class Meta:
         model = Projects
-        fields = ('id', 'title', 'start_date_project', 'complexity')
+        fields = (
+            'id', 'title', 'type_project', 'project_status', 'complexity', 'participants_count'
+        )
 
 
 class DetailProjectSerializer(serializers.ModelSerializer):
@@ -126,17 +148,29 @@ class DetailProjectSerializer(serializers.ModelSerializer):
 
 
 class AllParticipantsSerializer(serializers.ModelSerializer):
+    speciality = SpecialitySerializer()
+    # project = ProjectParticipantDetailSerializer()
+    project_count = serializers.SerializerMethodField()
+    type_participant = TypeParticipantSerializer()
+
     class Meta:
         model = Participant
-        fields = '__all__'
+        fields = ('id', 'first_name', 'last_name', 'stack', 'type_participant', 'experience', 'speciality', 'project_count')
+
+    def get_project_count(self, obj):
+        return obj.project.count()
+
+    # def get_project_count(self, obj):
+    #     return obj.project_set.count()
 
 
 class ParticipantFilerSerializer(serializers.ModelSerializer):
-    # speciality = SpecialitySerializer(many=True)
+    project = DetailProjectSerializer()
+    speciality = SpecialitySerializer()
 
     class Meta:
         model = Participant
-        fields = ('id', 'first_name', 'last_name', 'speciality')
+        fields = ('id', 'first_name', 'last_name', 'speciality', 'experience', 'stack', 'project')
 
 
 class ProjectParticipantsSerializer(serializers.ModelSerializer):
@@ -178,12 +212,25 @@ class UpdateProjectParticipantsSerializer(serializers.ModelSerializer):
         fields = ('user', 'project')
 
 
+class ProjectParticipantDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Projects
+        fields = ('id', 'title')
+
+
 class DetailParticipantSerializer(serializers.ModelSerializer):
     speciality = SpecialitySerializer()
-    project = ProjectsSerializer()
+    project = ProjectParticipantDetailSerializer(many=True, read_only=True)
     type_participant = TypeParticipantSerializer()
 
     class Meta:
         model = Participant
         # fields = '__all__'
         exclude = ('conditions_participation', 'processing_personal_data')
+
+    # def get_projects(self, obj):
+    #     projects = Projects.objects.all()
+    #     return ProjectsSerializer(projects, many=True).data
+
+
+

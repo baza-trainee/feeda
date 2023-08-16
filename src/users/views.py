@@ -90,6 +90,12 @@ class CustomTokenDestroy(generics.DestroyAPIView):
         responses={
             status.HTTP_200_OK: openapi.Response(
                 description='Token removed',
+                schema=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        'message': openapi.Schema(type=openapi.TYPE_STRING)
+                    }
+                )
             ),
             status.HTTP_400_BAD_REQUEST: openapi.Response(
                 description='Invalid token',
@@ -118,8 +124,16 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
 
     @swagger_auto_schema(
         responses={
-            status.HTTP_200_OK: 'Success',
-            status.HTTP_400_BAD_REQUEST: 'Bad Request'
+            status.HTTP_200_OK: openapi.Response(
+                description='Success',
+                schema=ResetPasswordRequestEmailSerializer()
+            ),
+            status.HTTP_400_BAD_REQUEST: openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            )
         }
     )
     def post(self, request):
@@ -167,6 +181,19 @@ class NewPassword(generics.GenericAPIView):
 
     serializer_class = NewPasswordSerializer
 
+    @swagger_auto_schema(
+        responses={
+            status.HTTP_400_BAD_REQUEST: openapi.Response(
+                description='Invalid data',
+                schema=openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        'message': openapi.Schema(type=openapi.TYPE_STRING)
+                    }
+                )
+            )
+        }
+    )
     def patch(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)

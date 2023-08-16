@@ -89,21 +89,21 @@ WSGI_APPLICATION = 'feeda.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-load_dotenv(find_dotenv())
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD')
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+# load_dotenv(find_dotenv())
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.getenv('DB_NAME'),
+#         'USER': os.getenv('DB_USER'),
+#         'PASSWORD': os.getenv('DB_PASSWORD')
+#     }
+# }
 
 #### Для redner
 # DATABASES = {
@@ -153,6 +153,7 @@ REST_FRAMEWORK = {
     # ],
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter'
     ),
 }
 
@@ -169,6 +170,16 @@ DJOSER = {
 }
 
 SWAGGER_SETTINGS = {
+    # 'DEFAULT_FIELD_INSPECTORS': {
+    #     'drf_yasg.inspectors.CamelCaseJSONFilter',
+    #     'drf_yasg.inspectors.InlineSerializerInspector',
+    #     'drf_yasg.inspectors.RelatedFieldInspector',
+    #     'drf_yasg.inspectors.ChoiceFieldInspector',
+    #     'drf_yasg.inspectors.FileFieldInspector',
+    #     'drf_yasg.inspectors.DictFieldInspector',
+    #     'drf_yasg.inspectors.SimpleFieldInspector',
+    #     'drf_yasg.inspectors.StringDefaultFieldInspector',
+    # },
     'SECURITY_DEFINITIONS': {
         'Token': {
             'type': 'apiKey',
@@ -177,6 +188,19 @@ SWAGGER_SETTINGS = {
         }
     },
 }
+
+# SWAGGER_SETTINGS = {
+#     'DEFAULT_FIELD_INSPECTORS': [
+#         'drf_yasg.inspectors.CamelCaseJSONFilter',
+#         'drf_yasg.inspectors.InlineSerializerInspector',
+#         'drf_yasg.inspectors.RelatedFieldInspector',
+#         'drf_yasg.inspectors.ChoiceFieldInspector',
+#         'drf_yasg.inspectors.FileFieldInspector',
+#         'drf_yasg.inspectors.DictFieldInspector',
+#         'drf_yasg.inspectors.SimpleFieldInspector',
+#         'drf_yasg.inspectors.StringDefaultFieldInspector',
+#     ],
+# }
 
 
 # Internationalization
@@ -229,8 +253,10 @@ load_dotenv(find_dotenv())
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = 'feedabaza@gmail.com'
+EMAIL_HOST_PASSWORD = 'wurhkxwltxdxorhz'
+# EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 

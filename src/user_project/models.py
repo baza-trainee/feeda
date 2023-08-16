@@ -81,16 +81,22 @@ class Participant(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=50)
     comment = models.CharField(max_length=50, blank=True, null=True)
-    phone_number = PhoneNumberField(blank=True, null=True)
+    phone_number = PhoneNumberField()
     email = models.EmailField(max_length=70)
     account_discord = models.CharField(max_length=37)
     account_linkedin = models.CharField(max_length=128)
-    city = models.CharField(max_length=50)
+    city = models.CharField(max_length=50, blank=True, null=True)
     experience = models.BooleanField(default=False)
     speciality = models.ForeignKey(Speciality, blank=True, null=True, on_delete=models.PROTECT)
-    stack = models.CharField(max_length=300, blank=True, null=True)
-    project = models.ForeignKey(Projects, blank=True, null=True, on_delete=models.PROTECT)
-    type_participant = models.ForeignKey(TypeParticipant, blank=True, null=True, on_delete=models.PROTECT)
+    stack = models.CharField(max_length=50, blank=True, null=True)
+    project = models.ManyToManyField(Projects, blank=True)
+    type_participant = models.ForeignKey(
+        TypeParticipant,
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+        related_name='project_set'
+    )
     conditions_participation = models.BooleanField(default=False)
     processing_personal_data = models.BooleanField(default=False)
 

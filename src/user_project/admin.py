@@ -4,7 +4,7 @@ from .models import *
 
 @admin.register(Participant)
 class JoinProjectAdmin(admin.ModelAdmin):
-    list_display = ('id', 'project')
+    list_display = ('id',)
 
 
 @admin.register(TypeProject)

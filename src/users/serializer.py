@@ -48,6 +48,8 @@ class AuthTokenSerializer(serializers.ModelSerializer):
         if len(email) < 12:
             raise serializers.ValidationError('Email invalid')
 
+        return attrs
+
 
 class ResetPasswordRequestEmailSerializer(serializers.ModelSerializer):
     """Відправка email на пошту з посиланням на скидання паролю"""

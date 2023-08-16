@@ -3,6 +3,9 @@ from .views import *
 
 
 urlpatterns = [
+    path('types-project-list/', types_project_list),
+    path('types-participant-list/', types_participant_list),
+    path('speciality-list/', speciality_list),
     path('join/', join_project),
     path('add-participant/', add_participant),
     path('participants-list/', get_all_participant),
@@ -18,5 +21,6 @@ urlpatterns = [
     path('command-delete/<str:id>/', delete_command),
     path('filter-participant/', filter_participant_list),
     path('filter-project/', filter_project_list),
+    path('search/', search_participant),
     path('down/', downland_swagger)
 ]

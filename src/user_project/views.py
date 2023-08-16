@@ -6,14 +6,15 @@ from django.core.mail import send_mail
 from rest_framework import generics
 from django_filters import rest_framework as filters
 from django.http import JsonResponse, HttpResponse
+from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.authentication import TokenAuthentication
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.mail import EmailMessage
 from django.core.exceptions import PermissionDenied
-from rest_framework import permissions, status
-from drf_yasg.utils import swagger_auto_schema
+from rest_framework import permissions, status, filters
+from drf_yasg.utils import swagger_auto_schema, swagger_serializer_method
 from drf_yasg import openapi
 from .models import *
 from .serializer import *
@@ -24,31 +25,127 @@ import requests
 
 
 @swagger_auto_schema(
+    method='GET',
+    responses={
+        status.HTTP_200_OK: openapi.Response(
+            description='Speciality success',
+            schema=SpecialitySerializer()
+        ),
+        status.HTTP_400_BAD_REQUEST: openapi.Response(
+            description='Invalid data',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_OBJECT)
+                }
+            )
+        ),
+    },
+)
+@api_view(['GET'])
+def speciality_list(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied('You are not an administrator.')
+
+    speciality = Speciality.objects.all()
+    serializer = SpecialitySerializer(speciality, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@swagger_auto_schema(
+    method='GET',
+    responses={
+        status.HTTP_200_OK: openapi.Response(
+            description='Types participant list success',
+            schema=TypeParticipantSerializer()
+        ),
+        status.HTTP_400_BAD_REQUEST: openapi.Response(
+            description='Invalid data',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_OBJECT)
+                }
+            )
+        ),
+    }
+)
+@api_view(['GET'])
+def types_participant_list(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied('You are not an administrator')
+
+    type_participant = TypeParticipant.objects.all()
+    serializer = TypeParticipantSerializer(type_participant, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@swagger_auto_schema(
+    method='GET',
+    responses={
+        status.HTTP_200_OK: openapi.Response(
+            description='Types project success',
+            schema=TypeProjectSerializer()
+        ),
+        status.HTTP_400_BAD_REQUEST: openapi.Response(
+            description='Invalid data',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_OBJECT)
+                }
+            )
+        ),
+    }
+)
+@api_view(['GET'])
+def types_project_list(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied('You are not an administrator')
+
+    type_project = TypeProject.objects.all()
+    serializer = TypeProjectSerializer(type_project, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@swagger_auto_schema(
     method='POST',
     request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT,
         properties={
             'first_name': openapi.Schema(type=openapi.TYPE_STRING),
             'last_name': openapi.Schema(type=openapi.TYPE_STRING),
-            'speciality': openapi.Schema(type=openapi.TYPE_STRING),
-            'phone_number': openapi.Schema(type=openapi.TYPE_INTEGER),
+            'stack': openapi.Schema(type=openapi.TYPE_STRING),
+            'phone_number': openapi.Schema(type=openapi.TYPE_NUMBER),
             'email': openapi.Schema(type=openapi.FORMAT_EMAIL),
             'account_discord': openapi.Schema(type=openapi.TYPE_STRING),
             'account_linkedin': openapi.Schema(type=openapi.TYPE_STRING),
             'city': openapi.Schema(type=openapi.TYPE_STRING),
             'experience': openapi.Schema(type=openapi.TYPE_BOOLEAN),
-            'project': openapi.Schema(type=openapi.TYPE_STRING),
+            'type_participant': openapi.Schema(type=openapi.TYPE_INTEGER),
+            'project': openapi.Schema(type=openapi.TYPE_INTEGER),
             'conditions_participation': openapi.Schema(type=openapi.TYPE_BOOLEAN),
             'processing_personal_data': openapi.Schema(type=openapi.TYPE_BOOLEAN)
         },
         required=[
-            'first_name', 'last_name', 'speciality', 'phone_number', 'email', 'account_discord',
-            'account_linkedin', 'city', 'experience', 'project', 'conditions_participation', 'processing_personal_data'
+            'first_name', 'last_name', 'stack', 'phone_number', 'email', 'account_discord',
+            'account_linkedin', 'city', 'experience', 'project', 'type_participant', 'conditions_participation', 'processing_personal_data'
         ]
     ),
     responses={
-        status.HTTP_201_CREATED: openapi.Response(description='Join successfully'),
-        status.HTTP_400_BAD_REQUEST: openapi.Response(description='Invalid input data'),
+        status.HTTP_201_CREATED: openapi.Response(
+            description='Join successfully',
+            schema=JoinUserProjectSerializer
+        ),
+        status.HTTP_400_BAD_REQUEST: openapi.Response(
+            description='Invalid input data',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            )
+        ),
     }
 )
 @permission_classes([permissions.AllowAny])
@@ -70,16 +167,19 @@ def join_project(request):
             'first_name': openapi.Schema(type=openapi.TYPE_STRING),
             'last_name': openapi.Schema(type=openapi.TYPE_STRING),
             'speciality': openapi.Schema(type=openapi.TYPE_STRING),
-            'phone_number': openapi.Schema(type=openapi.TYPE_INTEGER),
+            'phone_number': openapi.Schema(type=openapi.TYPE_NUMBER),
             'email': openapi.Schema(type=openapi.FORMAT_EMAIL),
             'account_discord': openapi.Schema(type=openapi.TYPE_STRING),
             'account_linkedin': openapi.Schema(type=openapi.TYPE_STRING),
+            'comment': openapi.Schema(type=openapi.TYPE_STRING),
             'city': openapi.Schema(type=openapi.TYPE_STRING),
             'experience': openapi.Schema(type=openapi.TYPE_BOOLEAN),
-            'project': openapi.Schema(type=openapi.TYPE_STRING),
-            'stack': openapi.Schema(type=openapi.TYPE_STRING),
-            'conditions_participation': openapi.Schema(type=openapi.TYPE_BOOLEAN),
-            'processing_personal_data': openapi.Schema(type=openapi.TYPE_BOOLEAN)
+            'project': openapi.Schema(
+                type=openapi.TYPE_ARRAY,
+                items=openapi.Schema(type=openapi.TYPE_STRING)
+            ),
+            # 'type_participant': openapi.Schema(type=openapi.TYPE_STRING),
+            'stack': openapi.Schema(type=openapi.TYPE_STRING)
         },
         required=[
             'first_name', 'last_name', 'speciality', 'phone_number', 'email', 'account_discord',
@@ -87,8 +187,19 @@ def join_project(request):
         ]
     ),
     responses={
-        status.HTTP_201_CREATED: openapi.Response(description='Join successfully'),
-        status.HTTP_400_BAD_REQUEST: openapi.Response(description='Invalid input data'),
+        status.HTTP_201_CREATED: openapi.Response(
+            description='Join successfully',
+            schema=AddParticipantSerializer()
+        ),
+        status.HTTP_400_BAD_REQUEST: openapi.Response(
+            description='Invalid input data',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            )
+        ),
     }
 )
 @api_view(['POST'])
@@ -108,14 +219,24 @@ def add_participant(request):
     responses={
         status.HTTP_200_OK: openapi.Response(
             description='User success',
+            schema=DetailParticipantSerializer()
         ),
         status.HTTP_404_NOT_FOUND: openapi.Response(
             description='Invalid data user',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            )
         ),
-    }
+    },
 )
 @api_view(['GET'])
 def get_participant(request, id):
+    if not request.user.is_superuser:
+        raise PermissionDenied("You are not an administrator.")
+
     participant = Participant.objects.get(id=id)
     serializer = DetailParticipantSerializer(participant, many=False)
     return Response(serializer.data, status=status.HTTP_200_OK)
@@ -158,7 +279,34 @@ def send_email(request, id):
 
 @swagger_auto_schema(
     methods=['PUT'],
-    request_body=ParticipantUpdateDeleteSerializer,
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'first_name': openapi.Schema(type=openapi.TYPE_STRING),
+            'last_name': openapi.Schema(type=openapi.TYPE_STRING),
+            'comment': openapi.Schema(type=openapi.TYPE_STRING),
+            'phone_number': openapi.Schema(type=openapi.TYPE_NUMBER),
+            'email': openapi.Schema(type=openapi.FORMAT_EMAIL),
+            'account_discord': openapi.Schema(type=openapi.TYPE_STRING),
+            'account_linkedin': openapi.Schema(type=openapi.TYPE_STRING),
+            'city': openapi.Schema(type=openapi.TYPE_STRING),
+            'experience': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+            'speciality': openapi.Schema(
+                type=openapi.TYPE_ARRAY,
+                items=openapi.Schema(type=openapi.TYPE_STRING)
+            ),
+            'stack': openapi.Schema(type=openapi.TYPE_STRING),
+            'project': openapi.Schema(
+                type=openapi.TYPE_ARRAY,
+                items=openapi.Schema(type=openapi.TYPE_INTEGER)
+            ),
+            'type_participant': openapi.Schema(
+                type=openapi.TYPE_ARRAY,
+                items=openapi.Schema(type=openapi.TYPE_INTEGER)
+            )
+        }
+    ),
+    # request_body=ParticipantUpdateDeleteSerializer,
     responses={
         status.HTTP_200_OK: openapi.Response(
             description='Participant retrieved successfully',
@@ -166,6 +314,12 @@ def send_email(request, id):
         ),
         status.HTTP_404_NOT_FOUND: openapi.Response(
             description='Project not found',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            )
         ),
     }
 )
@@ -177,6 +331,12 @@ def send_email(request, id):
         ),
         status.HTTP_404_NOT_FOUND: openapi.Response(
             description='Project not found',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            )
         ),
     }
 )
@@ -201,6 +361,58 @@ def detail_participant(request, id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
+# @swagger_auto_schema(
+#     method='GET',
+#     responses={
+#         status.HTTP_200_OK: openapi.Response(
+#             description='Дані учасників отримані',
+#             schema=openapi.Schema(
+#                 type=openapi.TYPE_ARRAY,
+#                 items=openapi.Items(type=openapi.TYPE_OBJECT, properties={
+#                     'id': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'first_name': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'last_name': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'comment': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'phone_number': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'email': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'account_discord': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'account_linkedin': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'city': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'experience': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+#                     'speciality': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'stack': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'project': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'type_participant': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'conditions_participation': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+#                     'processing_personal_data': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+#                 })
+#             )
+#         ),
+#         status.HTTP_404_NOT_FOUND: openapi.Response(
+#             description='Невірні дані',
+#         ),
+#     },
+#     operation_description="Отримати список всіх учасників"
+# )
+
+@swagger_auto_schema(
+    method='GET',
+    responses={
+        status.HTTP_200_OK: openapi.Response(
+            description='Participant data received',
+            schema=AllParticipantsSerializer(many=True)
+        ),
+        status.HTTP_404_NOT_FOUND: openapi.Response(
+            description='Invalid data',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            )
+        ),
+    }
+)
 @permission_classes([permissions.IsAdminUser])
 @api_view(['GET'])
 def get_all_participant(request):
@@ -213,14 +425,94 @@ def get_all_participant(request):
     return Response(serializer.data)
 
 
+# @swagger_auto_schema(
+#     method='GET',
+#     responses={
+#         status.HTTP_200_OK: openapi.Response(
+#             description='Дані учасників отримані',
+#             schema=openapi.Schema(
+#                 type=openapi.TYPE_ARRAY,
+#                 items=openapi.Items(type=openapi.TYPE_OBJECT, properties={
+#                     'id': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'first_name': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'last_name': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'comment': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'phone_number': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'email': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'account_discord': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'account_linkedin': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'city': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'experience': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+#                     'speciality': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'stack': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'project': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'type_participant': openapi.Schema(type=openapi.TYPE_STRING),
+#                     'conditions_participation': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+#                     'processing_personal_data': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+#                 })
+#             )
+#         ),
+#         status.HTTP_404_NOT_FOUND: openapi.Response(
+#             description='Невірні дані',
+#         ),
+#     },
+#     operation_description="Отримати список всіх учасників"
+# )
+# @permission_classes([permissions.IsAdminUser])
+# @api_view(['GET'])
+# def get_all_participant(request):
+#     """
+#     Отримати список всіх учасників
+#     """
+#     if not request.user.is_superuser:
+#         raise PermissionDenied("Ви не є адміністратором.")
+#
+#     participants = Participant.objects.all()
+#     data = []
+#     for participant in participants:
+#         participant_data = {
+#             'id': str(participant.id),
+#             'first_name': participant.first_name,
+#             'last_name': participant.last_name,
+#             'comment': participant.comment,
+#             'phone_number': participant.phone_number,
+#             'email': participant.email,
+#             'account_discord': participant.account_discord,
+#             'account_linkedin': participant.account_linkedin,
+#             'city': participant.city,
+#             'experience': participant.experience,
+#             'speciality': participant.speciality.title if participant.speciality else None,
+#             'stack': participant.stack,
+#             'project': participant.project.title if participant.project else None,
+#             'type_participant': participant.type_participant.title if participant.type_participant else None,
+#             'conditions_participation': participant.conditions_participation,
+#             'processing_personal_data': participant.processing_personal_data,
+#         }
+#         data.append(participant_data)
+#
+#     return Response(data)
+
+
 @swagger_auto_schema(
     methods=['DELETE'],
     responses={
         status.HTTP_200_OK: openapi.Response(
             description='Participant deleted successfully',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            )
         ),
         status.HTTP_404_NOT_FOUND: openapi.Response(
             description='Participant not found',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            )
         ),
     }
 )
@@ -259,8 +551,19 @@ def delete_participant(request, id):
         ],  # обов'язкові поля
     ),
     responses={
-        status.HTTP_201_CREATED: openapi.Response(description='Project created successfully'),
-        status.HTTP_400_BAD_REQUEST: openapi.Response(description='Invalid input data'),
+        status.HTTP_201_CREATED: openapi.Response(
+            description='Project created successfully',
+            schema=CreateProjectSerializer
+        ),
+        status.HTTP_400_BAD_REQUEST: openapi.Response(
+            description='Invalid input data',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            )
+        ),
     }
 )
 @permission_classes([permissions.IsAdminUser])
@@ -316,6 +619,25 @@ def create_project(request):
 
 
 # @authentication_classes([TokenAuthentication])
+
+@swagger_auto_schema(
+    method='GET',
+    responses={
+        status.HTTP_200_OK: openapi.Response(
+            description='Projects data received',
+            schema=ProjectsSerializer
+        ),
+        status.HTTP_404_NOT_FOUND: openapi.Response(
+            description='Invalid data',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            )
+        ),
+    }
+)
 @permission_classes([permissions.AllowAny])
 @api_view(['GET'])
 def list_projects(request):
@@ -330,6 +652,9 @@ def list_projects(request):
 
 @swagger_auto_schema(
     method='GET',
+    manual_parameters=[
+        openapi.Parameter('project_url', openapi.FORMAT_URI, description="URL of the project", type=openapi.TYPE_INTEGER),
+    ],
     responses={
         status.HTTP_200_OK: openapi.Response(
             description='Project retrieved successfully',
@@ -337,6 +662,12 @@ def list_projects(request):
         ),
         status.HTTP_404_NOT_FOUND: openapi.Response(
             description='Project not found',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            )
         ),
     }
 )
@@ -350,6 +681,12 @@ def list_projects(request):
         ),
         status.HTTP_404_NOT_FOUND: openapi.Response(
             description='Project not found',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            )
         ),
     }
 )
@@ -361,6 +698,12 @@ def list_projects(request):
         ),
         status.HTTP_404_NOT_FOUND: openapi.Response(
             description='Project not found',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            )
         ),
     }
 )
@@ -382,8 +725,12 @@ def detail_project(request, project_url):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         elif request.method == 'DELETE':
+            current_participant = Participant.objects.get(project=project)
+            project_after_delete = Projects.objects.get(title='Резерв')
+            current_participant.project = project_after_delete
+            current_participant.save()
             project.delete()
-            return Response(status=status.HTTP_200_OK)
+            return Response({'message': 'Project delete'}, status=status.HTTP_200_OK)
     except Projects.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -401,8 +748,19 @@ def detail_project(request, project_url):
         ],
     ),
     responses={
-        status.HTTP_201_CREATED: openapi.Response(description='Command created successfully'),
-        status.HTTP_400_BAD_REQUEST: openapi.Response(description='Invalid data provided'),
+        status.HTTP_201_CREATED: openapi.Response(
+            description='Command created successfully',
+            schema=CreateProjectParticipantsSerializer
+        ),
+        status.HTTP_400_BAD_REQUEST: openapi.Response(
+            description='Invalid data provided',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            )
+        ),
     },
 )
 # @permission_classes([permissions.IsAdminUser])
@@ -419,6 +777,24 @@ def create_command(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(
+    method='GET',
+    responses={
+        status.HTTP_200_OK: openapi.Response(
+            description='Command list successfully',
+            schema=ProjectParticipantsSerializer(many=True)
+        ),
+        status.HTTP_404_NOT_FOUND: openapi.Response(
+            description='Invalid data',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            )
+        ),
+    }
+)
 # @authentication_classes([TokenAuthentication])
 # @permission_classes([permissions.IsAdminUser])
 # @staff_member_required()
@@ -436,14 +812,20 @@ def commands_list(request):
 
 @swagger_auto_schema(
     methods=['PUT'],
-    request_body=CreateProjectParticipantsSerializer,
+    request_body=UpdateProjectParticipantsSerializer,
     responses={
         status.HTTP_200_OK: openapi.Response(
             description='Command retrieved successfully',
-            schema=DetailProjectSerializer,
+            schema=UpdateProjectParticipantsSerializer,
         ),
         status.HTTP_404_NOT_FOUND: openapi.Response(
             description='Command not found',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            )
         ),
     }
 )
@@ -466,6 +848,23 @@ def command_update(request, id):
         return Response({"message": "no such command was found"}, status=status.HTTP_404_NOT_FOUND)
 
 
+@swagger_auto_schema(
+    methods=['DELETE'],
+    responses={
+        status.HTTP_200_OK: openapi.Response(
+            description='Command deleted successfully',
+        ),
+        status.HTTP_404_NOT_FOUND: openapi.Response(
+            description='Command not found',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            )
+        ),
+    }
+)
 @permission_classes([permissions.IsAdminUser])
 @api_view(['DELETE'])
 def delete_command(request, id):
@@ -485,7 +884,8 @@ def delete_command(request, id):
     method='GET',
     responses={
         status.HTTP_200_OK: openapi.Response(
-            description='Participant deleted successfully',
+            description='Participant found',
+            schema=ParticipantFilerSerializer(many=True)
         ),
         status.HTTP_404_NOT_FOUND: openapi.Response(
             description='Participant not found',
@@ -510,9 +910,16 @@ def filter_participant_list(request):
     responses={
         status.HTTP_200_OK: openapi.Response(
             description='Project deleted successfully',
+            schema=ProjectsSerializer()
         ),
         status.HTTP_404_NOT_FOUND: openapi.Response(
             description='Project not found',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            )
         ),
     }
 )
@@ -526,6 +933,50 @@ def filter_project_list(request):
     projects_filter = ProjectsFilter(request.GET, queryset=projects)
     serializer = ProjectsSerializer(projects_filter.qs, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def search_participant(request):
+    query = request.GET.get('search')
+
+    if query is None or query == '':
+        return Response({'message': 'No search query provider'}, status=status.HTTP_400_BAD_REQUEST)
+
+    participants = Participant.objects.filter(
+        Q(stack__icontains=query)
+    )
+
+    # participants = Participant.objects.filter(
+    #     Q(stack__icontains=query) |
+    #     Q(speciality__title__icontains=query) |
+    #     Q(last_name__icontains=query) |
+    #     # Q(expirience__icontains=query) |
+    #     Q(type_participant__title__icontains=query)
+    # )
+    serializer = ParticipantFilerSerializer(participants, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# @api_view(['GET'])
+# def search_participant(request):
+#     if not request.user.is_superuser:
+#         raise PermissionDenied("You are not an administrator.")
+#
+#     queryset = Participant.objects.all()
+#     search_filter = filters.SearchFilter()
+#     search_fields = ['first_name', 'last_name', 'speciality__title', 'stack', 'experience', 'type_participant__title']
+#
+#     queryset = search_filter.filter_queryset(request, queryset, view=search_participant)
+#
+#     serializer = ParticipantFilerSerializer(queryset, many=True)
+#     return Response(serializer.data)
+#
+#     # queryset = Participant.objects.all()
+#     # search_filter = filters.SearchFilter
+#     # search_fields = ['speciality__title', 'last_name', 'stack', 'experience', 'type_participant__title']
+#     # queryset = search_filter.filter_queryset(request, queryset, view=search_participant)
+#     # serializer = ParticipantFilerSerializer(queryset, many=True)
+#     # return Response(serializer.data)
 
 
 def downland_swagger(request):
