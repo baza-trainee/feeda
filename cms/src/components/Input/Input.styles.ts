@@ -33,7 +33,6 @@ export const InputWrapper = styled.div<{ checkIsValid: boolean }>`
   border: solid 1px #14905d;
   border-radius: 4px;
   border: 1px solid #cecece;
-  /* padding: 0 16px;  */
   background: #fcfcfc;
 
   & + label#support-label {
