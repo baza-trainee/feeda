@@ -124,6 +124,10 @@ export function UserApplication(): JSX.Element {
 									value: 50,
 									message: 'поле повинно містити не більше 50 символів',
 								},
+								pattern: {
+									value: nameRegex,
+									message: 'будь ласка введіть валіднe прізвище',
+								},
 							}}
 						/>
 
