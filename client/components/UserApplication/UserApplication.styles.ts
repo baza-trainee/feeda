@@ -1,11 +1,10 @@
 import styled from '@emotion/styled';
+import { motion } from 'framer-motion';
 import { theme } from 'styles/theme';
-const { colors, fonts, media } = theme;
 
-export const FormWrapper = styled.div`
+const { colors, fonts, media } = theme;
+export const FormWrapper = styled(motion.div)`
 	padding: 5rem 0 7.75rem 0;
-	@media screen and (${media.tablet}) {
-	}
 	@media screen and (${media.desktop}) {
 		padding: 8rem 0 7rem 0;
 	}

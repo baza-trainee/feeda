@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
+import { motion } from 'framer-motion';
 import { theme } from 'styles/theme';
 const { colors, fonts, media } = theme;
 
-export const Wrapper = styled.div`
+export const Wrapper = styled(motion.div)`
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -14,7 +15,7 @@ export const Wrapper = styled.div`
 	}
 `;
 
-export const Section = styled.section`
+export const Section = styled(motion.section)`
 	font-size: ${fonts.endPopUp.fontSize.mobile}rem;
 	line-height: normal;
 	letter-spacing: ${fonts.endPopUp.letterSpacing}px;

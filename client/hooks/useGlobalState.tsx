@@ -23,7 +23,7 @@ const GlobalStateProvider = ({
 	value = {} as GlobalStateInterface,
 }: {
 	children: React.ReactNode;
-	value: Partial<GlobalStateInterface>;
+	value?: Partial<GlobalStateInterface>;
 }) => {
 	const [state, setState] = useState(value);
 	return <GlobalStateContext.Provider value={{ state, setState }}>{children}</GlobalStateContext.Provider>;

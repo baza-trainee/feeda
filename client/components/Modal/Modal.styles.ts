@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
+import { motion } from 'framer-motion';
 import { theme } from 'styles/theme';
+
 const { media, colors, fonts } = theme;
 
 const scroll = `
@@ -16,7 +18,7 @@ padding-right: 1.5rem;
 }
 `;
 
-export const Overplay = styled.div<{ visible?: boolean }>`
+export const Overplay = styled(motion.div)`
 	overflow-y: auto;
 	position: fixed;
 	z-index: 10;

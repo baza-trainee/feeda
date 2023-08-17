@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
+import { motion } from 'framer-motion';
 import { theme } from 'styles/theme';
 const { colors, media, fonts } = theme;
 
-export const Wrapper = styled.section`
+export const Wrapper = styled(motion.section)`
 	display: flex;
 	align-items: center;
 	justify-content: center;

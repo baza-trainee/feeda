@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
+import { motion } from 'framer-motion';
 import { theme } from 'styles/theme';
 const { colors, fonts, media } = theme;
 
-export const Btn = styled.button<{ isPressed: boolean; disabled: boolean }>`
+export const Btn = styled(motion.button)`
 	display: block;
 	padding: 1rem 1.5rem;
 	margin: 0 auto;
@@ -14,31 +15,16 @@ export const Btn = styled.button<{ isPressed: boolean; disabled: boolean }>`
 	border: 1px solid ${colors.mainText};
 	cursor: pointer;
 
+	&:active {
+		background-color: ${colors.accent};
+		color: ${colors.mainText};
+	}
+
 	&:disabled {
 		color: ${colors.grey400};
 		background-color: ${colors.grey200};
 		border: 1px solid ${colors.grey200};
 	}
-
-	&:active {
-		background-color: ${colors.accent};
-		color: ${colors.mainText};
-		${({ disabled }) =>
-			disabled &&
-			`background-color: ${colors.grey200}; !important; border: 1px solid ${colors.grey200} !important; color: ${colors.grey400} !important;`}
-	}
-
-	&:not(:disabled):hover,
-	:not(:disabled):focus {
-		background-color: ${colors.mainText};
-		border: 1px solid ${colors.accent};
-		color: ${colors.accent};
-	}
-	${({ isPressed }) =>
-		isPressed &&
-		`background-color: ${colors.accent} !important; border: 1px solid ${colors.accent} !important; color: ${colors.mainText} !important;`}
-
-	transition: all 250ms ease-in;
 `;
 
 export const CloseBtn = styled.div<{ isPressed: boolean }>`

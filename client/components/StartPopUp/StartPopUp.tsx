@@ -7,7 +7,7 @@ import Title from '~components/Title/Title';
 
 import { Disc, Terms, TextWrapper, Wrapper } from './StartPopUp.styles';
 
-export function StartPopUp(): JSX.Element {
+export const StartPopUp = React.memo(() => {
 	const { state, setState } = useGlobalState();
 	const mobile = useMobileDetect().isMobile();
 
@@ -20,7 +20,13 @@ export function StartPopUp(): JSX.Element {
 	};
 
 	return (
-		<Wrapper>
+		<Wrapper
+			key="start"
+			initial={{ opacity: 0, y: '-100px' }}
+			animate={{ opacity: 1, y: '0px' }}
+			exit={{ opacity: 0, y: '-100px' }}
+			transition={{ duration: 1 }}
+		>
 			<Title main>
 				Вітаю! <br /> Ти за крок до роботи над
 				<br />
@@ -38,4 +44,6 @@ export function StartPopUp(): JSX.Element {
 			<Button func={handleClick}>Заповнити анкету</Button>
 		</Wrapper>
 	);
-}
+});
+
+StartPopUp.displayName = 'StartPopUp';

@@ -1,7 +1,11 @@
+/** @jsxImportSource @emotion/react */
 import { ReactNode, useState } from 'react';
 
+import { AnimatePresence } from 'framer-motion';
+
+import { colors } from '~styles/theme';
+
 import CloseIcon from '../../public/close.svg';
-/** @jsxImportSource @emotion/react */
 import { Btn, CloseBtn } from './Button.styles';
 
 type ButtonProps = {
@@ -19,15 +23,26 @@ const Button = ({ children, isDisabled, func, closeButton }: ButtonProps) => {
 	};
 
 	return !closeButton ? (
-		<Btn
-			onClick={onClickHandler}
-			onMouseDown={() => setIsPressed(true)}
-			onMouseUp={() => setIsPressed(false)}
-			disabled={isDisabled || false}
-			isPressed={isPressed}
-		>
-			{children}
-		</Btn>
+		<AnimatePresence>
+			<Btn
+				onClick={onClickHandler}
+				onMouseDown={() => setIsPressed(true)}
+				onMouseUp={() => setIsPressed(false)}
+				disabled={isDisabled || false}
+				whileHover={
+					!isDisabled
+						? { backgroundColor: colors.mainText, border: `1px solid ${colors.accent}`, color: colors.accent }
+						: {}
+				}
+				whileTap={
+					!isDisabled
+						? { backgroundColor: colors.accent, border: `1px solid ${colors.accent}`, color: colors.mainText }
+						: {}
+				}
+			>
+				{children}
+			</Btn>
+		</AnimatePresence>
 	) : (
 		<CloseBtn
 			onClick={func}
