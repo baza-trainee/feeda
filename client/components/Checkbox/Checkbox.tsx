@@ -9,9 +9,10 @@ interface CheckBoxProps {
 	labeltxt: string;
 	id?: string;
 	linkText: string;
+	onChange: () => void;
 }
 
-export const CheckBox = ({ name, labeltxt, id, linkText }: CheckBoxProps) => {
+export const CheckBox = ({ name, labeltxt, id, linkText, onChange }: CheckBoxProps) => {
 	const [screenWidth, setScreenWidth] = useState(0);
 	const { state, setState } = useGlobalState();
 	const { approved } = state;
@@ -28,6 +29,7 @@ export const CheckBox = ({ name, labeltxt, id, linkText }: CheckBoxProps) => {
 	};
 
 	const handleCheckboxChange = () => {
+		onChange();
 		setState((prev) => ({
 			...prev,
 			approved: approved && {

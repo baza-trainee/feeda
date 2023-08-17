@@ -49,6 +49,8 @@ export function UserApplication(): JSX.Element {
 	});
 
 	const [isActivationButton, setIsActivationButton] = useState(false);
+	const [isTermsChecked, setIsTermsChecked] = useState(false);
+	const [isAgreementChecked, setIsAgreementChecked] = useState(false);
 	const { setState } = useGlobalState();
 
 	const nameValue = watch('name');
@@ -58,6 +60,10 @@ export function UserApplication(): JSX.Element {
 	const emailValue = watch('email');
 	const linkedInvalue = watch('linkedin');
 	const discordValue = watch('discord');
+
+	const handleTermsCheckboxChange = () => setIsTermsChecked(!isTermsChecked);
+
+	const handleAgreementCheckboxChange = () => setIsAgreementChecked(!isAgreementChecked);
 
 	useEffect(() => {
 		if (discordValue && nameValue && lastnameValue && stackValue && phoneValue && emailValue && linkedInvalue)
@@ -299,10 +305,23 @@ export function UserApplication(): JSX.Element {
 					</SelectWrapper>
 
 					<CheckWrapper>
-						<CheckBox name="terms" labeltxt="Ознайомлений/на з " linkText="умовами участі в проєкті *" />
-						<CheckBox name="agreement" labeltxt="Погоджуюсь з " linkText="обробкою персональних даних *" />
+						<CheckBox
+							name="terms"
+							labeltxt="Ознайомлений/на з "
+							linkText="умовами участі в проєкті *"
+							onChange={() => handleTermsCheckboxChange()}
+						/>
+						<CheckBox
+							name="agreement"
+							labeltxt="Погоджуюсь з "
+							linkText="обробкою персональних даних *"
+							onChange={() => handleAgreementCheckboxChange()}
+						/>
 					</CheckWrapper>
-					<Button isDisabled={!errors || !isActivationButton} func={handleSubmit(onFormSubmit)}>
+					<Button
+						isDisabled={!errors || !isActivationButton || !isTermsChecked || !isAgreementChecked}
+						func={handleSubmit(onFormSubmit)}
+					>
 						Відправити анкету
 					</Button>
 				</Form>
