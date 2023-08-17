@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
+import { Button } from '../Button/Button';
 import { IconSprite } from '../IconSprite/IconSprite';
-import { ControlBtn } from './Additional/ControlBtn/ControlBtn';
 import {
   ButtonsWrapper,
   ContentWrapper,
@@ -55,8 +55,8 @@ export function PopUp({ type, target, mobileWidth, closeModalFunc, yesCallback, 
               </TextWrapperRemoval>
             </ContentWrapper>
             <ButtonsWrapper>
-              <ControlBtn style={{ marginRight: '24px' }} type="accept" callback={yesCallback} />
-              <ControlBtn type="cancel" callback={noCallback} />
+              <Button variant="accept" title="Так" func={yesCallback} icon="checkmark" />
+              <Button variant="cancel" title="Скасувати" func={noCallback} icon="cross" />
             </ButtonsWrapper>
           </>
         )}

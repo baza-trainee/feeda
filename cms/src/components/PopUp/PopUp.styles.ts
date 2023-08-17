@@ -40,8 +40,6 @@ export const PopUpTitle = styled.p<{ color?: string }>`
   width: max-content;
 `;
 
-////! delete request
-
 export const ContentWrapper = styled.div`
   display: flex;
   margin-bottom: 16px;
@@ -62,8 +60,6 @@ export const ButtonsWrapper = styled.div`
   margin: 0 auto;
   width: fit-content;
 `;
-
-////! notification
 
 export const NotificationWrapper = styled.div`
   display: flex;
