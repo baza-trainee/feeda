@@ -70,7 +70,6 @@ export const InputComp = styled.input`
   color: ${colors.mainText};
   font-size: 16px;
   font-weight: 400;
-  padding: 16px 0;
   background: transparent;
   &::-webkit-input-placeholder {
     color: ${colors.mainPlaceholder};
@@ -81,7 +80,7 @@ export const InputIconWrapper = styled.div<{ isDisabled: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px 0;
+  padding: 16px;
   color: ${({ isDisabled }) => (isDisabled ? colors.disabledBtnBg : 'initial')};
 `;
 
