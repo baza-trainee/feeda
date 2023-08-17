@@ -1,17 +1,20 @@
+/* eslint-disable no-empty-pattern */
 'use client';
 /** @jsxImportSource @emotion/react */
-import { InputHTMLAttributes, forwardRef } from 'react';
-import { Label } from '~/src/app/components/Label/Label';
+import { forwardRef, InputHTMLAttributes } from 'react';
+
+import { Label } from '~/src/app/(auth)/login/CheckboxComponent/Label/Label';
+
 import {
 	CheckboxContainer,
 	Container,
-	LabelText,
 	ElementsContainer,
-	LabelElement,
 	InputElement,
+	LabelElement,
+	LabelText,
 } from './CheckboxComponent.styles';
 
-interface formElementProps extends InputHTMLAttributes<HTMLInputElement> {}
+type formElementProps = InputHTMLAttributes<HTMLInputElement>;
 
 export const CheckboxComponent = forwardRef<HTMLInputElement, formElementProps>(({}, ref) => {
 	return (
@@ -21,7 +24,7 @@ export const CheckboxComponent = forwardRef<HTMLInputElement, formElementProps>(
 					<ElementsContainer>
 						<LabelElement>
 							<InputElement type="checkbox" ref={ref} />
-							<LabelText>Запам'ятати пароль</LabelText>
+							<LabelText>Запам`ятати пароль</LabelText>
 						</LabelElement>
 					</ElementsContainer>
 				</CheckboxContainer>
@@ -29,3 +32,5 @@ export const CheckboxComponent = forwardRef<HTMLInputElement, formElementProps>(
 		</Container>
 	);
 });
+
+CheckboxComponent.displayName = 'CheckboxComponent';

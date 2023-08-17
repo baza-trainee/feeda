@@ -7,6 +7,10 @@ export const NewPassFormCss = css`
 	box-sizing: border-box;
 	border-radius: 16px;
 	border: 1px solid #cecece;
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
+
 	@media (min-width: 768px) {
 		width: 464px;
 	}
@@ -15,17 +19,13 @@ export const NewPassFormCss = css`
 	}
 `;
 
-export const NewPassTitleCss = css`
-	margin: 0;
-	margin-bottom: 32px;
-	color: #121212;
-	text-align: center;
-	font-size: 32px;
-	font-style: normal;
-	font-weight: 700;
-	line-height: 115.556%;
+export const ContainerCss = css`
+	height: 96px;
+`;
 
+export const TitleCss = css`
+	width: 328px;
 	@media (min-width: 768px) {
-		font-size: 45px;
+		width: 395px;
 	}
 `;

@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import Link from 'next/link';
-import { LinkCss, ContainerCss } from './ForgotPassword.styles';
+
+import { ContainerCss, LinkCss } from './ForgotPassword.styles';
 
 export function ForgotPassword() {
 	return (

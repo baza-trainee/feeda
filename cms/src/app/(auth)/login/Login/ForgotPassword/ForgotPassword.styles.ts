@@ -2,7 +2,6 @@
 import { css } from '@emotion/react';
 
 export const ContainerCss = css`
-	margin-bottom: 32px;
 	font-size: 16px;
 	font-style: normal;
 	font-weight: 400;

@@ -1,3 +1,5 @@
+/* eslint-disable no-useless-escape */
+
 export const formTitle = {
 	login: 'Вхід',
 	'recover-password': 'Відновити пароль',
@@ -22,4 +24,9 @@ export const btnText = {
 	password: 'Пароль',
 	mail: 'E-mail',
 	send: 'Надіслати',
+};
+
+export const patternsCheck = {
+	login: /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/,
+	password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
 };

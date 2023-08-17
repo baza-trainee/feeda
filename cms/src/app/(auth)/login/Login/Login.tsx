@@ -1,88 +1,84 @@
 /** @jsxImportSource @emotion/react */
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { btnText, formTitle, inputPlaceholderText, labelsTitle } from '../../consts';
-import { FormElement } from './FormElement/FormElement';
-import { Button } from '~/src/app/components/Button/Button';
-import { FormCss, TitleCss } from './Login.styles';
-import Link from 'next/link';
-import { CheckboxComponent } from './CheckboxComponent/CheckboxComponent';
+
+import { Button } from '~/src/components/Button/Button';
+import { Input } from '~/src/components/Input/Input';
+import { Title } from '~/src/components/Title/Title';
+
+import { CheckboxComponent } from '../../components/CheckboxComponent/CheckboxComponent';
+import { btnText, formTitle, inputPlaceholderText, labelsTitle, patternsCheck } from '../../consts';
 import { ForgotPassword } from './ForgotPassword/ForgotPassword';
+import { ContainerCss, FormCss, InputCss, TitleCss } from './Login.styles';
 
 export function LoginForm() {
-	const {
-		register,
-		reset,
-		handleSubmit,
-		formState: { errors },
-	} = useForm({
-		mode: 'onBlur',
-		reValidateMode: 'onChange',
-	});
+	const { control, clearErrors, getValues } = useForm();
+	const checkboxRef = useRef<HTMLInputElement>(null);
+	const [isShowPassword, setIsShowPassword] = useState(false);
+	const typePasswordInput = isShowPassword ? 'text' : 'password';
+	const iconInputPassword = isShowPassword ? 'eyeOpen' : 'eyeClosed';
 
-	const registers = {
-		title: register('login', {
-			required: 'You have not entered anything',
-			minLength: {
-				value: 8,
-				message: 'You login is too short',
-			},
-			maxLength: {
-				value: 12,
-				message: 'You login is too long',
-			},
-			pattern: {
-				value: /^[a-zA-Zа-яА-ЯіїІЇ].*$/,
-				message: 'Неправильний логін',
-			},
-		}),
-		name: register('password', {
-			required: {
-				value: true,
-				message: 'You have not entered anything',
-			},
-			minLength: {
-				value: 8,
-				message: 'You password is too short',
-			},
-			maxLength: {
-				value: 12,
-				message: 'You password is too long',
-			},
-
-			pattern: {
-				value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/,
-				message: 'Неправильний пароль',
-			},
-		}),
+	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		console.log(getValues(), checkboxRef.current?.checked);
 	};
 
-	const onClick = () => {
-		reset();
+	const onClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
+		const clickedElement = event.target as HTMLDivElement;
+		if (clickedElement.tagName === 'svg' || clickedElement.tagName === 'path') {
+			setIsShowPassword(!isShowPassword);
+		}
 	};
 
 	return (
-		<form onSubmit={handleSubmit(onClick)} css={FormCss}>
-			<h1 css={TitleCss}>{formTitle.login}</h1>
-
-			<FormElement
-				label={labelsTitle.login}
-				inputPlaceholder={inputPlaceholderText.login}
-				nameInput="login"
-				inputType="text"
-				register={registers.title}
-				error={errors}
-			/>
-			<FormElement
-				label={labelsTitle.password}
-				inputPlaceholder={inputPlaceholderText.password}
-				nameInput="password"
-				inputType="password"
-				register={registers.name}
-				error={errors}
-			/>
-			<CheckboxComponent />
+		<form onSubmit={handleSubmit} css={FormCss}>
+			<div css={TitleCss}>
+				<Title title={formTitle.login} main />
+			</div>
+			<div css={ContainerCss}>
+				<div css={InputCss}>
+					<Input
+						placeholder={inputPlaceholderText.login}
+						type="text"
+						name="login"
+						id="login"
+						control={control}
+						rules={{
+							login: {
+								required: true,
+								minLength: 6,
+								maxLength: 70,
+								pattern: patternsCheck.login,
+							},
+						}}
+						clearErrors={clearErrors}
+						label={labelsTitle.login}
+						pattern={patternsCheck.login.source}
+						minLength={6}
+						maxLength={70}
+						supportLabel="Неправильний логін"
+					/>
+				</div>
+				<div css={InputCss} onClick={onClickHandler}>
+					<Input
+						placeholder={inputPlaceholderText.password}
+						type={typePasswordInput}
+						name="password"
+						id="password"
+						control={control}
+						clearErrors={clearErrors}
+						label={labelsTitle.password}
+						minLength={8}
+						maxLength={12}
+						pattern={patternsCheck.password.source}
+						endIconId={iconInputPassword}
+						supportLabel="Неправильний пароль"
+					/>
+				</div>
+			</div>
+			<CheckboxComponent ref={checkboxRef} />
 			<ForgotPassword />
-			<Button btnType="submit">{btnText.login}</Button>
+			<Button btnType="submit" title={btnText.login} variant="primary"></Button>
 		</form>
 	);
 }

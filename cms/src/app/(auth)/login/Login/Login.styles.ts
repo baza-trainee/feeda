@@ -7,6 +7,9 @@ export const FormCss = css`
 	width: 335px;
 	border-radius: 16px;
 	border: 1px solid #cecece;
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
 
 	@media (min-width: 768px) {
 		width: 464px;
@@ -17,14 +20,16 @@ export const FormCss = css`
 `;
 
 export const TitleCss = css`
-	color: #121212;
 	text-align: center;
-	font-size: 32px;
-	font-style: normal;
-	font-weight: 700;
-	line-height: 115.556%;
+`;
 
-	@media (min-width: 768px) {
-		font-size: 45px;
-	}
+export const ContainerCss = css`
+	height: 196px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+`;
+
+export const InputCss = css`
+	height: 96px;
 `;

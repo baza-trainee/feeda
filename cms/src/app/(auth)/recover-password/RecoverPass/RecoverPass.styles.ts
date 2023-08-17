@@ -7,6 +7,9 @@ export const RecoverFormCss = css`
 	padding: 32px;
 	border-radius: 16px;
 	border: 1px solid #cecece;
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
 
 	@media (min-width: 768px) {
 		width: 464px;
@@ -16,26 +19,21 @@ export const RecoverFormCss = css`
 	}
 `;
 
+export const BlockCss = css`
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+`;
+
 export const HeaderCss = css`
-	margin-bottom: 24px;
+	width: 328px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	gap: 16px;
-`;
-
-export const TitleCss = css`
-	margin: 0;
-	color: #121212;
-	width: 100%;
-	text-align: center;
-	font-size: 32px;
-	font-style: normal;
-	font-weight: 700;
-	line-height: 115.556%;
 
 	@media (min-width: 768px) {
-		font-size: 45px;
+		width: 395px;
 	}
 `;
 
@@ -52,4 +50,8 @@ export const SubtitleCss = css`
 	@media (min-width: 768px) {
 		font-size: 16px;
 	}
+`;
+
+export const InputCss = css`
+	height: 96px;
 `;

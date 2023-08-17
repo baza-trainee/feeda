@@ -1,7 +1,8 @@
 'use client';
 /** @jsxImportSource @emotion/react */
 import { ReactNode } from 'react';
-import { LabelError, LabelSuccess, LabelDefault } from './Label.styles';
+
+import { LabelDefault, LabelError, LabelSuccess } from './Label.styles';
 
 type labelProps = {
 	forHTML?: string;
