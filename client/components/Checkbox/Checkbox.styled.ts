@@ -33,6 +33,7 @@ export const Box = styled.div`
 	position: absolute;
 	top: 8px;
 	left: 0;
+	transition: all 250ms ease-in;
 
 	&::before {
 		display: block;
@@ -43,6 +44,12 @@ export const Box = styled.div`
 		height: 18px;
 		cursor: pointer;
 	}
+
+	input:checked + &:hover {
+		border-radius: 50%;
+		background-color: #fcdc7f33;
+	}
+
 	@media screen and (min-width: 768px) {
 		top: 0;
 	}
