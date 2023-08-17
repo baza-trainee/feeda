@@ -21,7 +21,7 @@ interface CustomSelectProps {
   clearErrors: (name?: string | string[]) => void;
   valueGetter: (value: string | number) => OptionType | undefined | string | number;
   title: string;
-  defaultValue: OptionType;
+  defaultValue?: OptionType | null;
 }
 
 export const CustomSelect = ({

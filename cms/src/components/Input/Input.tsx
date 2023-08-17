@@ -13,6 +13,7 @@ type InputProps = {
   id?: string;
   label?: string;
   supportLabel?: string;
+  onValidLabel?: string;
   placeholder?: string;
   defaultValue?: string;
   readonly?: boolean;
@@ -36,6 +37,7 @@ export function Input({
   id,
   label,
   supportLabel,
+  onValidLabel,
   disabled = false,
   required,
   readonly,
@@ -102,9 +104,13 @@ export function Input({
                 </InputIconWrapper>
               )}
             </InputWrapper>
-            {supportLabel && (
-              <SupportLabelComp id="support-label" htmlFor={id} isDisabled={disabled}>
-                {supportLabel}
+            {(supportLabel || onValidLabel) && (
+              <SupportLabelComp
+                id={supportLabel ? 'support-label' : 'on-valid-label'}
+                htmlFor={id}
+                isDisabled={disabled}
+              >
+                {supportLabel || onValidLabel}
               </SupportLabelComp>
             )}
             {error && <ErrorText>{error.message}</ErrorText>}

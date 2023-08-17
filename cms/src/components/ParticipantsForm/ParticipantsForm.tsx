@@ -38,23 +38,27 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
           <Input
             name="first_name"
             label="Ім'я *"
-            readonly={formVariant === 'view'}
-            required={true}
             placeholder="Ім'я"
             defaultValue={defaultValues?.first_name}
-            pattern={nameRegex.source}
+            required={true}
             control={control}
+            minLength={2}
+            maxLength={20}
+            pattern={nameRegex.source}
+            readonly={formVariant === 'view'}
             clearErrors={clearErrors}
           />
           <Input
             name="last_name"
             label="Прізвище *"
-            readonly={formVariant === 'view'}
-            required={true}
             placeholder="Прізвище"
-            defaultValue={defaultValues?.last_name}
-            pattern={nameRegex.source}
+            required={true}
+            minLength={2}
+            maxLength={50}
             control={control}
+            pattern={nameRegex.source}
+            readonly={formVariant === 'view'}
+            defaultValue={defaultValues?.last_name}
             clearErrors={clearErrors}
           />
         </div>
@@ -62,11 +66,13 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
           <Input
             name="stack"
             label="Стек *"
-            readonly={formVariant === 'view'}
-            required={true}
-            defaultValue={defaultValues?.stack}
             placeholder="HTML,CSS,TS,Node"
+            required={true}
+            minLength={2}
+            maxLength={300}
             control={control}
+            readonly={formVariant === 'view'}
+            defaultValue={defaultValues?.stack}
             clearErrors={clearErrors}
           />
           <CustomSelect
@@ -77,7 +83,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             control={control}
             clearErrors={clearErrors}
             valueGetter={(ev) => ev}
-            defaultValue={membersRole[6]}
+            // defaultValue={membersRole[6]}
             options={membersRole}
           />
         </div>
@@ -91,7 +97,9 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             control={control}
             clearErrors={clearErrors}
             valueGetter={(ev) => ev}
-            defaultValue={defaultValues?.experience ? experienceVariants[0] : experienceVariants[1]}
+            defaultValue={
+              defaultValues ? (defaultValues.experience ? experienceVariants[0] : experienceVariants[1]) : null
+            }
             options={experienceVariants}
           />
           <CustomSelect
@@ -104,11 +112,9 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             clearErrors={clearErrors}
             valueGetter={(ev) => ev}
             defaultValue={
-              defaultValues && projectType.find((item) => item === defaultValues?.type_participant)?.value ? (
-                projectType.find((item) => item === defaultValues?.type_participant)?.value
-              ) : (
-                <></>
-              )
+              defaultValues && projectType.find((item) => item === defaultValues?.type_participant)?.value
+                ? projectType.find((item) => item === defaultValues?.type_participant)?.value
+                : null
             }
             options={projectType}
           />
@@ -118,18 +124,21 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             name="city"
             label="Місто (Країна)"
             placeholder="Країна"
-            readonly={formVariant === 'view'}
-            pattern={cityRegex.source}
-            defaultValue={defaultValues?.city}
+            minLength={2}
+            maxLength={50}
             control={control}
+            pattern={cityRegex.source}
+            readonly={formVariant === 'view'}
+            defaultValue={defaultValues?.city}
             clearErrors={clearErrors}
           />
           <Input
             name="comment"
             label="Коментар"
+            maxLength={50}
+            control={control}
             readonly={formVariant === 'view'}
             defaultValue={defaultValues?.comment}
-            control={control}
             clearErrors={clearErrors}
           />
         </div>
@@ -150,11 +159,14 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             name="account_discord"
             label="Discord *"
             placeholder="XXXX#XXXX"
+            onValidLabel="Не забудь перевірити запрошення"
             required={true}
+            minLength={2}
+            maxLength={37}
+            control={control}
+            pattern={discordRegex.source}
             readonly={formVariant === 'view'}
             defaultValue={defaultValues?.account_discord}
-            pattern={discordRegex.source}
-            control={control}
             clearErrors={clearErrors}
           />
           <Input
@@ -162,11 +174,13 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             label="LinkedIn *"
             placeholder="www.linkedin.com/in/"
             type="url"
-            readonly={formVariant === 'view'}
             required={true}
-            defaultValue={defaultValues?.account_linkedin}
-            pattern={linkedRegex.source}
+            minLength={19}
+            maxLength={128}
             control={control}
+            pattern={linkedRegex.source}
+            defaultValue={defaultValues?.account_linkedin}
+            readonly={formVariant === 'view'}
             clearErrors={clearErrors}
           />
         </div>
@@ -222,7 +236,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
               clearErrors={clearErrors}
               // readonly={formVariant === 'view' }
               valueGetter={(ev) => ev}
-              //   defaultValue={undefined}
+              //   defaultValue={null}
               options={projectType}
             />
             <Button btnType="button" variant="icon" icon="trash" func={() => setProjectsAmount(projectsAmount - 1)} />

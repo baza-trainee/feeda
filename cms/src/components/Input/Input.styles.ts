@@ -30,6 +30,7 @@ export const LabelComp = styled.label<{ inputValueLen: number; isDisabled: boole
 export const InputWrapper = styled.div<{ checkIsValid: boolean }>`
   display: flex;
   align-items: center;
+  position: relative;
   border: solid 1px #14905d;
   border-radius: 4px;
   border: 1px solid #cecece;
@@ -38,11 +39,19 @@ export const InputWrapper = styled.div<{ checkIsValid: boolean }>`
   & + label#support-label {
     visibility: hidden;
   }
+  & + label#on-valid-label {
+    position: absolute;
+    visibility: hidden;
+    color: #14905d;
+  }
 
   ${({ checkIsValid }) => {
     if (checkIsValid) {
       return '&:has(input:valid) { \
         outline: 2px solid #14905D; \
+        & + label#on-valid-label {  \
+          visibility: visible; \
+        } \
       } \
         &:has(input:invalid) {  \
           outline: 2px solid #dc0c31; \
@@ -57,6 +66,9 @@ export const InputWrapper = styled.div<{ checkIsValid: boolean }>`
   &:has(input:focus) {
     outline: 2px solid #939393;
     & + label#support-label {
+      visibility: hidden;
+    }
+    & + label#on-valid-label {
       visibility: hidden;
     }
   }

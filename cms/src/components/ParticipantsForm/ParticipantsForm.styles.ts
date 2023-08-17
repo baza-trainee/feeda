@@ -42,6 +42,7 @@ export const Form = styled.form`
   }
   & div#two-inputs-wrapper {
     margin-bottom: 24px;
+
     &:last-of-type {
       margin-bottom: 0;
     }
