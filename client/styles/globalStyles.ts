@@ -1,7 +1,6 @@
 'use client';
 import { css } from '@emotion/react';
 
-import { animations } from './animations';
 import { reset } from './reset';
 import { theme } from './theme';
 const { fonts, colors, media } = theme;
@@ -29,7 +28,6 @@ const common = css`
 `;
 
 export const globalStyles = css`
-	${animations}
 	${common}
-    ${reset}
+	${reset}
 `;

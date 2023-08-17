@@ -1,4 +1,4 @@
-import { breakpointDesktop, breakpointMobile, breakpointTablet } from './vars';
+import { breakpointDesktop, breakpointTablet } from './vars';
 
 export const colors = {
 	// Main colors

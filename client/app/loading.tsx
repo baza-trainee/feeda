@@ -2,6 +2,8 @@
 
 import styled from '@emotion/styled';
 
+import { rotate } from '~styles/animations';
+
 const Loader = styled.div`
 	position: fixed;
 	top: 45%;
@@ -19,8 +21,8 @@ const Loader = styled.div`
 	background: linear-gradient(0deg, #766df480 50%, #766df4ff 0) center/4px 100%,
 		linear-gradient(90deg, #766df440 50%, #766df4bf 0) center/100% 4px;
 	background-repeat: no-repeat;
-	
-	animation: s3 1s infinite steps(12);
+
+	animation: ${rotate} 1s infinite steps(12);
 
 	&::before,
 	&::after {
@@ -39,6 +41,5 @@ const Loader = styled.div`
 `;
 
 export default function Loading() {
-	// You can add any UI inside Loading, including a Skeleton.
 	return <Loader />;
 }
