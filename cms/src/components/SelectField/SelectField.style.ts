@@ -109,7 +109,7 @@ export const selectStyles = (error: boolean, isDropdownOpen: boolean, isDisabled
     borderRadius: '4px',
     padding: '8px',
     cursor: 'pointer',
-    backgroundColor: isDisabled ? 'white' : 'white',
+    backgroundColor: isDisabled ? '#fff' : '#fcfcfc',
     ':hover': {
       borderColor: `${error ? 'red' : '#CECECE'}`,
     },
@@ -121,6 +121,7 @@ export const selectStyles = (error: boolean, isDropdownOpen: boolean, isDisabled
     ...provided,
     padding: 0,
     margin: 0,
+    height: 40,
   }),
   input: (provided) => ({
     ...provided,

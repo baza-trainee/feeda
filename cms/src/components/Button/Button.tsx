@@ -7,7 +7,7 @@ import { IconBtn, PrimaryBtn, TextBtn } from './Button.styles';
 
 type ButtonProps = {
   isDisabled?: boolean;
-  func?: (ev: React.MouseEvent<HTMLButtonElement>) => void;
+  func: (event: React.MouseEvent<HTMLButtonElement>) => void;
   btnType?: 'button' | 'submit' | 'reset';
   variant: 'primary' | 'text' | 'icon';
   icon?: IconType | null;
@@ -17,8 +17,8 @@ type ButtonProps = {
 export const Button = ({ isDisabled, func, variant, title, icon = null, btnType = 'button' }: ButtonProps) => {
   const [isPressed, setIsPressed] = useState(false);
 
-  const onClickHandler = (ev: React.MouseEvent<HTMLButtonElement>) => {
-    if (func) func(ev);
+  const onClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    func(event);
   };
 
   const btnVariants = {

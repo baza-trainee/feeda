@@ -7,8 +7,8 @@ import Select from 'react-select';
 import { DropdownIndicator } from '../DropdownIndicator/DropdownIndicator';
 import { ErrorText, Label, selectStyles } from './SelectField.style';
 
-interface OptionType {
-  label: JSX.Element;
+export interface OptionType {
+  label: JSX.Element | string;
   value: string | number;
 }
 
@@ -19,12 +19,13 @@ interface CustomSelectProps {
   options: OptionType[];
   placeholder: string | JSX.Element;
   clearErrors: (name?: string | string[]) => void;
-  valueGetter: (value: string | number) => OptionType | undefined | string | number;
+  valueGetter: (value: string | number) => OptionType | undefined;
   title: string;
   defaultValue: OptionType;
+  isSearchable?: boolean;
 }
 
-export const CustomSelect = ({
+export const SelectField = ({
   control,
   name,
   rules,
@@ -34,6 +35,7 @@ export const CustomSelect = ({
   valueGetter,
   title,
   defaultValue,
+  isSearchable = false,
 }: CustomSelectProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -58,7 +60,7 @@ export const CustomSelect = ({
                 isDisabled={false}
                 components={{ DropdownIndicator }}
                 instanceId={name}
-                isSearchable={false}
+                isSearchable={isSearchable}
                 styles={selectStyles(!!error, isDropdownOpen, false)}
                 placeholder={placeholder}
                 options={options}

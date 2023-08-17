@@ -1,23 +1,89 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '~/src/components/Button/Button';
 import { ProjectForm } from '~/src/components/ProjectForm/ProjectForm';
 import { ProjectTeamForm } from '~/src/components/ProjectTeamForm/ProjectTeamForm';
 import { NavContainer, ProjectContainer } from './styles';
+import { useForm } from 'react-hook-form';
+import { OptionType } from '~/src/components/SelectField/SelectField';
 
-export default function ProjectPage({ params }: { params: { projectId: string } }) {
+export type FormData = {
+  name: string;
+  comment: string;
+  complixity: OptionType;
+  state: OptionType;
+  type: OptionType;
+  start_date: string;
+  end_date: string;
+  url: string;
+};
+
+type ProjectPageProps = {
+  params: {
+    projectId: string;
+  };
+};
+
+export default function ProjectPage({ params }: ProjectPageProps) {
   const [currentTab, setCurrentTab] = useState('Опис');
+  const [formValues, setFormValues] = useState<FormData>({
+    name: '',
+    comment: '',
+    complixity: { value: '', label: '' },
+    state: { value: '', label: '' },
+    type: { value: '', label: '' },
+    start_date: '',
+    end_date: '',
+    url: '',
+  });
+  const { control, clearErrors, getValues, handleSubmit, reset } = useForm();
   const projectId = params.projectId;
 
-  const tabs = [
-    { title: 'Опис', content: <ProjectForm /> },
-    { title: 'Команда', content: <ProjectTeamForm /> },
-  ];
+  /// TEMP
+  useEffect(() => {
+    setFormValues({
+      name: '',
+      comment: '',
+      complixity: { value: '', label: '' },
+      state: { value: 'developing', label: '' },
+      type: { value: '', label: '' },
+      start_date: '',
+      end_date: '',
+      url: '',
+    });
+  }, []);
+
+  const handleSetValues = () => {
+    const data = getValues();
+    const updatedValues = { ...formValues, ...data };
+    setFormValues(updatedValues);
+  };
 
   const handleTabClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    handleSetValues();
     setCurrentTab(e.currentTarget.title);
   };
+
+  const tabs: {
+    title: string;
+    content: React.ReactNode;
+  }[] = [
+    {
+      title: 'Опис',
+      content: (
+        <ProjectForm
+          setValues={handleSetValues}
+          values={formValues}
+          control={control}
+          clearErrors={clearErrors}
+          getValues={getValues}
+          handleSubmit={handleSubmit}
+        />
+      ),
+    },
+    { title: 'Команда', content: <ProjectTeamForm /> },
+  ];
 
   return (
     <ProjectContainer>

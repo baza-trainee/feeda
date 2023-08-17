@@ -4,6 +4,7 @@ export const ProjectContainer = styled.main`
   padding: 32px;
   display: flex;
   flex-direction: column;
+  gap: 24px;
 `;
 
 export const NavContainer = styled.div`
