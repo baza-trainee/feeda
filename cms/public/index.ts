@@ -8,6 +8,8 @@ import Doc from './doc_role.svg';
 import Edit from './edit.svg';
 import EmptyCircle from './empty_circle.svg';
 import Exit from './exit.svg';
+import EyeClosed from './eye_closed.svg';
+import EyeOpen from './eye_open.svg';
 import Finished from './finished_status.svg';
 import Front from './front_role.svg';
 import NoRole from './no_role.svg';
@@ -21,25 +23,27 @@ import TeamBuilding from './team_building_status.svg';
 import Trash from './trash.svg';
 
 export {
-  Add,
-  ArrowDown,
-  Backend,
-  ComplexityActive,
-  EmptyCircle,
-  Delete,
-  Design,
-  Doc,
-  Edit,
-  Exit,
-  Finished,
-  Front,
-  NoRole,
-  Ongoing,
-  Pencil,
-  Plus,
-  Qa,
-  Seo,
-  Team,
-  TeamBuilding,
-  Trash,
+	Add,
+	ArrowDown,
+	Backend,
+	ComplexityActive,
+	EmptyCircle,
+	Delete,
+	Design,
+	Doc,
+	Edit,
+	Exit,
+	Finished,
+	Front,
+	NoRole,
+	Ongoing,
+	Pencil,
+	Plus,
+	Qa,
+	Seo,
+	Team,
+	TeamBuilding,
+	Trash,
+	EyeOpen,
+	EyeClosed,
 };
