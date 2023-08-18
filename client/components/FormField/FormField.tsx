@@ -72,6 +72,11 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 					placeholder={placeholder}
 					{...register(name, inputProps)}
 					autoComplete={autoComplete}
+					onBlur={(e) => {
+						const trimmedValue = e.target.value.trim();
+						e.target.value = trimmedValue;
+						register(name).onBlur(e);
+					}}
 				/>
 				<p data-category="label-text" css={isValid && isDiscordField && isValidDiscordValue && validDiscordNameStyle}>
 					{label}

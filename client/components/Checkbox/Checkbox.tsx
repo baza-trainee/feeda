@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { ApprovedTypes, useGlobalState } from '~/hooks/useGlobalState';
 import useMobileDetect from '~/hooks/useMobileDetect';
@@ -10,9 +10,10 @@ interface CheckBoxProps {
 	labeltxt: string;
 	id?: string;
 	linkText: string;
+	onChange: () => void;
 }
 
-export const CheckBox: React.FC<CheckBoxProps> = ({ name, labeltxt, id, linkText }) => {
+export const CheckBox: FC<CheckBoxProps> = ({ name, labeltxt, id, linkText, onChange }) => {
 	const { state, setState } = useGlobalState();
 	const mobile = useMobileDetect().isMobile();
 
@@ -21,6 +22,7 @@ export const CheckBox: React.FC<CheckBoxProps> = ({ name, labeltxt, id, linkText
 	};
 
 	const handleCheckboxChange = () => {
+		onChange();
 		setState((prev) => ({
 			...prev,
 			approved: prev.approved && {

@@ -2,8 +2,10 @@ import { StylesConfig } from 'react-select';
 
 import styled from '@emotion/styled';
 import { colors, fonts } from 'styles/theme';
+
 export const Label = styled.label`
 	color: ${colors.inputLabel};
+	font-size: 16px;
 	flex-direction: column;
 	display: flex;
 	gap: 0.25rem;
@@ -78,6 +80,10 @@ export const selectStyles = (error: boolean, isDropdownOpen: boolean): ProvidedS
 		display: 'flex',
 		alignItems: 'center',
 		padding: '0 16px',
+		transition: 'background-color 0.2s',
+		':hover': {
+			backgroundColor: '#FDF5DD',
+		},
 		':active': {
 			color: colors.grey100,
 			backgroundColor: colors.mainText,

@@ -56,7 +56,7 @@ export const CustomSelect = ({
 								instanceId={name}
 								isSearchable={false}
 								styles={selectStyles(!!error, isDropdownOpen)}
-								placeholder={placeholder}
+								placeholder={isDropdownOpen ? '' : placeholder}
 								options={options}
 								value={computedValue}
 								onChange={(selectedOption) => {

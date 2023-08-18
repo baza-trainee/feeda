@@ -1,21 +1,22 @@
 import styled from '@emotion/styled';
 
 import { theme } from '~styles/theme';
+const { colors, fonts, media } = theme;
 
 export const Wrapper = styled.div`
 	position: relative;
-	font-size: ${theme.fonts.checkbox.fontSize.mobile}rem;
-	line-height: ${theme.fonts.checkbox.lineHeight.mobile};
-	letter-spacing: ${theme.fonts.checkbox.letterSpacing}px;
+	font-size: ${fonts.checkbox.fontSize.mobile}rem;
+	line-height: ${fonts.checkbox.lineHeight.mobile};
+	letter-spacing: ${fonts.checkbox.letterSpacing}px;
 	padding: 1rem 0 1rem 3rem;
-	@media screen and (${theme.media.tablet}) {
+	@media screen and (${media.tablet}) {
 		padding: 0.875rem 0 0.875rem 3rem;
-		font-size: ${theme.fonts.checkbox.fontSize.tablet}rem;
+		font-size: ${fonts.checkbox.fontSize.tablet}rem;
 		line-height: normal;
 	}
-	@media screen and (${theme.media.desktop}) {
+	@media screen and (${media.desktop}) {
 		padding: 0.875rem 0 0.875rem 3rem;
-		line-height: ${theme.fonts.checkbox.lineHeight.desktop};
+		line-height: ${fonts.checkbox.lineHeight.desktop};
 	}
 `;
 
@@ -28,7 +29,7 @@ export const Input = styled.input`
 
 	&:checked + #box::before {
 		border: none;
-		background-color: ${theme.colors.accent};
+		background-color: ${colors.accent};
 		background-image: url('/check_small.svg');
 		background-position: center center;
 	}
@@ -39,23 +40,35 @@ export const Box = styled.div`
 	position: absolute;
 	top: 8px;
 	left: 0;
+	transition: all 250ms ease-in;
 
 	&::before {
 		display: block;
 		content: '';
-		border: 2px solid ${theme.colors.mainText};
+		border: 2px solid ${colors.mainText};
 		border-radius: 2px;
 		width: 18px;
 		height: 18px;
 		cursor: pointer;
 	}
-	@media screen and (${theme.media.tablet}) {
+
+	&:hover {
+		border-radius: 50%;
+		background-color: ${colors.hoverBox};
+	}
+
+	input:checked + &:hover {
+		border-radius: 50%;
+		background-color: ${colors.hoverBoxChecked};
+	}
+
+	@media screen and (${media.tablet}) {
 		top: 0;
 	}
 `;
 
 export const Span = styled.span`
 	text-decoration: underline;
-	color: ${theme.colors.link};
+	color: ${colors.link};
 	cursor: pointer;
 `;
