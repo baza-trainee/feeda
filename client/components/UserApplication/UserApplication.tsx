@@ -323,7 +323,7 @@ export function UserApplication(): JSX.Element {
 						/>
 					</CheckWrapper>
 					<Button
-						isDisabled={!errors || !isActivationButton || !isTermsChecked || !isAgreementChecked}
+						isDisabled={Object.keys(errors).length > 0 || !isActivationButton || !isTermsChecked || !isAgreementChecked}
 						func={handleSubmit(onFormSubmit)}
 					>
 						Відправити анкету
