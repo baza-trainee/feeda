@@ -4,6 +4,7 @@ export const Wrapper = styled.div`
 	position: relative;
 	font-size: 12px;
 	padding: 16px 0 16px 48px;
+
 	@media screen and (min-width: 768px) {
 		padding: 14px 0 14px 48px;
 		font-size: 14px;
@@ -33,6 +34,7 @@ export const Box = styled.div`
 	position: absolute;
 	top: 8px;
 	left: 0;
+	transition: all 250ms ease-in;
 
 	&::before {
 		display: block;
@@ -43,6 +45,12 @@ export const Box = styled.div`
 		height: 18px;
 		cursor: pointer;
 	}
+
+	input:checked + &:hover {
+		border-radius: 50%;
+		background-color: #fcdc7f33;
+	}
+
 	@media screen and (min-width: 768px) {
 		top: 0;
 	}
