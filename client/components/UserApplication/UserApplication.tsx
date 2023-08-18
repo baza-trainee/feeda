@@ -263,7 +263,7 @@ export function UserApplication(): JSX.Element {
 									message: 'поле повинно містити не більше 50 символів',
 								},
 								pattern: {
-									message: 'please enter valid value',
+									message: 'будь ласка введіть валідну назву міста(країни)',
 									value: cityRegex,
 								},
 							}}
