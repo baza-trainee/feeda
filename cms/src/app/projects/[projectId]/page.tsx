@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from '~/src/components/Button/Button';
 import { ProjectForm } from '~/src/components/ProjectForm/ProjectForm';
 import { ProjectTeamForm } from '~/src/components/ProjectTeamForm/ProjectTeamForm';
@@ -27,41 +27,14 @@ type ProjectPageProps = {
 
 export default function ProjectPage({ params }: ProjectPageProps) {
   const [currentTab, setCurrentTab] = useState('Команда');
-  const [formValues, setFormValues] = useState<FormData>({
-    name: '',
-    comment: '',
-    complixity: { value: '', label: '' },
-    state: { value: '', label: '' },
-    type: { value: '', label: '' },
-    start_date: '',
-    end_date: '',
-    url: '',
+  const { control, clearErrors, getValues, handleSubmit, setValue, watch, register } = useForm({
+    defaultValues: {
+      name: 'Hello',
+    },
   });
-  const { control, clearErrors, getValues, handleSubmit, setValue, watch, register } = useForm();
   const projectId = params.projectId;
 
-  /// TEMP
-  useEffect(() => {
-    setFormValues({
-      name: '',
-      comment: '',
-      complixity: { value: '', label: '' },
-      state: { value: 'developing', label: '' },
-      type: { value: '', label: '' },
-      start_date: '',
-      end_date: '',
-      url: '',
-    });
-  }, []);
-
-  const handleSetValues = () => {
-    const data = getValues();
-    const updatedValues = { ...formValues, ...data };
-    setFormValues(updatedValues);
-  };
-
   const handleTabClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    handleSetValues();
     setCurrentTab(e.currentTarget.title);
   };
 
@@ -71,30 +44,11 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   }[] = [
     {
       title: 'Опис',
-      content: (
-        <ProjectForm
-          setValues={handleSetValues}
-          values={formValues}
-          control={control}
-          clearErrors={clearErrors}
-          getValues={getValues}
-          handleSubmit={handleSubmit}
-        />
-      ),
+      content: <ProjectForm control={control} clearErrors={clearErrors} handleSubmit={handleSubmit} />,
     },
     {
       title: 'Команда',
-      content: (
-        <ProjectTeamForm
-          control={control}
-          clearErrors={clearErrors}
-          getValues={getValues}
-          handleSubmit={handleSubmit}
-          setValue={setValue}
-          watch={watch}
-          register={register}
-        />
-      ),
+      content: <ProjectTeamForm control={control} clearErrors={clearErrors} handleSubmit={handleSubmit} />,
     },
   ];
 

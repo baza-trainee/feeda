@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Control, Controller } from 'react-hook-form';
+import { Control, Controller, useController } from 'react-hook-form';
 import Select from 'react-select';
 
 import { DropdownIndicator } from '../DropdownIndicator/DropdownIndicator';
@@ -21,7 +21,6 @@ interface CustomSelectProps {
   clearErrors: (name?: string | string[]) => void;
   valueGetter: (value: string | number) => OptionType | undefined;
   title: string;
-  defaultValue: OptionType;
   isSearchable?: boolean;
 }
 
@@ -34,14 +33,16 @@ export const SelectField = ({
   clearErrors,
   valueGetter,
   title,
-  defaultValue,
   isSearchable = false,
 }: CustomSelectProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { field } = useController({
+    name,
+    control,
+  });
 
   return (
     <Controller
-      defaultValue={defaultValue}
       control={control}
       name={name}
       rules={rules}
@@ -50,7 +51,7 @@ export const SelectField = ({
           clearErrors(name);
         };
 
-        const computedValue = typeof valueGetter === 'function' ? valueGetter(value) : value;
+        //const computedValue = typeof valueGetter === 'function' ? valueGetter(value) : value;
 
         return (
           <div style={{ position: 'relative' }} id="input-wrapper">
@@ -64,7 +65,7 @@ export const SelectField = ({
                 styles={selectStyles(!!error, isDropdownOpen, false)}
                 placeholder={placeholder}
                 options={options}
-                value={computedValue}
+                value={field.value}
                 onChange={(selectedOption) => {
                   setIsDropdownOpen(false);
                   onChange(selectedOption);
@@ -74,7 +75,6 @@ export const SelectField = ({
                 onMenuClose={() => setIsDropdownOpen(false)}
                 onBlur={() => {
                   setIsDropdownOpen(false);
-
                   onBlur();
                 }}
               />

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Control, Controller } from 'react-hook-form';
+import { Control, Controller, useController } from 'react-hook-form';
 
 import { IconSprite, IconType } from '../IconSprite/IconSprite';
 import { ErrorText } from '../SelectField/SelectField.style';
@@ -49,11 +49,16 @@ export function Input({
   clearErrors,
 }: InputProps) {
   const [inputValue, setInputValue] = useState(defaultValue);
+  const { field } = useController({
+    name,
+    control,
+  });
+
   return (
     <Controller
       defaultValue={defaultValue}
       control={control}
-      name={name}
+      name={field.name}
       rules={rules}
       render={({ field: { onChange }, fieldState: { error } }) => {
         const handleChange = () => {
@@ -88,7 +93,7 @@ export function Input({
                 maxLength={maxLength}
                 minLength={minLength}
                 pattern={pattern}
-                defaultValue={defaultValue}
+                defaultValue={field.value}
                 onChange={(ev) => {
                   if (pattern || label) setInputValue(ev.target.value);
                   handleChange();
