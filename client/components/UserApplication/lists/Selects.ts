@@ -6,15 +6,15 @@ export const experience = [
 export const projects = [
 	{
 		value: 'project1',
-		label: 'проєкт1',
+		label: 'Проєкт 1',
 	},
 	{
 		value: 'project2',
-		label: 'проєкт2',
+		label: 'Проєкт 2',
 	},
 	{
 		value: 'project3',
-		label: 'проєкт3',
+		label: 'Проєкт 3',
 	},
 ];
 
