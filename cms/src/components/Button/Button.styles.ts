@@ -59,3 +59,27 @@ export const TextBtn = styled(PrimaryBtn)`
 export const IconBtn = styled(PrimaryBtn)`
   padding: 8px;
 `;
+
+export const PopUpBtn = styled.button`
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  line-height: 1;
+  border: 0;
+  padding: 5px 0;
+  background-color: white;
+  cursor: pointer;
+  & > svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
+`;
+
+export const PopUpBtnAccept = styled(PopUpBtn)`
+  margin-right: 24px;
+  color: #29ca56;
+`;
+export const PopUpBtnCancel = styled(PopUpBtn)`
+  color: #df4242;
+`;
