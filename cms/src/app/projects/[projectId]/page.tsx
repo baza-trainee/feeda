@@ -26,7 +26,7 @@ type ProjectPageProps = {
 };
 
 export default function ProjectPage({ params }: ProjectPageProps) {
-  const [currentTab, setCurrentTab] = useState('Опис');
+  const [currentTab, setCurrentTab] = useState('Команда');
   const [formValues, setFormValues] = useState<FormData>({
     name: '',
     comment: '',
@@ -37,7 +37,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
     end_date: '',
     url: '',
   });
-  const { control, clearErrors, getValues, handleSubmit, reset } = useForm();
+  const { control, clearErrors, getValues, handleSubmit, setValue, watch, register } = useForm();
   const projectId = params.projectId;
 
   /// TEMP
@@ -82,7 +82,20 @@ export default function ProjectPage({ params }: ProjectPageProps) {
         />
       ),
     },
-    { title: 'Команда', content: <ProjectTeamForm /> },
+    {
+      title: 'Команда',
+      content: (
+        <ProjectTeamForm
+          control={control}
+          clearErrors={clearErrors}
+          getValues={getValues}
+          handleSubmit={handleSubmit}
+          setValue={setValue}
+          watch={watch}
+          register={register}
+        />
+      ),
+    },
   ];
 
   return (

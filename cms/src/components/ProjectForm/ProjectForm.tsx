@@ -1,6 +1,13 @@
-import { Control, UseFormHandleSubmit, UseFormGetValues, FieldValues } from 'react-hook-form';
+import {
+  Control,
+  UseFormHandleSubmit,
+  UseFormGetValues,
+  FieldValues,
+  UseFormWatch,
+  UseFormRegister,
+} from 'react-hook-form';
 import { Input } from '../Input/Input';
-import { OptionType, SelectField } from '../SelectField/SelectField';
+import { SelectField } from '../SelectField/SelectField';
 import { FormControllers, FormWrapper, InputsWrapper } from './ProjectForm.styles';
 import {
   getDiffValue,
@@ -27,8 +34,6 @@ export const ProjectForm = ({ values, setValues, control, clearErrors, getValues
     console.log(getValues());
     setValues();
   };
-
-  //console.log(values);
 
   const stateData = values.state;
   const complixityData = values.complixity;
@@ -68,6 +73,7 @@ export const ProjectForm = ({ values, setValues, control, clearErrors, getValues
           defaultValue={{ value: complixityData.value, label: complixityPlaceholder || '' }}
         />
         <SelectField
+          isSearchable={true}
           control={control}
           clearErrors={clearErrors}
           name="state"
