@@ -3,8 +3,10 @@ import axios from 'axios';
 
 import { membersRole } from '~/src/components/SelectField/lists';
 
+import { manageFormFields } from '../../helpers/manageParticipantFormValues';
+
 axios.defaults.baseURL = 'http://localhost:8000/user-project/';
-axios.defaults.headers.Authorization = 'Token 81e6d032dc58be58e8274b05c6c21cd741149871';
+axios.defaults.headers.Authorization = 'Token 2f2691a9e0585570f09d180ef9b10b922f96106b';
 
 const initialState: ParticipantsState = {
   list: [],
@@ -19,7 +21,8 @@ export const fetchParticipants = createAsyncThunk('participants/fetchParticipant
 });
 
 export const createParticipant = createAsyncThunk('participants/createParticipant', async (formData: object) => {
-  console.log('Request: ', formData);
+  manageFormFields(formData);
+  console.log('Create: ', formData);
   const { data } = await axios.post<any>('add-participant/', formData);
   return data;
 });
@@ -32,9 +35,9 @@ export const getParticipant = createAsyncThunk('participants/getParticipant', as
 export const updateParticipant = createAsyncThunk(
   'participants/updateParticipant',
   async ({ formData, userId }: { formData: object; userId: string }) => {
-    console.log('Id: ', userId);
-    console.log('Data: ', formData);
-    const { data } = await axios.put<ParticipantData>(`participant-detail/${userId}`, formData);
+    manageFormFields(formData);
+    console.log('Update: ', formData);
+    const { data } = await axios.put<ParticipantData>(`participant-detail/${userId}/`, formData);
     return data;
   }
 );
@@ -54,6 +57,7 @@ export const participantsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchParticipants.pending, (state) => {
       state.isLoading = true;
+      state.error = null;
     });
     builder.addCase(fetchParticipants.fulfilled, (state, { payload }) => {
       state.list = payload;
@@ -65,6 +69,7 @@ export const participantsSlice = createSlice({
     // - - -
     builder.addCase(createParticipant.pending, (state) => {
       state.isLoading = true;
+      state.error = null;
     });
     builder.addCase(createParticipant.fulfilled, (state, { payload }) => {
       // state.list = payload;
@@ -78,6 +83,7 @@ export const participantsSlice = createSlice({
     // - - -
     builder.addCase(getParticipant.pending, (state) => {
       state.isLoading = true;
+      state.error = null;
     });
     builder.addCase(getParticipant.fulfilled, (state, { payload }) => {
       state.participant = { ...payload };
@@ -93,10 +99,9 @@ export const participantsSlice = createSlice({
     // - - -
     builder.addCase(updateParticipant.pending, (state) => {
       state.isLoading = true;
+      state.error = null;
     });
     builder.addCase(updateParticipant.fulfilled, (state, { payload }) => {
-      // state.list = payload;
-      console.log(payload);
       state.isLoading = false;
     });
     builder.addCase(updateParticipant.rejected, (state, { payload }) => {
@@ -106,6 +111,7 @@ export const participantsSlice = createSlice({
     // - - -
     builder.addCase(sendEmail.pending, (state) => {
       state.isLoading = true;
+      state.error = null;
     });
     builder.addCase(sendEmail.fulfilled, (state, { payload }) => {
       // state.list = payload;

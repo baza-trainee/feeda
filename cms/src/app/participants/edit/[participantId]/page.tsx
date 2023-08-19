@@ -24,7 +24,7 @@ export default function EditParticipant() {
     };
     fetchData();
   }, []);
-
+  // console.log('Default: ', defaultValues);
   const handleSubmit = (formData: object) => {
     dispatch(updateParticipant({ formData, userId }));
   };
@@ -35,7 +35,9 @@ export default function EditParticipant() {
       ) : error ? (
         <Title title="Error" />
       ) : (
-        <ParticipantsForm formVariant="edit" defaultValues={defaultValues} handleSubmit={handleSubmit} />
+        defaultValues && (
+          <ParticipantsForm formVariant="edit" defaultValues={defaultValues} handleSubmit={handleSubmit} />
+        )
       )}
     </div>
   );

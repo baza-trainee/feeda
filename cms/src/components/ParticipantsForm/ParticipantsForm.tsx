@@ -24,7 +24,7 @@ type Props = {
 export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: Props) {
   const dispatch = useDispatch();
   const { control, clearErrors, getValues } = useForm();
-  const [projectsAmount, setProjectsAmount] = useState(0);
+  const [projectsAmount, setProjectsAmount] = useState(defaultValues?.project.length || 0);
   return (
     <Form
       onSubmit={(ev) => {
@@ -159,7 +159,6 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             name="account_discord"
             label="Discord *"
             placeholder="XXXX#XXXX"
-            onValidLabel="Не забудь перевірити запрошення"
             required={true}
             minLength={2}
             maxLength={37}
@@ -236,7 +235,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
               clearErrors={clearErrors}
               // readonly={formVariant === 'view' }
               valueGetter={(ev) => ev}
-              //   defaultValue={null}
+              // defaultValue={defaultValues?.project[index]}
               options={projectType}
             />
             <Button btnType="button" variant="icon" icon="trash" func={() => setProjectsAmount(projectsAmount - 1)} />

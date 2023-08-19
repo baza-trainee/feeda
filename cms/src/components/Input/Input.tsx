@@ -80,7 +80,10 @@ export function Input({
                 </InputIconWrapper>
               )}
               <InputComp
-                style={{ padding: begIconId || endIconId ? '18px 0' : '18px 16px' }}
+                style={{
+                  padding:
+                    (begIconId && endIconId) || begIconId ? '18px 0' : endIconId ? '18px 0 18px 18px' : '18px 16px',
+                }}
                 id={id}
                 placeholder={placeholder}
                 readOnly={readonly}
