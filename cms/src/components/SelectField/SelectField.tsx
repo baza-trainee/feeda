@@ -22,6 +22,7 @@ interface CustomSelectProps {
   valueGetter: (value: string | number) => OptionType | undefined | string | number;
   title: string;
   defaultValue?: OptionType | null;
+  required?: boolean;
 }
 
 export const CustomSelect = ({
@@ -34,6 +35,7 @@ export const CustomSelect = ({
   valueGetter,
   title,
   defaultValue,
+  required,
 }: CustomSelectProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -63,6 +65,7 @@ export const CustomSelect = ({
                 placeholder={placeholder}
                 options={options}
                 value={computedValue}
+                required={required}
                 onChange={(selectedOption) => {
                   setIsDropdownOpen(false);
                   onChange(selectedOption);

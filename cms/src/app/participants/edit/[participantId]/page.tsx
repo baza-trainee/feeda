@@ -13,8 +13,8 @@ export default function EditParticipant() {
   const pathname = usePathname();
   const [defaultValues, setDefaultValues] = useState(null);
   const { isLoading, error } = useSelector((state: any) => state.participants);
+  const { specialities, participation_types } = useSelector((state: any) => state.instructions);
   const userId = pathname.split('/')[pathname.split('/').length - 1];
-
   useEffect(() => {
     const fetchData = async () => {
       const result = await dispatch(getParticipant(userId));
@@ -26,7 +26,9 @@ export default function EditParticipant() {
   }, []);
   // console.log('Default: ', defaultValues);
   const handleSubmit = (formData: object) => {
-    dispatch(updateParticipant({ formData, userId }));
+    if (specialities && participation_types) {
+      dispatch(updateParticipant({ formData, userId, instructions: { specialities, participation_types } }));
+    }
   };
   return (
     <div>

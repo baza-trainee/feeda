@@ -53,8 +53,8 @@ export const membersRole: ListProps[] = [
     label: <MemberRole type="violet" title="SEO" />,
   },
   {
-    value: 'doc',
-    label: <MemberRole type="blue" title="Doc" />,
+    value: 'pm',
+    label: <MemberRole type="blue" title="PM" />,
   },
   {
     value: 'none',

@@ -37,7 +37,6 @@ export const instructionsSlice = createSlice({
       state.specialities = payload.specialities;
       state.participation_types = payload.participation_types;
       state.project_types = payload.project_types;
-      console.log(payload);
       state.isLoading = false;
     });
     builder.addCase(getInstructions.rejected, (state) => {

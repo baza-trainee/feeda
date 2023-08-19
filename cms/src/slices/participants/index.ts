@@ -1,9 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-import { membersRole } from '~/src/components/SelectField/lists';
-
 import { manageFormFields } from '../../helpers/manageParticipantFormValues';
+import { IdNameType } from '../instructions';
 
 axios.defaults.baseURL = 'http://localhost:8000/user-project/';
 axios.defaults.headers.Authorization = 'Token 2f2691a9e0585570f09d180ef9b10b922f96106b';
@@ -34,8 +33,8 @@ export const getParticipant = createAsyncThunk('participants/getParticipant', as
 
 export const updateParticipant = createAsyncThunk(
   'participants/updateParticipant',
-  async ({ formData, userId }: { formData: object; userId: string }) => {
-    manageFormFields(formData);
+  async ({ formData, userId, instructions }: UpdateParticipantTypes) => {
+    manageFormFields(formData, instructions);
     console.log('Update: ', formData);
     const { data } = await axios.put<ParticipantData>(`participant-detail/${userId}/`, formData);
     return data;
@@ -124,6 +123,15 @@ export const participantsSlice = createSlice({
     });
   },
 });
+
+interface UpdateParticipantTypes {
+  formData: object;
+  userId: string;
+  instructions: {
+    specialities: IdNameType[];
+    participation_types: IdNameType[];
+  };
+}
 
 interface ParticipantsState {
   list: ParticipantData[];

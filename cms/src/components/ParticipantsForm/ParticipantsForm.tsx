@@ -83,7 +83,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             control={control}
             clearErrors={clearErrors}
             valueGetter={(ev) => ev}
-            // defaultValue={membersRole[6]}
+            defaultValue={membersRole[6]}
             options={membersRole}
           />
         </div>
@@ -92,8 +92,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             name="experience"
             title="Досвід *"
             placeholder="Так/Ні"
-            // readonly={formVariant === 'view' }
-            rules={{ required: true }}
+            required={true}
             control={control}
             clearErrors={clearErrors}
             valueGetter={(ev) => ev}
@@ -107,13 +106,13 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             title="Тип участі *"
             placeholder="Платний"
             readonly={formVariant === 'view'}
-            rules={{ required: true }}
+            required={true}
             control={control}
             clearErrors={clearErrors}
             valueGetter={(ev) => ev}
             defaultValue={
-              defaultValues && projectType.find((item) => item === defaultValues?.type_participant)?.value
-                ? projectType.find((item) => item === defaultValues?.type_participant)?.value
+              defaultValues && projectType.find((item) => item.value === defaultValues?.type_participant.title)
+                ? projectType.find((item) => item.value === defaultValues?.type_participant.title)
                 : null
             }
             options={projectType}
