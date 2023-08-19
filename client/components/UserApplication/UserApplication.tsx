@@ -44,11 +44,13 @@ export function UserApplication(): JSX.Element {
 		clearErrors,
 		watch,
 	} = useForm({
-		mode: 'onSubmit',
+		mode: 'onBlur',
 		reValidateMode: 'onBlur',
 	});
 
 	const [isActivationButton, setIsActivationButton] = useState(false);
+	const [isTermsChecked, setIsTermsChecked] = useState(false);
+	const [isAgreementChecked, setIsAgreementChecked] = useState(false);
 	const { setState } = useGlobalState();
 
 	const nameValue = watch('name');
@@ -58,6 +60,10 @@ export function UserApplication(): JSX.Element {
 	const emailValue = watch('email');
 	const linkedInvalue = watch('linkedin');
 	const discordValue = watch('discord');
+
+	const handleTermsCheckboxChange = () => setIsTermsChecked(!isTermsChecked);
+
+	const handleAgreementCheckboxChange = () => setIsAgreementChecked(!isAgreementChecked);
 
 	useEffect(() => {
 		if (discordValue && nameValue && lastnameValue && stackValue && phoneValue && emailValue && linkedInvalue)
@@ -123,6 +129,10 @@ export function UserApplication(): JSX.Element {
 								maxLength: {
 									value: 50,
 									message: 'поле повинно містити не більше 50 символів',
+								},
+								pattern: {
+									value: nameRegex,
+									message: 'будь ласка введіть валіднe прізвище',
 								},
 							}}
 						/>
@@ -259,7 +269,7 @@ export function UserApplication(): JSX.Element {
 									message: 'поле повинно містити не більше 50 символів',
 								},
 								pattern: {
-									message: 'please enter valid value',
+									message: 'будь ласка введіть валідну назву міста(країни)',
 									value: cityRegex,
 								},
 							}}
@@ -299,10 +309,23 @@ export function UserApplication(): JSX.Element {
 					</SelectWrapper>
 
 					<CheckWrapper>
-						<CheckBox name="terms" labeltxt="Ознайомлений/на з " linkText="умовами участі в проєкті *" />
-						<CheckBox name="agreement" labeltxt="Погоджуюсь з " linkText="обробкою персональних даних *" />
+						<CheckBox
+							name="terms"
+							labeltxt="Ознайомлений/на з "
+							linkText="умовами участі в проєкті *"
+							onChange={() => handleTermsCheckboxChange()}
+						/>
+						<CheckBox
+							name="agreement"
+							labeltxt="Погоджуюсь з "
+							linkText="обробкою персональних даних *"
+							onChange={() => handleAgreementCheckboxChange()}
+						/>
 					</CheckWrapper>
-					<Button isDisabled={!errors || !isActivationButton} func={handleSubmit(onFormSubmit)}>
+					<Button
+						isDisabled={Object.keys(errors).length > 0 || !isActivationButton || !isTermsChecked || !isAgreementChecked}
+						func={handleSubmit(onFormSubmit)}
+					>
 						Відправити анкету
 					</Button>
 				</Form>

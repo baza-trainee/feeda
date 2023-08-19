@@ -82,7 +82,6 @@ export const InputComp = styled.input`
   color: ${colors.mainText};
   font-size: 16px;
   font-weight: 400;
-  /* padding: 16px; */
   background: transparent;
   &::-webkit-input-placeholder {
     color: ${colors.mainPlaceholder};
