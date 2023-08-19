@@ -5,25 +5,23 @@ axios.defaults.baseURL = 'http://localhost:8000/user-project/';
 axios.defaults.headers.Authorization = 'Token 2f2691a9e0585570f09d180ef9b10b922f96106b';
 
 const initialState: InstructionsStateType = {
+  specialities: null,
+  participation_types: null,
+  project_types: null,
   isLoading: false,
   error: null,
 };
 
-export const getSpecialities = createAsyncThunk('instructions/getSpecialities', async () => {
-  //   const specialities  = await axios.get<ParticipantData[]>('specialities-list/');
-  const { data } = await axios.get('speciality-list/');
-  return data;
-});
-
-export const getTypesParticipation = createAsyncThunk('instructions/getTypesParticipation', async () => {
-  //   const specialities  = await axios.get<ParticipantData[]>('specialities-list/');
-  const { data } = await axios.get('types-participant-list/');
-  return data;
-});
-export const getTypesProject = createAsyncThunk('instructions/getTypesProject', async () => {
-  //   const specialities  = await axios.get<ParticipantData[]>('specialities-list/');
-  const { data } = await axios.get('types-project-list/');
-  return data;
+export const getInstructions = createAsyncThunk('instructions/getInstructions', async () => {
+  const specialities = await axios.get<IdNameType[]>('speciality-list/');
+  const participation_types = await axios.get<IdNameType[]>('types-participant-list/');
+  const project_types = await axios.get<{ project_type: string }[]>('types-project-list/');
+  const returnValue = {
+    specialities: specialities.data,
+    participation_types: participation_types.data,
+    project_types: project_types.data,
+  };
+  return returnValue;
 });
 
 export const instructionsSlice = createSlice({
@@ -31,46 +29,20 @@ export const instructionsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getSpecialities.pending, (state) => {
+    builder.addCase(getInstructions.pending, (state) => {
       state.isLoading = true;
       state.error = null;
     });
-    builder.addCase(getSpecialities.fulfilled, (state, { payload }) => {
-      //   state.list = payload;
+    builder.addCase(getInstructions.fulfilled, (state, { payload }) => {
+      state.specialities = payload.specialities;
+      state.participation_types = payload.participation_types;
+      state.project_types = payload.project_types;
       console.log(payload);
       state.isLoading = false;
     });
-    builder.addCase(getSpecialities.rejected, (state) => {
-      state.isLoading = false;
-    });
-
-    // - - - -
-
-    builder.addCase(getTypesParticipation.pending, (state) => {
-      state.isLoading = true;
-      state.error = null;
-    });
-    builder.addCase(getTypesParticipation.fulfilled, (state, { payload }) => {
-      //   state.list = payload;
-      console.log(payload);
-      state.isLoading = false;
-    });
-    builder.addCase(getTypesParticipation.rejected, (state) => {
-      state.isLoading = false;
-    });
-
-    // - - - -
-
-    builder.addCase(getTypesProject.pending, (state) => {
-      state.isLoading = true;
-      state.error = null;
-    });
-    builder.addCase(getTypesProject.fulfilled, (state, { payload }) => {
-      //   state.list = payload;
-      console.log(payload);
-      state.isLoading = false;
-    });
-    builder.addCase(getTypesProject.rejected, (state) => {
+    builder.addCase(getInstructions.rejected, (state) => {
+      state.error = true;
+      console.log(state.error);
       state.isLoading = false;
     });
   },
@@ -79,27 +51,14 @@ export const instructionsSlice = createSlice({
 export default instructionsSlice.reducer;
 
 interface InstructionsStateType {
-  //   list: ParticipantData[];
-  //   participant: ParticipantData | null;
+  specialities: null | IdNameType[];
+  participation_types: null | IdNameType[];
+  project_types: null | { project_type: string }[];
   isLoading: boolean;
-  error: string | null;
+  error: true | null;
 }
 
-// export interface ParticipantData {
-//   id: string;
-//   first_name: string;
-//   last_name: string;
-//   comment: string;
-//   phone_number: string;
-//   email: string;
-//   account_discord: string;
-//   account_linkedin: string;
-//   city: string;
-//   experience: boolean;
-//   stack: string;
-//   conditions_participation: boolean;
-//   processing_personal_data: boolean;
-//   speciality: object;
-//   project: string[];
-//   // type_participant: 'Безкоштовний' | 'Платний' | 'Буткамп';
-// }
+export interface IdNameType {
+  id: number;
+  name: string;
+}

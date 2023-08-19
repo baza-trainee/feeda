@@ -3,14 +3,12 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { getSpecialities, getTypesParticipation, getTypesProject } from '../slices/instructions';
+import { getInstructions } from '../slices/instructions';
 
 export function ApiFetchComp() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getSpecialities());
-    dispatch(getTypesParticipation());
-    dispatch(getTypesProject());
+    dispatch(getInstructions());
     // eslint-disable-next-line
   }, []);
   return <></>;
