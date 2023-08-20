@@ -49,18 +49,14 @@ export function Input({
   clearErrors,
 }: InputProps) {
   const [inputValue, setInputValue] = useState(defaultValue);
-  const { field } = useController({
-    name,
-    control,
-  });
 
   return (
     <Controller
       defaultValue={defaultValue}
       control={control}
-      name={field.name}
+      name={name}
       rules={rules}
-      render={({ field: { onChange }, fieldState: { error } }) => {
+      render={({ field: { onChange, name, value }, fieldState: { error } }) => {
         const handleChange = () => {
           clearErrors(name);
         };
@@ -93,7 +89,7 @@ export function Input({
                 maxLength={maxLength}
                 minLength={minLength}
                 pattern={pattern}
-                defaultValue={field.value}
+                defaultValue={value}
                 onChange={(ev) => {
                   if (pattern || label) setInputValue(ev.target.value);
                   handleChange();

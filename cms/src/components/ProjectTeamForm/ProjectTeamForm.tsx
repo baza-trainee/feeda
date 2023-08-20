@@ -1,48 +1,25 @@
-import {
-  Control,
-  UseFormGetValues,
-  FieldValues,
-  UseFormHandleSubmit,
-  UseFormSetValue,
-  UseFormWatch,
-  UseFormRegister,
-  SubmitHandler,
-} from 'react-hook-form';
-import { Button } from '../Button/Button';
-import { Title } from '../Title/Title';
-import { MemberCard } from './MemberCard';
-import { FormTitle, FormWrapper, AddBntWrapper, InputsWrapper } from './ProjectTeamForm.styles';
+import { Control, FieldValues, UseFormHandleSubmit, SubmitHandler, useFormState } from 'react-hook-form';
+import { FormWrapper } from './ProjectTeamForm.styles';
+
+import { TeamFormSection } from './TeamFormSection';
 
 export interface TeamFormProps {
   control: Control;
   clearErrors: (name?: string | string[]) => void;
-  getValues: UseFormGetValues<FieldValues>;
   handleSubmit: UseFormHandleSubmit<FieldValues>;
-  setValue: UseFormSetValue<FieldValues>;
-  watch: UseFormWatch<FieldValues>;
-  register: UseFormRegister<FieldValues>;
 }
 
 export type MemberType = {
   name: string;
   membersRole: { value: string; label: JSX.Element };
-  conmment: string;
+  comment: string;
 };
 
-export const ProjectTeamForm: React.FC<TeamFormProps> = ({ control, clearErrors, getValues, handleSubmit }) => {
-  const onSubmit: SubmitHandler<FieldValues> = (data) => console.log(data);
+export const ProjectTeamForm: React.FC<TeamFormProps> = ({ control, clearErrors, handleSubmit }) => {
   return (
-    <FormWrapper onSubmit={handleSubmit(onSubmit)}>
-      <FormTitle>
-        <Title title="Загальна команда" />
-        <AddBntWrapper>
-          <Button variant="text" icon="plus" func={() => console.log('member added')} title="Додати учасника" />
-        </AddBntWrapper>
-      </FormTitle>
-      <InputsWrapper>
-        <MemberCard control={control} clearErrors={clearErrors} getValues={getValues} handleSubmit={handleSubmit} />
-      </InputsWrapper>
-      <button type="submit">TEST SUBMIT</button>
+    <FormWrapper>
+      <TeamFormSection control={control} clearErrors={clearErrors} name="members" title="Загальна команда" />
+      <TeamFormSection control={control} clearErrors={clearErrors} name="teamLead" title="Тімлід команди" />
     </FormWrapper>
   );
 };

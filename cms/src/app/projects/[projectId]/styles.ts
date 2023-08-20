@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const ProjectContainer = styled.main`
+export const ProjectContainer = styled.form`
   padding: 32px;
   display: flex;
   flex-direction: column;

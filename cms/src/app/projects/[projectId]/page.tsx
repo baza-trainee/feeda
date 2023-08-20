@@ -3,12 +3,13 @@
 import React, { useState } from 'react';
 import { Button } from '~/src/components/Button/Button';
 import { ProjectForm } from '~/src/components/ProjectForm/ProjectForm';
-import { ProjectTeamForm } from '~/src/components/ProjectTeamForm/ProjectTeamForm';
+import { MemberType, ProjectTeamForm } from '~/src/components/ProjectTeamForm/ProjectTeamForm';
 import { NavContainer, ProjectContainer } from './styles';
-import { useForm } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { OptionType } from '~/src/components/SelectField/SelectField';
+import { MemberRole, ProjectState, getProjectValue } from '~/src/components/SelectField/lists';
 
-export type FormData = {
+export interface FormData {
   name: string;
   comment: string;
   complixity: OptionType;
@@ -17,7 +18,8 @@ export type FormData = {
   start_date: string;
   end_date: string;
   url: string;
-};
+  members: MemberType[];
+}
 
 type ProjectPageProps = {
   params: {
@@ -27,9 +29,38 @@ type ProjectPageProps = {
 
 export default function ProjectPage({ params }: ProjectPageProps) {
   const [currentTab, setCurrentTab] = useState('Команда');
-  const { control, clearErrors, getValues, handleSubmit, setValue, watch, register } = useForm({
+  const { control, clearErrors, handleSubmit, watch, trigger } = useForm<any>({
     defaultValues: {
-      name: 'Hello',
+      name: '',
+      comment: '',
+      complixity: { label: '', value: '' },
+      state: getProjectValue('developing'), /// RENDEE ERROR !!!!
+      // state: {
+      //   value: 'ended',
+      //   label: <ProjectState type="orange" title="Завершено" />,
+      // },
+      type: null,
+      start_date: '',
+      end_date: '',
+      url: '',
+      members: [
+        {
+          name: 'John Smith',
+          membersRole: {
+            value: 'front',
+            label: <MemberRole type="orange" title="Front" />,
+          },
+          comment: 'Some comments',
+        },
+        {
+          name: 'Bill Gates',
+          membersRole: {
+            value: 'front',
+            label: <MemberRole type="orange" title="Front" />,
+          },
+          comment: 'Some comments',
+        },
+      ],
     },
   });
   const projectId = params.projectId;
@@ -52,11 +83,18 @@ export default function ProjectPage({ params }: ProjectPageProps) {
     },
   ];
 
+  const onFormSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const isValide = await trigger();
+    console.log(isValide);
+    console.log(data);
+  };
+
   return (
-    <ProjectContainer>
+    <ProjectContainer onSubmit={handleSubmit(onFormSubmit)}>
       <NavContainer>
         <Button variant="primary" icon="edit" title="Опис" btnType="button" func={handleTabClick} />
         <Button variant="text" icon="team" title="Команда" btnType="button" func={handleTabClick} />
+        <button type="submit">TEST SUBMIT</button>
       </NavContainer>
       <div>
         {tabs.map(({ content, title }) => (

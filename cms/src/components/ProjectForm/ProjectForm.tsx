@@ -9,13 +9,15 @@ import {
   getProjectValue,
   projectStatus,
   projectType,
+  getRoleValue,
+  membersRole,
 } from '../SelectField/lists';
 import { Button } from '../Button/Button';
 
 export interface ProjectFormProps {
   control: Control;
   clearErrors: (name?: string | string[]) => void;
-  handleSubmit: UseFormHandleSubmit<FieldValues>;
+  handleSubmit: UseFormHandleSubmit<FormData>;
 }
 
 export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormProps) => {
@@ -24,7 +26,7 @@ export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormP
   };
 
   return (
-    <FormWrapper onSubmit={handleSubmit(onFormSubmit)}>
+    <FormWrapper>
       <InputsWrapper>
         <Input control={control} clearErrors={clearErrors} name="name" label="Назва" placeholder="Назва" />
         <Input
@@ -33,6 +35,7 @@ export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormP
           name="comment"
           label="Коментар"
           placeholder="Введіть текст"
+          rules={{ required: 'це поле є обовязковим' }}
         />
         <SelectField
           control={control}
@@ -61,6 +64,7 @@ export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormP
           placeholder="Введіть текст"
           options={projectType}
           title="Тип проекту"
+          rules={{ required: 'це поле є обовязковим' }}
         />
         <Input control={control} clearErrors={clearErrors} name="start_date" label="Старт проету" />
         <Input control={control} clearErrors={clearErrors} name="end_date" label="Завершення проету" />
@@ -73,7 +77,7 @@ export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormP
         />
       </InputsWrapper>
       <FormControllers>
-        <Button variant="primary" title="Зберегти зміни" func={handleSubmit(onFormSubmit)} />
+        <Button variant="primary" title="Зберегти зміни" btnType="submit" func={() => console.log('submit')} />
         <Button variant="text" title="Скасувати" func={() => console.log('CANCEL form fetsh')} />
       </FormControllers>
     </FormWrapper>

@@ -1,6 +1,12 @@
 import styled from '@emotion/styled';
 
-export const FormWrapper = styled.form`
+export const FormWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+`;
+
+export const FormSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;

@@ -36,10 +36,6 @@ export const SelectField = ({
   isSearchable = false,
 }: CustomSelectProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const { field } = useController({
-    name,
-    control,
-  });
 
   return (
     <Controller
@@ -65,7 +61,7 @@ export const SelectField = ({
                 styles={selectStyles(!!error, isDropdownOpen, false)}
                 placeholder={placeholder}
                 options={options}
-                value={field.value}
+                value={value}
                 onChange={(selectedOption) => {
                   setIsDropdownOpen(false);
                   onChange(selectedOption);
