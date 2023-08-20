@@ -33,19 +33,21 @@ export const InputWrapper = styled.div<{ checkIsValid: boolean }>`
   border: solid 1px #14905d;
   border-radius: 4px;
   border: 1px solid #cecece;
-  padding: 0 16px;
   background: #fcfcfc;
+
+  & + label#support-label {
+    visibility: hidden;
+  }
 
   ${({ checkIsValid }) => {
     if (checkIsValid) {
       return '&:has(input:valid) { \
         outline: 2px solid #14905D; \
-        & + label#support-label { \
-          color: #14905D; \
-        }}  \
+      } \
         &:has(input:invalid) {  \
           outline: 2px solid #dc0c31; \
           & + label#support-label { \
+            visibility: visible; \
             color: #dc0c31; \
           } \
         }';
@@ -55,7 +57,7 @@ export const InputWrapper = styled.div<{ checkIsValid: boolean }>`
   &:has(input:focus) {
     outline: 2px solid #939393;
     & + label#support-label {
-      color: #49454f;
+      visibility: hidden;
     }
   }
 `;
@@ -68,7 +70,6 @@ export const InputComp = styled.input`
   color: ${colors.mainText};
   font-size: 16px;
   font-weight: 400;
-  padding: 16px 0;
   background: transparent;
   &::-webkit-input-placeholder {
     color: ${colors.mainPlaceholder};
@@ -79,7 +80,7 @@ export const InputIconWrapper = styled.div<{ isDisabled: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px 0;
+  padding: 16px;
   color: ${({ isDisabled }) => (isDisabled ? colors.disabledBtnBg : 'initial')};
 `;
 

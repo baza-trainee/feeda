@@ -3,7 +3,6 @@ import { StylesConfig } from 'react-select';
 import styled from '@emotion/styled';
 import { theme } from 'styles/theme';
 export const Label = styled.label`
-	/* margin-bottom: 28px; */
 	color: #353535;
 	font-size: 16px;
 	flex-direction: column;
@@ -71,15 +70,19 @@ export const selectStyles = (error: boolean, isDropdownOpen: boolean): ProvidedS
 		borderRadius: '4px',
 		margin: '4px 0 0 0 ',
 	}),
-	option: (provided, state) => ({
+	option: (provided) => ({
 		...provided,
-		backgroundColor: state.isFocused ? '#FDF5DD' : '#FCFCFC',
+		backgroundColor: '#FCFCFC',
 		color: '#232323',
 		borderRadius: '4px',
 		height: '56px',
 		display: 'flex',
 		alignItems: 'center',
 		padding: '0 16px',
+		transition: 'background-color 0.2s',
+		':hover': {
+			backgroundColor: '#FDF5DD',
+		},
 		':active': {
 			color: '#FCFCFC',
 			backgroundColor: '#232323',
