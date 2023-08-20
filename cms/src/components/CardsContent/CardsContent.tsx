@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { commonVariants } from '../../helpers/commonVariants';
-import { ParticipantData } from '../../slices/participants/index';
+import { ParticipantData } from '../../slices/participants/reducer';
 import { ProjectData } from '../../slices/projects/index';
 import { Button } from '../Button/Button';
 import { IconSprite } from '../IconSprite/IconSprite';

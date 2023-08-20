@@ -23,6 +23,7 @@ interface CustomSelectProps {
   title: string;
   defaultValue?: OptionType | null;
   required?: boolean;
+  isDisabled?: boolean;
 }
 
 export const CustomSelect = ({
@@ -36,6 +37,7 @@ export const CustomSelect = ({
   title,
   defaultValue,
   required,
+  isDisabled,
 }: CustomSelectProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -57,7 +59,7 @@ export const CustomSelect = ({
             <Label>
               {title}
               <Select
-                isDisabled={false}
+                isDisabled={isDisabled}
                 components={{ DropdownIndicator }}
                 instanceId={name}
                 isSearchable={false}

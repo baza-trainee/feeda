@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 
 import Link from 'next/link';
 
-import { ParticipantData, sendEmail } from '~/src/slices/participants';
+import { ParticipantData, sendEmail } from '~/src/slices/participants/operations';
 
 import { cityRegex, discordRegex, emailRegex, linkedRegex, nameRegex, phoneNumberRegex } from '../../helpers/regexs';
 import { Button } from '../Button/Button';
@@ -18,13 +18,14 @@ import { Form } from './ParticipantsForm.styles';
 type Props = {
   handleSubmit?: (formData: object) => void;
   formVariant: 'create' | 'edit' | 'view';
-  defaultValues?: ParticipantData;
+  defaultValues?: ParticipantData | null;
 };
 
 export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: Props) {
   const dispatch = useDispatch();
   const { control, clearErrors, getValues } = useForm();
   const [projectsAmount, setProjectsAmount] = useState(defaultValues?.project.length || 0);
+
   return (
     <Form
       onSubmit={(ev) => {
@@ -79,12 +80,18 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             name="speciality"
             title="Роль"
             placeholder="Роль"
+            isDisabled={formVariant === 'view'}
             // readonly={formVariant === 'view' }
+            rules={{ required: 'true' }}
             control={control}
             clearErrors={clearErrors}
             valueGetter={(ev) => ev}
-            defaultValue={membersRole[6]}
             options={membersRole}
+            defaultValue={
+              defaultValues && membersRole.find((item) => item.value === defaultValues?.speciality.title)
+                ? membersRole.find((item) => item.value === defaultValues?.speciality.title)
+                : membersRole[6]
+            }
           />
         </div>
         <div id="two-inputs-wrapper">
@@ -92,6 +99,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             name="experience"
             title="Досвід *"
             placeholder="Так/Ні"
+            isDisabled={formVariant === 'view'}
             required={true}
             control={control}
             clearErrors={clearErrors}
@@ -105,7 +113,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             name="type_participant"
             title="Тип участі *"
             placeholder="Платний"
-            readonly={formVariant === 'view'}
+            isDisabled={formVariant === 'view'}
             required={true}
             control={control}
             clearErrors={clearErrors}
@@ -229,15 +237,23 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
               name={`project_${index}`}
               title="Проєкт *"
               placeholder="Назва"
+              isDisabled={formVariant === 'view'}
               rules={{ required: true }}
               control={control}
               clearErrors={clearErrors}
               // readonly={formVariant === 'view' }
+              isSearchable={true}
               valueGetter={(ev) => ev}
               // defaultValue={defaultValues?.project[index]}
               options={projectType}
             />
-            <Button btnType="button" variant="icon" icon="trash" func={() => setProjectsAmount(projectsAmount - 1)} />
+            <Button
+              btnType="button"
+              variant="icon"
+              icon="trash"
+              isDisabled={formVariant === 'view'}
+              func={() => setProjectsAmount(projectsAmount - 1)}
+            />
           </div>
         ))}
       </div>

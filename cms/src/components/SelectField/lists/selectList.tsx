@@ -33,31 +33,31 @@ export const projectStatus: ListProps[] = [
 
 export const membersRole: ListProps[] = [
   {
-    value: 'design',
+    value: 'Design',
     label: <MemberRole type="green" title="Design" />,
   },
   {
-    value: 'backend',
+    value: 'Backend',
     label: <MemberRole type="yellow" title="Backend" />,
   },
   {
-    value: 'front',
+    value: 'Front',
     label: <MemberRole type="orange" title="Front" />,
   },
   {
-    value: 'qa',
+    value: 'QA',
     label: <MemberRole type="red" title="QA" />,
   },
   {
-    value: 'seo',
+    value: 'Seo',
     label: <MemberRole type="violet" title="SEO" />,
   },
   {
-    value: 'pm',
+    value: 'PM',
     label: <MemberRole type="blue" title="PM" />,
   },
   {
-    value: 'none',
+    value: 'None',
     label: <MemberRole type="empty" title="None" />,
   },
 ];

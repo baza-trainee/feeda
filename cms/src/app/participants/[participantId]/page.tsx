@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 
 import { ParticipantsForm } from '~/src/components/ParticipantsForm/ParticipantsForm';
 import { Title } from '~/src/components/Title/Title';
-import { getParticipant } from '~/src/slices/participants';
+import { getParticipant } from '~/src/slices/participants/operations';
 
 export default function ParticipantProfile() {
   const pathname = usePathname();
@@ -22,15 +22,15 @@ export default function ParticipantProfile() {
     participant && setDefaultValues(participant);
   }, [participant]);
 
-  return (
-    <div>
-      {isLoading ? (
-        <Title title="Loading" />
-      ) : error ? (
-        <Title title="Error" />
-      ) : (
+  return isLoading ? (
+    <Title title="Loading" />
+  ) : error ? (
+    <Title title={typeof error == 'string' ? error : 'Error'} />
+  ) : (
+    defaultValues && (
+      <div>
         <ParticipantsForm formVariant="view" defaultValues={defaultValues} />
-      )}
-    </div>
+      </div>
+    )
   );
 }

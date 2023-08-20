@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import instructionsReducer from '../slices/instructions';
-import participantsReducer from '../slices/participants';
+import participantsReducer from '../slices/participants/reducer';
 import projecsReducer from '../slices/projects';
 
 export const store = configureStore({

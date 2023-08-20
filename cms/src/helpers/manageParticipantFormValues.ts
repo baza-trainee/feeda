@@ -2,12 +2,11 @@ import { IdNameType } from '../slices/instructions';
 
 export function manageFormFields(formData, instructions) {
   try {
-    console.log(formData);
     formData.experience = formData.experience.value === 'Так' ? true : false;
-    formData.speciality = instructions.specialities.find(
+    formData.speciality = instructions.specialities?.find(
       (item) => item.title.toLowerCase() === formData.speciality?.value.toLowerCase()
     )?.id;
-    formData.type_participant = instructions.participation_types.find(
+    formData.type_participant = instructions.participation_types?.find(
       (item) => item.title.toLowerCase() === formData.type_participant?.value.toLowerCase()
     )?.id;
     formData.project = [];
