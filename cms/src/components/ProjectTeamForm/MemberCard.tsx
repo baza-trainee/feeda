@@ -23,6 +23,7 @@ export const MemberCard: React.FC<MemberCardProps> = ({ control, clearErrors, in
         placeholder="Виберыть учасника"
         name={`${name}.${index}.name`}
         label="Ім'я"
+        rules={{ required: 'це полу обовязкове' }}
       />
       <SelectField
         control={control}

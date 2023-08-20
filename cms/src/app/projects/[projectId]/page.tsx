@@ -5,7 +5,7 @@ import { Button } from '~/src/components/Button/Button';
 import { ProjectForm } from '~/src/components/ProjectForm/ProjectForm';
 import { MemberType, ProjectTeamForm } from '~/src/components/ProjectTeamForm/ProjectTeamForm';
 import { NavContainer, ProjectContainer } from './styles';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { FieldValues, FormState, SubmitHandler, useForm, get } from 'react-hook-form';
 import { OptionType } from '~/src/components/SelectField/SelectField';
 import { MemberRole, ProjectState, getProjectValue } from '~/src/components/SelectField/lists';
 
@@ -29,7 +29,7 @@ type ProjectPageProps = {
 
 export default function ProjectPage({ params }: ProjectPageProps) {
   const [currentTab, setCurrentTab] = useState('Команда');
-  const { control, clearErrors, handleSubmit, watch, trigger } = useForm<any>({
+  const { control, clearErrors, handleSubmit, trigger } = useForm<any>({
     defaultValues: {
       name: '',
       comment: '',
@@ -65,8 +65,13 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   });
   const projectId = params.projectId;
 
-  const handleTabClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setCurrentTab(e.currentTarget.title);
+  const handleTabClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const nextTab = e.currentTarget.title;
+    const isValid = await trigger();
+    console.log(isValid);
+    if (isValid) {
+      setCurrentTab(nextTab);
+    } else return;
   };
 
   const tabs: {
@@ -84,8 +89,8 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   ];
 
   const onFormSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const isValide = await trigger();
-    console.log(isValide);
+    const isValid = await trigger();
+    console.log(isValid);
     console.log(data);
   };
 
