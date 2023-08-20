@@ -58,7 +58,17 @@ export const updateParticipant = createAsyncThunk(
   }
 );
 
-// export const deleteParticipant = createAsyncThunk('participants/deleteParticipant', async (id: string) => {
+export const deleteParticipant = createAsyncThunk(
+  'participants/deleteParticipant',
+  async (userId: string, { rejectWithValue }) => {
+    try {
+      await axios.delete<ParticipantData>(`participant-detail/${userId}/`);
+      return userId;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
 export const sendEmail = createAsyncThunk('participants/sendEmail', async (userId: string, { rejectWithValue }) => {
   try {
@@ -90,9 +100,8 @@ export interface ParticipantData {
   city: string;
   experience: boolean;
   stack: string;
-  conditions_participation: boolean;
   processing_personal_data: boolean;
   speciality: object;
   project: string[];
-  type_participant: 'Безкоштовний' | 'Платний' | 'Буткамп';
+  type_participant: { id: number; title: 'Безкоштовний' | 'Платний' | 'Буткамп' };
 }

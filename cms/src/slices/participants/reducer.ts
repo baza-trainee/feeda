@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import {
   createParticipant,
+  deleteParticipant,
   fetchParticipants,
   getParticipant,
   ParticipantData,
@@ -122,14 +123,30 @@ export const participantsSlice = createSlice({
       }
       state.isLoading = false;
     });
+
     // - - -
+
+    builder.addCase(deleteParticipant.pending, (state) => {
+      state.error = null;
+      state.isLoading = true;
+    });
+    builder.addCase(deleteParticipant.fulfilled, (state, { payload }) => {
+      state.list = state.list.filter((item) => item.id !== payload);
+      state.isLoading = false;
+    });
+    builder.addCase(deleteParticipant.rejected, (state, { payload }) => {
+      console.log('Participant delete error: ', payload);
+      state.error = true;
+      state.isLoading = true;
+    });
+
+    // - - -
+
     builder.addCase(sendEmail.pending, (state) => {
       state.isLoading = true;
       state.error = null;
     });
     builder.addCase(sendEmail.fulfilled, (state, { payload }) => {
-      // state.list = payload;
-      console.log(payload);
       state.isLoading = false;
     });
     builder.addCase(sendEmail.rejected, (state, { payload }) => {

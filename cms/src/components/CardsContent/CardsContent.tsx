@@ -1,10 +1,12 @@
 'use client';
 
+import { useDispatch } from 'react-redux';
+
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { commonVariants } from '../../helpers/commonVariants';
-import { ParticipantData } from '../../slices/participants/reducer';
+import { deleteParticipant, ParticipantData } from '../../slices/participants/operations';
 import { ProjectData } from '../../slices/projects/index';
 import { Button } from '../Button/Button';
 import { IconSprite } from '../IconSprite/IconSprite';
@@ -23,6 +25,8 @@ type CardsContentType = {
 };
 export function CardsContent({ type, data }: CardsContentType) {
   const router = useRouter();
+  const dispatch = useDispatch();
+
   return (
     <List>
       {data.map((item: ParticipantData | ProjectData) => {
@@ -36,6 +40,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                   func={(ev) => {
                     ev.preventDefault();
                     ev.stopPropagation();
+                    dispatch(deleteParticipant(item.id));
                   }}
                 />
                 <Button
@@ -47,7 +52,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                     router.push(`${type}/edit/${item.id}`);
                   }}
                 />
-                <p>{item.type_participant?.title}</p>
+                <p>{item.type_participant?.title || item.type_project.project_type}</p>
               </FirstBlockWrapper>
               <SecondBlockWrapper type={type}>
                 {type === 'participants' ? (

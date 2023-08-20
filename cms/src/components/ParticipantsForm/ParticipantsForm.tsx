@@ -238,11 +238,11 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
               title="Проєкт *"
               placeholder="Назва"
               isDisabled={formVariant === 'view'}
-              rules={{ required: true }}
+              required={true}
               control={control}
               clearErrors={clearErrors}
               // readonly={formVariant === 'view' }
-              isSearchable={true}
+              // isSearchable={true}
               valueGetter={(ev) => ev}
               // defaultValue={defaultValues?.project[index]}
               options={projectType}
