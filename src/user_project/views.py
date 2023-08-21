@@ -1,5 +1,6 @@
 import json
 import os
+import django_filters.rest_framework
 from django.template.loader import render_to_string
 from .filters import *
 from django.core.mail import send_mail
@@ -7,6 +8,7 @@ from rest_framework import generics
 from django_filters import rest_framework as filters
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Q
+from django.db.models.functions import Lower
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.authentication import TokenAuthentication
@@ -178,7 +180,7 @@ def join_project(request):
                 type=openapi.TYPE_ARRAY,
                 items=openapi.Schema(type=openapi.TYPE_STRING)
             ),
-            # 'type_participant': openapi.Schema(type=openapi.TYPE_STRING),
+            'type_participant': openapi.Schema(type=openapi.TYPE_STRING),
             'stack': openapi.Schema(type=openapi.TYPE_STRING)
         },
         required=[
@@ -293,7 +295,7 @@ def send_email(request, id):
             'experience': openapi.Schema(type=openapi.TYPE_BOOLEAN),
             'speciality': openapi.Schema(
                 type=openapi.TYPE_ARRAY,
-                items=openapi.Schema(type=openapi.TYPE_STRING)
+                items=openapi.Schema(type=openapi.TYPE_INTEGER)
             ),
             'stack': openapi.Schema(type=openapi.TYPE_STRING),
             'project': openapi.Schema(
@@ -352,8 +354,8 @@ def detail_participant(request, id):
             serializer = ParticipantUpdateDeleteSerializer(participant, data=request.data)
             if serializer.is_valid():
                 serializer.save()
-                return Response(status=status.HTTP_201_CREATED)
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         elif request.method == 'DELETE':
             participant.delete()
             return Response(status=status.HTTP_200_OK)
@@ -725,10 +727,10 @@ def detail_project(request, project_url):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         elif request.method == 'DELETE':
-            current_participant = Participant.objects.get(project=project)
-            project_after_delete = Projects.objects.get(title='Резерв')
-            current_participant.project = project_after_delete
-            current_participant.save()
+            # current_participant = Participant.objects.get(project=project)
+            # project_after_delete = Projects.objects.get(title='Резерв')
+            # current_participant.project = project_after_delete
+            # current_participant.save()
             project.delete()
             return Response({'message': 'Project delete'}, status=status.HTTP_200_OK)
     except Projects.DoesNotExist:
@@ -880,29 +882,29 @@ def delete_command(request, id):
         return Response({"message": "no such command was found"}, status=status.HTTP_404_NOT_FOUND)
 
 
-@swagger_auto_schema(
-    method='GET',
-    responses={
-        status.HTTP_200_OK: openapi.Response(
-            description='Participant found',
-            schema=ParticipantFilerSerializer(many=True)
-        ),
-        status.HTTP_404_NOT_FOUND: openapi.Response(
-            description='Participant not found',
-        ),
-    }
-)
-@permission_classes([permissions.IsAdminUser])
-@api_view(['GET'])
-def filter_participant_list(request):
-    """Фільтрація учасників по ключовим словам"""
-    if not request.user.is_superuser:
-        raise PermissionDenied("You are not an administrator.")
-
-    participants = Participant.objects.all()
-    participants_filter = ParticipantFilter(request.GET, queryset=participants)
-    serializer = ParticipantFilerSerializer(participants_filter.qs, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+# @swagger_auto_schema(
+#     method='GET',
+#     responses={
+#         status.HTTP_200_OK: openapi.Response(
+#             description='Participant found',
+#             schema=ParticipantFilerSerializer(many=True)
+#         ),
+#         status.HTTP_404_NOT_FOUND: openapi.Response(
+#             description='Participant not found',
+#         ),
+#     }
+# )
+# @permission_classes([permissions.IsAdminUser])
+# @api_view(['GET'])
+# def filter_participant_list(request):
+#     """Фільтрація учасників по ключовим словам"""
+#     if not request.user.is_superuser:
+#         raise PermissionDenied("You are not an administrator.")
+#
+#     participants = Participant.objects.all()
+#     participants_filter = ParticipantFilter(request.GET, queryset=participants)
+#     serializer = ParticipantFilerSerializer(participants_filter.qs, many=True)
+#     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @swagger_auto_schema(
@@ -935,50 +937,6 @@ def filter_project_list(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-@api_view(['GET'])
-def search_participant(request):
-    query = request.GET.get('search')
-
-    if query is None or query == '':
-        return Response({'message': 'No search query provider'}, status=status.HTTP_400_BAD_REQUEST)
-
-    participants = Participant.objects.filter(
-        Q(stack__icontains=query)
-    )
-
-    # participants = Participant.objects.filter(
-    #     Q(stack__icontains=query) |
-    #     Q(speciality__title__icontains=query) |
-    #     Q(last_name__icontains=query) |
-    #     # Q(expirience__icontains=query) |
-    #     Q(type_participant__title__icontains=query)
-    # )
-    serializer = ParticipantFilerSerializer(participants, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-# @api_view(['GET'])
-# def search_participant(request):
-#     if not request.user.is_superuser:
-#         raise PermissionDenied("You are not an administrator.")
-#
-#     queryset = Participant.objects.all()
-#     search_filter = filters.SearchFilter()
-#     search_fields = ['first_name', 'last_name', 'speciality__title', 'stack', 'experience', 'type_participant__title']
-#
-#     queryset = search_filter.filter_queryset(request, queryset, view=search_participant)
-#
-#     serializer = ParticipantFilerSerializer(queryset, many=True)
-#     return Response(serializer.data)
-#
-#     # queryset = Participant.objects.all()
-#     # search_filter = filters.SearchFilter
-#     # search_fields = ['speciality__title', 'last_name', 'stack', 'experience', 'type_participant__title']
-#     # queryset = search_filter.filter_queryset(request, queryset, view=search_participant)
-#     # serializer = ParticipantFilerSerializer(queryset, many=True)
-#     # return Response(serializer.data)
-
-
 def downland_swagger(request):
     url = 'http://127.0.0.1:8000/swagger.json'
     response = requests.get(url)
@@ -993,3 +951,75 @@ def downland_swagger(request):
         return response
     else:
         return Response(status=response.status_code)
+
+
+class Search(generics.ListAPIView):
+    queryset = Participant.objects.all()
+    serializer_class = ParticipantFilerSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['stack', 'speciality__title', 'last_name', 'type_participant__title']
+
+
+@swagger_auto_schema(
+    method='GET',
+    operation_description="Search for participants based on various criteria.",
+    manual_parameters=[
+        openapi.Parameter(
+            'query',
+            openapi.IN_QUERY,
+            description="Search query. You can search by stack, speciality, or last name.",
+            type=openapi.TYPE_STRING,
+            required=True,
+        ),
+    ],
+    responses={
+        status.HTTP_200_OK: openapi.Response(
+            description="Successful response",
+            schema=ParticipantFilerSerializer(many=True),
+        ),
+        status.HTTP_404_NOT_FOUND: openapi.Response(
+            description="Query not found",
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            )
+        ),
+    }
+)
+@api_view(['GET'])
+def search(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied('You are not an administrator.')
+
+    search_query = request.query_params.get('query', None)
+
+    if search_query is not None:
+        last_name_search = search_query.capitalize()
+
+        participants = Participant.objects.filter(
+            Q(stack__icontains=search_query) |
+            Q(speciality__title__icontains=search_query) |
+            Q(last_name__startswith=last_name_search)
+        )
+        serializer = ParticipantFilerSerializer(participants, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    return Response({'message': 'Query not found'})
+
+
+@api_view(['GET'])
+def search_projects(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied('You are not an administrator')
+
+    search_query = request.query_params('query', None)
+
+    if search_query is not None:
+        projects = Projects.objects.filter(
+            Q(title__icontains=search_query)
+        )
+        serializer = SearchProjectsSerializer(projects, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response({'message': 'Query not found'})

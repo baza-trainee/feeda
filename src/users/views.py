@@ -80,13 +80,15 @@ class CustomTokenDestroy(generics.DestroyAPIView):
     queryset = Token.objects.all()
 
     @swagger_auto_schema(
-        request_body=openapi.Schema(
-            type=openapi.TYPE_OBJECT,
-            properties={
-                'token': openapi.Schema(type=openapi.TYPE_STRING)
-            },
-            required=['email', 'password'],
-        ),
+        manual_parameters=[
+            openapi.Parameter(
+                'Authorization',
+                openapi.IN_HEADER,
+                description='Token',
+                type=openapi.TYPE_STRING,
+                required=True
+            )
+        ],
         responses={
             status.HTTP_200_OK: openapi.Response(
                 description='Token removed',

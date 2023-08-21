@@ -19,8 +19,9 @@ urlpatterns = [
     path('commands/', commands_list),
     path('command-update/<str:id>/', command_update),
     path('command-delete/<str:id>/', delete_command),
-    path('filter-participant/', filter_participant_list),
+    # path('filter-participant/', filter_participant_list),
     path('filter-project/', filter_project_list),
-    path('search/', search_participant),
+    path('search-user/', search),
+    path('search-projects/', search_projects),
     path('down/', downland_swagger)
 ]

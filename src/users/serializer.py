@@ -13,6 +13,7 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 from .models import *
 from .utils import *
+import re
 
 
 # class UserRegisterSerializer(serializers.ModelSerializer):
@@ -90,6 +91,13 @@ class NewPasswordSerializer(serializers.ModelSerializer):
 
             if password != confirm_password:
                 raise AuthenticationFailed('Passwords do not match')
+
+            if not re.search(r'[A-Z]', password):
+                raise serializers.ValidationError('The password must contain at least one capital letter')
+            if not re.search(r'[a-z]', password):
+                raise serializers.ValidationError('The password must contain at least one lowercase letter')
+            if not re.search(r'\d', password):
+                raise serializers.ValidationError('The password must contain at least one digit')
 
             user.set_password(password)
             user.save()

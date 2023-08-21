@@ -157,17 +157,6 @@ REST_FRAMEWORK = {
     ),
 }
 
-DJOSER = {
-    'LOGIN_FIELD': 'email',
-    'USER_CREATE_PASSWORD_RETYPE': False,
-    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': False,
-    'SET_PASSWORD_RETYPE': False,
-    'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': True,
-    'SERIALIZERS': {
-        # 'user_create': 'src.users.serializer.UserRegisterSerializer'
-    },
-}
 
 SWAGGER_SETTINGS = {
     # 'DEFAULT_FIELD_INSPECTORS': {

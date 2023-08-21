@@ -88,12 +88,10 @@ class Participant(models.Model):
     city = models.CharField(max_length=50, blank=True, null=True)
     experience = models.BooleanField(default=False)
     speciality = models.ForeignKey(Speciality, blank=True, null=True, on_delete=models.PROTECT)
-    stack = models.CharField(max_length=50, blank=True, null=True)
-    project = models.ManyToManyField(Projects, blank=True)
+    stack = models.CharField(max_length=300)
+    project = models.ManyToManyField(Projects, blank=True, null=True)
     type_participant = models.ForeignKey(
         TypeParticipant,
-        blank=True,
-        null=True,
         on_delete=models.PROTECT,
         related_name='project_set'
     )
@@ -109,8 +107,6 @@ class ProjectParticipants(models.Model):
     user = models.ManyToManyField(Participant, blank=True, null=True)
     project = models.ForeignKey(
         Projects,
-        blank=True,
-        null=True,
         on_delete=models.CASCADE,
         related_name='project_participants'
     )
