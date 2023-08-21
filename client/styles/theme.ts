@@ -18,6 +18,8 @@ export const colors = {
 	inputSelectHover: '#fdf5dd', // Primary-50
 
 	//Accents
+	hoverBox: 'rgba(206, 206, 206, 0.1)',
+	hoverBoxChecked: 'rgba(252, 220, 127, 0.2)',
 	validInput: '#14905d', // Discord value is valid
 	accent: '#ffbd00', // Checkbox checked, Button text hover application, Button bg onClick application
 	secondaryAccent: '#3342cc', // Discord label(icon)
