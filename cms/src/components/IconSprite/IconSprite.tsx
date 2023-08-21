@@ -18,6 +18,7 @@ import {
   Plus,
   Qa,
   RoundCheckmark,
+  SearchIcon,
   Seo,
   Team,
   TeamBuilding,
@@ -50,6 +51,7 @@ export const IconSprite = ({ icon }: { icon: IconType }) => {
     roundCheckmark: <RoundCheckmark />,
     checkmark: <Checkmark />,
     cross: <Cross />,
+    search: <SearchIcon />,
   };
 
   const selectedIcon = icons[icon];
@@ -86,6 +88,7 @@ export const iconTypes = {
   roundCheckmark: 'roundCheckmark',
   checkmark: 'checkmark',
   cross: 'cross',
+  search: 'search',
 } as const;
 
 export type IconType = keyof typeof iconTypes;

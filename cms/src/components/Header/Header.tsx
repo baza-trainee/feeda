@@ -1,10 +1,13 @@
 /** @jsxImportSource @emotion/react */
 'use client';
 
+import { useForm } from 'react-hook-form';
+
+import throttle from 'lodash.throttle';
 import Link from 'next/link';
 
 import MenuIcon from '../../../public/menu.svg';
-import SearchIcon from '../../../public/search.svg';
+import { Input } from '../Input/Input';
 import {
   DesktopContent,
   Logo,
@@ -13,13 +16,15 @@ import {
   MobileHeaderWrapper,
   pageMobileTitleStyles,
   PageTitle,
-  SearchIconBox,
-  SearchInput,
   SearchWrapper,
   Wrapper,
 } from './Header.styles';
 
 export function Header() {
+  const { control, clearErrors } = useForm();
+
+  const throttledHandler = throttle((value: string) => console.log(value), 1000);
+
   return (
     <Wrapper>
       <DesktopContent>
@@ -35,10 +40,14 @@ export function Header() {
           </MenuBtn>
         </MenuWrapper>
         <SearchWrapper>
-          <SearchInput placeholder="Ключове слово" maxLength={50} onInput={(ev) => console.log(ev.target.value)} />
-          <SearchIconBox>
-            <SearchIcon />
-          </SearchIconBox>
+          <Input
+            name="search-input"
+            placeholder="Ключове слово"
+            endIconId="search"
+            onTypeFunc={throttledHandler}
+            control={control}
+            clearErrors={clearErrors}
+          />
         </SearchWrapper>
       </MobileHeaderWrapper>
       <PageTitle css={[pageMobileTitleStyles]}>Сайт притулку для вуличних тварин Murrfecto</PageTitle>

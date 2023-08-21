@@ -18,6 +18,7 @@ import Pencil from './pencil.svg';
 import Plus from './plus.svg';
 import Qa from './qa_role.svg';
 import RoundCheckmark from './round_checkmark.svg';
+import SearchIcon from './search.svg';
 import Seo from './seo_role.svg';
 import Team from './team.svg';
 import TeamBuilding from './team_building_status.svg';
@@ -48,4 +49,5 @@ export {
   RoundCheckmark,
   Checkmark,
   Cross,
+  SearchIcon,
 };
