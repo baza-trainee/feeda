@@ -4,7 +4,6 @@ import { Input } from '../Input/Input';
 import { SelectField } from '../SelectField/SelectField';
 import { getRoleValue, membersRole } from '../SelectField/lists';
 import { Control } from 'react-hook-form';
-import { useEffect } from 'react';
 
 export interface MemberCardProps {
   control: Control;
@@ -41,6 +40,7 @@ export const MemberCard: React.FC<MemberCardProps> = ({ control, clearErrors, in
         placeholder="Введіть текст"
         name={`${name}..${index}.comment`}
         label="Коментар"
+        maxLength={50}
       />
       <DelBtnWrapper>
         <Button

@@ -9,8 +9,6 @@ import {
   getProjectValue,
   projectStatus,
   projectType,
-  getRoleValue,
-  membersRole,
 } from '../SelectField/lists';
 import { Button } from '../Button/Button';
 
@@ -28,14 +26,23 @@ export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormP
   return (
     <FormWrapper>
       <InputsWrapper>
-        <Input control={control} clearErrors={clearErrors} name="name" label="Назва" placeholder="Назва" />
+        <Input
+          control={control}
+          clearErrors={clearErrors}
+          name="name"
+          label="Назва"
+          placeholder="Назва"
+          maxLength={30}
+          required={true}
+          rules={{ required: 'це поле є обовязковим' }}
+        />
         <Input
           control={control}
           clearErrors={clearErrors}
           name="comment"
           label="Коментар"
           placeholder="Введіть текст"
-          rules={{ required: 'це поле є обовязковим' }}
+          maxLength={50}
         />
         <SelectField
           control={control}
@@ -45,6 +52,7 @@ export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormP
           placeholder="Введіть текст"
           options={projectDifficulty}
           title="Складність"
+          rules={{ required: 'це поле є обовязковим' }}
         />
         <SelectField
           isSearchable={true}
@@ -55,6 +63,7 @@ export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormP
           placeholder="Введіть текст"
           options={projectStatus}
           title="Стан проекту"
+          rules={{ required: 'це поле є обовязковим' }}
         />
         <SelectField
           control={control}
@@ -74,6 +83,7 @@ export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormP
           name="url"
           label="Адреса сайту"
           placeholder="https://example.con"
+          maxLength={30}
         />
       </InputsWrapper>
       <FormControllers>

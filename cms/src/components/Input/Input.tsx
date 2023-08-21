@@ -67,12 +67,14 @@ export function Input({
                 htmlFor={id}
                 inputValueLen={inputValue?.length}
                 isDisabled={disabled}
-                checkIsValid={Boolean(pattern && inputValue?.length)}
+                // checkIsValid={Boolean(pattern && inputValue?.length)}
+                checkIsValid={Boolean(pattern || required)}
               >
                 {label}
               </LabelComp>
             )}
-            <InputWrapper checkIsValid={Boolean(pattern && inputValue?.length)}>
+            <InputWrapper checkIsValid={Boolean(pattern || required)}>
+              {/* <InputWrapper checkIsValid={Boolean(pattern && inputValue?.length)}> */}
               {begIconId && (
                 <InputIconWrapper style={{ paddingRight: 12 }} isDisabled={disabled}>
                   <IconSprite icon={begIconId} />
