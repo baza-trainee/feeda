@@ -2,11 +2,13 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 
 import throttle from 'lodash.throttle';
 import Link from 'next/link';
 
 import MenuIcon from '../../../public/menu.svg';
+import { fetchParticipants, searchParticipants } from '../../slices/participants/operations';
 import { Input } from '../Input/Input';
 import {
   DesktopContent,
@@ -21,9 +23,21 @@ import {
 } from './Header.styles';
 
 export function Header() {
+  const dispatch = useDispatch();
   const { control, clearErrors } = useForm();
 
-  const throttledHandler = throttle((value: string) => console.log(value), 1000);
+  const throttledSearch = throttle(
+    (value: string) => {
+      if (value.length > 2) {
+        dispatch(searchParticipants(value));
+      } else if (!value.length) {
+        dispatch(fetchParticipants());
+        console.log('fetch initial');
+      }
+    },
+    400,
+    { trailing: true, leading: false }
+  );
 
   return (
     <Wrapper>
@@ -44,7 +58,7 @@ export function Header() {
             name="search-input"
             placeholder="Ключове слово"
             endIconId="search"
-            onTypeFunc={throttledHandler}
+            onTypeFunc={throttledSearch}
             control={control}
             clearErrors={clearErrors}
           />

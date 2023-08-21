@@ -98,6 +98,24 @@ export const searchProjects = createAsyncThunk(
   }
 );
 
+export const searchParticipants = createAsyncThunk(
+  'participants/searchParticipants',
+  async (search: string, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get<ParticipantData[]>('search-user', {
+        params: { query: search },
+      });
+      return data;
+    } catch (err) {
+      if (err.response.status === 404) {
+        return rejectWithValue('Помилка, статус 404');
+      } else if (err.response.status === 500) {
+        return rejectWithValue('Помилка сервера, статус 500');
+      } else return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 interface UpdateParticipantTypes {
   formData: FormDataTypes;
   userId: string;

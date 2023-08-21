@@ -6,6 +6,7 @@ import {
   fetchParticipants,
   getParticipant,
   ParticipantData,
+  searchParticipants,
   searchProjects,
   sendEmail,
   updateParticipant,
@@ -32,12 +33,7 @@ export const participantsSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(fetchParticipants.rejected, (state, { payload }) => {
-      if (typeof payload === 'object') {
-        const formattedString = Object.entries(payload)
-          .map(([key, value]) => `${key}: ${value.join(', ')}`)
-          .join('\n');
-        state.error = formattedString;
-      } else if (typeof payload === 'string') {
+      if (typeof payload === 'string') {
         console.log('Error: ', payload);
         state.error = payload;
       } else {
@@ -106,7 +102,7 @@ export const participantsSlice = createSlice({
       state.error = null;
     });
     builder.addCase(updateParticipant.fulfilled, (state, { payload }) => {
-      console.log(payload);
+      console.log('Не забути змінити!! ', payload);
       state.isLoading = false;
     });
     builder.addCase(updateParticipant.rejected, (state, { payload }) => {
@@ -177,6 +173,22 @@ export const participantsSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(searchProjects.rejected, (state, { payload }) => {
+      console.log('Error: ', payload);
+      state.error = true;
+      state.isLoading = false;
+    });
+
+    // - - -
+
+    builder.addCase(searchParticipants.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(searchParticipants.fulfilled, (state, { payload }) => {
+      state.list = [...payload];
+      state.isLoading = false;
+    });
+    builder.addCase(searchParticipants.rejected, (state, { payload }) => {
       console.log('Error: ', payload);
       state.error = true;
       state.isLoading = false;
