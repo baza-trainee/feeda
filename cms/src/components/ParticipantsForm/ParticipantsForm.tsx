@@ -4,11 +4,11 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
+import throttle from 'lodash.throttle';
 import Link from 'next/link';
 
-import { ParticipantData, sendEmail } from '~/src/slices/participants/operations';
-
 import { cityRegex, discordRegex, emailRegex, linkedRegex, nameRegex, phoneNumberRegex } from '../../helpers/regexs';
+import { ParticipantData, sendEmail } from '../../slices/participants/operations';
 import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
 import { experienceVariants, membersRole, projectType } from '../SelectField/lists';
@@ -16,8 +16,8 @@ import { CustomSelect } from '../SelectField/SelectField';
 import { Form } from './ParticipantsForm.styles';
 
 type Props = {
-  handleSubmit?: (formData: object) => void;
   formVariant: 'create' | 'edit' | 'view';
+  handleSubmit?: (formData: object) => void;
   defaultValues?: ParticipantData | null;
 };
 
@@ -25,6 +25,8 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
   const dispatch = useDispatch();
   const { control, clearErrors, getValues } = useForm();
   const [projectsAmount, setProjectsAmount] = useState(defaultValues?.project.length || 0);
+
+  const throttledHandler = throttle((value: string) => console.log(value), 1000);
 
   return (
     <Form
@@ -231,7 +233,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             func={() => setProjectsAmount(projectsAmount + 1)}
           />
         </div>
-        {Array.from({ length: projectsAmount }, (_, index) => (
+        {/* {Array.from({ length: projectsAmount }, (_, index) => (
           <div id="project-wrapper" key={index}>
             <CustomSelect
               name={`project_${index}`}
@@ -246,6 +248,27 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
               valueGetter={(ev) => ev}
               // defaultValue={defaultValues?.project[index]}
               options={projectType}
+            />
+            <Button
+              btnType="button"
+              variant="icon"
+              icon="trash"
+              isDisabled={formVariant === 'view'}
+              func={() => setProjectsAmount(projectsAmount - 1)}
+            />
+          </div>
+        ))} */}
+        {Array.from({ length: projectsAmount }, (_, index) => (
+          <div id="project-wrapper" key={index}>
+            <Input
+              name={`project_${index}`}
+              label="Проєкт *"
+              placeholder="Назва"
+              readonly={formVariant === 'view'}
+              required={true}
+              control={control}
+              clearErrors={clearErrors}
+              onTypeFunc={throttledHandler}
             />
             <Button
               btnType="button"

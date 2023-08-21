@@ -38,7 +38,7 @@ export const projectsSlice = createSlice({
   },
 });
 
-interface ProjectsState {
+export interface ProjectsState {
   projects: ProjectData[];
   loading: 'loading' | 'success' | 'rejected';
 }

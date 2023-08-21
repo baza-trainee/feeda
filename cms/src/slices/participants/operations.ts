@@ -4,8 +4,7 @@ import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:8000/user-project/';
 axios.defaults.headers.Authorization = 'Token 2f2691a9e0585570f09d180ef9b10b922f96106b';
 
-import { manageFormFields } from '~/src/helpers/manageParticipantFormValues';
-
+import { FormDataTypes, InstructionsTypes, manageFormFields } from '../../helpers/manageParticipantFormValues';
 import { IdNameType } from '../instructions';
 
 export const fetchParticipants = createAsyncThunk('participants/fetchParticipants', async (_, { rejectWithValue }) => {
@@ -19,10 +18,12 @@ export const fetchParticipants = createAsyncThunk('participants/fetchParticipant
 
 export const createParticipant = createAsyncThunk(
   'participants/createParticipant',
-  async ({ formData, instructions }, { rejectWithValue }) => {
+  async (
+    { formData, instructions }: { formData: FormDataTypes; instructions: InstructionsTypes },
+    { rejectWithValue }
+  ) => {
     try {
       manageFormFields(formData, instructions);
-      // console.log('Create: ', formData);
       const { data } = await axios.post<ParticipantData>('add-participant/', formData);
       return data;
     } catch (err) {
@@ -40,6 +41,8 @@ export const getParticipant = createAsyncThunk(
     } catch (err) {
       if (err.response.status === 404) {
         return rejectWithValue('Помилка, статус 404. Можливо, учасника не знайдено');
+      } else if (err.response.status === 500) {
+        return rejectWithValue('Помилка сервера, статус 500');
       } else return rejectWithValue(err.response.data);
     }
   }
@@ -72,15 +75,31 @@ export const deleteParticipant = createAsyncThunk(
 
 export const sendEmail = createAsyncThunk('participants/sendEmail', async (userId: string, { rejectWithValue }) => {
   try {
-    const { data } = await axios.get<any>(`send/${userId}/`);
+    const { data } = await axios.get<{ message: string }>(`send/${userId}/`);
     return data;
   } catch (err) {
-    return rejectWithValue(err.response.data);
+    if (err.response.status === 404) {
+      return rejectWithValue('Помилка, статус 404');
+    } else if (err.response.status === 500) {
+      return rejectWithValue('Помилка сервера, статус 500');
+    } else return rejectWithValue(err.response.data);
   }
 });
 
+export const searchProjects = createAsyncThunk(
+  'participants/searchProjects',
+  async (search: string, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get<any>(`projects-list/?search=${search}`);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 interface UpdateParticipantTypes {
-  formData: object;
+  formData: FormDataTypes;
   userId: string;
   instructions: {
     specialities: IdNameType[];

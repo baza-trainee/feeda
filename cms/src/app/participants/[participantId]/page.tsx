@@ -4,15 +4,16 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { usePathname } from 'next/navigation';
 
-import { ParticipantsForm } from '~/src/components/ParticipantsForm/ParticipantsForm';
-import { Title } from '~/src/components/Title/Title';
-import { getParticipant } from '~/src/slices/participants/operations';
+import { ParticipantsForm } from '../../../components/ParticipantsForm/ParticipantsForm';
+import { Title } from '../../../components/Title/Title';
+import { getParticipant } from '../../../slices/participants/operations';
+import { StoreTypes } from '../../../store/store';
 
 export default function ParticipantProfile() {
   const pathname = usePathname();
   const dispatch = useDispatch();
   const [defaultValues, setDefaultValues] = useState(null);
-  const { isLoading, error, participant } = useSelector((state: any) => state.participants);
+  const { isLoading, error, participant } = useSelector((state: StoreTypes) => state.participants);
   const userId = pathname.split('/')[pathname.split('/').length - 1];
 
   useEffect(() => {
@@ -20,6 +21,7 @@ export default function ParticipantProfile() {
       dispatch(getParticipant(userId));
     }
     participant && setDefaultValues(participant);
+    // eslint-disable-next-line
   }, [participant]);
 
   return isLoading ? (

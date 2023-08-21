@@ -6,11 +6,12 @@ import {
   fetchParticipants,
   getParticipant,
   ParticipantData,
+  searchProjects,
   sendEmail,
   updateParticipant,
 } from './operations';
 
-const initialState: ParticipantsState = {
+const initialState: ParticipantsStateTypes = {
   list: [],
   participant: null,
   isLoading: false,
@@ -146,7 +147,7 @@ export const participantsSlice = createSlice({
       state.isLoading = true;
       state.error = null;
     });
-    builder.addCase(sendEmail.fulfilled, (state, { payload }) => {
+    builder.addCase(sendEmail.fulfilled, (state) => {
       state.isLoading = false;
     });
     builder.addCase(sendEmail.rejected, (state, { payload }) => {
@@ -164,12 +165,28 @@ export const participantsSlice = createSlice({
       }
       state.isLoading = false;
     });
+
+    // - - -
+
+    builder.addCase(searchProjects.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(searchProjects.fulfilled, (state, { payload }) => {
+      console.log('Projects: ', payload);
+      state.isLoading = false;
+    });
+    builder.addCase(searchProjects.rejected, (state, { payload }) => {
+      console.log('Error: ', payload);
+      state.error = true;
+      state.isLoading = false;
+    });
   },
 });
 
 export default participantsSlice.reducer;
 
-interface ParticipantsState {
+export interface ParticipantsStateTypes {
   list: ParticipantData[];
   participant: ParticipantData | null;
   isLoading: boolean;

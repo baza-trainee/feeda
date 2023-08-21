@@ -49,6 +49,7 @@ export function Input({
   control,
   rules,
   clearErrors,
+  onTypeFunc,
 }: InputProps) {
   const [inputValue, setInputValue] = useState(defaultValue);
   return (
@@ -99,6 +100,7 @@ export function Input({
                   if (pattern || label) setInputValue(ev.target.value);
                   handleChange();
                   onChange(ev.target.value);
+                  if (onTypeFunc) onTypeFunc(ev.target.value);
                 }}
               />
               {endIconId && (

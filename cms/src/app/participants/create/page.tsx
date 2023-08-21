@@ -2,24 +2,26 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { PopUp } from '~/src/components/PopUp/PopUp';
-import { Title } from '~/src/components/Title/Title';
-
 import { ParticipantsForm } from '../../../components/ParticipantsForm/ParticipantsForm';
+import { PopUp } from '../../../components/PopUp/PopUp';
+import { Title } from '../../../components/Title/Title';
 import { createParticipant } from '../../../slices/participants/operations';
+import { StoreTypes } from '../../../store/store';
 
 export default function CreateParticipant() {
   const dispatch = useDispatch();
-  const { specialities, participation_types } = useSelector((state: any) => state.instructions);
-  const { error, isLoading } = useSelector((state: any) => state.participants);
+  const { specialities, participation_types } = useSelector((state: StoreTypes) => state.instructions);
+  const { error, isLoading } = useSelector((state: StoreTypes) => state.participants);
   const [showPopUp, setShowPopUp] = useState(false);
 
   const handleSubmit = (formData: object) => {
-    dispatch(createParticipant({ formData, instructions: { specialities, participation_types } })).then((res) => {
-      if (res.meta.requestStatus === 'fulfilled') {
-        setShowPopUp(true);
+    dispatch(createParticipant({ formData, instructions: { specialities, participation_types } })).then(
+      (res: { meta: { requestStatus: string } }) => {
+        if (res.meta.requestStatus === 'fulfilled') {
+          setShowPopUp(true);
+        }
       }
-    });
+    );
   };
 
   const closeModalFunc = () => {

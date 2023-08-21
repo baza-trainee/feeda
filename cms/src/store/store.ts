@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import instructionsReducer from '../slices/instructions';
+import instructionsReducer, { InstructionsStateType } from '../slices/instructions';
 import participantsReducer from '../slices/participants/reducer';
+import { ParticipantsStateTypes } from '../slices/participants/reducer';
 import projecsReducer from '../slices/projects';
+import { ProjectsState } from '../slices/projects';
 
 export const store = configureStore({
   reducer: {
@@ -15,3 +17,9 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
+
+export type StoreTypes = {
+  projects: ProjectsState;
+  participants: ParticipantsStateTypes;
+  instructions: InstructionsStateType;
+};

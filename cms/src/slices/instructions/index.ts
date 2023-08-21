@@ -49,7 +49,7 @@ export const instructionsSlice = createSlice({
 
 export default instructionsSlice.reducer;
 
-interface InstructionsStateType {
+export interface InstructionsStateType {
   specialities: null | IdNameType[];
   participation_types: null | IdNameType[];
   project_types: null | { project_type: string }[];

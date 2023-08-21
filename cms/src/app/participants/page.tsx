@@ -4,18 +4,19 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Link from 'next/link';
 
-import { IconSprite } from '~/src/components/IconSprite/IconSprite';
-import { Title } from '~/src/components/Title/Title';
-
 import { CardsContent } from '../../components/CardsContent/CardsContent';
+import { IconSprite } from '../../components/IconSprite/IconSprite';
+import { Title } from '../../components/Title/Title';
 import { fetchParticipants } from '../../slices/participants/operations';
+import { StoreTypes } from '../../store/store';
 import { Wrapper } from './page.styles';
 
 export default function ParticipantsPage() {
   const dispatch = useDispatch();
-  const { list, isLoading, error } = useSelector((state: any) => state.participants);
+  const { list, isLoading, error } = useSelector((state: StoreTypes) => state.participants);
   useEffect(() => {
     dispatch(fetchParticipants());
+    // eslint-disable-next-line
   }, []);
   return isLoading ? (
     <Title title="Loading" />
