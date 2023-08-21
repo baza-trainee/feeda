@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { colors, fonts, media } from '../../styles/theme';
+import { breakpointTablet } from '../../styles/vars';
 
 export const Wrapper = styled.header`
   margin-bottom: 24px;
@@ -77,10 +78,16 @@ export const MobileHeaderWrapper = styled.div`
   gap: 24px;
   @media screen and (${media.tablet}) {
     max-width: 223px;
-    gap: 0;
   }
   @media screen and (${media.desktop}) {
     max-width: 388px;
+  }
+
+  & > div#input-wrapper {
+    width: 100%;
+    @media screen and (max-width: ${breakpointTablet}px) {
+      max-width: 239px;
+    }
   }
 `;
 
@@ -100,39 +107,5 @@ export const MenuBtn = styled.button`
   background-color: #232323;
   & svg {
     display: block;
-  }
-`;
-
-export const SearchWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 4px;
-  border: 1px solid #cecece;
-  &:has(input:focus) {
-    outline: #939393 solid 2px;
-  }
-  max-width: 388px;
-`;
-
-export const SearchIconBox = styled.div`
-  padding: 16px 16px 14px 16px;
-  height: fit-content;
-  & svg {
-    display: block;
-  }
-`;
-
-export const SearchInput = styled.input`
-  padding: 16px;
-  border: 0;
-  border-radius: 4px 0 0 4px;
-  color: ${colors.mainText};
-  width: 100%;
-  font-size: 16px;
-  background-color: transparent;
-  &::-webkit-input-placeholder {
-    color: #767676;
   }
 `;

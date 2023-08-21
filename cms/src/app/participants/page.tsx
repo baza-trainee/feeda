@@ -2,22 +2,40 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import throttle from 'lodash.throttle';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 import { CardsContent } from '../../components/CardsContent/CardsContent';
 import { IconSprite } from '../../components/IconSprite/IconSprite';
 import { Title } from '../../components/Title/Title';
-import { fetchParticipants } from '../../slices/participants/operations';
+import { searchParticipants } from '../../slices/participants/operations';
 import { StoreTypes } from '../../store/store';
 import { Wrapper } from './page.styles';
 
 export default function ParticipantsPage() {
   const dispatch = useDispatch();
   const { list, isLoading, error } = useSelector((state: StoreTypes) => state.participants);
+  const searchParams = useSearchParams();
+  const query = searchParams.get('q') || '';
+
+  const throttledSearch = throttle(
+    () => {
+      if (query.length > 2 || list.length === 0) {
+        dispatch(searchParticipants(query));
+        console.log(query);
+      }
+    },
+    400,
+    { trailing: true, leading: false }
+  );
+
   useEffect(() => {
-    dispatch(fetchParticipants());
+    if (query.length === 0) dispatch(searchParticipants(''));
+    else throttledSearch();
     // eslint-disable-next-line
-  }, []);
+  }, [query]);
+
   return isLoading ? (
     <Title title="Loading" />
   ) : error ? (
@@ -28,7 +46,11 @@ export default function ParticipantsPage() {
         <IconSprite icon="plus" />
         Додати учасника
       </Link>
-      <CardsContent type="participants" data={list} />
+      {query.length && !list.length ? (
+        <Title title="Нічого не знайдено" />
+      ) : (
+        <CardsContent type="participants" data={list} />
+      )}
     </Wrapper>
   );
 }

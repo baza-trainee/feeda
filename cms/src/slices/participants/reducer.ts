@@ -3,7 +3,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   createParticipant,
   deleteParticipant,
-  fetchParticipants,
   getParticipant,
   ParticipantData,
   searchParticipants,
@@ -24,15 +23,15 @@ export const participantsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchParticipants.pending, (state) => {
+    builder.addCase(searchParticipants.pending, (state) => {
       state.isLoading = true;
       state.error = null;
     });
-    builder.addCase(fetchParticipants.fulfilled, (state, { payload }) => {
+    builder.addCase(searchParticipants.fulfilled, (state, { payload }) => {
       state.list = payload;
       state.isLoading = false;
     });
-    builder.addCase(fetchParticipants.rejected, (state, { payload }) => {
+    builder.addCase(searchParticipants.rejected, (state, { payload }) => {
       if (typeof payload === 'string') {
         console.log('Error: ', payload);
         state.error = payload;
@@ -164,35 +163,19 @@ export const participantsSlice = createSlice({
 
     // - - -
 
-    builder.addCase(searchProjects.pending, (state) => {
-      state.isLoading = true;
-      state.error = null;
-    });
-    builder.addCase(searchProjects.fulfilled, (state, { payload }) => {
-      console.log('Projects: ', payload);
-      state.isLoading = false;
-    });
-    builder.addCase(searchProjects.rejected, (state, { payload }) => {
-      console.log('Error: ', payload);
-      state.error = true;
-      state.isLoading = false;
-    });
-
-    // - - -
-
-    builder.addCase(searchParticipants.pending, (state) => {
-      state.isLoading = true;
-      state.error = null;
-    });
-    builder.addCase(searchParticipants.fulfilled, (state, { payload }) => {
-      state.list = [...payload];
-      state.isLoading = false;
-    });
-    builder.addCase(searchParticipants.rejected, (state, { payload }) => {
-      console.log('Error: ', payload);
-      state.error = true;
-      state.isLoading = false;
-    });
+    // builder.addCase(searchProjects.pending, (state) => {
+    //   state.isLoading = true;
+    //   state.error = null;
+    // });
+    // builder.addCase(searchProjects.fulfilled, (state, { payload }) => {
+    //   console.log('Projects: ', payload);
+    //   state.isLoading = false;
+    // });
+    // builder.addCase(searchProjects.rejected, (state, { payload }) => {
+    //   console.log('Error: ', payload);
+    //   state.error = true;
+    //   state.isLoading = false;
+    // });
   },
 });
 
