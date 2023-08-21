@@ -69,7 +69,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                 )}
               </SecondBlockWrapper>
               <ThirdBlockWrapper>
-                {type === 'participants' && (
+                {type === 'participants' ? (
                   <>
                     <ThirdBlockElementsWrapper>
                       <p id="name">Досвід</p>
@@ -92,8 +92,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                       <p id="value">{item.speciality.title}</p>
                     </ThirdBlockElementsWrapper>
                   </>
-                )}
-                {type === 'projects' && (
+                ) : (
                   <>
                     <ThirdBlockElementsWrapper>
                       <p id="name">Складість</p>

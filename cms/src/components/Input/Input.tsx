@@ -27,6 +27,7 @@ type InputProps = {
   control: Control;
   rules?: object;
   clearErrors: (name?: string | string[]) => void;
+  onTypeFunc?: (value: string) => void;
 };
 
 export function Input({
