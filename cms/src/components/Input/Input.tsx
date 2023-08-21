@@ -102,6 +102,7 @@ export function Input({
                   if (onTypeFunc) onTypeFunc(ev.target.value);
                   handleChange();
                   onChange(ev.target.value);
+                  if (onTypeFunc) onTypeFunc(ev.target.value);
                 }}
               />
               {endIconId && (

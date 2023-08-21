@@ -1,10 +1,12 @@
 'use client';
 
+import { useDispatch } from 'react-redux';
+
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { commonVariants } from '../../hooks/commonVariants';
-import { ParticipantData } from '../../slices/participants/index';
+import { commonVariants } from '../../helpers/commonVariants';
+import { deleteParticipant, ParticipantData } from '../../slices/participants/operations';
 import { ProjectData } from '../../slices/projects/index';
 import { Button } from '../Button/Button';
 import { IconSprite } from '../IconSprite/IconSprite';
@@ -21,9 +23,10 @@ type CardsContentType = {
   type: 'participants' | 'projects';
   data: ParticipantData[] | ProjectData[];
 };
-
 export function CardsContent({ type, data }: CardsContentType) {
   const router = useRouter();
+  const dispatch = useDispatch();
+
   return (
     <List>
       {data.map((item: ParticipantData | ProjectData) => {
@@ -37,6 +40,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                   func={(ev) => {
                     ev.preventDefault();
                     ev.stopPropagation();
+                    dispatch(deleteParticipant(item.id));
                   }}
                 />
                 <Button
@@ -48,14 +52,24 @@ export function CardsContent({ type, data }: CardsContentType) {
                     router.push(`${type}/edit/${item.id}`);
                   }}
                 />
-                <p>{item.type_participant}</p>
+                <p>{item.type_participant?.title || item.type_project.project_type}</p>
               </FirstBlockWrapper>
               <SecondBlockWrapper type={type}>
-                <h2>{type === 'participants' ? `${item.last_name} ${item.first_name}` : item.title}</h2>
-                <p>{type === 'participants' ? item.stack : `${item.participants} Учасник`}</p>
+                {type === 'participants' ? (
+                  <>
+                    <h2 title={item.last_name}>{item.last_name}</h2>
+                    <h2 title={item.first_name}>{item.first_name}</h2>
+                    <p title={item.stack}>{item.stack || 'None'}</p>
+                  </>
+                ) : (
+                  <>
+                    <h2 title={item.title}>{item.title}</h2>
+                    <p title={item.participants}>{item.participants} Учасник</p>
+                  </>
+                )}
               </SecondBlockWrapper>
               <ThirdBlockWrapper>
-                {type === 'participants' && (
+                {type === 'participants' ? (
                   <>
                     <ThirdBlockElementsWrapper>
                       <p id="name">Досвід</p>
@@ -63,22 +77,22 @@ export function CardsContent({ type, data }: CardsContentType) {
                     </ThirdBlockElementsWrapper>
                     <ThirdBlockElementsWrapper>
                       <p id="name">Проєкти</p>
-                      <p id="value">{item.project}</p>
+                      <p id="value">{item.project_count || 0}</p>
                     </ThirdBlockElementsWrapper>
                     <ThirdBlockElementsWrapper>
                       <p id="name">Роль</p>
                       <div id="icon-wrapper">
                         <IconSprite
-                          icon={commonVariants.role.find((searchItem) => searchItem.name === item.speciality)?.icon}
+                          icon={
+                            commonVariants.role.find((searchItem) => searchItem.name === item.speciality.title)?.icon ||
+                            commonVariants.role.find((item) => item.name === 'None')?.icon
+                          }
                         />
-                        {/*!!!*/}
                       </div>
-                      <p id="value">{item.speciality}</p>
-                      {/*!!!*/}
+                      <p id="value">{item.speciality.title}</p>
                     </ThirdBlockElementsWrapper>
                   </>
-                )}
-                {type === 'projects' && (
+                ) : (
                   <>
                     <ThirdBlockElementsWrapper>
                       <p id="name">Складість</p>

@@ -21,7 +21,9 @@ interface CustomSelectProps {
   clearErrors: (name?: string | string[]) => void;
   valueGetter: (value: string | number) => OptionType | undefined | string | number;
   title: string;
-  defaultValue: OptionType;
+  defaultValue?: OptionType | null;
+  required?: boolean;
+  isDisabled?: boolean;
 }
 
 export const CustomSelect = ({
@@ -34,6 +36,8 @@ export const CustomSelect = ({
   valueGetter,
   title,
   defaultValue,
+  required,
+  isDisabled,
 }: CustomSelectProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -55,7 +59,7 @@ export const CustomSelect = ({
             <Label>
               {title}
               <Select
-                isDisabled={false}
+                isDisabled={isDisabled}
                 components={{ DropdownIndicator }}
                 instanceId={name}
                 isSearchable={false}
@@ -63,6 +67,7 @@ export const CustomSelect = ({
                 placeholder={placeholder}
                 options={options}
                 value={computedValue}
+                required={required}
                 onChange={(selectedOption) => {
                   setIsDropdownOpen(false);
                   onChange(selectedOption);
@@ -72,7 +77,6 @@ export const CustomSelect = ({
                 onMenuClose={() => setIsDropdownOpen(false)}
                 onBlur={() => {
                   setIsDropdownOpen(false);
-
                   onBlur();
                 }}
               />
