@@ -13,6 +13,7 @@ type InputProps = {
   id?: string;
   label?: string;
   supportLabel?: string;
+  onValidLabel?: string;
   placeholder?: string;
   defaultValue?: string;
   readonly?: boolean;
@@ -26,6 +27,7 @@ type InputProps = {
   control: Control;
   rules?: object;
   clearErrors: (name?: string | string[]) => void;
+  onTypeFunc?: (value: string) => void;
 };
 
 export function Input({
@@ -36,6 +38,7 @@ export function Input({
   id,
   label,
   supportLabel,
+  onValidLabel,
   disabled = false,
   required,
   readonly,
@@ -47,6 +50,7 @@ export function Input({
   control,
   rules,
   clearErrors,
+  onTypeFunc,
 }: InputProps) {
   const [inputValue, setInputValue] = useState(defaultValue);
   return (
@@ -78,7 +82,10 @@ export function Input({
                 </InputIconWrapper>
               )}
               <InputComp
-                style={{ padding: begIconId || endIconId ? '18px 0' : '18px 16px' }}
+                style={{
+                  padding:
+                    (begIconId && endIconId) || begIconId ? '18px 0' : endIconId ? '18px 0 18px 18px' : '18px 16px',
+                }}
                 id={id}
                 placeholder={placeholder}
                 readOnly={readonly}
@@ -92,6 +99,7 @@ export function Input({
                 defaultValue={defaultValue}
                 onChange={(ev) => {
                   if (pattern || label) setInputValue(ev.target.value);
+                  if (onTypeFunc) onTypeFunc(ev.target.value);
                   handleChange();
                   onChange(ev.target.value);
                 }}
@@ -102,9 +110,13 @@ export function Input({
                 </InputIconWrapper>
               )}
             </InputWrapper>
-            {supportLabel && (
-              <SupportLabelComp id="support-label" htmlFor={id} isDisabled={disabled}>
-                {supportLabel}
+            {(supportLabel || onValidLabel) && (
+              <SupportLabelComp
+                id={supportLabel ? 'support-label' : 'on-valid-label'}
+                htmlFor={id}
+                isDisabled={disabled}
+              >
+                {supportLabel || onValidLabel}
               </SupportLabelComp>
             )}
             {error && <ErrorText>{error.message}</ErrorText>}
