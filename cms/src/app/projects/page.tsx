@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CardsContent } from '~/src/components/CardsContent/CardsContent';
 import { AppDispatch, RootState } from '~/src/redux/store/store';
@@ -10,8 +10,9 @@ import { ProjectsContainer, AddButtonWrapper } from './ProjectsPage.styles';
 import Link from 'next/link';
 
 export default function ProjectsPage() {
+  const [isModalOpen, setModalOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
-  const { projects, loading } = useSelector((state: RootState) => state.projects);
+  const { projects, loading, errors } = useSelector((state: RootState) => state.projects);
 
   useEffect(() => {
     dispatch(fetchProjects());
