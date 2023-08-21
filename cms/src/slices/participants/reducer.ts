@@ -6,7 +6,6 @@ import {
   getParticipant,
   ParticipantData,
   searchParticipants,
-  searchProjects,
   sendEmail,
   updateParticipant,
 } from './operations';
