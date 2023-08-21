@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { commonVariants } from '../../hooks/commonVariants';
-import { ParticipantData } from '../../slices/participants/index';
-import { ProjectData } from '../../slices/projects/index';
+import { ParticipantData } from '../../redux/slices/participants/index';
+import { ProjectData } from '../../redux/slices/projects/projects.slice';
 import { Button } from '../Button/Button';
-import { IconSprite } from '../IconSprite/IconSprite';
+import { IconSprite, IconType } from '../IconSprite/IconSprite';
 import {
   FirstBlockWrapper,
   List,
@@ -20,98 +20,119 @@ import {
 type CardsContentType = {
   type: 'participants' | 'projects';
   data: ParticipantData[] | ProjectData[];
+  onDelete: (title: string) => void;
 };
 
-export function CardsContent({ type, data }: CardsContentType) {
+export function CardsContent({ type, data, onDelete }: CardsContentType) {
   const router = useRouter();
   return (
     <List>
-      {data.map((item: ParticipantData | ProjectData) => {
-        return (
-          <ListItem key={item.id}>
-            <Link href={type === 'participants' ? `participants/${item.id}` : `projects/${item.id}`}>
-              <FirstBlockWrapper>
-                <Button
-                  variant="icon"
-                  icon="trash"
-                  func={(ev) => {
-                    ev.preventDefault();
-                    ev.stopPropagation();
-                  }}
-                />
-                <Button
-                  variant="icon"
-                  icon="pencil"
-                  func={(ev) => {
-                    ev.preventDefault();
-                    ev.stopPropagation();
-                    router.push(`${type}/edit/${item.id}`);
-                  }}
-                />
-                <p>{item.type_participant}</p>
-              </FirstBlockWrapper>
-              <SecondBlockWrapper type={type}>
-                <h2>{type === 'participants' ? `${item.last_name} ${item.first_name}` : item.title}</h2>
-                <p>{type === 'participants' ? item.stack : `${item.participants} Учасник`}</p>
-              </SecondBlockWrapper>
-              <ThirdBlockWrapper>
-                {type === 'participants' && (
-                  <>
-                    <ThirdBlockElementsWrapper>
-                      <p id="name">Досвід</p>
-                      <p id="value">{item.experience ? 'Так' : 'Ні'}</p>
-                    </ThirdBlockElementsWrapper>
-                    <ThirdBlockElementsWrapper>
-                      <p id="name">Проєкти</p>
-                      <p id="value">{item.project}</p>
-                    </ThirdBlockElementsWrapper>
-                    <ThirdBlockElementsWrapper>
-                      <p id="name">Роль</p>
-                      <div id="icon-wrapper">
-                        <IconSprite
-                          icon={commonVariants.role.find((searchItem) => searchItem.name === item.speciality)?.icon}
-                        />
+      {data &&
+        data.map((item: ParticipantData | ProjectData) => {
+          return (
+            <ListItem key={item.id}>
+              <Link href={type === 'participants' ? `participants/${item.id}` : `projects/${item.id}`}>
+                <FirstBlockWrapper>
+                  <Button
+                    variant="icon"
+                    icon="trash"
+                    func={(ev) => {
+                      ev.preventDefault();
+                      ev.stopPropagation();
+                      onDelete(
+                        `${type === 'participants' ? (item as ParticipantData).id : (item as ProjectData).title}`
+                      );
+                    }}
+                  />
+                  <Button
+                    variant="icon"
+                    icon="pencil"
+                    func={(ev) => {
+                      ev.preventDefault();
+                      ev.stopPropagation();
+                      router.push(`${type}/edit/${item.id}`);
+                    }}
+                  />
+                  <p>
+                    {type === 'participants'
+                      ? (item as ParticipantData).type_participant
+                      : (item as ProjectData).type_project.project_type}
+                  </p>
+                </FirstBlockWrapper>
+                <SecondBlockWrapper type={type}>
+                  <h2>
+                    {type === 'participants'
+                      ? `${(item as ParticipantData).last_name} ${(item as ParticipantData).first_name}`
+                      : (item as ProjectData).title}
+                  </h2>
+                  <p>
+                    {type === 'participants'
+                      ? (item as ParticipantData).stack
+                      : (item as ProjectData).participants_count}
+                  </p>
+                </SecondBlockWrapper>
+                <ThirdBlockWrapper>
+                  {type === 'participants' && (
+                    <>
+                      <ThirdBlockElementsWrapper>
+                        <p id="name">Досвід</p>
+                        <p id="value">{(item as ParticipantData).experience ? 'Так' : 'Ні'}</p>
+                      </ThirdBlockElementsWrapper>
+                      <ThirdBlockElementsWrapper>
+                        <p id="name">Проєкти</p>
+                        <p id="value">{item.project}</p>
+                      </ThirdBlockElementsWrapper>
+                      <ThirdBlockElementsWrapper>
+                        <p id="name">Роль</p>
+                        <div id="icon-wrapper">
+                          <IconSprite
+                            icon={commonVariants.role.find((searchItem) => searchItem.name === item.speciality)?.icon}
+                          />
+                          {/*!!!*/}
+                        </div>
+                        <p id="value">{item.speciality}</p>
                         {/*!!!*/}
-                      </div>
-                      <p id="value">{item.speciality}</p>
-                      {/*!!!*/}
-                    </ThirdBlockElementsWrapper>
-                  </>
-                )}
-                {type === 'projects' && (
-                  <>
-                    <ThirdBlockElementsWrapper>
-                      <p id="name">Складість</p>
-                      <div id="complexity">
-                        {commonVariants.complexity.map((complexity, idx) => (
-                          <div id="complexity-icon" key={idx}>
-                            <IconSprite
-                              icon={
-                                complexity <= Number.parseInt(item.complexity.complexity)
-                                  ? 'complexityActive'
-                                  : 'complexityInactive'
-                              }
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </ThirdBlockElementsWrapper>
-                    <ThirdBlockElementsWrapper>
-                      <p id="name">Стан</p>
-                      <div id="icon-wrapper">
-                        <IconSprite
-                          icon={commonVariants.status.find((searchItem) => searchItem.name === item.status)?.icon}
-                        />
-                      </div>
-                      <p id="value">{item.status}</p>
-                    </ThirdBlockElementsWrapper>
-                  </>
-                )}
-              </ThirdBlockWrapper>
-            </Link>
-          </ListItem>
-        );
-      })}
+                      </ThirdBlockElementsWrapper>
+                    </>
+                  )}
+                  {type === 'projects' && (
+                    <>
+                      <ThirdBlockElementsWrapper>
+                        <p id="name">Складість</p>
+                        <div id="complexity">
+                          {commonVariants.complexity.map((complexity, idx) => (
+                            <div id="complexity-icon" key={idx}>
+                              <IconSprite
+                                icon={
+                                  complexity <= Number.parseInt((item as ProjectData).complexity.complexity)
+                                    ? 'complexityActive'
+                                    : 'complexityInactive'
+                                }
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </ThirdBlockElementsWrapper>
+                      <ThirdBlockElementsWrapper>
+                        <p id="name">Стан</p>
+                        <div id="icon-wrapper">
+                          <IconSprite
+                            icon={
+                              commonVariants.status.find(
+                                (searchItem) => searchItem.name === (item as ProjectData).project_status.status
+                              )?.icon as IconType
+                            }
+                          />
+                        </div>
+                        <p id="value">{(item as ProjectData).project_status.status}</p>
+                      </ThirdBlockElementsWrapper>
+                    </>
+                  )}
+                </ThirdBlockWrapper>
+              </Link>
+            </ListItem>
+          );
+        })}
     </List>
   );
 }
