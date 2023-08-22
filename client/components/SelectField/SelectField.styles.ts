@@ -1,22 +1,23 @@
 import { StylesConfig } from 'react-select';
 
 import styled from '@emotion/styled';
-import { theme } from 'styles/theme';
+import { colors, fonts } from 'styles/theme';
+
 export const Label = styled.label`
-	color: #353535;
+	color: ${colors.inputLabel};
 	font-size: 16px;
 	flex-direction: column;
 	display: flex;
-	gap: 4px;
+	gap: 0.25rem;
 	line-height: normal;
 `;
 
 export const ErrorText = styled.p`
-	color: #df4242;
-	font-size: 12px;
-	letter-spacing: 0.5px;
+	color: ${colors.error};
+	font-size: ${fonts.body.fontSize.mobile}rem;
+	letter-spacing: ${fonts.formField.letterSpacing}px;
 	position: absolute;
-	bottom: -20px;
+	bottom: -1.25rem;
 `;
 
 interface ProvidedStyles {
@@ -32,13 +33,13 @@ interface ProvidedStyles {
 export const selectStyles = (error: boolean, isDropdownOpen: boolean): ProvidedStyles => ({
 	control: (provided, { menuIsOpen }) => ({
 		...provided,
-		border: `1px solid ${error ? 'red' : menuIsOpen ? '#939393 !important' : theme.colors.disabledBtnBg}`,
+		border: `1px solid ${error ? colors.error : menuIsOpen ? colors.grey400 + ' !important' : colors.grey200}`,
 		boxShadow: 'none',
 		borderRadius: '4px',
 		padding: '16px',
 		cursor: 'pointer',
 		':hover': {
-			borderColor: `${error ? 'red' : theme.colors.disabledBtnBg}`,
+			borderColor: `${error ? colors.error : colors.grey200}`,
 		},
 	}),
 	indicatorSeparator: () => ({
@@ -55,7 +56,7 @@ export const selectStyles = (error: boolean, isDropdownOpen: boolean): ProvidedS
 	}),
 	dropdownIndicator: (provided) => ({
 		...provided,
-		color: '#939393',
+		color: colors.grey400,
 		padding: 0,
 		display: 'flex',
 		alignItems: 'center',
@@ -66,14 +67,14 @@ export const selectStyles = (error: boolean, isDropdownOpen: boolean): ProvidedS
 		...provided,
 		border: 'none',
 		boxShadow: 'none',
-		backgroundColor: '#FCFCFC',
+		backgroundColor: colors.grey100,
 		borderRadius: '4px',
 		margin: '4px 0 0 0 ',
 	}),
-	option: (provided) => ({
+	option: (provided, state) => ({
 		...provided,
-		backgroundColor: '#FCFCFC',
-		color: '#232323',
+		backgroundColor: state.isFocused ? colors.inputSelectHover : colors.grey100,
+		color: colors.mainText,
 		borderRadius: '4px',
 		height: '56px',
 		display: 'flex',
@@ -84,8 +85,8 @@ export const selectStyles = (error: boolean, isDropdownOpen: boolean): ProvidedS
 			backgroundColor: '#FDF5DD',
 		},
 		':active': {
-			color: '#FCFCFC',
-			backgroundColor: '#232323',
+			color: colors.grey100,
+			backgroundColor: colors.mainText,
 		},
 	}),
 });

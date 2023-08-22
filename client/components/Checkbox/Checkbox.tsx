@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC } from 'react';
 
 import { ApprovedTypes, useGlobalState } from '~/hooks/useGlobalState';
+import useMobileDetect from '~/hooks/useMobileDetect';
 
-import { Box, CheckboxLabel, Input, Span, Wrapper } from './Checkbox.styled';
+import { Box, Input, Span, Wrapper } from './Checkbox.styled';
 
 interface CheckBoxProps {
 	name: string;
@@ -12,17 +13,9 @@ interface CheckBoxProps {
 	onChange: () => void;
 }
 
-export const CheckBox = ({ name, labeltxt, id, linkText,onChange }: CheckBoxProps) => {
-	const [screenWidth, setScreenWidth] = useState(0);
+export const CheckBox: FC<CheckBoxProps> = ({ name, labeltxt, id, linkText, onChange }) => {
 	const { state, setState } = useGlobalState();
-	const { approved } = state;
-
-	useEffect(() => {
-		if (screenWidth > 768) return;
-		window.addEventListener('resize', () => setScreenWidth(window.innerWidth));
-		setScreenWidth(window.innerWidth);
-		return () => window.removeEventListener('resize', () => setScreenWidth(window.innerWidth));
-	}, [screenWidth]);
+	const mobile = useMobileDetect().isMobile();
 
 	const showModal = () => {
 		setState((prev) => ({ ...prev, modal: name, visible: true }));
@@ -32,29 +25,27 @@ export const CheckBox = ({ name, labeltxt, id, linkText,onChange }: CheckBoxProp
 		onChange();
 		setState((prev) => ({
 			...prev,
-			approved: approved && {
-				...approved,
-				[name as keyof ApprovedTypes]: approved[name as keyof ApprovedTypes] ? false : true,
+			approved: prev.approved && {
+				...prev.approved,
+				[name as keyof ApprovedTypes]: prev.approved[name as keyof ApprovedTypes] ? false : true,
 			},
 		}));
 	};
 
 	return (
-		<>
-			<Wrapper>
-				<CheckboxLabel>
-					<Input
-						type="checkbox"
-						id={id}
-						onChange={handleCheckboxChange}
-						checked={approved && approved[name as keyof ApprovedTypes]}
-					/>
-					<Box id="box" />
-					{labeltxt}
-				</CheckboxLabel>
-				{name === 'terms' && screenWidth < 768 && <br />}
-				<Span onClick={showModal}>{linkText}</Span>
-			</Wrapper>
-		</>
+		<Wrapper>
+			<label>
+				<Input
+					type="checkbox"
+					id={id}
+					onChange={handleCheckboxChange}
+					checked={state.approved && state.approved[name as keyof ApprovedTypes]}
+				/>
+				<Box id="box" />
+				{labeltxt}
+			</label>
+			{name === 'terms' && mobile && <br />}
+			<Span onClick={showModal}>{linkText}</Span>
+		</Wrapper>
 	);
 };
