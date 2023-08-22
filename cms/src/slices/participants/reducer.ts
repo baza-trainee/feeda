@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   createParticipant,
   deleteParticipant,
+  fetchParticipants,
   getParticipant,
   ParticipantData,
   searchParticipants,
@@ -22,6 +23,32 @@ export const participantsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(fetchParticipants.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchParticipants.fulfilled, (state, { payload }) => {
+      state.list = payload;
+      state.isLoading = false;
+    });
+    builder.addCase(fetchParticipants.rejected, (state, { payload }) => {
+      if (typeof payload === 'object') {
+        const formattedString = Object.entries(payload)
+          .map(([key, value]) => `${key}: ${value}`)
+          .join('\n');
+        state.error = formattedString;
+      } else if (typeof payload === 'string') {
+        console.log('Error: ', payload);
+        state.error = payload;
+      } else {
+        console.log('Error: ', payload);
+        state.error = true;
+      }
+      state.isLoading = false;
+    });
+
+    // - - -
+
     builder.addCase(searchParticipants.pending, (state) => {
       state.isLoading = true;
       state.error = null;

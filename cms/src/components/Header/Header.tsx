@@ -10,6 +10,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import MenuIcon from '../../../public/menu.svg';
 import { StoreTypes } from '../../store/store';
+import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
 import {
   DesktopContent,
@@ -40,13 +41,13 @@ export function Header() {
     } else if (pathname === '/projects/create') {
       return 'Додати проект';
     } else if (pathname.split('/')[1] === 'participants') {
-      if (participant) {
+      if (participant && !isLoading) {
         return `${participant?.first_name} ${participant?.last_name}`;
-      } else if (isLoading) {
+      } else {
         return '';
       }
     } else if (pathname.split('/')[1] === 'projects') {
-      return 'Проект';
+      return 'Проект (змінити на його назву)';
     } else {
       return 'Невідома фігня, треба виправити';
     }
@@ -55,23 +56,34 @@ export function Header() {
   const manageUrl = (value: string) => {
     if (value.length) {
       if ((pathname !== prevLocation && pathname !== '/participants') || !prevLocation.length) {
-        console.log(pathname);
         setPrevLocation(pathname);
-      } else if (pathname !== '/participants' || pathname.split('/')[1] !== 'participants') {
+      } else if (pathname !== '/participants') {
         router.push(`/participants?q=${value}`);
       } else {
         router.push(`?q=${value}`);
       }
     } else if (!value.length) {
-      router.push(prevLocation);
+      if (!prevLocation.length) router.push('/participants');
+      else router.push(prevLocation);
     }
+  };
+
+  const goBackHandler = (ev: React.MouseEvent<HTMLButtonElement>) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    router.push(`/${pathname.split('/')[1]}`);
   };
 
   return (
     <Wrapper>
       <DesktopContent>
         <Logo>
-          <Link href="/">Feeda</Link>
+          <Link href="/">
+            Feeda
+            {pathname !== '/participants' && pathname !== '/projects' && (
+              <Button variant="goBack" icon="arrowLeft" func={goBackHandler} />
+            )}
+          </Link>
         </Logo>
         <PageTitle title="page name...">{manageHeaderTitle()}</PageTitle>
       </DesktopContent>

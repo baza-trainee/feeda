@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { breakpointDesktop } from '../../styles/vars';
+
 export const PrimaryBtn = styled.button<{ isPressed: boolean; disabled: boolean }>`
   display: flex;
   justify-content: center;
@@ -82,4 +84,17 @@ export const PopUpBtnAccept = styled(PopUpBtn)`
 `;
 export const PopUpBtnCancel = styled(PopUpBtn)`
   color: #df4242;
+`;
+
+export const GoBackBtn = styled(IconBtn)`
+  display: none;
+  position: absolute;
+  width: fit-content;
+  right: 0;
+  bottom: 0;
+  border-radius: 4px 0px;
+
+  @media screen and (min-width: ${breakpointDesktop}px) {
+    display: flex;
+  }
 `;

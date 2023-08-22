@@ -9,7 +9,7 @@ import { useSearchParams } from 'next/navigation';
 import { CardsContent } from '../../components/CardsContent/CardsContent';
 import { IconSprite } from '../../components/IconSprite/IconSprite';
 import { Title } from '../../components/Title/Title';
-import { searchParticipants } from '../../slices/participants/operations';
+import { fetchParticipants, searchParticipants } from '../../slices/participants/operations';
 import { StoreTypes } from '../../store/store';
 import { Wrapper } from './page.styles';
 
@@ -23,7 +23,6 @@ export default function ParticipantsPage() {
     () => {
       if (query.length > 2 || list.length === 0) {
         dispatch(searchParticipants(query));
-        console.log(query);
       }
     },
     400,
@@ -31,7 +30,7 @@ export default function ParticipantsPage() {
   );
 
   useEffect(() => {
-    if (query.length === 0) dispatch(searchParticipants(''));
+    if (query.length === 0) dispatch(fetchParticipants());
     else throttledSearch();
     // eslint-disable-next-line
   }, [query]);

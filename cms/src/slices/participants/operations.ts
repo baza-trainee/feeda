@@ -7,6 +7,15 @@ axios.defaults.headers.Authorization = 'Token 15602a4517e31a21eeabb48ce75e51fb7c
 import { FormDataTypes, InstructionsTypes, manageFormFields } from '../../helpers/manageParticipantFormValues';
 import { IdNameType } from '../instructions';
 
+export const fetchParticipants = createAsyncThunk('participants/fetchParticipants', async (_, { rejectWithValue }) => {
+  try {
+    const { data } = await axios.get<ParticipantData[]>('participants-list/');
+    return data;
+  } catch (err) {
+    return rejectWithValue(err.response.data);
+  }
+});
+
 export const createParticipant = createAsyncThunk(
   'participants/createParticipant',
   async (

@@ -29,6 +29,7 @@ export const DesktopContent = styled.div`
 `;
 
 export const Logo = styled.div`
+  position: relative;
   width: fit-content;
   border-radius: 0px 0px 4px 4px;
   color: ${colors.mainTitle};
@@ -36,16 +37,16 @@ export const Logo = styled.div`
   font-weight: 700;
   line-height: calc(44 / 36);
   background-color: ${colors.mainAccent};
-  & > a {
-    display: inline-block;
-    padding: 16px;
-  }
   @media screen and (${media.desktop}) {
     width: 100%;
     max-width: 286px;
     font-size: 45px;
     line-height: calc(52 / 45);
-    & > a {
+  }
+  & > a {
+    display: inline-block;
+    padding: 16px;
+    @media screen and (${media.desktop}) {
       padding: 16px 134px 16px 24px;
     }
   }

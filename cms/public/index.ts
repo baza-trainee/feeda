@@ -1,5 +1,6 @@
 import Add from './add.svg';
 import ArrowDown from './arrow_down.svg';
+import ArrowLeft from './arrow_left.svg';
 import Backend from './backend_role.svg';
 import Checkmark from './checkmark.svg';
 import ComplexityActive from './complexity_active.svg';
@@ -50,4 +51,5 @@ export {
   Checkmark,
   Cross,
   SearchIcon,
+  ArrowLeft,
 };
