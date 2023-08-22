@@ -5,7 +5,15 @@ import { Control, Controller } from 'react-hook-form';
 
 import { IconSprite, IconType } from '../IconSprite/IconSprite';
 import { ErrorText } from '../SelectField/SelectField.style';
-import { InputComp, InputIconWrapper, InputWrapper, LabelComp, SupportLabelComp } from './Input.styles';
+import {
+  firstIconStyles,
+  InputComp,
+  InputIconWrapper,
+  InputWrapper,
+  LabelComp,
+  lastIconStyles,
+  SupportLabelComp,
+} from './Input.styles';
 
 type InputProps = {
   name: string;
@@ -26,13 +34,13 @@ type InputProps = {
   endIconId?: IconType | undefined;
   control: Control;
   rules?: object;
-  clearErrors: (name?: string | string[]) => void;
+  clearErrors?: (name?: string | string[]) => void;
   onTypeFunc?: (value: string) => void;
 };
 
 export function Input({
   placeholder,
-  type,
+  type = 'text',
   defaultValue = '',
   name,
   id,
@@ -53,6 +61,7 @@ export function Input({
   onTypeFunc,
 }: InputProps) {
   const [inputValue, setInputValue] = useState(defaultValue);
+
   return (
     <Controller
       defaultValue={defaultValue}
@@ -61,7 +70,7 @@ export function Input({
       rules={rules}
       render={({ field: { onChange }, fieldState: { error } }) => {
         const handleChange = () => {
-          clearErrors(name);
+          clearErrors && clearErrors(name);
         };
         return (
           <div id="input-wrapper">
@@ -77,19 +86,17 @@ export function Input({
             )}
             <InputWrapper checkIsValid={Boolean(pattern && inputValue?.length)}>
               {begIconId && (
-                <InputIconWrapper style={{ paddingRight: 12 }} isDisabled={disabled}>
+                <InputIconWrapper css={[firstIconStyles]} isDisabled={disabled}>
                   <IconSprite icon={begIconId} />
                 </InputIconWrapper>
               )}
               <InputComp
-                style={{
-                  padding:
-                    (begIconId && endIconId) || begIconId ? '18px 0' : endIconId ? '18px 0 18px 18px' : '18px 16px',
-                }}
+                begIcon={Boolean(begIconId)}
+                endIcon={Boolean(endIconId)}
                 id={id}
                 placeholder={placeholder}
                 readOnly={readonly}
-                type={type || 'text'}
+                type={type}
                 name={name}
                 disabled={disabled}
                 required={required}
@@ -105,7 +112,7 @@ export function Input({
                 }}
               />
               {endIconId && (
-                <InputIconWrapper style={{ paddingLeft: 12 }} isDisabled={disabled}>
+                <InputIconWrapper css={[lastIconStyles]} isDisabled={disabled}>
                   <IconSprite icon={endIconId} />
                 </InputIconWrapper>
               )}

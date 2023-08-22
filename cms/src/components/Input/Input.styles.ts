@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { colors } from '../../styles/theme';
@@ -11,16 +12,14 @@ export const LabelComp = styled.label<{ inputValueLen: number; isDisabled: boole
   font-weight: 400;
   color: var(--txtColor);
 
-  ${({ checkIsValid }) => {
-    if (checkIsValid) {
-      return '&:has(+ div > input:invalid) {  \
+  ${({ checkIsValid }) =>
+    checkIsValid &&
+    '&:has(+ div > input:invalid) {  \
         color: #dc0c31; \
       } \
       &:has(+ div > input:valid) {  \
         color: #14905D  \
-      }';
-    }
-  }}
+      }'}
 
   &:has(+ div > input:focus) {
     color: var(--txtColor);
@@ -45,9 +44,9 @@ export const InputWrapper = styled.div<{ checkIsValid: boolean }>`
     color: #14905d;
   }
 
-  ${({ checkIsValid }) => {
-    if (checkIsValid) {
-      return '&:has(input:valid) { \
+  ${({ checkIsValid }) =>
+    checkIsValid &&
+    '&:has(input:valid) { \
         outline: 2px solid #14905D; \
         & + label#on-valid-label {  \
           visibility: visible; \
@@ -59,9 +58,7 @@ export const InputWrapper = styled.div<{ checkIsValid: boolean }>`
             visibility: visible; \
             color: #dc0c31; \
           } \
-        }';
-    }
-  }}
+        }'}
 
   &:has(input:focus) {
     outline: 2px solid #939393;
@@ -74,7 +71,7 @@ export const InputWrapper = styled.div<{ checkIsValid: boolean }>`
   }
 `;
 
-export const InputComp = styled.input`
+export const InputComp = styled.input<{ begIcon: boolean; endIcon: boolean }>`
   display: inline-block;
   width: 100%;
   border-radius: 4px;
@@ -86,6 +83,8 @@ export const InputComp = styled.input`
   &::-webkit-input-placeholder {
     color: ${colors.mainPlaceholder};
   }
+  padding: ${({ begIcon, endIcon }) =>
+    begIcon && endIcon ? '18px 0' : begIcon ? '18px 18px 18px 0' : endIcon ? '18px 0 18px 18px' : '18px 16px'};
 `;
 
 export const InputIconWrapper = styled.div<{ isDisabled: boolean }>`
@@ -104,4 +103,12 @@ export const SupportLabelComp = styled.label<{ isDisabled: boolean }>`
   font-weight: 400;
   line-height: 1.33;
   letter-spacing: 0.5px;
+`;
+
+export const firstIconStyles = css`
+  padding-right: 12px;
+`;
+
+export const lastIconStyles = css`
+  padding-left: 12px;
 `;
