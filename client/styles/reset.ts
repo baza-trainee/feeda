@@ -73,6 +73,11 @@ export const reset = css`
     }
 
     /* Inherit fonts for inputs and buttons */
+    button {
+    border: none;
+    cursor: pointer;
+    }
+
     input,
     button,
     textarea,

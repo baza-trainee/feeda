@@ -1,7 +1,9 @@
 import Add from './add.svg';
 import ArrowDown from './arrow_down.svg';
 import Backend from './backend_role.svg';
+import Checkmark from './checkmark.svg';
 import ComplexityActive from './complexity_active.svg';
+import Cross from './cross.svg';
 import Delete from './delete.svg';
 import Design from './design_role.svg';
 import Doc from './doc_role.svg';
@@ -15,6 +17,7 @@ import Ongoing from './ongoing_status.svg';
 import Pencil from './pencil.svg';
 import Plus from './plus.svg';
 import Qa from './qa_role.svg';
+import RoundCheckmark from './round_checkmark.svg';
 import Seo from './seo_role.svg';
 import Team from './team.svg';
 import TeamBuilding from './team_building_status.svg';
@@ -42,4 +45,7 @@ export {
   Team,
   TeamBuilding,
   Trash,
+  RoundCheckmark,
+  Checkmark,
+  Cross,
 };
