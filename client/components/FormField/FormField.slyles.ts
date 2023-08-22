@@ -1,57 +1,30 @@
 import { css } from '@emotion/react';
+import { theme } from 'styles/theme';
+const { colors, fonts } = theme;
 
 export const labelStyles = css`
-	color: #353535;
-	font-size: 16px;
+	color: ${colors.inputLabel};
 	flex-direction: column-reverse;
 	display: flex;
-	gap: 4px;
+	gap: 0.25rem;
 	line-height: normal;
+	letter-spacing: normal;
 	position: relative;
 `;
 
-export const errorInputStyles = css`
-	border-color: #df4242;
-	line-height: 16px;
-	letter-spacing: 0.5px;
-`;
-
-export const validDiscordNameStyle = css`
-	color: #14905d;
-`;
-
-export const validDiscordStyle = css`
-	border-color: #14905d;
-`;
-
-export const errorStyles = css`
-	font-size: 12px;
-	color: rgb(223, 66, 66);
-	position: absolute;
-	bottom: -20px;
-`;
-export const vaidDiscordUnderText = css`
-	line-height: 16px;
-	letter-spacing: 0.5px;
-	color: #14905d;
-	font-size: 12px;
-	position: absolute;
-	bottom: -20px;
-`;
-
 export const inputlStyles = css`
-	padding: 16px;
-	border: 1px solid #cecece;
-	background-color: #fcfcfc;
+	color: ${colors.mainText};
+	padding: 1rem;
+	border: 1px solid ${colors.grey200};
+	background-color: ${colors.grey100};
 	border-radius: 4px;
 
 	&:focus {
-		border-color: #939393;
+		border-color: ${colors.grey400};
 	}
 	&::placeholder {
-		color: #939393;
-		font-size: 16px;
-		font-weight: 400;
+		color: ${colors.grey400};
+		font-size: ${fonts.formField.fontSize.input}rem;
 	}
 	&:focus::placeholder {
 		color: transparent;
@@ -62,4 +35,31 @@ export const inputlStyles = css`
 	&:focus ~ p[data-category='noerrors'] {
 		display: none;
 	}
+`;
+
+export const errorInputStyles = css`
+	border-color: ${colors.error};
+`;
+
+export const errorStyles = css`
+	color: ${colors.error};
+`;
+
+export const validation = css`
+	font-size: ${fonts.formField.fontSize.validation}rem;
+	position: absolute;
+	bottom: -1.25rem;
+`;
+
+export const validDiscordStyle = css`
+	border-color: ${colors.validInput};
+`;
+
+export const validDiscordNameStyle = css`
+	color: ${colors.validInput};
+`;
+
+export const validDiscordUnderText = css`
+	letter-spacing: ${fonts.formField.letterSpacing}px;
+	color: ${colors.validInput};
 `;

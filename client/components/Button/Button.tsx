@@ -1,8 +1,11 @@
+/** @jsxImportSource @emotion/react */
 import { ReactNode, useState } from 'react';
 
-import Image from 'next/image';
+import { AnimatePresence } from 'framer-motion';
 
-/** @jsxImportSource @emotion/react */
+import { colors } from '~styles/theme';
+
+import CloseIcon from '../../public/close.svg';
 import { Btn, CloseBtn } from './Button.styles';
 
 type ButtonProps = {
@@ -20,18 +23,34 @@ const Button = ({ children, isDisabled, func, closeButton }: ButtonProps) => {
 	};
 
 	return !closeButton ? (
-		<Btn
-			onClick={onClickHandler}
+		<AnimatePresence>
+			<Btn
+				onClick={onClickHandler}
+				onMouseDown={() => setIsPressed(true)}
+				onMouseUp={() => setIsPressed(false)}
+				disabled={isDisabled || false}
+				whileHover={
+					!isDisabled
+						? { backgroundColor: colors.mainText, border: `1px solid ${colors.accent}`, color: colors.accent }
+						: {}
+				}
+				whileTap={
+					!isDisabled
+						? { backgroundColor: colors.accent, border: `1px solid ${colors.accent}`, color: colors.mainText }
+						: {}
+				}
+			>
+				{children}
+			</Btn>
+		</AnimatePresence>
+	) : (
+		<CloseBtn
+			onClick={func}
 			onMouseDown={() => setIsPressed(true)}
 			onMouseUp={() => setIsPressed(false)}
-			disabled={isDisabled || false}
 			isPressed={isPressed}
 		>
-			{children}
-		</Btn>
-	) : (
-		<CloseBtn>
-			<Image src="/close.svg" width={24} height={24} alt="Close" onClick={func} />
+			<CloseIcon />
 		</CloseBtn>
 	);
 };
