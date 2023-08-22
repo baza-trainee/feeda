@@ -20,10 +20,11 @@ import {
 } from './CardsContent.styles';
 
 type CardsContentType = {
-  type: 'participants' | 'projects';
+  type: 'participants' | 'projects' | 'search';
   data: ParticipantData[] | ProjectData[];
+  fromSearch?: boolean;
 };
-export function CardsContent({ type, data }: CardsContentType) {
+export function CardsContent({ type, data, fromSearch }: CardsContentType) {
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -32,7 +33,15 @@ export function CardsContent({ type, data }: CardsContentType) {
       {data.map((item: ParticipantData | ProjectData) => {
         return (
           <ListItem key={item.id}>
-            <Link href={type === 'participants' ? `participants/${item.id}` : `projects/${item.id}`}>
+            <Link
+              href={
+                fromSearch
+                  ? item.id.toString()
+                  : type === 'participants'
+                  ? `participants/${item.id}`
+                  : `projects/${item.id}`
+              }
+            >
               <FirstBlockWrapper>
                 <Button
                   variant="icon"
@@ -49,7 +58,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                   func={(ev) => {
                     ev.preventDefault();
                     ev.stopPropagation();
-                    router.push(`${type}/edit/${item.id}`);
+                    router.push(fromSearch ? `edit/${item.id}` : `${type}/edit/${item.id}`);
                   }}
                 />
                 <p>{item.type_participant?.title || item.type_project.project_type}</p>

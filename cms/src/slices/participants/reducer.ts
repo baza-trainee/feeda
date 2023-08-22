@@ -6,7 +6,7 @@ import {
   fetchParticipants,
   getParticipant,
   ParticipantData,
-  searchProjects,
+  searchParticipants,
   sendEmail,
   updateParticipant,
 } from './operations';
@@ -38,6 +38,27 @@ export const participantsSlice = createSlice({
           .join('\n');
         state.error = formattedString;
       } else if (typeof payload === 'string') {
+        console.log('Error: ', payload);
+        state.error = payload;
+      } else {
+        console.log('Error: ', payload);
+        state.error = true;
+      }
+      state.isLoading = false;
+    });
+
+    // - - -
+
+    builder.addCase(searchParticipants.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(searchParticipants.fulfilled, (state, { payload }) => {
+      state.list = payload;
+      state.isLoading = false;
+    });
+    builder.addCase(searchParticipants.rejected, (state, { payload }) => {
+      if (typeof payload === 'string') {
         console.log('Error: ', payload);
         state.error = payload;
       } else {
@@ -107,7 +128,7 @@ export const participantsSlice = createSlice({
     });
     builder.addCase(updateParticipant.fulfilled, (state, { payload }) => {
       state.participant = { ...payload };
-      console.log(payload);
+      console.log('Не забути змінити!! ', payload);
       state.isLoading = false;
     });
     builder.addCase(updateParticipant.rejected, (state, { payload }) => {
@@ -169,19 +190,19 @@ export const participantsSlice = createSlice({
 
     // - - -
 
-    builder.addCase(searchProjects.pending, (state) => {
-      state.isLoading = true;
-      state.error = null;
-    });
-    builder.addCase(searchProjects.fulfilled, (state, { payload }) => {
-      console.log('Projects: ', payload);
-      state.isLoading = false;
-    });
-    builder.addCase(searchProjects.rejected, (state, { payload }) => {
-      console.log('Error: ', payload);
-      state.error = true;
-      state.isLoading = false;
-    });
+    // builder.addCase(searchProjects.pending, (state) => {
+    //   state.isLoading = true;
+    //   state.error = null;
+    // });
+    // builder.addCase(searchProjects.fulfilled, (state, { payload }) => {
+    //   console.log('Projects: ', payload);
+    //   state.isLoading = false;
+    // });
+    // builder.addCase(searchProjects.rejected, (state, { payload }) => {
+    //   console.log('Error: ', payload);
+    //   state.error = true;
+    //   state.isLoading = false;
+    // });
   },
 });
 

@@ -99,6 +99,7 @@ export function Input({
                 defaultValue={defaultValue}
                 onChange={(ev) => {
                   if (pattern || label) setInputValue(ev.target.value);
+                  if (onTypeFunc) onTypeFunc(ev.target.value);
                   handleChange();
                   onChange(ev.target.value);
                   if (onTypeFunc) onTypeFunc(ev.target.value);
