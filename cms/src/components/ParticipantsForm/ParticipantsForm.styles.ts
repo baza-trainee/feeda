@@ -60,7 +60,7 @@ export const Form = styled.form`
         margin-right: 24px;
       }
       &.stackAndRole > div#input-wrapper:last-of-type {
-        width: 183px !important;
+        width: 183px;
       }
     }
   }
