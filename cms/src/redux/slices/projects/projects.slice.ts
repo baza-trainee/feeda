@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchProjects, deleteProject } from './actions';
+
+import { deleteProject,fetchProjects } from './actions';
 
 const initialState: ProjectsState = {
   projects: [],

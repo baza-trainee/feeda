@@ -1,7 +1,8 @@
-import { ActionType } from './common';
-import axios from 'axios';
-import { ProjectData } from './projects.slice';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+import { ActionType } from './common';
+import { ProjectData } from './projects.slice';
 
 const fetchProjects = createAsyncThunk(ActionType.GET_ALL, async () => {
   const { data } = await axios.get<ProjectData[]>('http://localhost:8000/user-project/projects/', {

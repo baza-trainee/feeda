@@ -1,22 +1,24 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { CardsContent } from '~/src/components/CardsContent/CardsContent';
-import { AppDispatch, RootState } from '~/src/redux/store/store';
-import { fetchProjects, deleteProject } from '~/src/redux/slices/projects/actions';
-import { Button } from '~/src/components/Button/Button';
-import { ProjectsContainer, AddButtonWrapper } from './ProjectsPage.styles';
+
 import Link from 'next/link';
 
+import { Button } from '~/src/components/Button/Button';
+import { CardsContent } from '~/src/components/CardsContent/CardsContent';
+import { deleteProject, fetchProjects } from '~/src/redux/slices/projects/actions';
+import { AppDispatch, RootState } from '~/src/redux/store/store';
+
+import { AddButtonWrapper, ProjectsContainer } from './ProjectsPage.styles';
+
 export default function ProjectsPage() {
-  const [isModalOpen, setModalOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
-  const { projects, loading, errors } = useSelector((state: RootState) => state.projects);
+  const { projects, loading } = useSelector((state: RootState) => state.projects);
 
   useEffect(() => {
     dispatch(fetchProjects());
-  }, []);
+  }, [dispatch]);
 
   const handleDelete = (title: string) => {
     dispatch(deleteProject(title)).then(() => {

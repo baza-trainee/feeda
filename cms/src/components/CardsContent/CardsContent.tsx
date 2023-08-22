@@ -1,14 +1,16 @@
 'use client';
 
+import { useState } from 'react';
+
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { PopUp } from '../PopUp/PopUp';
 
 import { commonVariants } from '../../hooks/commonVariants';
 import { ParticipantData } from '../../redux/slices/participants/index';
 import { ProjectData } from '../../redux/slices/projects/projects.slice';
 import { Button } from '../Button/Button';
 import { IconSprite, IconType } from '../IconSprite/IconSprite';
+import { PopUp } from '../PopUp/PopUp';
 import {
   FirstBlockWrapper,
   List,
@@ -17,7 +19,6 @@ import {
   ThirdBlockElementsWrapper,
   ThirdBlockWrapper,
 } from './CardsContent.styles';
-import { useState } from 'react';
 
 type CardsContentType = {
   type: 'participants' | 'projects';

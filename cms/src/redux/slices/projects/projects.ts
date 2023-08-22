@@ -1,4 +1,4 @@
-import { fetchProjects, deleteProject } from './actions';
+import { deleteProject,fetchProjects } from './actions';
 import { actions } from './projects.slice';
 
 const allActions = {
