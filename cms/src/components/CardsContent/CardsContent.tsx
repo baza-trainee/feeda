@@ -93,12 +93,12 @@ export function CardsContent({ type, data, fromSearch }: CardsContentType) {
                       <div id="icon-wrapper">
                         <IconSprite
                           icon={
-                            commonVariants.role.find((searchItem) => searchItem.name === item.speciality.title)?.icon ||
-                            commonVariants.role.find((item) => item.name === 'None')?.icon
+                            commonVariants.role.find((searchItem) => searchItem.name === item.speciality?.title)
+                              ?.icon || commonVariants.role.find((item) => item.name === 'None')?.icon
                           }
                         />
                       </div>
-                      <p id="value">{item.speciality.title}</p>
+                      <p id="value">{item.speciality?.title}</p>
                     </ThirdBlockElementsWrapper>
                   </>
                 ) : (

@@ -68,6 +68,7 @@ export const PageTitle = styled.h1`
   color: ${colors.mainTitle};
   text-overflow: ellipsis;
   overflow: hidden;
+  width: 100%;
 `;
 
 export const MobileHeaderWrapper = styled.div`

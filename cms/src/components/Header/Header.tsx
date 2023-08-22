@@ -91,7 +91,7 @@ export function Header() {
           clearErrors={clearErrors}
         />
       </MobileHeaderWrapper>
-      <PageTitle css={[pageMobileTitleStyles]}>Сайт притулку для вуличних тварин Murrfecto</PageTitle>
+      <PageTitle css={[pageMobileTitleStyles]}>{manageHeaderTitle()}</PageTitle>
     </Wrapper>
   );
 }
