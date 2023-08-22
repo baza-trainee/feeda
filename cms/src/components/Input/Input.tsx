@@ -77,8 +77,11 @@ export function Input({
       name={name}
       rules={rules}
       render={({ field: { onChange }, fieldState: { error } }) => {
-        const handleChange = () => {
+        const handleChange = (value: string) => {
           clearErrors && clearErrors(name);
+          onChange(value);
+          if (onTypeFunc) onTypeFunc(value);
+          if (pattern || label || type === 'date') setInputValue(value);
         };
         return (
           <ClassNames>
@@ -103,7 +106,6 @@ export function Input({
                   {type === 'date' ? (
                     <DatePicker
                       todayButton="Сьогодні"
-                      renderMonthContent={(value) => console.log(value)}
                       dateFormat="dd MMMM yyyy"
                       locale="uk_UA"
                       placeholderText={placeholder}
@@ -111,10 +113,7 @@ export function Input({
                       className={css(inputStyles)}
                       readOnly={readonly}
                       calendarStartDay={1}
-                      onChange={(date) => {
-                        setInputValue(date);
-                        onChange(date);
-                      }}
+                      onChange={handleChange}
                     />
                   ) : (
                     <InputComp
@@ -131,12 +130,7 @@ export function Input({
                       minLength={minLength}
                       pattern={pattern}
                       defaultValue={defaultValue}
-                      onChange={(ev) => {
-                        if (pattern || label) setInputValue(ev.target.value);
-                        if (onTypeFunc) onTypeFunc(ev.target.value);
-                        handleChange();
-                        onChange(ev.target.value);
-                      }}
+                      onChange={(ev) => handleChange(ev.target.value)}
                     />
                   )}
                   {endIconId && (
