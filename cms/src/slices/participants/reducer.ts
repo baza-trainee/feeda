@@ -34,7 +34,7 @@ export const participantsSlice = createSlice({
     builder.addCase(fetchParticipants.rejected, (state, { payload }) => {
       if (typeof payload === 'object') {
         const formattedString = Object.entries(payload)
-          .map(([key, value]) => `${key}: ${value.join(', ')}`)
+          .map(([key, value]) => `${key}: ${value}`)
           .join('\n');
         state.error = formattedString;
       } else if (typeof payload === 'string') {
@@ -106,6 +106,7 @@ export const participantsSlice = createSlice({
       state.error = null;
     });
     builder.addCase(updateParticipant.fulfilled, (state, { payload }) => {
+      state.participant = { ...payload };
       console.log(payload);
       state.isLoading = false;
     });
