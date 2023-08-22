@@ -3,6 +3,7 @@ import {
   ArrowDown,
   ArrowLeft,
   Backend,
+  Calendar,
   Checkmark,
   ComplexityActive,
   Cross,
@@ -54,6 +55,7 @@ export const IconSprite = ({ icon }: { icon: IconType }) => {
     cross: <Cross />,
     search: <SearchIcon />,
     arrowLeft: <ArrowLeft />,
+    calendar: <Calendar />,
   };
 
   const selectedIcon = icons[icon];
@@ -92,6 +94,7 @@ export const iconTypes = {
   cross: 'cross',
   search: 'search',
   arrowLeft: 'arrowLeft',
+  calendar: 'calendar',
 } as const;
 
 export type IconType = keyof typeof iconTypes;

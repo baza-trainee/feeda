@@ -2,6 +2,7 @@ import Add from './add.svg';
 import ArrowDown from './arrow_down.svg';
 import ArrowLeft from './arrow_left.svg';
 import Backend from './backend_role.svg';
+import Calendar from './calendar.svg';
 import Checkmark from './checkmark.svg';
 import ComplexityActive from './complexity_active.svg';
 import Cross from './cross.svg';
@@ -52,4 +53,5 @@ export {
   Cross,
   SearchIcon,
   ArrowLeft,
+  Calendar,
 };
