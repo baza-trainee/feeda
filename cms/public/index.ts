@@ -1,6 +1,7 @@
 import Add from './add.svg';
 import ArrowDown from './arrow_down.svg';
 import Backend from './backend_role.svg';
+import Calendar from './calendar.svg';
 import Checkmark from './checkmark.svg';
 import CloseMenu from './close_menu.svg';
 import ComplexityActive from './complexity_active.svg';
@@ -50,4 +51,5 @@ export {
   RoundCheckmark,
   Checkmark,
   Cross,
+  Calendar,
 };

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { theme } from 'styles/theme';
 
 const { colors, fonts, media } = theme;
+
 export const FormWrapper = styled(motion.div)`
 	padding: 5rem 0 7.75rem 0;
 	@media screen and (${media.desktop}) {
@@ -46,7 +47,6 @@ export const InputsWrapper = styled(Wrapper)`
 `;
 
 export const SelectWrapper = styled(Wrapper)`
-	text-transform: capitalize;
 	margin-bottom: 2.75rem;
 
 	@media screen and (${media.tablet}) {

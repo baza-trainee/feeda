@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { getInstructions } from '../slices/instructions';
+import { getInstructions } from '../redux/slices/instructions';
 
 export function ApiFetchComp() {
   const dispatch = useDispatch();

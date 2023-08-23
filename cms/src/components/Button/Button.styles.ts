@@ -18,6 +18,7 @@ export const PrimaryBtn = styled.button<{ isPressed: boolean; disabled: boolean 
   background-color: #232323;
   border: none;
   cursor: pointer;
+  text-wrap: nowrap;
 
   &:disabled {
     color: #939393;
