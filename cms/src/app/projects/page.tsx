@@ -20,7 +20,7 @@ export default function ProjectsPage() {
     dispatch(fetchProjects());
   }, [dispatch]);
 
-  const handleDelete = (title: string) => {
+  const handleDelete = (title: string | number | null) => {
     dispatch(deleteProject(title)).then(() => {
       dispatch(fetchProjects());
     });

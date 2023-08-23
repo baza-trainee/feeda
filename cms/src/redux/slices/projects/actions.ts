@@ -14,7 +14,7 @@ const fetchProjects = createAsyncThunk(ActionType.GET_ALL, async () => {
   return data;
 });
 
-const deleteProject = createAsyncThunk(ActionType.DELETE_PROJECT, async (title: string) => {
+const deleteProject = createAsyncThunk(ActionType.DELETE_PROJECT, async (title: string | number | null) => {
   const { data } = await axios.delete(`http://localhost:8000/user-project/project/${title}`, {
     headers: {
       Authorization: 'Token 87495e7e2a03ca367358472a0e81c954fd90c59c', //implement auth,
