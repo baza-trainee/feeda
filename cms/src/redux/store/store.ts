@@ -3,12 +3,12 @@ import { configureStore } from '@reduxjs/toolkit';
 import instructionsReducer, { InstructionsStateType } from '../slices/instructions';
 import participantsReducer from '../slices/participants/reducer';
 import { ParticipantsStateTypes } from '../slices/participants/reducer';
-import projecsReducer from '../slices/projects';
-import { ProjectsState } from '../slices/projects';
+import { reducer as projectsReducer } from '../slices/projects/projects';
+import { ProjectsState } from '../slices/projects/projects.slice';
 
 export const store = configureStore({
   reducer: {
-    projects: projecsReducer,
+    projects: projectsReducer,
     participants: participantsReducer,
     instructions: instructionsReducer,
   },
