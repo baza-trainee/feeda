@@ -7,8 +7,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { commonVariants } from '../../helpers/commonVariants';
-import { deleteParticipant, ParticipantData } from '../../slices/participants/operations';
-import { ProjectData } from '../../slices/projects/index';
+import { deleteParticipant, ParticipantData } from '../../redux/slices/participants/operations';
+import { ProjectData } from '../../redux/slices/projects/projects.slice';
 import { Button } from '../Button/Button';
 import { IconSprite, IconType } from '../IconSprite/IconSprite';
 import { PopUp } from '../PopUp/PopUp';
@@ -24,26 +24,17 @@ import {
 type CardsContentType = {
   type: 'participants' | 'projects' | 'search';
   data: ParticipantData[] | ProjectData[];
-  // fromSearch?: boolean;
 };
-export function CardsContent({ type, data, fromSearch }: CardsContentType) {
-  const router = useRouter();
+export function CardsContent({ type, data }: CardsContentType) {
   const dispatch = useDispatch();
-
+  const router = useRouter();
+  console.log(data);
   return (
     <List>
       {data.map((item: ParticipantData | ProjectData) => {
         return (
           <ListItem key={item.id}>
-            <Link
-              href={
-                fromSearch
-                  ? item.id.toString()
-                  : type === 'participants'
-                  ? `participants/${item.id}`
-                  : `projects/${item.id}`
-              }
-            >
+            <Link href={type === 'participants' ? `/participants/${item.id}` : `/projects/${item.id}`}>
               <FirstBlockWrapper>
                 <Button
                   variant="icon"
@@ -60,7 +51,7 @@ export function CardsContent({ type, data, fromSearch }: CardsContentType) {
                   func={(ev) => {
                     ev.preventDefault();
                     ev.stopPropagation();
-                    router.push(fromSearch ? `edit/${item.id}` : `${type}/edit/${item.id}`);
+                    router.push(`/${type}/edit/${item.id}`);
                   }}
                 />
                 <p>{item.type_participant?.title || item.type_project.project_type}</p>
@@ -75,7 +66,7 @@ export function CardsContent({ type, data, fromSearch }: CardsContentType) {
                 ) : (
                   <>
                     <h2 title={item.title}>{item.title}</h2>
-                    <p title={item.participants}>{item.participants} Учасник</p>
+                    <p title={item.participants_count}>{item.participants_count} Учасник</p>
                   </>
                 )}
               </SecondBlockWrapper>
@@ -109,20 +100,30 @@ export function CardsContent({ type, data, fromSearch }: CardsContentType) {
                       <p id="name">Складість</p>
                       <div id="complexity">
                         {commonVariants.complexity.map((complexity, idx) => (
-                          <>
-                            <div id="complexity-icon" key={idx}>
-                              <IconSprite
-                                icon={
-                                  commonVariants.status.find(
-                                    (searchItem) => searchItem.name === (item as ProjectData).project_status.status
-                                  )?.icon as IconType
-                                }
-                              />
-                            </div>
-                            <p id="value">{(item as ProjectData).project_status.status}</p>
-                          </>
+                          <div id="complexity-icon" key={idx}>
+                            <IconSprite
+                              icon={
+                                complexity <= Number.parseInt((item as ProjectData).complexity.complexity)
+                                  ? 'complexityActive'
+                                  : 'complexityInactive'
+                              }
+                            />
+                          </div>
                         ))}
                       </div>
+                    </ThirdBlockElementsWrapper>
+                    <ThirdBlockElementsWrapper>
+                      <p id="name">Стан</p>
+                      <div id="icon-wrapper">
+                        <IconSprite
+                          icon={
+                            commonVariants.status.find(
+                              (searchItem) => searchItem.name === (item as ProjectData).project_status.status
+                            )?.icon as IconType
+                          }
+                        />
+                      </div>
+                      <p id="value">{(item as ProjectData).project_status.status}</p>
                     </ThirdBlockElementsWrapper>
                   </>
                 )}

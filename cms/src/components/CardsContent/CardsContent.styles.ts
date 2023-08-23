@@ -123,8 +123,14 @@ export const ThirdBlockElementsWrapper = styled.div`
     & > div#complexity-icon {
       display: flex;
       margin-right: 8px;
+
       &:last-child {
         margin-right: 0;
+      }
+
+      & > svg {
+        width: 16px;
+        height: 16px;
       }
     }
   }
