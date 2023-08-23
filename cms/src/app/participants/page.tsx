@@ -10,11 +10,12 @@ import { CardsContent } from '../../components/CardsContent/CardsContent';
 import { IconSprite } from '../../components/IconSprite/IconSprite';
 import { Title } from '../../components/Title/Title';
 import { fetchParticipants, searchParticipants } from '../../slices/participants/operations';
-import { StoreTypes } from '../../store/store';
+import { AppDispatch, StoreTypes } from '../../store/store';
+import Loader from '../loading';
 import { Wrapper } from './page.styles';
 
 export default function ParticipantsPage() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { list, isLoading, error } = useSelector((state: StoreTypes) => state.participants);
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
@@ -36,7 +37,7 @@ export default function ParticipantsPage() {
   }, [query]);
 
   return isLoading ? (
-    <Title title="Loading" />
+    <Loader />
   ) : error ? (
     <Title title={typeof error == 'string' ? error : 'Error'} />
   ) : (

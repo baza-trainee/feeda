@@ -6,13 +6,15 @@ import { usePathname } from 'next/navigation';
 
 import { ParticipantsForm } from '../../../components/ParticipantsForm/ParticipantsForm';
 import { Title } from '../../../components/Title/Title';
+import { ParticipantData } from '../../../slices/participants/operations';
 import { getParticipant } from '../../../slices/participants/operations';
-import { StoreTypes } from '../../../store/store';
+import { AppDispatch, StoreTypes } from '../../../store/store';
+import Loader from '../../loading';
 
 export default function ParticipantProfile() {
   const pathname = usePathname();
-  const dispatch = useDispatch();
-  const [defaultValues, setDefaultValues] = useState(null);
+  const dispatch = useDispatch<AppDispatch>();
+  const [defaultValues, setDefaultValues] = useState<null | ParticipantData>(null);
   const { isLoading, error, participant } = useSelector((state: StoreTypes) => state.participants);
   const userId = pathname.split('/')[pathname.split('/').length - 1];
 
@@ -25,7 +27,7 @@ export default function ParticipantProfile() {
   }, [participant]);
 
   return isLoading ? (
-    <Title title="Loading" />
+    <Loader />
   ) : error ? (
     <Title title={typeof error == 'string' ? error : 'Error'} />
   ) : (

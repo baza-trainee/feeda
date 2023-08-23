@@ -5,16 +5,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ParticipantsForm } from '../../../components/ParticipantsForm/ParticipantsForm';
 import { PopUp } from '../../../components/PopUp/PopUp';
 import { Title } from '../../../components/Title/Title';
+import { FormDataTypes } from '../../../helpers/manageParticipantFormValues';
 import { createParticipant } from '../../../slices/participants/operations';
-import { StoreTypes } from '../../../store/store';
+import { AppDispatch, StoreTypes } from '../../../store/store';
+import Loader from '../../loading';
 
 export default function CreateParticipant() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { specialities, participation_types } = useSelector((state: StoreTypes) => state.instructions);
   const { error, isLoading } = useSelector((state: StoreTypes) => state.participants);
   const [showPopUp, setShowPopUp] = useState(false);
 
-  const handleSubmit = (formData: object) => {
+  const handleSubmit = (formData: FormDataTypes) => {
+    if (!specialities || !participation_types) return console.log('Instructions not loaded');
     dispatch(createParticipant({ formData, instructions: { specialities, participation_types } })).then(
       (res: { meta: { requestStatus: string } }) => {
         if (res.meta.requestStatus === 'fulfilled') {
@@ -29,7 +32,7 @@ export default function CreateParticipant() {
   };
 
   return isLoading ? (
-    <Title title="Loading" />
+    <Loader />
   ) : error ? (
     <Title title={typeof error == 'string' ? error : 'Error'} />
   ) : (

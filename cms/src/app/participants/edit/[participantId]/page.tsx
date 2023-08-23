@@ -7,11 +7,13 @@ import { usePathname } from 'next/navigation';
 import { ParticipantsForm } from '../../../../components/ParticipantsForm/ParticipantsForm';
 import { PopUp } from '../../../../components/PopUp/PopUp';
 import { Title } from '../../../../components/Title/Title';
+import { FormDataTypes } from '../../../../helpers/manageParticipantFormValues';
 import { getParticipant, updateParticipant } from '../../../../slices/participants/operations';
-import { StoreTypes } from '../../../../store/store';
+import { AppDispatch, StoreTypes } from '../../../../store/store';
+import Loader from '../../../loading';
 
 export default function EditParticipant() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const pathname = usePathname();
   const [showPopUp, setShowPopUp] = useState(false);
   const { isLoading, error, participant } = useSelector((state: StoreTypes) => state.participants);
@@ -25,7 +27,7 @@ export default function EditParticipant() {
     // eslint-disable-next-line
   }, []);
 
-  const handleSubmit = (formData: object) => {
+  const handleSubmit = (formData: FormDataTypes) => {
     if (!specialities || !participation_types) return console.log('Instructions not loaded');
     dispatch(updateParticipant({ formData, userId, instructions: { specialities, participation_types } })).then(
       (res: { meta: { requestStatus: string } }) => {
@@ -41,7 +43,7 @@ export default function EditParticipant() {
   };
 
   return isLoading ? (
-    <Title title="Loading" />
+    <Loader />
   ) : error ? (
     <Title title={typeof error == 'string' ? error : 'Error'} />
   ) : (
