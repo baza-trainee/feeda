@@ -8,8 +8,8 @@ import { ParticipantsForm } from '../../../../components/ParticipantsForm/Partic
 import { PopUp } from '../../../../components/PopUp/PopUp';
 import { Title } from '../../../../components/Title/Title';
 import { FormDataTypes } from '../../../../helpers/manageParticipantFormValues';
-import { getParticipant, updateParticipant } from '../../../../slices/participants/operations';
-import { AppDispatch, StoreTypes } from '../../../../store/store';
+import { getParticipant, updateParticipant } from '../../../../redux/slices/participants/operations';
+import { AppDispatch, StoreTypes } from '../../../../redux/store/store';
 import Loader from '../../../loading';
 
 export default function EditParticipant() {

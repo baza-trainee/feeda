@@ -6,8 +6,8 @@ import { ParticipantsForm } from '../../../components/ParticipantsForm/Participa
 import { PopUp } from '../../../components/PopUp/PopUp';
 import { Title } from '../../../components/Title/Title';
 import { FormDataTypes } from '../../../helpers/manageParticipantFormValues';
-import { createParticipant } from '../../../slices/participants/operations';
-import { AppDispatch, StoreTypes } from '../../../store/store';
+import { createParticipant } from '../../../redux/slices/participants/operations';
+import { AppDispatch, StoreTypes } from '../../../redux/store/store';
 import Loader from '../../loading';
 
 export default function CreateParticipant() {

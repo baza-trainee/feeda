@@ -6,9 +6,9 @@ import { usePathname } from 'next/navigation';
 
 import { ParticipantsForm } from '../../../components/ParticipantsForm/ParticipantsForm';
 import { Title } from '../../../components/Title/Title';
-import { ParticipantData } from '../../../slices/participants/operations';
-import { getParticipant } from '../../../slices/participants/operations';
-import { AppDispatch, StoreTypes } from '../../../store/store';
+import { ParticipantData } from '../../../redux/slices/participants/operations';
+import { getParticipant } from '../../../redux/slices/participants/operations';
+import { AppDispatch, StoreTypes } from '../../../redux/store/store';
 import Loader from '../../loading';
 
 export default function ParticipantProfile() {

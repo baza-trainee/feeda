@@ -28,7 +28,7 @@ export const participantsSlice = createSlice({
       state.error = null;
     });
     builder.addCase(fetchParticipants.fulfilled, (state, { payload }) => {
-      state.list = payload;
+      state.list = payload.results;
       state.isLoading = false;
     });
     builder.addCase(fetchParticipants.rejected, (state, { payload }) => {

@@ -2,14 +2,14 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:8000/user-project/';
-axios.defaults.headers.Authorization = 'Token 15602a4517e31a21eeabb48ce75e51fb7c7d53b4';
+axios.defaults.headers.Authorization = 'Token 7059c31571909b45df3af67c0f8f719d7b793bd0';
 
-import { FormDataTypes, InstructionsTypes, manageFormFields } from '../../helpers/manageParticipantFormValues';
+import { FormDataTypes, InstructionsTypes, manageFormFields } from '../../../helpers/manageParticipantFormValues';
 import { IdNameType } from '../instructions';
 
 export const fetchParticipants = createAsyncThunk('participants/fetchParticipants', async (_, { rejectWithValue }) => {
   try {
-    const { data } = await axios.get<ParticipantData[]>('participants-list/');
+    const { data } = await axios.get<ParticipantsResponseTypes>('participants-list/');
     return data;
   } catch (err) {
     return rejectWithValue(err.response.data);
@@ -124,6 +124,13 @@ interface UpdateParticipantTypes {
     specialities: IdNameType[];
     participation_types: IdNameType[];
   };
+}
+
+interface ParticipantsResponseTypes {
+  count: number;
+  next: null;
+  previous: null;
+  results: ParticipantData[];
 }
 
 export interface ParticipantData {

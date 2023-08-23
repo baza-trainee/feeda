@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 import { FormDataTypes } from '../../helpers/manageParticipantFormValues';
 import { cityRegex, discordRegex, emailRegex, linkedRegex, nameRegex, phoneNumberRegex } from '../../helpers/regexs';
-import { ParticipantData, sendEmail } from '../../slices/participants/operations';
+import { ParticipantData, sendEmail } from '../../redux/slices/participants/operations';
 import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
 import { experienceVariants, membersRole, projectType } from '../SelectField/lists';

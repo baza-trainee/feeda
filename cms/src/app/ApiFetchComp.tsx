@@ -3,8 +3,8 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { getInstructions } from '../slices/instructions';
-import { AppDispatch } from '../store/store';
+import { getInstructions } from '../redux/slices/instructions';
+import { AppDispatch } from '../redux/store/store';
 
 export function ApiFetchComp() {
   const dispatch = useDispatch<AppDispatch>();

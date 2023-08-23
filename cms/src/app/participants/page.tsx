@@ -9,8 +9,8 @@ import { useSearchParams } from 'next/navigation';
 import { CardsContent } from '../../components/CardsContent/CardsContent';
 import { IconSprite } from '../../components/IconSprite/IconSprite';
 import { Title } from '../../components/Title/Title';
-import { fetchParticipants, searchParticipants } from '../../slices/participants/operations';
-import { AppDispatch, StoreTypes } from '../../store/store';
+import { fetchParticipants, searchParticipants } from '../../redux/slices/participants/operations';
+import { AppDispatch, StoreTypes } from '../../redux/store/store';
 import Loader from '../loading';
 import { Wrapper } from './page.styles';
 

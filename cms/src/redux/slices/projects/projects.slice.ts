@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { deleteProject,fetchProjects } from './actions';
+import { deleteProject, fetchProjects } from './actions';
 
 const initialState: ProjectsState = {
   projects: [],
@@ -45,7 +45,7 @@ const { reducer, actions, name } = createSlice({
   },
 });
 
-interface ProjectsState {
+export interface ProjectsState {
   projects: ProjectData[];
   loading: 'loading' | 'success' | 'rejected' | null;
   errors: string | null;
