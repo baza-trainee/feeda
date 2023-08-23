@@ -36,7 +36,7 @@ export function CardsContent({ type, data, onDelete }: CardsContentType) {
         {data &&
           data.map((item: ParticipantData | ProjectData) => {
             return (
-              <ListItem>
+              <ListItem key={item.id}>
                 <Link href={type === 'participants' ? `participants/${item.id}` : `projects/${item.id}`}>
                   <FirstBlockWrapper>
                     <Button
