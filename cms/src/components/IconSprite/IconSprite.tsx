@@ -24,7 +24,7 @@ import {
   Trash,
 } from '../../../public';
 
-export const IconSprite = ({ icon }: { icon: IconType }) => {
+export const IconSprite = ({ icon, style }: { icon: IconType; style?: any }) => {
   const icons: Record<IconType, JSX.Element> = {
     exit: <Exit />,
     add: <Add />,
@@ -58,7 +58,7 @@ export const IconSprite = ({ icon }: { icon: IconType }) => {
     return null;
   }
 
-  return selectedIcon;
+  return <span style={style}>{selectedIcon}</span>;
 };
 
 export const iconTypes = {
