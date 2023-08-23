@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { AnimatePresence } from 'framer-motion';
+
 import { useGlobalState } from '~/hooks/useGlobalState';
 import useMobileDetect from '~/hooks/useMobileDetect';
 import Button from '~components/Button/Button';
@@ -20,29 +22,31 @@ export const StartPopUp = React.memo(() => {
 	};
 
 	return (
-		<Wrapper
-			key="start"
-			initial={{ opacity: 0, y: '-100px' }}
-			animate={{ opacity: 1, y: '0px' }}
-			exit={{ opacity: 0, y: '-100px' }}
-			transition={{ duration: 1 }}
-		>
-			<Title main>
-				Вітаю! <br /> Ти за крок до роботи над
-				<br />
-				цікавими проєктами в командах
-			</Title>
-			<TextWrapper>
-				<p>
-					Вся комунікація в командах{mobile && <br />} ведеться у <Disc> Discord </Disc>
+		<AnimatePresence>
+			<Wrapper
+				key="start"
+				initial={{ opacity: 0, y: '100px' }}
+				animate={{ opacity: 1, y: '0px' }}
+				exit={{ opacity: 0, y: '-100px' }}
+				transition={{ duration: 0.5 }}
+			>
+				<Title main>
+					Вітаю! <br /> Ти за крок до роботи над
 					<br />
-					<br />
-					Тобі залишилось ознайомитися з <Terms onClick={showModal}>умовами та правилами участі на проєкті </Terms>
-					та заповнити анкету
-				</p>
-			</TextWrapper>
-			<Button func={handleClick}>Заповнити анкету</Button>
-		</Wrapper>
+					цікавими проєктами в командах
+				</Title>
+				<TextWrapper>
+					<p>
+						Вся комунікація в командах{mobile && <br />} ведеться у <Disc> Discord </Disc>
+						<br />
+						<br />
+						Тобі залишилось ознайомитися з <Terms onClick={showModal}>умовами та правилами участі в проєкті </Terms>
+						та заповнити анкету
+					</p>
+				</TextWrapper>
+				<Button func={handleClick}>Заповнити анкету</Button>
+			</Wrapper>
+		</AnimatePresence>
 	);
 });
 
