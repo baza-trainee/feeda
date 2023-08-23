@@ -81,9 +81,10 @@ export const UserApplication = () => {
 	return (
 		<FormWrapper
 			key="application"
-			style={{ opacity: 0, translateY: '-100vh' }}
+			style={{ opacity: 0, translateY: '100px' }}
 			animate={{ opacity: 1, translateY: '0' }}
-			transition={{ duration: 1 }}
+			exit={{ opacity: 0, translateY: '-100px' }}
+			transition={{ duration: 0.5 }}
 		>
 			<Form key="application" onSubmit={handleSubmit(onFormSubmit)}>
 				<Title main application>
@@ -102,15 +103,15 @@ export const UserApplication = () => {
 							required: requiredField,
 							minLength: {
 								value: 2,
-								message: 'поле повинно містити мінімум 2 символи',
+								message: 'Поле повинно містити мінімум 2 символи',
 							},
 							maxLength: {
 								value: 50,
-								message: 'поле повинно містити не більше 50 символів',
+								message: 'Поле повинно містити не більше 50 символів',
 							},
 							pattern: {
 								value: nameRegex,
-								message: "будь ласка введіть валіднe ім'я",
+								message: "Будь ласка введіть валіднe ім'я",
 							},
 						}}
 					/>
@@ -127,15 +128,15 @@ export const UserApplication = () => {
 							required: requiredField,
 							minLength: {
 								value: 2,
-								message: 'поле повинно містити мінімум 2 символи',
+								message: 'Поле повинно містити мінімум 2 символи',
 							},
 							maxLength: {
 								value: 50,
-								message: 'поле повинно містити не більше 50 символів',
+								message: 'Поле повинно містити не більше 50 символів',
 							},
 							pattern: {
 								value: nameRegex,
-								message: 'будь ласка введіть валіднe прізвище',
+								message: 'Будь ласка введіть валіднe прізвище',
 							},
 						}}
 					/>
@@ -152,11 +153,11 @@ export const UserApplication = () => {
 							required: requiredField,
 							minLength: {
 								value: 2,
-								message: 'поле повинно містити мінімум 2 символи',
+								message: 'Поле повинно містити мінімум 2 символи',
 							},
 							maxLength: {
 								value: 300,
-								message: 'поле повинно містити не більше 300 символів',
+								message: 'Поле повинно містити не більше 300 символів',
 							},
 						}}
 					/>
@@ -172,7 +173,7 @@ export const UserApplication = () => {
 						inputProps={{
 							required: requiredField,
 							pattern: {
-								message: `введіть номер у форматі: ${phoneNumberFormat}`,
+								message: `Введіть номер у форматі: ${phoneNumberFormat}`,
 								value: phoneNumberRegex,
 							},
 						}}
@@ -213,17 +214,17 @@ export const UserApplication = () => {
 						inputProps={{
 							required: requiredField,
 							pattern: {
-								message: "введіть валідне ім'я користувача",
+								message: "Введіть валідне ім'я користувача",
 								value: discordRegex,
 							},
 
 							minLength: {
 								value: 2,
-								message: 'поле повинно містити мінімум 2 символи',
+								message: 'Поле повинно містити мінімум 2 символи',
 							},
 							maxLength: {
 								value: 37,
-								message: 'поле повинно містити не більше 37 символів',
+								message: 'Поле повинно містити не більше 37 символів',
 							},
 						}}
 						discordValue={discordValue}
@@ -240,16 +241,16 @@ export const UserApplication = () => {
 						inputProps={{
 							required: requiredField,
 							pattern: {
-								message: 'будь ласка введіть правильну адресу',
+								message: 'Будь ласка введіть правильну адресу',
 								value: linkedRegex,
 							},
 							minLength: {
 								value: 19,
-								message: 'поле повинно містити мінімум 19 символів',
+								message: 'Поле повинно містити мінімум 19 символів',
 							},
 							maxLength: {
 								value: 128,
-								message: 'поле повинно містити не більше 128 символів',
+								message: 'Поле повинно містити не більше 128 символів',
 							},
 						}}
 					/>
@@ -265,14 +266,14 @@ export const UserApplication = () => {
 						inputProps={{
 							minLength: {
 								value: 2,
-								message: 'поле повинно містити мінімум 2 символи',
+								message: 'Поле повинно містити мінімум 2 символи',
 							},
 							maxLength: {
 								value: 50,
-								message: 'поле повинно містити не більше 50 символів',
+								message: 'Поле повинно містити не більше 50 символів',
 							},
 							pattern: {
-								message: 'будь ласка введіть валідну назву міста(країни)',
+								message: 'Будь ласка введіть валідну назву міста(країни)',
 								value: cityRegex,
 							},
 						}}
