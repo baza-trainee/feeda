@@ -19,27 +19,26 @@ interface CustomSelectProps {
   options: OptionType[];
   placeholder: string | JSX.Element;
   clearErrors: (name?: string | string[]) => void;
-  valueGetter: (value: string | number) => OptionType | undefined | string | number;
   title: string;
-  defaultValue: OptionType;
+  isSearchable?: boolean;
+  isDisabled?: boolean;
 }
 
-export const CustomSelect = ({
+export const SelectField = ({
   control,
   name,
   rules,
   options,
   placeholder,
   clearErrors,
-  valueGetter,
   title,
-  defaultValue,
+  isSearchable = false,
+  isDisabled = false,
 }: CustomSelectProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
     <Controller
-      defaultValue={defaultValue}
       control={control}
       name={name}
       rules={rules}
@@ -48,21 +47,24 @@ export const CustomSelect = ({
           clearErrors(name);
         };
 
-        const computedValue = typeof valueGetter === 'function' ? valueGetter(value) : value;
-
         return (
           <div style={{ position: 'relative' }} id="input-wrapper">
             <Label>
               {title}
               <Select
-                isDisabled={false}
+                ///////////////// fetch logic
+                onInputChange={(value) => {
+                  console.log(value);
+                }}
+                /////////////////
+                isDisabled={isDisabled}
                 components={{ DropdownIndicator }}
                 instanceId={name}
-                isSearchable={false}
+                isSearchable={isSearchable}
                 styles={selectStyles(!!error, isDropdownOpen, false)}
                 placeholder={placeholder}
                 options={options}
-                value={computedValue}
+                value={value}
                 onChange={(selectedOption) => {
                   setIsDropdownOpen(false);
                   onChange(selectedOption);
@@ -72,7 +74,6 @@ export const CustomSelect = ({
                 onMenuClose={() => setIsDropdownOpen(false)}
                 onBlur={() => {
                   setIsDropdownOpen(false);
-
                   onBlur();
                 }}
               />
