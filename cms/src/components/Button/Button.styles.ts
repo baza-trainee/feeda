@@ -1,5 +1,8 @@
 import styled from '@emotion/styled';
 
+import { colors, fonts, media } from '../../styles/theme';
+import { IconSprite } from '../IconSprite/IconSprite';
+
 export const PrimaryBtn = styled.button<{ isPressed: boolean; disabled: boolean }>`
   display: flex;
   justify-content: center;
@@ -82,4 +85,50 @@ export const PopUpBtnAccept = styled(PopUpBtn)`
 `;
 export const PopUpBtnCancel = styled(PopUpBtn)`
   color: #df4242;
+`;
+
+export const NavBtn = styled(PrimaryBtn)<{ isPressed: boolean; btnClicked: boolean }>`
+  padding: 8px 16px;
+  justify-content: flex-start;
+  font-weight: ${fonts.title.fontWeight.tablet};
+  font-size: ${fonts.title.fontSize.tablet}px;
+  letter-spacing: ${fonts.title.letterSpacing.tablet}px;
+  border: transparent;
+  color: ${({ btnClicked }) => (btnClicked ? colors.white : colors.mainText)};
+  background-color: ${({ btnClicked }) => (btnClicked ? colors.mainLabel : colors.white)};
+
+  &:not(:disabled):hover {
+    background-color: ${colors.mainLabel};
+    color: ${colors.white};
+  }
+
+  ${({ isPressed }) =>
+    isPressed ? ` background-color: ${colors.mainLabel} !important; color: ${colors.white} !important;` : ''}
+`;
+
+export const SubNavBtn = styled(NavBtn)<{ isPressed: boolean; btnClicked: boolean; titleContinuation: boolean }>`
+  position: relative;
+  padding: 8px 16px;
+  font-weight: ${fonts.body.fontWeight};
+  font-size: ${fonts.body.fontSize.desktop}px;
+  letter-spacing: 0px;
+  border-bottom: 1px solid ${colors.disabledBtnBg};
+  color: ${({ btnClicked }) => (btnClicked ? colors.white : colors.mainText)};
+  background-color: ${({ btnClicked }) => (btnClicked ? colors.mainLabel : colors.white)};
+
+  @media screen and (${media.desktop}) {
+    &:after {
+      position: absolute;
+      content: ${({ titleContinuation }) => (titleContinuation ? "'команди'" : "''")};
+      left: 48%;
+    }
+  }
+
+  &:not(:disabled):hover {
+    background-color: ${colors.mainLabel};
+    color: ${colors.white};
+  }
+
+  ${({ isPressed }) =>
+    isPressed ? ` background-color: ${colors.mainLabel} !important; color: ${colors.white} !important;` : ''}
 `;
