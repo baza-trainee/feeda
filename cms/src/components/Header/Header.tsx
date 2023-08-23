@@ -1,10 +1,14 @@
 /** @jsxImportSource @emotion/react */
 'use client';
 
+import { useState } from 'react';
+
 import Link from 'next/link';
 
+import CloseMenuIcon from '../../../public/close_menu.svg';
 import MenuIcon from '../../../public/menu.svg';
 import SearchIcon from '../../../public/search.svg';
+import { Sidebar } from '../Sidebar/Sidebar';
 import {
   DesktopContent,
   Logo,
@@ -20,6 +24,8 @@ import {
 } from './Header.styles';
 
 export function Header() {
+  const [showSidebar, setShowSidebar] = useState(false);
+
   return (
     <Wrapper>
       <DesktopContent>
@@ -30,8 +36,8 @@ export function Header() {
       </DesktopContent>
       <MobileHeaderWrapper>
         <MenuWrapper>
-          <MenuBtn onClick={() => console.log('Open menu')}>
-            <MenuIcon />
+          <MenuBtn onClick={() => setShowSidebar(!showSidebar)}>
+            {showSidebar ? <CloseMenuIcon style={{ fill: '#fff' }} /> : <MenuIcon />}
           </MenuBtn>
         </MenuWrapper>
         <SearchWrapper>
@@ -42,6 +48,8 @@ export function Header() {
         </SearchWrapper>
       </MobileHeaderWrapper>
       <PageTitle css={[pageMobileTitleStyles]}>Сайт притулку для вуличних тварин Murrfecto</PageTitle>
+
+      {showSidebar && <Sidebar />}
     </Wrapper>
   );
 }
