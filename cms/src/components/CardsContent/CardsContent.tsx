@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -35,7 +35,7 @@ export function CardsContent({ type, data, onDelete }: CardsContentType) {
       {data &&
         data.map((item: ParticipantData | ProjectData) => {
           return (
-            <>
+            <Fragment key={item.id}>
               {isModalOpen && (
                 <PopUp
                   closeModalFunc={() => setModalOpen(true)}
@@ -47,7 +47,7 @@ export function CardsContent({ type, data, onDelete }: CardsContentType) {
                   noCallback={() => setModalOpen(false)}
                 />
               )}
-              <ListItem key={item.id}>
+              <ListItem>
                 <Link href={type === 'participants' ? `participants/${item.id}` : `projects/${item.id}`}>
                   <FirstBlockWrapper>
                     <Button
@@ -146,7 +146,7 @@ export function CardsContent({ type, data, onDelete }: CardsContentType) {
                   </ThirdBlockWrapper>
                 </Link>
               </ListItem>
-            </>
+            </Fragment>
           );
         })}
     </List>
