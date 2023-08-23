@@ -3,13 +3,22 @@
 import { useState } from 'react';
 
 import { IconSprite, IconType } from '../IconSprite/IconSprite';
-import { IconBtn, PopUpBtnAccept, PopUpBtnCancel, PrimaryBtn, TextBtn, SubNavBtn, NavBtn } from './Button.styles';
+import {
+  IconBtn,
+  NavBtn,
+  PopUpBtnAccept,
+  PopUpBtnCancel,
+  PrimaryBtn,
+  SignOutBtn,
+  SubNavBtn,
+  TextBtn,
+} from './Button.styles';
 
 type ButtonProps = {
   isDisabled?: boolean;
   func?: (ev: React.MouseEvent<HTMLButtonElement>) => void;
   btnType?: 'button' | 'submit' | 'reset';
-  variant: 'primary' | 'text' | 'icon' | 'accept' | 'cancel' | 'nav' | 'subnav';
+  variant: 'primary' | 'text' | 'icon' | 'accept' | 'cancel' | 'nav' | 'subnav' | 'signout';
   icon?: IconType | null;
   secondIcon?: IconType | null;
   title?: string;
@@ -42,6 +51,7 @@ export const Button = ({
     cancel: PopUpBtnCancel,
     nav: NavBtn,
     subnav: SubNavBtn,
+    signout: SignOutBtn,
   };
 
   const ButtonComponent = btnVariants[variant] || PrimaryBtn;

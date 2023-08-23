@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 
 import { colors, fonts, media } from '../../styles/theme';
-import { IconSprite } from '../IconSprite/IconSprite';
 
 export const PrimaryBtn = styled.button<{ isPressed: boolean; disabled: boolean }>`
   display: flex;
@@ -131,4 +130,9 @@ export const SubNavBtn = styled(NavBtn)<{ isPressed: boolean; btnClicked: boolea
 
   ${({ isPressed }) =>
     isPressed ? ` background-color: ${colors.mainLabel} !important; color: ${colors.white} !important;` : ''}
+`;
+
+export const SignOutBtn = styled(TextBtn)`
+  letter-spacing: ${fonts.title.letterSpacing.tablet}px;
+  width: 112px;
 `;

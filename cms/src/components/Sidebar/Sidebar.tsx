@@ -3,7 +3,8 @@
 import { useState } from 'react';
 
 import { Button } from '../Button/Button';
-import { Nav, NavLink, ProjectsWrapper, Wrapper } from './Sidebar.style';
+import { SignOutBtn } from '../SignOutBtn/SignOutBtn';
+import { Nav, NavLink, ProjectsWrapper, SidebarWrapper, Wrapper } from './Sidebar.style';
 
 export function Sidebar() {
   const [showProjectsOptions, setShowProjectsOptions] = useState(false);
@@ -71,80 +72,83 @@ export function Sidebar() {
   ];
 
   return (
-    <Nav>
-      <Wrapper>
-        <Button
-          variant="nav"
-          func={toggleProjectsOptions}
-          title="Проєкти"
-          icon="edit"
-          secondIcon="arrowDown"
-          btnClicked={showProjectsOptions}
-        />
+    <SidebarWrapper>
+      <Nav>
+        <Wrapper>
+          <Button
+            variant="nav"
+            func={toggleProjectsOptions}
+            title="Проєкти"
+            icon="edit"
+            secondIcon="arrowDown"
+            btnClicked={showProjectsOptions}
+          />
 
-        {showProjectsOptions && (
-          <ProjectsWrapper>
-            <Button
-              func={toggleTeamBuildingOptions}
-              title="Формування"
-              titleContinuation={true}
-              variant="subnav"
-              secondIcon="arrowDown"
-              btnClicked={showTeamBuildingOptions}
-            />
-            {showTeamBuildingOptions && (
-              <ProjectsWrapper>
-                {teamBuildingOptions.map((option, index) => (
-                  <NavLink href={option.link} key={index}>
-                    {option.label}
-                  </NavLink>
-                ))}
-              </ProjectsWrapper>
-            )}
-            <Button
-              func={toggleInDevelopmentOptions}
-              title="В розробці"
-              variant="subnav"
-              secondIcon="arrowDown"
-              btnClicked={showInDevelopmentOptions}
-            />
-            {showInDevelopmentOptions && (
-              <ProjectsWrapper>
-                {inDevelopmentOptions.map((option, index) => (
-                  <NavLink href={option.link} key={index}>
-                    {option.label}
-                  </NavLink>
-                ))}
-              </ProjectsWrapper>
-            )}
-            <Button
-              func={toggleCompletedOptions}
-              title="Завершені"
-              variant="subnav"
-              secondIcon="arrowDown"
-              btnClicked={showCompletedOptions}
-            />
+          {showProjectsOptions && (
+            <ProjectsWrapper>
+              <Button
+                func={toggleTeamBuildingOptions}
+                title="Формування"
+                titleContinuation={true}
+                variant="subnav"
+                secondIcon="arrowDown"
+                btnClicked={showTeamBuildingOptions}
+              />
+              {showTeamBuildingOptions && (
+                <ProjectsWrapper>
+                  {teamBuildingOptions.map((option, index) => (
+                    <NavLink href={option.link} key={index}>
+                      {option.label}
+                    </NavLink>
+                  ))}
+                </ProjectsWrapper>
+              )}
+              <Button
+                func={toggleInDevelopmentOptions}
+                title="В розробці"
+                variant="subnav"
+                secondIcon="arrowDown"
+                btnClicked={showInDevelopmentOptions}
+              />
+              {showInDevelopmentOptions && (
+                <ProjectsWrapper>
+                  {inDevelopmentOptions.map((option, index) => (
+                    <NavLink href={option.link} key={index}>
+                      {option.label}
+                    </NavLink>
+                  ))}
+                </ProjectsWrapper>
+              )}
+              <Button
+                func={toggleCompletedOptions}
+                title="Завершені"
+                variant="subnav"
+                secondIcon="arrowDown"
+                btnClicked={showCompletedOptions}
+              />
 
-            {showCompletedOptions && (
-              <ProjectsWrapper>
-                {completedOptions.map((option, index) => (
-                  <NavLink href={option.link} key={index}>
-                    {option.label}
-                  </NavLink>
-                ))}
-              </ProjectsWrapper>
-            )}
-          </ProjectsWrapper>
-        )}
+              {showCompletedOptions && (
+                <ProjectsWrapper>
+                  {completedOptions.map((option, index) => (
+                    <NavLink href={option.link} key={index}>
+                      {option.label}
+                    </NavLink>
+                  ))}
+                </ProjectsWrapper>
+              )}
+            </ProjectsWrapper>
+          )}
 
-        <Button
-          variant="nav"
-          func={toggleParticipantsList}
-          title="Учасники"
-          icon="team"
-          btnClicked={showParticipantsList}
-        />
-      </Wrapper>
-    </Nav>
+          <Button
+            variant="nav"
+            func={toggleParticipantsList}
+            title="Учасники"
+            icon="team"
+            btnClicked={showParticipantsList}
+          />
+        </Wrapper>
+      </Nav>
+      <SignOutBtn />
+    </SidebarWrapper>
   );
 }

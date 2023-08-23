@@ -27,7 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ReduxProvider>
             <LayoutContainer>
               <Header />
-              <div>
+              <div style={{ display: 'flex' }}>
                 <Sidebar />
                 {children}
               </div>
