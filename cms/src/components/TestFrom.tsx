@@ -42,7 +42,7 @@ const promiseOptions = (inputValue: string) =>
 /////////
 
 export const TestForm = () => {
-  const { control, clearErrors, watch, handleSubmit } = useForm<FieldValues>({
+  const { control, clearErrors, watch, handleSubmit, getValues } = useForm<FieldValues>({
     defaultValues: {
       role: {
         label: <MemberRole type="orange" title="Front" />,
@@ -63,7 +63,7 @@ export const TestForm = () => {
 
   // console.log(watch('role')); TEMP
 
-  const handleSubmitForm = (data: FieldValues) => {
+  const handleSubmitForm = (data) => {
     console.log(data);
   };
 
@@ -123,6 +123,7 @@ export const TestForm = () => {
         control={control}
         clearErrors={clearErrors}
         name="async"
+        rules={{ required: 'це поле є обовʼязковим' }}
         options={promiseOptions}
         placeholder="Оберіть учвсника"
       />

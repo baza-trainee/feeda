@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:8000/user-project/';
-axios.defaults.headers.Authorization = 'Token b054b2b2d6d5fdb05ea5759787b684ef03670ffb';
+axios.defaults.headers.Authorization = 'Token fdf0e7ece53196a6d431d0080cc2b8498a54db71';
 
 const initialState: InstructionsStateType = {
   specialities: null,
@@ -41,7 +41,7 @@ export const instructionsSlice = createSlice({
     });
     builder.addCase(getInstructions.rejected, (state) => {
       state.error = true;
-      console.log(state.error);
+      console.log('Get instructions error: ', state.error);
       state.isLoading = false;
     });
   },

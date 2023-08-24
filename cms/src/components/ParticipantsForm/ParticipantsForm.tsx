@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 import { FormDataTypes } from '../../helpers/manageParticipantFormValues';
 import { cityRegex, discordRegex, emailRegex, linkedRegex, nameRegex, phoneNumberRegex } from '../../helpers/regexs';
-import { ParticipantData, searchProjects, sendEmail } from '../../redux/slices/participants/operations';
+import { ParticipantData, searchProjects, sendEmail } from '../../redux/participants/operations';
 import { AppDispatch } from '../../redux/store/store';
 import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
@@ -19,29 +19,31 @@ import { Form } from './ParticipantsForm.styles';
 
 type Props = {
   formVariant: 'create' | 'edit' | 'view';
-  handleSubmit?: (formData: FormDataTypes) => void;
-  defaultValues: ParticipantData;
+  submitFunc?: (formData: FormDataTypes) => void;
+  defaultValues?: ParticipantData;
 };
 
-export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: Props) {
+export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Props) {
   const dispatch = useDispatch<AppDispatch>();
   const [projectsAmount, setProjectsAmount] = useState(
     (defaultValues && Object.keys(defaultValues.project).length) || 0
   );
-  const { control, clearErrors, getValues, unregister } = useForm({
-    defaultValues: {
-      speciality: {
-        value: defaultValues?.speciality.title,
-        label: membersRole.find((item) => item.value === defaultValues?.speciality.title)?.label,
+  const { control, clearErrors, unregister, handleSubmit } = useForm(
+    defaultValues && {
+      defaultValues: {
+        speciality: {
+          value: defaultValues.speciality.title,
+          label: membersRole.find((item) => item.value === defaultValues.speciality.title)?.label,
+        },
+        type_participant: {
+          value: defaultValues.type_participant.title,
+          label: projectType.find((item) => item.value === defaultValues.type_participant.title)?.label,
+        },
+        experience: experienceVariants.find((item) => item.value == (defaultValues.experience ? 'Так' : 'Ні')),
+        ...defaultValues.project,
       },
-      type_participant: {
-        value: defaultValues?.type_participant.title,
-        label: projectType.find((item) => item.value === defaultValues?.type_participant.title)?.label,
-      },
-      experience: defaultValues?.experience,
-      ...defaultValues?.project,
-    },
-  });
+    }
+  );
 
   const projectsSearcher = throttle(async (value: string) => {
     const { payload } = await dispatch<{ payload: { id: number; title: string }[] }>(searchProjects(value));
@@ -53,16 +55,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
   }, 400);
 
   return (
-    <Form
-      onSubmit={(ev) => {
-        ev.preventDefault();
-        console.log(getValues());
-      }}
-      // onSubmit={(ev) => {
-      //   ev.preventDefault();
-      //   formVariant !== 'view' && handleSubmit(getValues());
-      // }}
-    >
+    <Form onSubmit={handleSubmit(submitFunc)}>
       <div id="form-part">
         <p id="form-part-title">Особиста інформація</p>
         <div id="two-inputs-wrapper">
@@ -71,7 +64,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             label="Ім'я *"
             placeholder="Ім'я"
             defaultValue={defaultValues?.first_name}
-            required={true}
+            rules={{ required: "Це поле обов'язкове до заповнення!" }}
             control={control}
             minLength={2}
             maxLength={20}
@@ -83,7 +76,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             name="last_name"
             label="Прізвище *"
             placeholder="Прізвище"
-            required={true}
+            rules={{ required: "Це поле обов'язкове до заповнення!" }}
             minLength={2}
             maxLength={50}
             control={control}
@@ -98,7 +91,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             name="stack"
             label="Стек *"
             placeholder="HTML,CSS,TS,Node"
-            required={true}
+            rules={{ required: "Це поле обов'язкове до заповнення!" }}
             minLength={2}
             maxLength={300}
             control={control}
@@ -179,7 +172,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             name="account_discord"
             label="Discord *"
             placeholder="XXXX#XXXX"
-            required={true}
+            rules={{ required: "Це поле обов'язкове до заповнення!" }}
             minLength={2}
             maxLength={37}
             control={control}
@@ -193,7 +186,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             label="LinkedIn *"
             placeholder="www.linkedin.com/in/"
             type="url"
-            required={true}
+            rules={{ required: "Це поле обов'язкове до заповнення!" }}
             minLength={19}
             maxLength={128}
             control={control}
@@ -210,7 +203,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             type="tel"
             placeholder="+XXXXXXXXXXXX"
             readonly={formVariant === 'view'}
-            required={true}
+            rules={{ required: "Це поле обов'язкове до заповнення!" }}
             defaultValue={defaultValues?.phone_number}
             pattern={phoneNumberRegex.source}
             control={control}
@@ -222,7 +215,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             placeholder="xxx@xxxx.xxx"
             type="email"
             readonly={formVariant === 'view'}
-            required={true}
+            rules={{ required: "Це поле обов'язкове до заповнення!" }}
             defaultValue={defaultValues?.email}
             minLength={6}
             maxLength={70}

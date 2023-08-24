@@ -93,11 +93,12 @@ export function Input({
                     inputValueLen={inputValue?.length}
                     isDisabled={disabled}
                     checkIsValid={Boolean(pattern && inputValue?.length)}
+                    isError={error}
                   >
                     {label}
                   </LabelComp>
                 )}
-                <InputWrapper checkIsValid={Boolean(pattern && inputValue?.length)}>
+                <InputWrapper checkIsValid={Boolean(pattern && inputValue?.length)} isError={error}>
                   {begIconId && (
                     <InputIconWrapper css={[firstIconStyles]} isDisabled={disabled}>
                       <IconSprite icon={begIconId} />
@@ -139,9 +140,9 @@ export function Input({
                     </InputIconWrapper>
                   )}
                 </InputWrapper>
-                {(supportLabel || onValidLabel) && (
+                {(supportLabel || onValidLabel || error) && (
                   <SupportLabelComp
-                    id={supportLabel ? 'support-label' : 'on-valid-label'}
+                    id={onValidLabel || error ? 'on-valid-label' : 'support-label'}
                     htmlFor={id}
                     isDisabled={disabled}
                   >

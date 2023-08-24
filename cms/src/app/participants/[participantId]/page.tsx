@@ -6,8 +6,8 @@ import { usePathname } from 'next/navigation';
 
 import { ParticipantsForm } from '../../../components/ParticipantsForm/ParticipantsForm';
 import { Title } from '../../../components/Title/Title';
-import { ParticipantData } from '../../../redux/slices/participants/operations';
-import { getParticipant } from '../../../redux/slices/participants/operations';
+import { ParticipantData } from '../../../redux/participants/operations';
+import { getParticipant } from '../../../redux/participants/operations';
 import { AppDispatch, StoreTypes } from '../../../redux/store/store';
 import Loader from '../../loading';
 

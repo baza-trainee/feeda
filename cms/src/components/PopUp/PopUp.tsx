@@ -16,11 +16,11 @@ import {
 
 type PopUpProps = {
   type: 'delete' | 'success';
-  target?: 'project' | 'member';
+  target?: 'projects' | 'participants';
   mobileWidth?: string;
   yesCallback?: () => void;
   noCallback?: () => void;
-  closeModalFunc: () => void;
+  closeModalFunc?: () => void;
 };
 
 export function PopUp({ type, target, mobileWidth, closeModalFunc, yesCallback, noCallback }: PopUpProps) {
@@ -34,12 +34,12 @@ export function PopUp({ type, target, mobileWidth, closeModalFunc, yesCallback, 
   }, []);
 
   const closeModal = () => {
-    console.log('layout');
-    closeModalFunc();
+    if (noCallback) noCallback();
+    else closeModalFunc();
   };
   const copy = {
-    project: 'проєкт',
-    member: 'учасника',
+    projects: 'проєкт',
+    participants: 'учасника',
   };
   return (
     <>

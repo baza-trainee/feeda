@@ -2,9 +2,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:8000/user-project/';
-axios.defaults.headers.Authorization = 'Token b054b2b2d6d5fdb05ea5759787b684ef03670ffb';
+axios.defaults.headers.Authorization = 'Token fdf0e7ece53196a6d431d0080cc2b8498a54db71';
 
-import { FormDataTypes, InstructionsTypes, manageFormFields } from '../../../helpers/manageParticipantFormValues';
+import { FormDataTypes, InstructionsTypes, manageFormFields } from '../../helpers/manageParticipantFormValues';
 import { IdNameType } from '../instructions';
 
 export const fetchParticipants = createAsyncThunk('participants/fetchParticipants', async (_, { rejectWithValue }) => {

@@ -8,7 +8,7 @@ import { ParticipantsForm } from '../../../../components/ParticipantsForm/Partic
 import { PopUp } from '../../../../components/PopUp/PopUp';
 import { Title } from '../../../../components/Title/Title';
 import { FormDataTypes } from '../../../../helpers/manageParticipantFormValues';
-import { getParticipant, updateParticipant } from '../../../../redux/slices/participants/operations';
+import { getParticipant, updateParticipant } from '../../../../redux/participants/operations';
 import { AppDispatch, StoreTypes } from '../../../../redux/store/store';
 import Loader from '../../../loading';
 
@@ -46,7 +46,7 @@ export default function EditParticipant() {
     <Title title={typeof error == 'string' ? error : 'Error'} />
   ) : (
     <>
-      {participant && <ParticipantsForm formVariant="edit" defaultValues={participant} handleSubmit={handleSubmit} />}
+      {participant && <ParticipantsForm formVariant="edit" defaultValues={participant} submitFunc={handleSubmit} />}
       {showPopUp && <PopUp type="success" mobileWidth="256px" closeModalFunc={closeModalFunc} />}
       {isLoading && <Loader />}
     </>

@@ -9,7 +9,7 @@ import { useSearchParams } from 'next/navigation';
 import { CardsContent } from '../../components/CardsContent/CardsContent';
 import { IconSprite } from '../../components/IconSprite/IconSprite';
 import { Title } from '../../components/Title/Title';
-import { fetchParticipants, searchParticipants } from '../../redux/slices/participants/operations';
+import { fetchParticipants, searchParticipants } from '../../redux/participants/operations';
 import { AppDispatch, StoreTypes } from '../../redux/store/store';
 import Loader from '../loading';
 import { Wrapper } from './page.styles';
@@ -36,7 +36,9 @@ export default function ParticipantsPage() {
     // eslint-disable-next-line
   }, [query]);
 
-  return error ? (
+  return isLoading ? (
+    <Loader />
+  ) : error ? (
     <Title title={typeof error == 'string' ? error : 'Error'} />
   ) : (
     <Wrapper>
@@ -49,7 +51,6 @@ export default function ParticipantsPage() {
       ) : (
         <CardsContent type="participants" data={list} />
       )}
-      {isLoading && <Loader />}
     </Wrapper>
   );
 }

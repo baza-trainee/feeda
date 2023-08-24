@@ -1,4 +1,4 @@
-import { IdNameType } from '../redux/slices/instructions';
+import { IdNameType } from '../redux/instructions';
 
 export function manageFormFields(formData: FormDataTypes, instructions: InstructionsTypes) {
   try {
@@ -14,7 +14,7 @@ export function manageFormFields(formData: FormDataTypes, instructions: Instruct
       if (key.includes('project_')) {
         formData.project.push(formData[key].id);
         delete formData[key as keyof FormDataTypes];
-      } else if (formData[key as keyof FormDataTypes] === null) {
+      } else if (formData[key as keyof FormDataTypes] === null || formData[key as keyof FormDataTypes] === undefined) {
         formData[key] = '';
       }
     }
