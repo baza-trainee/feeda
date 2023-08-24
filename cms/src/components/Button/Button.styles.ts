@@ -33,6 +33,35 @@ export const PrimaryBtn = styled.button<{ isPressed: boolean; disabled: boolean 
   transition: all 250ms ease-in;
 `;
 
+export const TabBtn = styled(PrimaryBtn)<{ isSelected: boolean }>`
+  font-size: 16px;
+  font-weight: 600;
+  padding: 8px 16px;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+
+  ${({ isSelected, isPressed }) =>
+    !isSelected &&
+    `
+    background-color: #FCFCFC;
+    color: #232323;
+
+    &:disabled {
+      color: #bfbfbf;
+      background-color: #fcfcfc;
+    }
+
+    &:not(:disabled):hover {
+      background-color: #fde8af;
+      color: #121212;
+    }
+
+    ${isPressed ? ' background-color: #FFD210 !important; ' : ''}
+  `}
+
+  transition: all 250ms ease-in;
+`;
+
 export const TextBtn = styled(PrimaryBtn)`
   padding: 16px;
   font-weight: 600;
