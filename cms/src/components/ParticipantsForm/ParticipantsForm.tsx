@@ -29,20 +29,26 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
     (defaultValues && Object.keys(defaultValues.project).length) || 0
   );
   const { control, clearErrors, unregister, handleSubmit } = useForm(
-    defaultValues && {
-      defaultValues: {
-        speciality: {
-          value: defaultValues.speciality.title,
-          label: membersRole.find((item) => item.value === defaultValues.speciality.title)?.label,
-        },
-        type_participant: {
-          value: defaultValues.type_participant.title,
-          label: projectType.find((item) => item.value === defaultValues.type_participant.title)?.label,
-        },
-        experience: experienceVariants.find((item) => item.value == (defaultValues.experience ? 'Так' : 'Ні')),
-        ...defaultValues.project,
-      },
-    }
+    defaultValues
+      ? {
+          defaultValues: {
+            speciality: {
+              value: defaultValues.speciality.title,
+              label: membersRole.find((item) => item.value === defaultValues.speciality.title)?.label,
+            },
+            type_participant: {
+              value: defaultValues.type_participant.title,
+              label: projectType.find((item) => item.value === defaultValues.type_participant.title)?.label,
+            },
+            experience: experienceVariants.find((item) => item.value == (defaultValues.experience ? 'Так' : 'Ні')),
+            ...defaultValues.project,
+          },
+        }
+      : {
+          defaultValues: {
+            speciality: { ...membersRole[6] },
+          },
+        }
   );
 
   const projectsSearcher = throttle(async (value: string) => {
