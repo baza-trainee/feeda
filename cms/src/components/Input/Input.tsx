@@ -48,7 +48,7 @@ type InputProps = {
 export function Input({
   placeholder,
   type = 'text',
-  defaultValue = '',
+  defaultValue,
   name,
   id,
   label,

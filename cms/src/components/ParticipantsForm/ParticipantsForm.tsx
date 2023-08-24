@@ -20,18 +20,34 @@ import { Form } from './ParticipantsForm.styles';
 type Props = {
   formVariant: 'create' | 'edit' | 'view';
   handleSubmit?: (formData: FormDataTypes) => void;
-  defaultValues?: ParticipantData | null;
+  defaultValues: ParticipantData;
 };
 
 export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: Props) {
   const dispatch = useDispatch<AppDispatch>();
-  const { control, clearErrors, getValues } = useForm();
-  const [projectsAmount, setProjectsAmount] = useState(defaultValues?.project.length || 0);
+  const [projectsAmount, setProjectsAmount] = useState(
+    (defaultValues && Object.keys(defaultValues.project).length) || 0
+  );
+  const { control, clearErrors, getValues, unregister } = useForm({
+    defaultValues: {
+      speciality: {
+        value: defaultValues?.speciality.title,
+        label: membersRole.find((item) => item.value === defaultValues?.speciality.title)?.label,
+      },
+      type_participant: {
+        value: defaultValues?.type_participant.title,
+        label: projectType.find((item) => item.value === defaultValues?.type_participant.title)?.label,
+      },
+      experience: defaultValues?.experience,
+      ...defaultValues?.project,
+    },
+  });
 
   const projectsSearcher = throttle(async (value: string) => {
     const { payload } = await dispatch<{ payload: { id: number; title: string }[] }>(searchProjects(value));
     for (const item of payload) {
       item.label = item.title;
+      delete item.title;
     }
     return payload;
   }, 400);
@@ -40,8 +56,12 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
     <Form
       onSubmit={(ev) => {
         ev.preventDefault();
-        formVariant !== 'view' && handleSubmit(getValues());
+        console.log(getValues());
       }}
+      // onSubmit={(ev) => {
+      //   ev.preventDefault();
+      //   formVariant !== 'view' && handleSubmit(getValues());
+      // }}
     >
       <div id="form-part">
         <p id="form-part-title">Особиста інформація</p>
@@ -90,6 +110,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             name="speciality"
             title="Роль"
             placeholder="Роль"
+            rules={{ required: "Поле обов'язкове до заповнення!" }}
             isDisabled={formVariant === 'view'}
             control={control}
             clearErrors={clearErrors}
@@ -102,7 +123,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             title="Досвід *"
             placeholder="Так/Ні"
             isDisabled={formVariant === 'view'}
-            rules={{ required: true }}
+            rules={{ required: "Поле обов'язкове до заповнення!" }}
             control={control}
             clearErrors={clearErrors}
             options={experienceVariants}
@@ -112,7 +133,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             title="Тип участі *"
             placeholder="Платний"
             isDisabled={formVariant === 'view'}
-            rules={{ required: true }}
+            rules={{ required: "Поле обов'язкове до заповнення!" }}
             control={control}
             clearErrors={clearErrors}
             options={projectType}
@@ -150,7 +171,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             variant="text"
             title="Відправити листа"
             isDisabled={formVariant === 'create'}
-            func={() => defaultValues && dispatch(sendEmail(defaultValues.id))}
+            func={() => defaultValues && dispatch(sendEmail(defaultValues?.id))}
           />
         </div>
         <div id="two-inputs-wrapper">
@@ -230,7 +251,7 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
               name={`project_${index}`}
               title="Проєкт *"
               control={control}
-              rules={{ required: true }}
+              rules={{ required: "Поле обов'язкове до заповнення!" }}
               clearErrors={clearErrors}
               options={projectsSearcher}
               placeholder="Назва"
@@ -240,7 +261,10 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
               variant="icon"
               icon="trash"
               isDisabled={formVariant === 'view'}
-              func={() => setProjectsAmount(projectsAmount - 1)}
+              func={() => {
+                setProjectsAmount(projectsAmount - 1);
+                unregister(`project_${index}`);
+              }}
             />
           </div>
         ))}

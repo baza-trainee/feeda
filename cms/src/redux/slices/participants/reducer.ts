@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { membersRole, projectType } from '~/src/components/SelectField/lists';
+
 import {
   createParticipant,
   deleteParticipant,
@@ -102,7 +104,17 @@ export const participantsSlice = createSlice({
       state.error = null;
     });
     builder.addCase(getParticipant.fulfilled, (state, { payload }) => {
-      state.participant = { ...payload };
+      payload.experience = { label: payload.experience ? 'Так' : 'Ні' };
+      const output = {};
+      payload.project.forEach((item, index) => {
+        const newKey = `project_${index}`;
+        output[newKey] = {
+          id: item.id,
+          label: item.title,
+        };
+      });
+      payload.project = output;
+      state.participant = payload;
       state.isLoading = false;
     });
     builder.addCase(getParticipant.rejected, (state, { payload }) => {

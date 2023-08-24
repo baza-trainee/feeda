@@ -59,5 +59,5 @@ export interface InstructionsStateType {
 
 export interface IdNameType {
   id: number;
-  name: string;
+  title: string;
 }

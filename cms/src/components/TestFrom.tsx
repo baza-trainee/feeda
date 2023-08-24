@@ -1,12 +1,13 @@
 'use client';
 
 import { FieldValues, useForm } from 'react-hook-form';
-import { AsyncField, SelectField } from './SelectField/SelectField';
+
 import { membersRole, projectDifficulty, projectType } from '../components/SelectField/lists';
+import { Input } from './Input/Input';
 import { MemberRole } from './SelectField/lists/MemberRole';
 import { ProjectDifficulty } from './SelectField/lists/ProjectDifficulty';
 import { ProjectType } from './SelectField/lists/ProjectsType';
-import { Input } from './Input/Input';
+import { AsyncField, SelectField } from './SelectField/SelectField';
 
 //// Temp Mock Data Should replace with fetch fn
 export interface ColourOption {
@@ -44,7 +45,6 @@ export const TestForm = () => {
   const { control, clearErrors, watch, handleSubmit } = useForm<FieldValues>({
     defaultValues: {
       role: {
-        value: 'front',
         label: <MemberRole type="orange" title="Front" />,
       },
 

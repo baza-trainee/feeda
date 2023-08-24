@@ -109,8 +109,10 @@ export const AsyncField = ({
       name={name}
       rules={rules}
       render={({ field: { onChange, value, onBlur }, fieldState: { error } }) => {
-        const handleSelectChange = () => {
+        const handleSelectChange = (selectedOption) => {
           clearErrors(name);
+          setIsDropdownOpen(false);
+          onChange(selectedOption);
         };
 
         return (
@@ -124,11 +126,7 @@ export const AsyncField = ({
                 placeholder={placeholder}
                 loadOptions={options}
                 value={value}
-                onChange={(selectedOption) => {
-                  setIsDropdownOpen(false);
-                  onChange(selectedOption);
-                  handleSelectChange();
-                }}
+                onChange={handleSelectChange}
                 onMenuOpen={() => setIsDropdownOpen(true)}
                 onMenuClose={() => setIsDropdownOpen(false)}
                 onBlur={() => {

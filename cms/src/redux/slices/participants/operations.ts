@@ -54,6 +54,7 @@ export const updateParticipant = createAsyncThunk(
   async ({ formData, userId, instructions }: UpdateParticipantTypes, { rejectWithValue }) => {
     try {
       manageFormFields(formData, instructions);
+      console.log('Update: ', formData);
       const { data } = await axios.put<ParticipantData>(`participant-detail/${userId}/`, formData);
       return data;
     } catch (err) {
@@ -148,7 +149,7 @@ export interface ParticipantData {
   experience: boolean;
   stack: string;
   processing_personal_data: boolean;
-  speciality: object;
+  speciality: { id: number; title: string };
   project: string[];
   type_participant: { id: number; title: 'Безкоштовний' | 'Платний' | 'Буткамп' };
 }
