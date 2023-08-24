@@ -8,7 +8,7 @@ import AsyncSelect from 'react-select/async';
 import { DropdownIndicator } from '../DropdownIndicator/DropdownIndicator';
 import { ErrorText, Label, selectStyles } from './SelectField.style';
 
-interface OptionType {
+export interface OptionType {
   label: JSX.Element | string;
   value: string | number;
 }

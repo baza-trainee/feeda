@@ -14,7 +14,7 @@ import { AppDispatch } from '../../redux/store/store';
 import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
 import { experienceVariants, membersRole, projectType } from '../SelectField/lists';
-import { CustomSelect } from '../SelectField/SelectField';
+import { AsyncField, SelectField } from '../SelectField/SelectField';
 import { Form } from './ParticipantsForm.styles';
 
 type Props = {
@@ -28,7 +28,13 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
   const { control, clearErrors, getValues } = useForm();
   const [projectsAmount, setProjectsAmount] = useState(defaultValues?.project.length || 0);
 
-  const throttledHandler = throttle((value: string) => dispatch(searchProjects(value)), 400);
+  const projectsSearcher = throttle(async (value: string) => {
+    const { payload } = await dispatch<{ payload: { id: number; title: string }[] }>(searchProjects(value));
+    for (const item of payload) {
+      item.label = item.title;
+    }
+    return payload;
+  }, 400);
 
   return (
     <Form
@@ -80,53 +86,35 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             defaultValue={defaultValues?.stack}
             clearErrors={clearErrors}
           />
-          <CustomSelect
+          <SelectField
             name="speciality"
             title="Роль"
             placeholder="Роль"
             isDisabled={formVariant === 'view'}
-            // readonly={formVariant === 'view' }
-            rules={{ required: 'true' }}
             control={control}
             clearErrors={clearErrors}
-            valueGetter={(ev) => ev}
             options={membersRole}
-            defaultValue={
-              defaultValues && membersRole.find((item) => item.value === defaultValues?.speciality.title)
-                ? membersRole.find((item) => item.value === defaultValues?.speciality.title)
-                : membersRole[6]
-            }
           />
         </div>
         <div id="two-inputs-wrapper">
-          <CustomSelect
+          <SelectField
             name="experience"
             title="Досвід *"
             placeholder="Так/Ні"
             isDisabled={formVariant === 'view'}
-            required={true}
+            rules={{ required: true }}
             control={control}
             clearErrors={clearErrors}
-            valueGetter={(ev) => ev}
-            defaultValue={
-              defaultValues ? (defaultValues.experience ? experienceVariants[0] : experienceVariants[1]) : null
-            }
             options={experienceVariants}
           />
-          <CustomSelect
+          <SelectField
             name="type_participant"
             title="Тип участі *"
             placeholder="Платний"
             isDisabled={formVariant === 'view'}
-            required={true}
+            rules={{ required: true }}
             control={control}
             clearErrors={clearErrors}
-            valueGetter={(ev) => ev}
-            defaultValue={
-              defaultValues && projectType.find((item) => item.value === defaultValues?.type_participant.title)
-                ? projectType.find((item) => item.value === defaultValues?.type_participant.title)
-                : null
-            }
             options={projectType}
           />
         </div>
@@ -235,42 +223,17 @@ export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: P
             func={() => setProjectsAmount(projectsAmount + 1)}
           />
         </div>
-        {/* {Array.from({ length: projectsAmount }, (_, index) => (
-          <div id="project-wrapper" key={index}>
-            <CustomSelect
-              name={`project_${index}`}
-              title="Проєкт *"
-              placeholder="Назва"
-              isDisabled={formVariant === 'view'}
-              required={true}
-              control={control}
-              clearErrors={clearErrors}
-              // readonly={formVariant === 'view' }
-              // isSearchable={true}
-              valueGetter={(ev) => ev}
-              // defaultValue={defaultValues?.project[index]}
-              options={projectType}
-            />
-            <Button
-              btnType="button"
-              variant="icon"
-              icon="trash"
-              isDisabled={formVariant === 'view'}
-              func={() => setProjectsAmount(projectsAmount - 1)}
-            />
-          </div>
-        ))} */}
+
         {Array.from({ length: projectsAmount }, (_, index) => (
           <div id="project-wrapper" key={index}>
-            <Input
+            <AsyncField
               name={`project_${index}`}
-              label="Проєкт *"
-              placeholder="Назва"
-              readonly={formVariant === 'view'}
-              required={true}
+              title="Проєкт *"
               control={control}
+              rules={{ required: true }}
               clearErrors={clearErrors}
-              onTypeFunc={throttledHandler}
+              options={projectsSearcher}
+              placeholder="Назва"
             />
             <Button
               btnType="button"

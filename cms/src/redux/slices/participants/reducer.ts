@@ -192,17 +192,11 @@ export const participantsSlice = createSlice({
     // - - -
 
     builder.addCase(searchProjects.pending, (state) => {
-      // state.isLoading = true;
       state.error = null;
-    });
-    builder.addCase(searchProjects.fulfilled, (state, { payload }) => {
-      console.log('Projects: ', payload);
-      // state.isLoading = false;
     });
     builder.addCase(searchProjects.rejected, (state, { payload }) => {
       console.log('Error: ', payload);
       state.error = true;
-      // state.isLoading = false;
     });
   },
 });

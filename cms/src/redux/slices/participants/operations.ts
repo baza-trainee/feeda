@@ -91,7 +91,9 @@ export const searchProjects = createAsyncThunk(
   'participants/searchProjects',
   async (search: string, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get<{ id: number; title: string }>('search-projects', { params: { query: search } });
+      const { data } = await axios.get<{ id: number; title: string }[]>('search-projects', {
+        params: { query: search },
+      });
       return data;
     } catch (err) {
       return rejectWithValue(err.response.data);
