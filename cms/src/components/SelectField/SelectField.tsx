@@ -8,11 +8,11 @@ import { DropdownIndicator } from '../DropdownIndicator/DropdownIndicator';
 import { ErrorText, Label, selectStyles } from './SelectField.style';
 
 interface OptionType {
-  label: JSX.Element;
+  label: JSX.Element | string;
   value: string | number;
 }
 
-interface CustomSelectProps {
+interface SelectFieldProps {
   control: Control;
   name: string;
   rules?: object;
@@ -20,7 +20,6 @@ interface CustomSelectProps {
   placeholder: string | JSX.Element;
   clearErrors: (name?: string | string[]) => void;
   title: string;
-  isSearchable?: boolean;
   isDisabled?: boolean;
 }
 
@@ -32,9 +31,8 @@ export const SelectField = ({
   placeholder,
   clearErrors,
   title,
-  isSearchable = false,
   isDisabled = false,
-}: CustomSelectProps) => {
+}: SelectFieldProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
@@ -52,16 +50,11 @@ export const SelectField = ({
             <Label>
               {title}
               <Select
-                ///////////////// fetch logic
-                onInputChange={(value) => {
-                  console.log(value);
-                }}
-                /////////////////
+                isSearchable={false}
                 isDisabled={isDisabled}
                 components={{ DropdownIndicator }}
                 instanceId={name}
-                isSearchable={isSearchable}
-                styles={selectStyles(!!error, isDropdownOpen, false)}
+                styles={selectStyles(!!error, isDropdownOpen, isDisabled)}
                 placeholder={placeholder}
                 options={options}
                 value={value}
