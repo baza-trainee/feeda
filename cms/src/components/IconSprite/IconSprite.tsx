@@ -15,6 +15,7 @@ import {
   Finished,
   Front,
   Ongoing,
+  OpenMenu,
   Pencil,
   Plus,
   Pm,
@@ -56,6 +57,7 @@ export const IconSprite = ({ icon }: { icon: IconType }) => {
     search: <SearchIcon />,
     arrowLeft: <ArrowLeft />,
     calendar: <Calendar />,
+    openMenu: <OpenMenu />,
   };
 
   const selectedIcon = icons[icon];
@@ -95,6 +97,7 @@ export const iconTypes = {
   search: 'search',
   arrowLeft: 'arrowLeft',
   calendar: 'calendar',
+  openMenu: 'openMenu',
 } as const;
 
 export type IconType = keyof typeof iconTypes;

@@ -14,6 +14,7 @@ import Exit from './exit.svg';
 import Finished from './finished_status.svg';
 import Front from './front_role.svg';
 import Ongoing from './ongoing_status.svg';
+import OpenMenu from './open_menu.svg';
 import Pencil from './pencil.svg';
 import Plus from './plus.svg';
 import Pm from './pm_role.svg';
@@ -52,4 +53,5 @@ export {
   SearchIcon,
   ArrowLeft,
   Calendar,
+  OpenMenu,
 };

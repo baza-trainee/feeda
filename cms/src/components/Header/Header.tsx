@@ -8,9 +8,9 @@ import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import MenuIcon from '../../../public/menu.svg';
-import { StoreTypes } from '../../store/store';
+import { StoreTypes } from '../../redux/store/store';
 import { Button } from '../Button/Button';
+import { IconSprite } from '../IconSprite/IconSprite';
 import { Input } from '../Input/Input';
 import {
   DesktopContent,
@@ -90,7 +90,7 @@ export function Header() {
       <MobileHeaderWrapper>
         <MenuWrapper>
           <MenuBtn onClick={() => console.log('Open menu')}>
-            <MenuIcon />
+            <IconSprite icon="openMenu" />
           </MenuBtn>
         </MenuWrapper>
         <Input
