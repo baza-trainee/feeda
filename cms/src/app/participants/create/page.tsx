@@ -31,14 +31,13 @@ export default function CreateParticipant() {
     setShowPopUp(false);
   };
 
-  return isLoading ? (
-    <Loader />
-  ) : error ? (
+  return error ? (
     <Title title={typeof error == 'string' ? error : 'Error'} />
   ) : (
-    <div>
+    <>
       <ParticipantsForm handleSubmit={handleSubmit} formVariant="create" />
       {showPopUp && <PopUp type="success" mobileWidth="256px" closeModalFunc={closeModalFunc} />}
-    </div>
+      {isLoading && <Loader />}
+    </>
   );
 }

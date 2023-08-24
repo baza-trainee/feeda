@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:8000/user-project/';
-axios.defaults.headers.Authorization = 'Token 7059c31571909b45df3af67c0f8f719d7b793bd0';
+axios.defaults.headers.Authorization = 'Token b054b2b2d6d5fdb05ea5759787b684ef03670ffb';
 
 const initialState: InstructionsStateType = {
   specialities: null,

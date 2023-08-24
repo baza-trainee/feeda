@@ -36,9 +36,7 @@ export default function ParticipantsPage() {
     // eslint-disable-next-line
   }, [query]);
 
-  return isLoading ? (
-    <Loader />
-  ) : error ? (
+  return error ? (
     <Title title={typeof error == 'string' ? error : 'Error'} />
   ) : (
     <Wrapper>
@@ -51,6 +49,7 @@ export default function ParticipantsPage() {
       ) : (
         <CardsContent type="participants" data={list} />
       )}
+      {isLoading && <Loader />}
     </Wrapper>
   );
 }

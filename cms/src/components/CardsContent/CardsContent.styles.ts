@@ -63,6 +63,10 @@ export const FirstBlockWrapper = styled.div`
       text-align: center;
     }
   }
+
+  & > p#project-type-participant {
+    font-weight: 400;
+  }
 `;
 
 export const SecondBlockWrapper = styled.div<{ type: 'participants' | 'projects' }>`
@@ -79,6 +83,22 @@ export const SecondBlockWrapper = styled.div<{ type: 'participants' | 'projects'
   & > h2 + h2 {
     margin-bottom: 8px;
   }
+
+  & > h2#project-name {
+    font-size: 16px;
+    line-height: normal;
+    @media screen and (${media.tablet}) {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: calc(20 / 14);
+    }
+    @media screen and (${media.desktop}) {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: normal;
+    }
+  }
+
   & > p {
     color: ${colors.mainPlaceholder};
     font-size: 16px;
@@ -110,6 +130,7 @@ export const ThirdBlockElementsWrapper = styled.div`
   & > p#value {
     font-weight: 500;
   }
+
   & > div#icon-wrapper {
     display: flex;
     height: min-content;
@@ -118,6 +139,21 @@ export const ThirdBlockElementsWrapper = styled.div`
     border-radius: 4px;
     background: #fcfcfc;
   }
+
+  & > div.participantIconWrapper {
+    & > svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  & > div.projectIconWrapper {
+    & > svg {
+      width: 8px;
+      height: 8px;
+    }
+  }
+
   & > div#complexity {
     display: flex;
     & > div#complexity-icon {

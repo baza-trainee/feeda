@@ -26,15 +26,14 @@ export default function ParticipantProfile() {
     // eslint-disable-next-line
   }, [participant]);
 
-  return isLoading ? (
-    <Loader />
-  ) : error ? (
+  return error ? (
     <Title title={typeof error == 'string' ? error : 'Error'} />
   ) : (
     defaultValues && (
-      <div>
+      <>
         <ParticipantsForm formVariant="view" defaultValues={defaultValues} />
-      </div>
+        {isLoading && <Loader />}
+      </>
     )
   );
 }

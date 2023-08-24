@@ -9,7 +9,8 @@ import Link from 'next/link';
 
 import { FormDataTypes } from '../../helpers/manageParticipantFormValues';
 import { cityRegex, discordRegex, emailRegex, linkedRegex, nameRegex, phoneNumberRegex } from '../../helpers/regexs';
-import { ParticipantData, sendEmail } from '../../redux/slices/participants/operations';
+import { ParticipantData, searchProjects, sendEmail } from '../../redux/slices/participants/operations';
+import { AppDispatch } from '../../redux/store/store';
 import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
 import { experienceVariants, membersRole, projectType } from '../SelectField/lists';
@@ -23,11 +24,11 @@ type Props = {
 };
 
 export function ParticipantsForm({ handleSubmit, formVariant, defaultValues }: Props) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { control, clearErrors, getValues } = useForm();
   const [projectsAmount, setProjectsAmount] = useState(defaultValues?.project.length || 0);
 
-  const throttledHandler = throttle((value: string) => console.log(value), 1000);
+  const throttledHandler = throttle((value: string) => dispatch(searchProjects(value)), 400);
 
   return (
     <Form

@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Link from 'next/link';
@@ -22,13 +22,21 @@ import {
 } from './CardsContent.styles';
 
 type CardsContentType = {
-  type: 'participants' | 'projects' | 'search';
+  type: 'participants' | 'projects';
   data: ParticipantData[] | ProjectData[];
 };
 export function CardsContent({ type, data }: CardsContentType) {
   const dispatch = useDispatch();
   const router = useRouter();
-  console.log(data);
+
+  const projectParticipantsEnding = (count: number) => {
+    const countLastDigit = count.toString()[count.toString().length - 1];
+    return countLastDigit === '1'
+      ? 'Учасник'
+      : countLastDigit >= '2' && countLastDigit <= '4'
+      ? 'Учасника'
+      : 'Учасників';
+  };
   return (
     <List>
       {data.map((item: ParticipantData | ProjectData) => {
@@ -54,7 +62,9 @@ export function CardsContent({ type, data }: CardsContentType) {
                     router.push(`/${type}/edit/${item.id}`);
                   }}
                 />
-                <p>{item.type_participant?.title || item.type_project.project_type}</p>
+                <p id={type === 'projects' ? 'project-type-participant' : ''}>
+                  {item.type_participant?.title || item.type_project.project_type}
+                </p>
               </FirstBlockWrapper>
               <SecondBlockWrapper type={type}>
                 {type === 'participants' ? (
@@ -65,8 +75,12 @@ export function CardsContent({ type, data }: CardsContentType) {
                   </>
                 ) : (
                   <>
-                    <h2 title={item.title}>{item.title}</h2>
-                    <p title={item.participants_count}>{item.participants_count} Учасник</p>
+                    <h2 id="project-name" title={item.title}>
+                      {item.title}
+                    </h2>
+                    <p title={item.participants_count}>
+                      {item.participants_count} {projectParticipantsEnding(item.participants_count)}
+                    </p>
                   </>
                 )}
               </SecondBlockWrapper>
@@ -83,7 +97,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                     </ThirdBlockElementsWrapper>
                     <ThirdBlockElementsWrapper>
                       <p id="name">Роль</p>
-                      <div id="icon-wrapper">
+                      <div id="icon-wrapper" className="participantIconWrapper">
                         <IconSprite
                           icon={
                             commonVariants.role.find((searchItem) => searchItem.name === item.speciality?.title)
@@ -114,7 +128,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                     </ThirdBlockElementsWrapper>
                     <ThirdBlockElementsWrapper>
                       <p id="name">Стан</p>
-                      <div id="icon-wrapper">
+                      <div id="icon-wrapper" className="projectIconWrapper">
                         <IconSprite
                           icon={
                             commonVariants.status.find(
