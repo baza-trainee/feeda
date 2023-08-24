@@ -6,11 +6,11 @@ import { useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { deleteProject } from '~/src/redux/projects/actions';
-
 import { commonVariants } from '../../helpers/commonVariants';
 import { deleteParticipant, ParticipantData } from '../../redux/participants/operations';
+import { deleteProject } from '../../redux/projects/actions';
 import { ProjectData } from '../../redux/projects/projects.slice';
+import { AppDispatch } from '../../redux/store/store';
 import { Button } from '../Button/Button';
 import { IconSprite, IconType } from '../IconSprite/IconSprite';
 import { PopUp } from '../PopUp/PopUp';
@@ -29,7 +29,7 @@ type CardsContentType = {
 };
 export function CardsContent({ type, data }: CardsContentType) {
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [showPopUp, setShowPopUp] = useState<boolean | number | string>(false);
 
   const projectParticipantsEnding = (count: number) => {

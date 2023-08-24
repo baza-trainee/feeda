@@ -8,7 +8,6 @@ export const List = styled.ul`
   grid-template-columns: repeat(1, 1fr);
   justify-content: center;
   justify-items: center;
-  margin: 0 auto !important;
   gap: 16px;
   @media screen and (${media.tablet}) {
     grid-template-columns: 224px 224px;
