@@ -8,42 +8,35 @@ import { DropdownIndicator } from '../DropdownIndicator/DropdownIndicator';
 import { ErrorText, Label, selectStyles } from './SelectField.style';
 
 interface OptionType {
-  label: JSX.Element;
+  label: JSX.Element | string;
   value: string | number;
 }
 
-interface CustomSelectProps {
+interface SelectFieldProps {
   control: Control;
   name: string;
   rules?: object;
   options: OptionType[];
   placeholder: string | JSX.Element;
   clearErrors: (name?: string | string[]) => void;
-  valueGetter: (value: string | number) => OptionType | undefined | string | number;
   title: string;
-  defaultValue?: OptionType | null;
-  required?: boolean;
   isDisabled?: boolean;
 }
 
-export const CustomSelect = ({
+export const SelectField = ({
   control,
   name,
   rules,
   options,
   placeholder,
   clearErrors,
-  valueGetter,
   title,
-  defaultValue,
-  required,
-  isDisabled,
-}: CustomSelectProps) => {
+  isDisabled = false,
+}: SelectFieldProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
     <Controller
-      defaultValue={defaultValue}
       control={control}
       name={name}
       rules={rules}
@@ -52,22 +45,19 @@ export const CustomSelect = ({
           clearErrors(name);
         };
 
-        const computedValue = typeof valueGetter === 'function' ? valueGetter(value) : value;
-
         return (
           <div style={{ position: 'relative' }} id="input-wrapper">
             <Label>
               {title}
               <Select
+                isSearchable={false}
                 isDisabled={isDisabled}
                 components={{ DropdownIndicator }}
                 instanceId={name}
-                isSearchable={false}
-                styles={selectStyles(!!error, isDropdownOpen, false)}
+                styles={selectStyles(!!error, isDropdownOpen, isDisabled)}
                 placeholder={placeholder}
                 options={options}
-                value={computedValue}
-                required={required}
+                value={value}
                 onChange={(selectedOption) => {
                   setIsDropdownOpen(false);
                   onChange(selectedOption);

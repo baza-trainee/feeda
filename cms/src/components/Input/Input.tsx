@@ -86,7 +86,7 @@ export function Input({
         return (
           <ClassNames>
             {({ css }) => (
-              <div id="input-wrapper">
+              <div id="input-wrapper" style={{ position: 'relative' }}>
                 {label && (
                   <LabelComp
                     htmlFor={id}
