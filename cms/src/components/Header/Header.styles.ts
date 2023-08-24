@@ -3,8 +3,11 @@ import styled from '@emotion/styled';
 
 import { colors, fonts, media } from '../../styles/theme';
 
-export const Wrapper = styled.header`
-  margin-bottom: 24px;
+export const Wrapper = styled.header<{ isOpen: boolean }>`
+  margin-bottom: ${({ isOpen }) => (isOpen ? '0px' : '24px')};
+  padding-bottom: ${({ isOpen }) => (isOpen ? '24px' : '0px')};
+  background-color: ${({ isOpen }) => (isOpen ? colors.mainAccent : 'initial')};
+
   @media screen and (${media.tablet}) {
     display: flex;
     align-items: center;
@@ -64,12 +67,13 @@ export const PageTitle = styled.h1`
   overflow: hidden;
 `;
 
-export const MobileHeaderWrapper = styled.div`
+export const MobileHeaderWrapper = styled.div<{ isOpen: boolean }>`
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
+  background-color: ${({ isOpen }) => (isOpen ? colors.mainAccent : 'initial')};
   @media screen and (${media.tablet}) {
     max-width: 223px;
     gap: 0;
@@ -98,7 +102,7 @@ export const MenuBtn = styled.button`
   }
 `;
 
-export const SearchWrapper = styled.div`
+export const SearchWrapper = styled.div<{ isOpen: boolean }>`
   width: 100%;
   display: flex;
   align-items: center;
@@ -109,6 +113,7 @@ export const SearchWrapper = styled.div`
     outline: #939393 solid 2px;
   }
   max-width: 388px;
+  background-color: ${({ isOpen }) => (isOpen ? colors.white : 'initial')};
 `;
 
 export const SearchIconBox = styled.div`

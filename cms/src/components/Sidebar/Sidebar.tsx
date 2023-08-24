@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Button } from '../Button/Button';
 import { Nav, NavLink, ProjectsWrapper, Wrapper } from './Sidebar.style';
 
-export function Sidebar() {
+export function Sidebar({ closeModal }: { closeModal?: () => void }) {
   const [showProjectsOptions, setShowProjectsOptions] = useState(false);
   const [showParticipantsList, setShowParticipantsList] = useState(false);
   const [showTeamBuildingOptions, setShowTeamBuildingOptions] = useState(false);
@@ -58,18 +58,6 @@ export function Sidebar() {
     { label: 'Буткамп', link: '/projects/team-building/bootcamp' },
   ];
 
-  const inDevelopmentOptions = [
-    { label: 'Project in development 1', link: '/projects/team-building/free' },
-    { label: 'Project in development 2', link: '/projects/team-building/paid' },
-    { label: 'Project in development 3', link: '/projects/team-building/bootcamp' },
-  ];
-
-  const completedOptions = [
-    { label: 'Project in completed 1', link: '/projects/team-building/free' },
-    { label: 'Project in completed 2', link: '/projects/team-building/paid' },
-    { label: 'Project in completed 3', link: '/projects/team-building/bootcamp' },
-  ];
-
   return (
     <Nav>
       <Wrapper>
@@ -95,7 +83,7 @@ export function Sidebar() {
             {showTeamBuildingOptions && (
               <ProjectsWrapper>
                 {teamBuildingOptions.map((option, index) => (
-                  <NavLink href={option.link} key={index}>
+                  <NavLink href={option.link} onClick={closeModal} key={index}>
                     {option.label}
                   </NavLink>
                 ))}
@@ -110,8 +98,8 @@ export function Sidebar() {
             />
             {showInDevelopmentOptions && (
               <ProjectsWrapper>
-                {inDevelopmentOptions.map((option, index) => (
-                  <NavLink href={option.link} key={index}>
+                {teamBuildingOptions.map((option, index) => (
+                  <NavLink href={option.link} onClick={closeModal} key={index}>
                     {option.label}
                   </NavLink>
                 ))}
@@ -127,8 +115,8 @@ export function Sidebar() {
 
             {showCompletedOptions && (
               <ProjectsWrapper>
-                {completedOptions.map((option, index) => (
-                  <NavLink href={option.link} key={index}>
+                {teamBuildingOptions.map((option, index) => (
+                  <NavLink href={option.link} onClick={closeModal} key={index}>
                     {option.label}
                   </NavLink>
                 ))}

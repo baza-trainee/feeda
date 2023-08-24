@@ -99,23 +99,20 @@ export const NavBtn = styled(PrimaryBtn)<{ isPressed: boolean; btnClicked: boole
   background-color: ${({ btnClicked }) => (btnClicked ? colors.mainLabel : colors.white)};
 
   &:not(:disabled):hover {
-    background-color: ${colors.mainLabel};
-    color: ${colors.white};
+    background-color: ${({ btnClicked }) => (btnClicked ? colors.mainText : colors.textAccent)};
+    color: ${({ btnClicked }) => (btnClicked ? colors.mainAccent : colors.mainText)};
   }
 
   ${({ isPressed }) =>
-    isPressed ? ` background-color: ${colors.mainLabel} !important; color: ${colors.white} !important;` : ''}
+    isPressed ? ` background-color: ${colors.mainLabel} !important; color: ${colors.textAccent} !important;` : ''}
 `;
 
 export const SubNavBtn = styled(NavBtn)<{ isPressed: boolean; btnClicked: boolean; titleContinuation: boolean }>`
   position: relative;
-  padding: 8px 16px;
   font-weight: ${fonts.body.fontWeight};
   font-size: ${fonts.body.fontSize.desktop}px;
   letter-spacing: 0px;
   border-bottom: 1px solid ${colors.disabledBtnBg};
-  color: ${({ btnClicked }) => (btnClicked ? colors.white : colors.mainText)};
-  background-color: ${({ btnClicked }) => (btnClicked ? colors.mainLabel : colors.white)};
 
   @media screen and (${media.desktop}) {
     &:after {
@@ -124,12 +121,4 @@ export const SubNavBtn = styled(NavBtn)<{ isPressed: boolean; btnClicked: boolea
       left: 48%;
     }
   }
-
-  &:not(:disabled):hover {
-    background-color: ${colors.mainLabel};
-    color: ${colors.white};
-  }
-
-  ${({ isPressed }) =>
-    isPressed ? ` background-color: ${colors.mainLabel} !important; color: ${colors.white} !important;` : ''}
 `;
