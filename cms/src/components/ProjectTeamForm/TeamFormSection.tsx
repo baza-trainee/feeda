@@ -28,7 +28,7 @@ export const TeamFormSection: React.FC<TeamSectionProps> = ({ control, clearErro
   return (
     <FormSection>
       <FormTitle>
-        <Title title={title} />
+        <Title small title={title} />
         <AddBntWrapper>
           <Button variant="text" icon="plus" func={addMember} title="Додати учасника" />
         </AddBntWrapper>

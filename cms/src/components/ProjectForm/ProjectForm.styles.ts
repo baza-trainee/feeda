@@ -7,11 +7,15 @@ export const FormWrapper = styled.div`
 
 export const InputsWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
   gap: 24px;
 
-  > :first-child {
-    grid-column: 1/3;
+  @media screen and (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+
+    > :first-child {
+      grid-column: 1/3;
+    }
   }
 `;
 

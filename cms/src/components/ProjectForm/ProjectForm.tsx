@@ -2,20 +2,13 @@ import { Control, UseFormHandleSubmit, UseFormGetValues, FieldValues, SubmitHand
 import { Input } from '../Input/Input';
 import { SelectField } from '../SelectField/SelectField';
 import { FormControllers, FormWrapper, InputsWrapper } from './ProjectForm.styles';
-import {
-  getDiffValue,
-  projectDifficulty,
-  getProjectTypeValue,
-  getProjectValue,
-  projectStatus,
-  projectType,
-} from '../SelectField/lists';
+import { projectDifficulty, projectStatus, projectType } from '../SelectField/lists';
 import { Button } from '../Button/Button';
 
 export interface ProjectFormProps {
   control: Control;
   clearErrors: (name?: string | string[]) => void;
-  handleSubmit: UseFormHandleSubmit<FormData>;
+  handleSubmit: UseFormHandleSubmit<FieldValues>;
 }
 
 export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormProps) => {
@@ -48,18 +41,15 @@ export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormP
           control={control}
           clearErrors={clearErrors}
           name="complixity"
-          valueGetter={(value) => getDiffValue(value)}
           placeholder="Введіть текст"
           options={projectDifficulty}
           title="Складність"
           rules={{ required: 'це поле є обовязковим' }}
         />
         <SelectField
-          isSearchable={true}
           control={control}
           clearErrors={clearErrors}
           name="state"
-          valueGetter={(value) => getProjectValue(value)}
           placeholder="Введіть текст"
           options={projectStatus}
           title="Стан проекту"
@@ -69,7 +59,6 @@ export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormP
           control={control}
           clearErrors={clearErrors}
           name="type"
-          valueGetter={(value) => getProjectTypeValue(value)}
           placeholder="Введіть текст"
           options={projectType}
           title="Тип проекту"
@@ -87,7 +76,7 @@ export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormP
         />
       </InputsWrapper>
       <FormControllers>
-        <Button variant="primary" title="Зберегти зміни" btnType="submit" func={() => console.log('submit')} />
+        <Button variant="primary" title="Зберегти зміни" btnType="submit" func={handleSubmit(onFormSubmit)} />
         <Button variant="text" title="Скасувати" func={() => console.log('CANCEL form fetsh')} />
       </FormControllers>
     </FormWrapper>

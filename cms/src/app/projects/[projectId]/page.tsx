@@ -7,7 +7,7 @@ import { MemberType, ProjectTeamForm } from '~/src/components/ProjectTeamForm/Pr
 import { NavContainer, ProjectContainer } from './styles';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { OptionType } from '~/src/components/SelectField/SelectField';
-import { MemberRole, ProjectState, getProjectValue } from '~/src/components/SelectField/lists';
+import { MemberRole, ProjectState } from '~/src/components/SelectField/lists';
 
 export interface FormData {
   name: string;
@@ -28,14 +28,13 @@ type ProjectPageProps = {
 };
 
 const tempInitialState = {
-  name: '',
+  name: 'Test Project',
   comment: '',
   complixity: null,
-  state: getProjectValue('developing'), /// RENDEE ERROR !!!!
-  // state: {
-  //   value: 'ended',
-  //   label: <ProjectState type="orange" title="Завершено" />,
-  // },
+  state: {
+    value: 'ended',
+    label: <ProjectState type="orange" title="Завершено" />,
+  },
   type: null,
   start_date: '',
   end_date: '',
@@ -62,7 +61,7 @@ const tempInitialState = {
 
 export default function ProjectPage({ params }: ProjectPageProps) {
   const [currentTab, setCurrentTab] = useState('Опис');
-  const { control, clearErrors, handleSubmit, trigger } = useForm<any>({
+  const { control, clearErrors, handleSubmit, trigger } = useForm<FieldValues>({
     defaultValues: tempInitialState,
   });
   const projectId = params.projectId;
@@ -90,12 +89,8 @@ export default function ProjectPage({ params }: ProjectPageProps) {
     },
   ];
 
-  const onFormSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
-  };
-
   return (
-    <ProjectContainer onSubmit={handleSubmit(onFormSubmit)}>
+    <ProjectContainer>
       <NavContainer>
         <Button
           variant="tab"

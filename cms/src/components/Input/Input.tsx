@@ -76,7 +76,7 @@ export function Input({
       control={control}
       name={name}
       rules={rules}
-      render={({ field: { onChange }, fieldState: { error } }) => {
+      render={({ field: { onChange, value }, fieldState: { error } }) => {
         const handleChange = (value: string) => {
           clearErrors && clearErrors(name);
           onChange(value);
@@ -117,6 +117,7 @@ export function Input({
                     />
                   ) : (
                     <InputComp
+                      value={value}
                       begIcon={Boolean(begIconId)}
                       endIcon={Boolean(endIconId)}
                       id={id}
@@ -129,7 +130,7 @@ export function Input({
                       maxLength={maxLength}
                       minLength={minLength}
                       pattern={pattern}
-                      defaultValue={defaultValue}
+                      //defaultValue={defaultValue}
                       onChange={(ev) => handleChange(ev.target.value)}
                     />
                   )}
