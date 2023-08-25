@@ -97,8 +97,22 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   return (
     <ProjectContainer onSubmit={handleSubmit(onFormSubmit)}>
       <NavContainer>
-        <Button variant="primary" icon="edit" title="Опис" btnType="button" func={handleTabClick} />
-        <Button variant="text" icon="team" title="Команда" btnType="button" func={handleTabClick} />
+        <Button
+          variant="tab"
+          icon="edit"
+          title="Опис"
+          btnType="button"
+          func={handleTabClick}
+          isSelected={currentTab === 'Опис'}
+        />
+        <Button
+          variant="tab"
+          icon="team"
+          title="Команда"
+          btnType="button"
+          func={handleTabClick}
+          isSelected={currentTab === 'Команда'}
+        />
       </NavContainer>
       <div>
         {tabs.map(({ content, title }) => (
