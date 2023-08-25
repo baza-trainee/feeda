@@ -99,6 +99,7 @@ interface ProvidedStyles {
   dropdownIndicator: StylesConfig['dropdownIndicator'];
   menu: StylesConfig['menu'];
   option: StylesConfig['option'];
+  singleValue: StylesConfig['singleValue'];
 }
 
 export const selectStyles = (error: boolean, isDropdownOpen: boolean, isDisabled: boolean): ProvidedStyles => ({
@@ -109,7 +110,7 @@ export const selectStyles = (error: boolean, isDropdownOpen: boolean, isDisabled
     borderRadius: '4px',
     padding: '8px',
     cursor: 'pointer',
-    backgroundColor: isDisabled ? '#fff' : '#fcfcfc',
+    backgroundColor: isDisabled ? '#fff' : '#fff',
     ':hover': {
       borderColor: `${error ? 'red' : '#CECECE'}`,
     },
@@ -157,5 +158,9 @@ export const selectStyles = (error: boolean, isDropdownOpen: boolean, isDisabled
       color: '#FCFCFC',
       backgroundColor: '#232323',
     },
+  }),
+  singleValue: () => ({
+    position: 'absolute',
+    color: '#353535',
   }),
 });

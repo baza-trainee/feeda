@@ -2,6 +2,7 @@ import {
   Add,
   ArrowDown,
   Backend,
+  Calendar,
   Checkmark,
   ComplexityActive,
   Cross,
@@ -50,6 +51,7 @@ export const IconSprite = ({ icon }: { icon: IconType }) => {
     roundCheckmark: <RoundCheckmark />,
     checkmark: <Checkmark />,
     cross: <Cross />,
+    calendar: <Calendar />,
   };
 
   const selectedIcon = icons[icon];
@@ -86,6 +88,7 @@ export const iconTypes = {
   roundCheckmark: 'roundCheckmark',
   checkmark: 'checkmark',
   cross: 'cross',
+  calendar: 'calendar',
 } as const;
 
 export type IconType = keyof typeof iconTypes;

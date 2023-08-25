@@ -1,27 +1,26 @@
 'use client';
 
 import { useState } from 'react';
-import { Control, Controller, useController } from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 import Select from 'react-select';
 
 import { DropdownIndicator } from '../DropdownIndicator/DropdownIndicator';
 import { ErrorText, Label, selectStyles } from './SelectField.style';
 
-export interface OptionType {
+interface OptionType {
   label: JSX.Element | string;
   value: string | number;
 }
 
-interface CustomSelectProps {
+interface SelectFieldProps {
   control: Control;
   name: string;
   rules?: object;
   options: OptionType[];
   placeholder: string | JSX.Element;
   clearErrors: (name?: string | string[]) => void;
-  valueGetter: (value: string | number) => OptionType | undefined;
   title: string;
-  isSearchable?: boolean;
+  isDisabled?: boolean;
 }
 
 export const SelectField = ({
@@ -31,10 +30,9 @@ export const SelectField = ({
   options,
   placeholder,
   clearErrors,
-  valueGetter,
   title,
-  isSearchable = false,
-}: CustomSelectProps) => {
+  isDisabled = false,
+}: SelectFieldProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
@@ -47,18 +45,16 @@ export const SelectField = ({
           clearErrors(name);
         };
 
-        //const computedValue = typeof valueGetter === 'function' ? valueGetter(value) : value;
-
         return (
           <div style={{ position: 'relative' }} id="input-wrapper">
             <Label>
               {title}
               <Select
-                isDisabled={false}
+                isSearchable={false}
+                isDisabled={isDisabled}
                 components={{ DropdownIndicator }}
                 instanceId={name}
-                isSearchable={isSearchable}
-                styles={selectStyles(!!error, isDropdownOpen, false)}
+                styles={selectStyles(!!error, isDropdownOpen, isDisabled)}
                 placeholder={placeholder}
                 options={options}
                 value={value}

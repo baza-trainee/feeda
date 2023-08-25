@@ -40,7 +40,6 @@ export const Box = styled.div`
 	position: absolute;
 	top: 8px;
 	left: 0;
-	transition: all 250ms ease-in;
 
 	&::before {
 		display: block;
@@ -50,6 +49,8 @@ export const Box = styled.div`
 		width: 18px;
 		height: 18px;
 		cursor: pointer;
+
+		transition: all 350ms ease-in-out;
 	}
 
 	&:hover {
@@ -65,6 +66,7 @@ export const Box = styled.div`
 	@media screen and (${media.tablet}) {
 		top: 0;
 	}
+	transition: all 350ms ease-in;
 `;
 
 export const Span = styled.span`

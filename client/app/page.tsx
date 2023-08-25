@@ -34,13 +34,11 @@ export default function Home() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	const ScreenComponent = () => screens[state.location as keyof Screens];
+	const ScreenComponent = screens[state.location as keyof Screens];
 
 	return (
 		<main>
-			<AnimatePresence mode="wait">
-				<ScreenComponent />
-			</AnimatePresence>
+			<AnimatePresence mode="wait">{ScreenComponent}</AnimatePresence>
 			<Modal isVisible={state.visible || false} />
 		</main>
 	);

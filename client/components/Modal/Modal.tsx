@@ -16,7 +16,7 @@ export const Modal = ({ isVisible }: { isVisible: boolean }) => {
 	const { state, setState } = useGlobalState();
 
 	const closeModal = () => {
-		setState((prev) => ({ ...prev, visible: false }));
+		setState((prev) => ({ ...prev, visible: false, modal: 'terms' }));
 	};
 
 	useEffect(() => {
