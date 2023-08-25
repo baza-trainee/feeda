@@ -21,6 +21,7 @@ const { reducer, actions, name } = createSlice({
       state.projects = payload.results;
       state.loading = 'success';
       console.log(state.loading);
+      console.log('Fetching participants');
     });
     builder.addCase(fetchProjects.rejected, (state, action) => {
       state.projects = [];
@@ -32,10 +33,9 @@ const { reducer, actions, name } = createSlice({
       state.loading = 'loading';
       console.log(state.loading);
     });
-    builder.addCase(deleteProject.fulfilled, (state, { payload }) => {
+    builder.addCase(deleteProject.fulfilled, (state) => {
       state.loading = 'success';
-      state.projects = state.projects.filter((item) => item.title !== payload);
-      console.log(state.loading, payload);
+      console.log(state.loading);
     });
     builder.addCase(deleteProject.rejected, (state, action) => {
       state.projects = [];

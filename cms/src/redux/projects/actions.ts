@@ -14,14 +14,21 @@ const fetchProjects = createAsyncThunk(ActionType.GET_ALL, async () => {
   return data;
 });
 
-const deleteProject = createAsyncThunk(ActionType.DELETE_PROJECT, async (title: string | number | null) => {
-  await axios.delete(`http://localhost:8000/user-project/project/${title}`, {
-    headers: {
-      Authorization: 'Token fdf0e7ece53196a6d431d0080cc2b8498a54db71', //implement auth,
-    },
-  });
-
-  return title;
-});
+const deleteProject = createAsyncThunk(
+  ActionType.DELETE_PROJECT,
+  async (title: string | number | null, { dispatch }) => {
+    try {
+      await axios.delete(`http://localhost:8000/user-project/project/${title}`, {
+        headers: {
+          Authorization: 'Token fdf0e7ece53196a6d431d0080cc2b8498a54db71', //implement auth,
+        },
+      });
+      await dispatch(fetchProjects());
+      return;
+    } catch (err) {
+      console.log('Delete error: ', err);
+    }
+  }
+);
 
 export { fetchProjects, deleteProject };

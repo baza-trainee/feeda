@@ -65,12 +65,17 @@ export const updateParticipant = createAsyncThunk(
 
 export const deleteParticipant = createAsyncThunk(
   'participants/deleteParticipant',
-  async (userId: string, { rejectWithValue }) => {
+  async (userId: string, { dispatch, rejectWithValue }) => {
     try {
       await axios.delete<ParticipantData>(`participant-detail/${userId}/`);
-      return userId;
+      await dispatch(fetchParticipants());
+      return;
     } catch (err) {
-      return rejectWithValue(err.response.data);
+      if (err.response.status === 404) {
+        return rejectWithValue('Помилка, статус 404');
+      } else if (err.response.status === 500) {
+        return rejectWithValue('Помилка сервера, статус 500');
+      } else return rejectWithValue(err.response.data);
     }
   }
 );

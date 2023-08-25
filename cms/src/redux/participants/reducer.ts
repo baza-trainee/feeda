@@ -33,18 +33,8 @@ export const participantsSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(fetchParticipants.rejected, (state, { payload }) => {
-      if (typeof payload === 'object') {
-        const formattedString = Object.entries(payload)
-          .map(([key, value]) => `${key}: ${value}`)
-          .join('\n');
-        state.error = formattedString;
-      } else if (typeof payload === 'string') {
-        console.log('Error: ', payload);
-        state.error = payload;
-      } else {
-        console.log('Error: ', payload);
-        state.error = true;
-      }
+      if (typeof payload === 'string') state.error = payload;
+      else state.error = true;
       state.isLoading = false;
     });
 
@@ -59,13 +49,8 @@ export const participantsSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(searchParticipants.rejected, (state, { payload }) => {
-      if (typeof payload === 'string') {
-        console.log('Error: ', payload);
-        state.error = payload;
-      } else {
-        console.log('Error: ', payload);
-        state.error = true;
-      }
+      if (typeof payload === 'string') state.error = payload;
+      else state.error = true;
       state.isLoading = false;
     });
 
@@ -115,18 +100,8 @@ export const participantsSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(getParticipant.rejected, (state, { payload }) => {
-      if (typeof payload === 'object') {
-        const formattedString = Object.entries(payload)
-          .map(([key, value]) => `${key}: ${value.join(', ')}`)
-          .join('\n');
-        state.error = formattedString;
-      } else if (typeof payload === 'string') {
-        console.log('Error: ', payload);
-        state.error = payload;
-      } else {
-        console.log('Error: ', payload);
-        state.error = true;
-      }
+      if (typeof payload === 'string') state.error = payload;
+      else state.error = true;
       state.isLoading = false;
     });
 
@@ -162,14 +137,14 @@ export const participantsSlice = createSlice({
       state.error = null;
       state.isLoading = true;
     });
-    builder.addCase(deleteParticipant.fulfilled, (state, { payload }) => {
-      state.list = state.list.filter((item) => item.id !== payload);
+    builder.addCase(deleteParticipant.fulfilled, (state) => {
       state.isLoading = false;
     });
     builder.addCase(deleteParticipant.rejected, (state, { payload }) => {
       console.log('Participant delete error: ', payload);
-      state.error = true;
-      state.isLoading = true;
+      if (typeof payload === 'string') state.error = payload;
+      else state.error = true;
+      state.isLoading = false;
     });
 
     // - - -
@@ -182,18 +157,9 @@ export const participantsSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(sendEmail.rejected, (state, { payload }) => {
-      if (typeof payload === 'object') {
-        const formattedString = Object.entries(payload)
-          .map(([key, value]) => `${key}: ${value.join(', ')}`)
-          .join('\n');
-        state.error = formattedString;
-      } else if (typeof payload === 'string') {
-        console.log('Error: ', payload);
-        state.error = payload;
-      } else {
-        console.log('Error: ', payload);
-        state.error = true;
-      }
+      if (typeof payload === 'string') state.error = payload;
+      else state.error = true;
+      console.log('Send email rejected: ', payload);
       state.isLoading = false;
     });
 
@@ -203,7 +169,7 @@ export const participantsSlice = createSlice({
       state.error = null;
     });
     builder.addCase(searchProjects.rejected, (state, { payload }) => {
-      console.log('Error: ', payload);
+      console.log('Search projects error: ', payload);
       state.error = true;
     });
   },
