@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 
-import { deleteProject,fetchProjects } from './actions';
+import { deleteProject, fetchProjects, addProject } from './actions';
 
 const initialState: ProjectsState = {
   projects: [],
@@ -22,12 +22,12 @@ const { reducer, actions, name } = createSlice({
       state.loading = 'success';
       console.log(state.loading);
     });
-    builder.addCase(fetchProjects.rejected, (state, action) => {
-      state.projects = [];
-      state.loading = 'rejected';
-      console.log(action.error.message);
-      console.log(state.loading);
-    });
+    // builder.addCase(fetchProjects.rejected, (state, action) => {
+    //   state.projects = [];
+    //   state.loading = 'rejected';
+    //   console.log(action.error.message);
+    //   console.log(state.loading);
+    // });
     builder.addCase(deleteProject.pending, (state) => {
       state.loading = 'loading';
       console.log(state.loading);
@@ -36,12 +36,30 @@ const { reducer, actions, name } = createSlice({
       state.loading = 'success';
       console.log(state.loading, payload);
     });
-    builder.addCase(deleteProject.rejected, (state, action) => {
-      state.projects = [];
-      state.loading = 'rejected';
-      console.log(action.error.message);
+    // builder.addCase(deleteProject.rejected, (state, action) => {
+    //   state.projects = [];
+    //   state.loading = 'rejected';
+    //   console.log(action.error.message);
+    //   console.log(state.loading);
+    // });
+    builder.addCase(addProject.pending, (state) => {
+      state.loading = 'loading';
       console.log(state.loading);
     });
+    builder.addCase(addProject.fulfilled, (state, { payload }) => {
+      state.loading = 'success';
+      console.log(payload);
+      console.log(state.loading, payload);
+    });
+    builder.addMatcher(
+      isAnyOf(fetchProjects.rejected, deleteProject.rejected, addProject.rejected),
+      (state, action) => {
+        state.projects = [];
+        state.loading = 'rejected';
+        console.log(action.error.message);
+        console.log(state.loading);
+      }
+    );
   },
 });
 

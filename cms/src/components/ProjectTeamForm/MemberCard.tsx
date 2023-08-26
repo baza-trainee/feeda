@@ -31,7 +31,6 @@ export const MemberCard: React.FC<MemberCardProps> = ({ control, clearErrors, in
         placeholder={'Роль'}
         name={`${name}..${index}.membersRole`}
         title="Роль"
-        valueGetter={(value) => getRoleValue(value)}
         rules={{ required: 'це поле є обовязковим' }}
       />
       <Input
@@ -47,9 +46,7 @@ export const MemberCard: React.FC<MemberCardProps> = ({ control, clearErrors, in
           variant="icon"
           icon="delete"
           func={() => {
-            console.log('delete');
             onDelete(index);
-            console.log('delete');
           }}
         />
       </DelBtnWrapper>

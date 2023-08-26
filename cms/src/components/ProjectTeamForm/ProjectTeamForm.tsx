@@ -13,13 +13,14 @@ export type MemberType = {
   name: string;
   membersRole: { value: string; label: JSX.Element };
   comment: string;
+  id: string;
 };
 
 export const ProjectTeamForm: React.FC<TeamFormProps> = ({ control, clearErrors, handleSubmit }) => {
   return (
     <FormWrapper>
-      <TeamFormSection control={control} clearErrors={clearErrors} name="members" title="Загальна команда" />
-      <TeamFormSection control={control} clearErrors={clearErrors} name="teamLead" title="Тімлід команди" />
+      <TeamFormSection control={control} clearErrors={clearErrors} name="user" title="Загальна команда" />
+      <TeamFormSection control={control} clearErrors={clearErrors} name="team_lead" title="Тімлід команди" />
     </FormWrapper>
   );
 };

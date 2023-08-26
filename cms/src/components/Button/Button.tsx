@@ -7,7 +7,7 @@ import { IconBtn, PopUpBtnAccept, PopUpBtnCancel, PrimaryBtn, TabBtn, TextBtn } 
 
 type ButtonProps = {
   isDisabled?: boolean;
-  func: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  func?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   btnType?: 'button' | 'submit' | 'reset';
   variant: 'primary' | 'text' | 'icon' | 'accept' | 'cancel' | 'tab';
   icon?: IconType | null;
@@ -27,7 +27,7 @@ export const Button = ({
   const [isPressed, setIsPressed] = useState(false);
 
   const onClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-    func(event);
+    func && func(event);
   };
 
   const btnVariants = {

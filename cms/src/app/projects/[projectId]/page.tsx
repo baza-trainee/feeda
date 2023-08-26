@@ -5,20 +5,21 @@ import { Button } from '~/src/components/Button/Button';
 import { ProjectForm } from '~/src/components/ProjectForm/ProjectForm';
 import { MemberType, ProjectTeamForm } from '~/src/components/ProjectTeamForm/ProjectTeamForm';
 import { NavContainer, ProjectContainer } from './styles';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import { OptionType } from '~/src/components/SelectField/SelectField';
 import { MemberRole, ProjectState } from '~/src/components/SelectField/lists';
 
 export interface FormData {
-  name: string;
+  title: string;
   comment: string;
   complixity: OptionType;
-  state: OptionType;
-  type: OptionType;
-  start_date: string;
-  end_date: string;
-  url: string;
-  members: MemberType[];
+  project_status: OptionType;
+  type_project: OptionType;
+  start_date_project: Date;
+  end_date_project: Date;
+  address_site: string;
+  user: MemberType[];
+  team_lead: MemberType[];
 }
 
 type ProjectPageProps = {
@@ -31,15 +32,15 @@ const tempInitialState = {
   name: 'Test Project',
   comment: '',
   complixity: null,
-  state: {
+  project_status: {
     value: 'ended',
     label: <ProjectState type="orange" title="Завершено" />,
   },
-  type: null,
-  start_date: '',
-  end_date: '',
-  url: '',
-  members: [
+  type_project: null,
+  start_date_project: '',
+  end_date_project: '',
+  address_site: '',
+  user: [
     {
       name: 'John Smith',
       membersRole: {
@@ -47,6 +48,7 @@ const tempInitialState = {
         label: <MemberRole type="orange" title="Front" />,
       },
       comment: 'Some comments',
+      id: 'f7d31f25-36d2-4ab9-98ed-1aa8aa5e29c6',
     },
     {
       name: 'Bill Gates',
@@ -55,6 +57,18 @@ const tempInitialState = {
         label: <MemberRole type="orange" title="Front" />,
       },
       comment: 'Some comments',
+      id: 'e81be77f-ec88-4e94-9ab5-236ac428d15b',
+    },
+  ],
+  team_lead: [
+    {
+      name: 'Bill Gates',
+      membersRole: {
+        value: 'front',
+        label: <MemberRole type="orange" title="Front" />,
+      },
+      comment: 'Some comments',
+      id: 'f7d31f25-36d2-4ab9-98ed-1aa8aa5e29c6',
     },
   ],
 };

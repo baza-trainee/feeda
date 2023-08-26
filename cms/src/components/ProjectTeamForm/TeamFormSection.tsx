@@ -22,6 +22,7 @@ export const TeamFormSection: React.FC<TeamSectionProps> = ({ control, clearErro
       name: '',
       membersRole: null,
       comment: '',
+      id: '',
     });
   };
 

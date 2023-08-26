@@ -1,27 +1,86 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { format } from 'date-fns';
 
 import { ActionType } from './common';
 import { ProjectData } from './projects.slice';
+import { FormData } from '../../../app/projects/[projectId]/page';
+
+const AuthToken = '624e3e488cdc0f0c0f57a197c05068b4b5c2cfd5';
 
 const fetchProjects = createAsyncThunk(ActionType.GET_ALL, async () => {
   const { data } = await axios.get<ProjectData[]>('http://localhost:8000/user-project/projects/', {
     headers: {
-      Authorization: 'Token 87495e7e2a03ca367358472a0e81c954fd90c59c', //implement auth,
+      Authorization: `Token ${AuthToken}`, //implement auth,
     },
   });
-
-  return data;
+  console.log(data);
+  return data.results; /// TEMP PAGINATION
 });
 
 const deleteProject = createAsyncThunk(ActionType.DELETE_PROJECT, async (title: string | number | null) => {
   const { data } = await axios.delete(`http://localhost:8000/user-project/project/${title}`, {
     headers: {
-      Authorization: 'Token 87495e7e2a03ca367358472a0e81c954fd90c59c', //implement auth,
+      Authorization: `Token ${AuthToken}`, //implement auth,
     },
   });
 
   return data;
 });
 
-export { fetchProjects, deleteProject };
+const addProject = createAsyncThunk(ActionType.ADD_PROJECT, async (formData: FormData) => {
+  const projectData: ProjectDataParams = {
+    title: formData.title,
+    comment: formData.comment,
+    type_project: Number(formData.project_status.value) || 2, /// GET INSTRUCTIONS
+    complexity: Number(formData.complixity.value) || 2, /// GET INSTRUCTIONS
+    project_status: Number(formData.project_status.value) || 1, ///  /// GET INSTRUCTIONS
+    start_date_project: format(formData.start_date_project, 'yyyy-MM-dd'),
+    end_date_project: formData.start_date_project ? format(formData.start_date_project, 'yyyy-MM-dd') : '2023-12-31',
+    address_site: formData.address_site,
+  };
+
+  console.log('dispatch', projectData);
+  const { data } = await axios.post(`http://localhost:8000/user-project/create-project/`, projectData, {
+    headers: {
+      Authorization: `Token ${AuthToken}`, //implement auth,
+    },
+  });
+
+  const teamData: TeamDataParams = {
+    team_lead: 'f7d31f25-36d2-4ab9-98ed-1aa8aa5e29c6',
+    user: ['f7d31f25-36d2-4ab9-98ed-1aa8aa5e29c6', 'e81be77f-ec88-4e94-9ab5-236ac428d15b'],
+    project: data.project.id.toString(),
+  };
+
+  const response = await axios.put(`http://localhost:8000/user-project/command-update/${data.command.id}/`, teamData, {
+    headers: {
+      Authorization: `Token ${AuthToken}`, //implement auth,
+    },
+  });
+
+  console.log(response);
+
+  const combinedData = { project: data, team: response.data };
+
+  return combinedData;
+});
+
+export interface ProjectDataParams {
+  title: string;
+  comment: string;
+  type_project: number;
+  complexity: number;
+  project_status: number;
+  start_date_project: string;
+  end_date_project?: string;
+  address_site?: string;
+}
+
+export interface TeamDataParams {
+  team_lead?: string;
+  user?: string[];
+  project: string;
+}
+
+export { fetchProjects, deleteProject, addProject };
