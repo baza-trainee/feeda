@@ -1,37 +1,45 @@
 'use client';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
+
+import { AnimatePresence } from 'framer-motion';
 
 import { useGlobalState } from '~/hooks/useGlobalState';
 import { EndPopUp } from '~components/EndPopUp/EndPopUp';
-import Modal from '~components/Modal/Modal';
+import { Modal } from '~components/Modal/Modal';
 import { StartPopUp } from '~components/StartPopUp/StartPopUp';
 import { UserApplication } from '~components/UserApplication/UserApplication';
 
+type Screens = {
+	[key: string]: React.ReactElement;
+};
+
 export default function Home() {
+	const screens: Screens = {
+		start: <StartPopUp />,
+		application: <UserApplication />,
+		finish: <EndPopUp />,
+	};
 	const { state, setState } = useGlobalState();
 
 	useEffect(() => {
-		const data = {
-			...state,
-			modal: '',
+		setState((prev) => ({
+			modal: prev.modal || 'terms',
+			visible: prev.visible || false,
 			approved: {
-				terms: false,
-				agreement: false,
+				agreement: prev.approved?.agreement || false,
+				terms: prev.approved?.terms || false,
 			},
-			visible: false,
-			location: state.location ? state.location : 'start',
-		};
-
-		setState((prev) => ({ ...prev, ...data }));
+			location: prev.location || 'start',
+		}));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	const ScreenComponent = screens[state.location as keyof Screens];
+
 	return (
 		<main>
-			{state.location === 'start' && <StartPopUp />}
-			{state.location === 'application' && <UserApplication />}
-			{state.location === 'finish' && <EndPopUp />}
-			<Modal />
+			<AnimatePresence mode="wait">{ScreenComponent}</AnimatePresence>
+			<Modal isVisible={state.visible || false} />
 		</main>
 	);
 }

@@ -1,17 +1,24 @@
 import styled from '@emotion/styled';
 
+import { theme } from '~styles/theme';
+const { colors, fonts, media } = theme;
+
 export const Wrapper = styled.div`
 	position: relative;
-	font-size: 12px;
-	padding: 16px 0 16px 48px;
-	@media screen and (min-width: 768px) {
-		padding: 14px 0 14px 48px;
-		font-size: 14px;
-		line-height: 150%;
+	font-size: ${fonts.checkbox.fontSize.mobile}rem;
+	line-height: ${fonts.checkbox.lineHeight.mobile};
+	letter-spacing: ${fonts.checkbox.letterSpacing}px;
+	padding: 1rem 0 1rem 3rem;
+	@media screen and (${media.tablet}) {
+		padding: 0.875rem 0 0.875rem 3rem;
+		font-size: ${fonts.checkbox.fontSize.tablet}rem;
+		line-height: normal;
+	}
+	@media screen and (${media.desktop}) {
+		padding: 0.875rem 0 0.875rem 3rem;
+		line-height: ${fonts.checkbox.lineHeight.desktop};
 	}
 `;
-
-export const CheckboxLabel = styled.label``;
 
 export const Input = styled.input`
 	cursor: pointer;
@@ -22,7 +29,7 @@ export const Input = styled.input`
 
 	&:checked + #box::before {
 		border: none;
-		background-color: #ffbd00;
+		background-color: ${colors.accent};
 		background-image: url('/check_small.svg');
 		background-position: center center;
 	}
@@ -37,19 +44,33 @@ export const Box = styled.div`
 	&::before {
 		display: block;
 		content: '';
-		border: 2px solid #232323;
+		border: 2px solid ${colors.mainText};
 		border-radius: 2px;
 		width: 18px;
 		height: 18px;
 		cursor: pointer;
+
+		transition: all 350ms ease-in-out;
 	}
-	@media screen and (min-width: 768px) {
+
+	&:hover {
+		border-radius: 50%;
+		background-color: ${colors.hoverBox};
+	}
+
+	input:checked + &:hover {
+		border-radius: 50%;
+		background-color: ${colors.hoverBoxChecked};
+	}
+
+	@media screen and (${media.tablet}) {
 		top: 0;
 	}
+	transition: all 350ms ease-in;
 `;
 
 export const Span = styled.span`
 	text-decoration: underline;
-	color: #0029ff;
+	color: ${colors.link};
 	cursor: pointer;
 `;

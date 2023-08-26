@@ -4,8 +4,6 @@ import { GlobalStateProvider } from '~/hooks/useGlobalState';
 
 import EmotionRegistry from './registry';
 
-import './globals.css';
-
 const eho = Exo_2({
 	weight: ['400', '500', '600', '700'],
 	style: ['normal'],
