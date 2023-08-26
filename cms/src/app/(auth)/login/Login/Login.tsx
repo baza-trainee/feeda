@@ -8,26 +8,26 @@ import { Input } from '~/src/components/Input/Input';
 import { Title } from '~/src/components/Title/Title';
 import { AppDispatch } from '~/src/store/store'; ///
 
-import { logIn } from '../../authOperations/operations'; ///
 import { CheckboxComponent } from '../../components/CheckboxComponent/CheckboxComponent';
 import { btnText, formTitle, inputPlaceholderText, labelsTitle, patternsCheck } from '../../consts';
 import { ForgotPassword } from './ForgotPassword/ForgotPassword';
 import { ContainerCss, FormCss, InputCss, TitleCss } from './Login.styles';
+import { logIn } from '../../authOperations/operations';
 
 export function LoginForm() {
-  const { control, clearErrors, getValues } = useForm();
+  const { control, clearErrors, getValues, handleSubmit } = useForm();
   const checkboxRef = useRef<HTMLInputElement>(null);
   const [isShowPassword, setIsShowPassword] = useState(false);
   const typePasswordInput = isShowPassword ? 'text' : 'password';
   const iconInputPassword = isShowPassword ? 'eyeOpen' : 'eyeClosed';
-  
+
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(getValues(), checkboxRef.current?.checked);
-
-    dispatch(logIn(getValues()));
+  const handleSubmitForm = () => {
+    const { email, password } = getValues();
+    const data = { email, password };
+    console.log(data, checkboxRef.current?.checked);
+    dispatch(logIn(data));
   };
 
   const onClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -38,7 +38,7 @@ export function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} css={FormCss}>
+    <form onSubmit={handleSubmit(handleSubmitForm)} css={FormCss}>
       <div css={TitleCss}>
         <Title title={formTitle.login} main />
       </div>
@@ -47,7 +47,7 @@ export function LoginForm() {
           <Input
             placeholder={inputPlaceholderText.login}
             type="text"
-            name="login"
+            name="email"
             id="login"
             control={control}
             rules={{

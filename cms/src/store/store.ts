@@ -8,7 +8,7 @@ export const store = configureStore({
   reducer: {
     projects: projecsReducer,
     participants: participantsReducer,
-    authSlice:authSliceReducer,
+    authSlice: authSliceReducer,
   },
 });
 
