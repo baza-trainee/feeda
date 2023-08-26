@@ -9,9 +9,10 @@ import {
 	errorStyles,
 	inputlStyles,
 	labelStyles,
-	vaidDiscordUnderText,
+	validation,
 	validDiscordNameStyle,
 	validDiscordStyle,
+	validDiscordUnderText,
 } from './FormField.slyles';
 
 interface InputValidationOptions {
@@ -60,7 +61,7 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 
 	return (
 		<div style={{ position: 'relative' }}>
-			<label css={[labelStyles]}>
+			<label css={labelStyles}>
 				<input
 					css={[
 						inputlStyles,
@@ -71,16 +72,21 @@ export const FormField = <TFormValues extends Record<string, string | number>>({
 					placeholder={placeholder}
 					{...register(name, inputProps)}
 					autoComplete={autoComplete}
+					onBlur={(e) => {
+						const trimmedValue = e.target.value.trim();
+						e.target.value = trimmedValue;
+						register(name).onBlur(e);
+					}}
 				/>
 				<p data-category="label-text" css={isValid && isDiscordField && isValidDiscordValue && validDiscordNameStyle}>
 					{label}
 				</p>
 				{isValid && isDiscordField && isValidDiscordValue && (
-					<p data-category="noerrors" css={vaidDiscordUnderText}>
+					<p data-category="noerrors" css={[validation, validDiscordUnderText]}>
 						Не забудь перевірити запрошення
 					</p>
 				)}
-				{!isValid && <p css={errorStyles}>{errorMessage}</p>}
+				{!isValid && <p css={[validation, errorStyles]}>{errorMessage}</p>}
 			</label>
 		</div>
 	);

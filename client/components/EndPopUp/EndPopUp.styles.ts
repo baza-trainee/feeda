@@ -1,85 +1,66 @@
 import styled from '@emotion/styled';
+import { motion } from 'framer-motion';
 import { theme } from 'styles/theme';
 const { colors, fonts, media } = theme;
 
-export const Wrapper = styled.div`
+export const Wrapper = styled(motion.div)`
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	width: 100%;
 	min-height: 100vh;
-	padding: 0 29px;
+	padding: 0 1.8rem;
 	@media screen and (${media.desktop}) {
 		padding: 0;
 	}
 `;
 
-export const Section = styled.section`
+export const Section = styled(motion.section)`
+	font-size: ${fonts.endPopUp.fontSize.mobile}rem;
+	line-height: normal;
+	letter-spacing: ${fonts.endPopUp.letterSpacing}px;
 	text-align: center;
-	width: 100%;
-	max-width: 335px;
-	margin: 0 auto;
-	padding: 24px;
-	border-radius: 16px;
-	border: 1px solid ${colors.disabledBtnBg};
-	@media screen and (${media.tablet}) {
-		max-width: 466px;
-		font-size: ${fonts.display.fontSize.mobile}px;
-		line-height: ${fonts.display.lineHeight.mobile};
-	}
-	@media screen and (${media.desktop}) {
-		max-width: 593px;
-		font-size: ${fonts.display.fontSize.tablet}px;
-		line-height: ${fonts.display.lineHeight.tablet};
-	}
-`;
 
-export const Title = styled.h1`
-	color: ${colors.mainTitle};
-	margin-bottom: 32px;
-	font-weight: ${fonts.headline.fontWeight.tablet};
-	font-size: ${fonts.headline.fontSize.desktop}px;
-	line-height: ${fonts.headline.lineHeight.desktop};
+	width: 100%;
+	max-width: 20.94rem;
+	margin: 0 auto;
+	padding: 1.5rem;
+
+	border-radius: 16px;
+	border: 1px solid ${colors.grey200};
+	color: ${colors.grey1000};
+
 	@media screen and (${media.tablet}) {
-		margin-bottom: 24px;
-		font-size: ${fonts.display.fontSize.mobile}px;
-		line-height: ${fonts.display.lineHeight.mobile};
+		max-width: 29.1rem;
 	}
 	@media screen and (${media.desktop}) {
-		margin-bottom: 32px;
-		font-size: ${fonts.display.fontSize.tablet}px;
-		line-height: ${fonts.display.lineHeight.tablet};
+		max-width: 37rem;
 	}
 `;
 
 export const Desc = styled.p`
-	color: ${colors.mainTitle};
-	margin-bottom: 32px;
-	font-weight: ${fonts.title.fontWeight.tablet};
-	font-size: ${fonts.title.fontSize.tablet}px;
-	line-height: ${fonts.title.lineHeight};
+	margin-bottom: 2rem;
+	font-weight: ${fonts.endPopUp.fontWeight.desc};
 	@media screen and (${media.tablet}) {
-		margin-bottom: 24px;
+		margin-bottom: 1.5rem;
 	}
 	@media screen and (${media.desktop}) {
-		margin: 0 auto 32px;
+		margin: 0 auto 2rem;
 	}
 `;
 
 export const Reminder = styled.p`
-	color: ${colors.mainTitle};
-	font-weight: ${fonts.title.fontWeight.tablet};
-	font-size: ${fonts.title.fontSize.tablet}px;
-	line-height: ${fonts.title.lineHeight};
-	letter-spacing: ${fonts.title.letterSpacing.tablet}px;
+	font-weight: ${fonts.endPopUp.fontWeight.desc};
+	line-height: normal;
 	@media screen and (${media.tablet}) {
-		font-weight: ${fonts.title.fontWeight.desktop};
-		font-size: ${fonts.title.fontSize.desktop}px;
+		font-weight: ${fonts.endPopUp.fontWeight.reminder};
+		font-size: ${fonts.endPopUp.fontSize.tablet}rem;
+		letter-spacing: normal;
 	}
 	@media screen and (${media.desktop}) {
-		font-size: ${fonts.headline.fontSize.tablet}px;
-		line-height: ${fonts.headline.lineHeight.tablet};
-		font-weight: ${fonts.headline.fontWeight.tablet};
+		font-size: ${fonts.endPopUp.fontSize.desktop}rem;
+		line-height: ${fonts.endPopUp.lineHeight};
+		font-weight: ${fonts.endPopUp.fontWeight.desc};
 		margin: 0 auto;
 	}
 

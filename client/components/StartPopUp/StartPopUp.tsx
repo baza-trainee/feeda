@@ -1,13 +1,17 @@
 import React from 'react';
 
+import { AnimatePresence } from 'framer-motion';
+
 import { useGlobalState } from '~/hooks/useGlobalState';
+import useMobileDetect from '~/hooks/useMobileDetect';
 import Button from '~components/Button/Button';
 import Title from '~components/Title/Title';
 
-import { Span, TextWrapper, Wrapper } from './StartPopUp.styles';
+import { Disc, Terms, TextWrapper, Wrapper } from './StartPopUp.styles';
 
-export function StartPopUp(): JSX.Element {
+export const StartPopUp = React.memo(() => {
 	const { state, setState } = useGlobalState();
+	const mobile = useMobileDetect().isMobile();
 
 	const handleClick = () => {
 		setState((prev) => ({ ...prev, location: 'application' }));
@@ -18,22 +22,32 @@ export function StartPopUp(): JSX.Element {
 	};
 
 	return (
-		<Wrapper>
-			<Title main>
-				Вітаю! <br /> Ти за крок до роботи над
-				<br />
-				цікавими проєктами в командах
-			</Title>
-			<TextWrapper>
-				<p>
-					Вся комунікація в командах ведеться у <b> Discord </b>
+		<AnimatePresence>
+			<Wrapper
+				key="start"
+				initial={{ opacity: 0, y: '100px' }}
+				animate={{ opacity: 1, y: '0px' }}
+				exit={{ opacity: 0, y: '-100px' }}
+				transition={{ duration: 0.5 }}
+			>
+				<Title main>
+					Вітаю! <br /> Ти за крок до роботи над
 					<br />
-					<br />
-					Тобі залишилось ознайомитися з <Span onClick={showModal}>умовами та правилами участі на проєкті </Span>
-					та заповнити анкету
-				</p>
-			</TextWrapper>
-			<Button func={handleClick}>Заповнити анкету</Button>
-		</Wrapper>
+					цікавими проєктами в командах
+				</Title>
+				<TextWrapper>
+					<p>
+						Вся комунікація в командах{mobile && <br />} ведеться у <Disc> Discord </Disc>
+						<br />
+						<br />
+						Тобі залишилось ознайомитися з <Terms onClick={showModal}>умовами та правилами участі в проєкті </Terms>
+						та заповнити анкету
+					</p>
+				</TextWrapper>
+				<Button func={handleClick}>Заповнити анкету</Button>
+			</Wrapper>
+		</AnimatePresence>
 	);
-}
+});
+
+StartPopUp.displayName = 'StartPopUp';
