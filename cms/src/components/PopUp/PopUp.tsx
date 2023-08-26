@@ -15,7 +15,7 @@ import {
 } from './PopUp.styles';
 
 type PopUpProps = {
-  type: 'delete' | 'success';
+  type: 'delete' | 'success' | 'rejected';
   target?: 'project' | 'member';
   mobileWidth?: string;
   yesCallback?: () => void;
@@ -67,6 +67,15 @@ export function PopUp({ type, target, mobileWidth, closeModalFunc, yesCallback, 
               <PopUpTitle color="#29CA56">Успіх!</PopUpTitle>
               <PopUpText>Ваші дані було успішно збережено.</PopUpText>
             </TextWrapperNotification>
+          </NotificationWrapper>
+        )}
+        {type === 'rejected' && (
+          <NotificationWrapper onClick={closeModal}>
+            <TextWrapperNotification>
+              <PopUpTitle color="#d22718">Помилка!</PopUpTitle>
+              <PopUpText>Щось пішло не так. Спробуйте пізніше.</PopUpText>
+            </TextWrapperNotification>
+            <IconSprite icon="cross" />
           </NotificationWrapper>
         )}
       </PopUpWindow>

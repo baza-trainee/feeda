@@ -9,7 +9,7 @@ import { FormData } from '../../../app/projects/[projectId]/page';
 const AuthToken = '624e3e488cdc0f0c0f57a197c05068b4b5c2cfd5';
 
 const fetchProjects = createAsyncThunk(ActionType.GET_ALL, async () => {
-  const { data } = await axios.get<ProjectData[]>('http://localhost:8000/user-project/projects/', {
+  const { data } = await axios.get('http://localhost:8000/user-project/projects/', {
     headers: {
       Authorization: `Token ${AuthToken}`, //implement auth,
     },
@@ -58,8 +58,6 @@ const addProject = createAsyncThunk(ActionType.ADD_PROJECT, async (formData: For
       Authorization: `Token ${AuthToken}`, //implement auth,
     },
   });
-
-  console.log(response);
 
   const combinedData = { project: data, team: response.data };
 

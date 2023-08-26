@@ -105,6 +105,7 @@ export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormP
         <Button variant="text" title="Скасувати" func={() => console.log('CANCEL form fetsh')} />
       </FormControllers>
       {loading === 'success' && isModalOpen && <PopUp type="success" closeModalFunc={() => setModalOpen(false)} />}
+      {loading === 'rejected' && isModalOpen && <PopUp type="rejected" closeModalFunc={() => setModalOpen(false)} />}
     </FormWrapper>
   );
 };
