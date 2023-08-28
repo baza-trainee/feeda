@@ -1,2 +1,2 @@
-import { experience, projects, type } from './Selects';
-export { experience, projects, type };
+import { experience, projectsTemporary } from './Selects';
+export { experience, projectsTemporary };
