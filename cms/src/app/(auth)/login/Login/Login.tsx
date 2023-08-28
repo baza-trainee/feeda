@@ -10,7 +10,6 @@ import { Input } from '~/src/components/Input/Input';
 import { Title } from '~/src/components/Title/Title';
 import { AppDispatch } from '~/src/redux/store/store';
 
-import { logIn } from '../../authOperations/operations'; ///
 import { CheckboxComponent } from '../../components/CheckboxComponent/CheckboxComponent';
 import { btnText, formTitle, inputPlaceholderText, labelsTitle, patternsCheck } from '../../consts';
 import { ForgotPassword } from './ForgotPassword/ForgotPassword';
@@ -23,14 +22,14 @@ export function LoginForm() {
   const [isShowPassword, setIsShowPassword] = useState(false);
   const typePasswordInput = isShowPassword ? 'text' : 'password';
   const iconInputPassword = isShowPassword ? 'eyeOpen' : 'eyeClosed';
-  
+
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(getValues(), checkboxRef.current?.checked);
-
-    dispatch(logIn(getValues()));
+  const handleSubmitForm = () => {
+    const { email, password } = getValues();
+    const data = { email, password };
+    console.log(data, checkboxRef.current?.checked);
+    dispatch(logIn(data));
   };
 
   const onClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {

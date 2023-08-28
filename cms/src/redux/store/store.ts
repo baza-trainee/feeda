@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-<<<<<<<<< Temporary merge branch 1:cms/src/redux/store/store.ts
+import { authSliceReducer } from '../../app/(auth)/authOperations/slice';
 import instructionsReducer from '../slices/instructions';
 import participantsReducer from '../slices/participants';
 import { reducer as projectsReducer } from '../slices/projects/projects';
