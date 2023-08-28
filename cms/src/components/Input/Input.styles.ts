@@ -25,6 +25,7 @@ export const LabelComp = styled.label<{
       &:has(+ div > input:valid) {  \
         color: #14905D  \
       }'}
+
   ${({ isError }) => isError && 'color: #dc0c31;'}
 
   &:has(+ div > input:focus) {

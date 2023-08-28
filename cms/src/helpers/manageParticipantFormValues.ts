@@ -2,13 +2,23 @@ import { IdNameType } from '../redux/instructions';
 
 export function manageFormFields(formData: FormDataTypes, instructions: InstructionsTypes) {
   try {
-    formData.experience = formData.experience.value === 'Так' ? true : false;
-    formData.speciality = instructions.specialities?.find(
-      (item) => item.title.toLowerCase() === formData.speciality?.value.toLowerCase()
-    )?.id;
-    formData.type_participant = instructions.participation_types?.find(
-      (item) => item.title.toLowerCase() === formData.type_participant?.value.toLowerCase()
-    )?.id;
+    if (!instructions.specialities || !instructions.participation_types) throw new Error('Instructions not loaded');
+    if (typeof formData.experience === 'object') {
+      formData.experience = formData.experience.value === 'Так';
+    }
+
+    const tmp_spec = instructions.specialities.find(
+      (item) => item.title.toLowerCase() === formData.speciality.value.toLowerCase()
+    );
+    if (!tmp_spec) throw new Error('Speciality not found');
+    formData.speciality = tmp_spec.id;
+
+    const tmp_type = instructions.participation_types.find(
+      (item) => item.title.toLowerCase() === formData.type_participant.value.toLowerCase()
+    );
+    if (!tmp_type) throw new Error('Participation type not found');
+    formData.type_participant = tmp_type.id;
+
     formData.project = [];
     for (const key in formData) {
       if (key.includes('project_')) {
@@ -33,10 +43,11 @@ export interface FormDataTypes {
   first_name: string;
   last_name: string;
   phone_number: string;
-  project: [];
-  speciality?: number | { value: string };
+  project: number[];
+  speciality: { value: string } | number;
   stack: string;
-  type_participant?: number | { value: string };
+  type_participant: number | { value: string };
+  project_0: { label: string; id: number };
 }
 
 export interface InstructionsTypes {

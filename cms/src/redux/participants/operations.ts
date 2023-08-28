@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:8000/user-project/';
-axios.defaults.headers.Authorization = 'Token fdf0e7ece53196a6d431d0080cc2b8498a54db71';
+axios.defaults.headers.Authorization = 'Token 6f5075a85b6fdd7db4bf48cb6eec40f9e2d52ec1';
 
 import { FormDataTypes, InstructionsTypes, manageFormFields } from '../../helpers/manageParticipantFormValues';
 import { IdNameType } from '../instructions';
@@ -12,7 +12,9 @@ export const fetchParticipants = createAsyncThunk('participants/fetchParticipant
     const { data } = await axios.get<ParticipantsResponseTypes>('participants-list/');
     return data;
   } catch (err) {
-    return rejectWithValue(err.response.data);
+    if (err instanceof AxiosError) {
+      return rejectWithValue(err.response?.data);
+    } else return rejectWithValue(true);
   }
 });
 
@@ -23,12 +25,15 @@ export const createParticipant = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      manageFormFields(formData, instructions);
-      console.log('Create: ', formData);
+      console.log('formData: ', formData);
+      // manageFormFields(formData, instructions);
+      // console.log('Create: ', formData);
       const { data } = await axios.post<ParticipantData>('add-participant/', formData);
       return data;
     } catch (err) {
-      return rejectWithValue(err.response.data);
+      if (err instanceof AxiosError) {
+        return rejectWithValue(err.response?.data);
+      } else return rejectWithValue(true);
     }
   }
 );
@@ -40,11 +45,13 @@ export const getParticipant = createAsyncThunk(
       const { data } = await axios.get<ParticipantData>(`get-participant/${id}/`);
       return data;
     } catch (err) {
-      if (err.response.status === 404) {
-        return rejectWithValue('Помилка, статус 404. Можливо, учасника не знайдено');
-      } else if (err.response.status === 500) {
-        return rejectWithValue('Помилка сервера, статус 500');
-      } else return rejectWithValue(err.response.data);
+      if (err instanceof AxiosError) {
+        if (err.response?.status === 404) {
+          return rejectWithValue('Помилка, статус 404. Можливо, учасника не знайдено');
+        } else if (err.response?.status === 500) {
+          return rejectWithValue('Помилка сервера, статус 500');
+        } else return rejectWithValue(err.response?.data);
+      } else return rejectWithValue(true);
     }
   }
 );
@@ -58,7 +65,9 @@ export const updateParticipant = createAsyncThunk(
       const { data } = await axios.put<ParticipantData>(`participant-detail/${userId}/`, formData);
       return data;
     } catch (err) {
-      return rejectWithValue(err.response.data);
+      if (err instanceof AxiosError) {
+        return rejectWithValue(err.response?.data);
+      } else return rejectWithValue(true);
     }
   }
 );
@@ -71,11 +80,13 @@ export const deleteParticipant = createAsyncThunk(
       await dispatch(fetchParticipants());
       return;
     } catch (err) {
-      if (err.response.status === 404) {
-        return rejectWithValue('Помилка, статус 404');
-      } else if (err.response.status === 500) {
-        return rejectWithValue('Помилка сервера, статус 500');
-      } else return rejectWithValue(err.response.data);
+      if (err instanceof AxiosError) {
+        if (err.response?.status === 404) {
+          return rejectWithValue('Помилка, статус 404');
+        } else if (err.response?.status === 500) {
+          return rejectWithValue('Помилка сервера, статус 500');
+        } else return rejectWithValue(err.response?.data);
+      } else return rejectWithValue(true);
     }
   }
 );
@@ -85,11 +96,13 @@ export const sendEmail = createAsyncThunk('participants/sendEmail', async (userI
     const { data } = await axios.get<{ message: string }>(`send/${userId}/`);
     return data;
   } catch (err) {
-    if (err.response.status === 404) {
-      return rejectWithValue('Помилка, статус 404');
-    } else if (err.response.status === 500) {
-      return rejectWithValue('Помилка сервера, статус 500');
-    } else return rejectWithValue(err.response.data);
+    if (err instanceof AxiosError) {
+      if (err.response?.status === 404) {
+        return rejectWithValue('Помилка, статус 404');
+      } else if (err.response?.status === 500) {
+        return rejectWithValue('Помилка сервера, статус 500');
+      } else return rejectWithValue(err.response?.data);
+    } else return rejectWithValue(true);
   }
 });
 
@@ -102,7 +115,9 @@ export const searchProjects = createAsyncThunk(
       });
       return data;
     } catch (err) {
-      return rejectWithValue(err.response.data);
+      if (err instanceof AxiosError) {
+        return rejectWithValue(err.response?.data);
+      } else return rejectWithValue(true);
     }
   }
 );
@@ -116,11 +131,13 @@ export const searchParticipants = createAsyncThunk(
       });
       return data;
     } catch (err) {
-      if (err.response.status === 404) {
-        return rejectWithValue('Помилка, статус 404');
-      } else if (err.response.status === 500) {
-        return rejectWithValue('Помилка сервера, статус 500');
-      } else return rejectWithValue(err.response.data);
+      if (err instanceof AxiosError) {
+        if (err.response?.status === 404) {
+          return rejectWithValue('Помилка, статус 404');
+        } else if (err.response?.status === 500) {
+          return rejectWithValue('Помилка сервера, статус 500');
+        } else return rejectWithValue(err.response?.data);
+      } else return rejectWithValue(true);
     }
   }
 );
@@ -156,5 +173,6 @@ export interface ParticipantData {
   processing_personal_data: boolean;
   speciality: { id: number; title: string };
   project: string[];
+  project_count: number;
   type_participant: { id: number; title: 'Безкоштовний' | 'Платний' | 'Буткамп' };
 }

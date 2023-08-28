@@ -40,7 +40,7 @@ export function CardsContent({ type, data }: CardsContentType) {
       ? 'Учасника'
       : 'Учасників';
   };
-
+  console.log(data[0]);
   return (
     <>
       <List>
@@ -55,7 +55,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                     func={(ev) => {
                       ev.preventDefault();
                       ev.stopPropagation();
-                      setShowPopUp(type === 'participants' ? item.id : item.title);
+                      setShowPopUp(type === 'participants' ? item.id : (item as ProjectData).title);
                     }}
                   />
                   <Button
@@ -68,23 +68,25 @@ export function CardsContent({ type, data }: CardsContentType) {
                     }}
                   />
                   <p id={type === 'projects' ? 'project-type-participant' : ''}>
-                    {item.type_participant?.title || item.type_project.project_type}
+                    {(item as ParticipantData).type_participant.title ||
+                      (item as ProjectData).type_project.project_type}
                   </p>
                 </FirstBlockWrapper>
                 <SecondBlockWrapper type={type}>
                   {type === 'participants' ? (
                     <>
-                      <h2 title={item.last_name}>{item.last_name}</h2>
-                      <h2 title={item.first_name}>{item.first_name}</h2>
-                      <p title={item.stack}>{item.stack || 'None'}</p>
+                      <h2 title={(item as ParticipantData).last_name}>{(item as ParticipantData).last_name}</h2>
+                      <h2 title={(item as ParticipantData).first_name}>{(item as ParticipantData).first_name}</h2>
+                      <p title={(item as ParticipantData).stack}>{(item as ParticipantData).stack || 'None'}</p>
                     </>
                   ) : (
                     <>
-                      <h2 id="project-name" title={item.title}>
-                        {item.title}
+                      <h2 id="project-name" title={(item as ProjectData).title}>
+                        {(item as ProjectData).title}
                       </h2>
-                      <p title={item.participants_count}>
-                        {item.participants_count} {projectParticipantsEnding(item.participants_count)}
+                      <p title={(item as ProjectData).participants_count}>
+                        {(item as ProjectData).participants_count}
+                        {projectParticipantsEnding(Number((item as ProjectData).participants_count))}
                       </p>
                     </>
                   )}
@@ -94,23 +96,24 @@ export function CardsContent({ type, data }: CardsContentType) {
                     <>
                       <ThirdBlockElementsWrapper>
                         <p id="name">Досвід</p>
-                        <p id="value">{item.experience ? 'Так' : 'Ні'}</p>
+                        <p id="value">{(item as ParticipantData).experience ? 'Так' : 'Ні'}</p>
                       </ThirdBlockElementsWrapper>
                       <ThirdBlockElementsWrapper>
                         <p id="name">Проєкти</p>
-                        <p id="value">{item.project_count || 0}</p>
+                        <p id="value">{(item as ParticipantData).project_count}</p>
                       </ThirdBlockElementsWrapper>
                       <ThirdBlockElementsWrapper>
                         <p id="name">Роль</p>
                         <div id="icon-wrapper" className="participantIconWrapper">
                           <IconSprite
                             icon={
-                              commonVariants.role.find((searchItem) => searchItem.name === item.speciality?.title)
-                                ?.icon || commonVariants.role.find((item) => item.name === 'None')?.icon
+                              commonVariants.role.find(
+                                (searchItem) => searchItem.name === (item as ParticipantData).speciality?.title
+                              )?.icon || (commonVariants.role.find((item) => item.name === 'None')?.icon as IconType)
                             }
                           />
                         </div>
-                        <p id="value">{item.speciality?.title}</p>
+                        <p id="value">{(item as ParticipantData).speciality?.title}</p>
                       </ThirdBlockElementsWrapper>
                     </>
                   ) : (
@@ -157,7 +160,7 @@ export function CardsContent({ type, data }: CardsContentType) {
           type="delete"
           target={type}
           noCallback={() => setShowPopUp(false)}
-          yesCallback={() => dispatch(deleteParticipant(showPopUp))}
+          yesCallback={() => dispatch(deleteParticipant(showPopUp.toString()))}
         />
       )}
       {showPopUp && type === 'projects' && (
@@ -165,7 +168,7 @@ export function CardsContent({ type, data }: CardsContentType) {
           type="delete"
           target={type}
           noCallback={() => setShowPopUp(false)}
-          yesCallback={() => dispatch(deleteProject(showPopUp))}
+          yesCallback={() => dispatch(deleteProject(showPopUp.toString()))}
         />
       )}
       <></>
