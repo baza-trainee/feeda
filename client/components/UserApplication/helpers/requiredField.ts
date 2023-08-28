@@ -1,1 +1,1 @@
-export const requiredField = 'це поле є обов’язковим';
+export const requiredField = 'Це поле є обов’язковим';
