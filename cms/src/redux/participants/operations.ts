@@ -25,7 +25,6 @@ export const createParticipant = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      console.log('formData: ', formData);
       const requestData = manageFormFields(formData, instructions);
       console.log('Create: ', requestData);
       const { data } = await axios.post<ParticipantData>('add-participant/', requestData);
@@ -61,7 +60,7 @@ export const updateParticipant = createAsyncThunk(
   async ({ formData, userId, instructions }: UpdateParticipantTypes, { rejectWithValue }) => {
     try {
       const requestData = manageFormFields(formData, instructions);
-      console.log('Update: ', formData);
+      console.log('Update: ', requestData);
       const { data } = await axios.put<ParticipantData>(`participant-detail/${userId}/`, requestData);
       return data;
     } catch (err) {
@@ -110,7 +109,7 @@ export const searchProjects = createAsyncThunk(
   'participants/searchProjects',
   async (search: string, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get<{ id: number; title: string }[]>('search-projects', {
+      const { data } = await axios.get<{ id: number; label: string }[]>('search-projects', {
         params: { query: search },
       });
       return data;
@@ -126,7 +125,7 @@ export const searchParticipants = createAsyncThunk(
   'participants/searchParticipants',
   async (search: string, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get<ParticipantData[]>('search-user', {
+      const { data } = await axios.get<ParticipantsResponseTypes>('search-user', {
         params: { query: search },
       });
       return data;
@@ -172,7 +171,7 @@ export interface ParticipantData {
   stack: string;
   processing_personal_data: boolean;
   speciality: { id: number; title: string };
-  project: string[];
+  project: { id: number; label: string; title: string }[];
   project_count: number;
   type_participant: { id: number; title: 'Безкоштовний' | 'Платний' | 'Буткамп' };
 }

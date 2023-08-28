@@ -65,7 +65,7 @@ export const participantsSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(createParticipant.rejected, (state, { payload }) => {
-      if (typeof payload === 'object') {
+      if (typeof payload === 'object' && payload) {
         const formattedString = Object.entries(payload)
           .map(([key, value]) => `${key}: ${value.join(', ')}`)
           .join('\n');
@@ -87,7 +87,7 @@ export const participantsSlice = createSlice({
       state.error = null;
     });
     builder.addCase(getParticipant.fulfilled, (state, { payload }) => {
-      const output = {};
+      const output: Record<string, { id: number; label: string }> = {};
       payload.project.forEach((item, index) => {
         const newKey = `project_${index}`;
         output[newKey] = {
@@ -116,7 +116,7 @@ export const participantsSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(updateParticipant.rejected, (state, { payload }) => {
-      if (typeof payload === 'object') {
+      if (typeof payload === 'object' && payload) {
         const formattedString = Object.entries(payload)
           .map(([key, value]) => `${key}: ${value.join(', ')}`)
           .join('\n');

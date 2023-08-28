@@ -40,7 +40,7 @@ export function CardsContent({ type, data }: CardsContentType) {
       ? 'Учасника'
       : 'Учасників';
   };
-  console.log(data[0]);
+
   return (
     <>
       <List>
@@ -68,7 +68,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                     }}
                   />
                   <p id={type === 'projects' ? 'project-type-participant' : ''}>
-                    {(item as ParticipantData).type_participant.title ||
+                    {(item as ParticipantData).type_participant?.title ||
                       (item as ProjectData).type_project.project_type}
                   </p>
                 </FirstBlockWrapper>
@@ -85,7 +85,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                         {(item as ProjectData).title}
                       </h2>
                       <p title={(item as ProjectData).participants_count}>
-                        {(item as ProjectData).participants_count}
+                        {(item as ProjectData).participants_count}{' '}
                         {projectParticipantsEnding(Number((item as ProjectData).participants_count))}
                       </p>
                     </>

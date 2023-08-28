@@ -46,7 +46,7 @@ export default function ParticipantsPage() {
         <IconSprite icon="plus" />
         Додати учасника
       </Link>
-      {query.length && !list.length ? (
+      {query.length && !list?.length ? (
         <Title title="Нічого не знайдено" />
       ) : (
         <CardsContent type="participants" data={list} />

@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { colors } from '../../styles/theme';
 
 export const LabelComp = styled.label<{
-  inputValueLen: number;
+  inputValueLen: boolean;
   isDisabled: boolean;
   checkIsValid: boolean;
   isError: boolean;
@@ -33,7 +33,7 @@ export const LabelComp = styled.label<{
   }
 `;
 
-export const InputWrapper = styled.div<{ checkIsValid: boolean; begIcon: boolean; endIcon: boolean; isError: boolean }>`
+export const InputWrapper = styled.div<{ checkIsValid: boolean; isError: boolean }>`
   display: flex;
   align-items: center;
   position: relative;

@@ -28,19 +28,19 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
   const [projectsAmount, setProjectsAmount] = useState(
     (defaultValues && Object.keys(defaultValues.project).length) || 0
   );
-  const { control, clearErrors, unregister, handleSubmit } = useForm(
+  const { control, unregister, handleSubmit, clearErrors } = useForm(
     defaultValues
       ? {
           defaultValues: {
             speciality: {
-              value: defaultValues.speciality.title,
-              label: membersRole.find((item) => item.value === defaultValues.speciality.title)?.label,
+              value: defaultValues.speciality?.title,
+              label: membersRole.find((item) => item.value === defaultValues.speciality?.title)?.label,
             },
             type_participant: {
               value: defaultValues.type_participant.title,
               label: projectType.find((item) => item.value === defaultValues.type_participant.title)?.label,
             },
-            experience: experienceVariants.find((item) => item.value == (defaultValues.experience ? 'Так' : 'Ні')),
+            experience: experienceVariants.find((item) => item.value === (defaultValues.experience ? 'Так' : 'Ні')),
             ...defaultValues.project,
           },
         }
@@ -51,14 +51,18 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
         }
   );
 
-  const projectsSearcher = throttle(async (value: string) => {
-    const { payload } = await dispatch<{ payload: { id: number; title: string }[] }>(searchProjects(value));
-    for (const item of payload) {
-      item.label = item.title;
-      delete item.title;
-    }
-    return payload;
-  }, 400);
+  const projectsSearcher = throttle(
+    async (value: string) => {
+      return dispatch(searchProjects(value)).then((response) => {
+        for (const item of response.payload as { id: number; title: string; label: string }[]) {
+          item.label = item.title;
+          return response.payload;
+        }
+      });
+    },
+    400,
+    { trailing: true, leading: false }
+  );
 
   return (
     <Form onSubmit={handleSubmit(submitFunc)}>
@@ -76,7 +80,6 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             maxLength={20}
             pattern={nameRegex.source}
             readonly={formVariant === 'view'}
-            clearErrors={clearErrors}
           />
           <Input
             name="last_name"
@@ -89,7 +92,6 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             pattern={nameRegex.source}
             readonly={formVariant === 'view'}
             defaultValue={defaultValues?.last_name}
-            clearErrors={clearErrors}
           />
         </div>
         <div className="stackAndRole" id="two-inputs-wrapper">
@@ -103,7 +105,6 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             control={control}
             readonly={formVariant === 'view'}
             defaultValue={defaultValues?.stack}
-            clearErrors={clearErrors}
           />
           <SelectField
             name="speciality"
@@ -112,8 +113,8 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             rules={{ required: "Поле обов'язкове до заповнення!" }}
             isDisabled={formVariant === 'view'}
             control={control}
-            clearErrors={clearErrors}
             options={membersRole}
+            clearErrors={clearErrors}
           />
         </div>
         <div id="two-inputs-wrapper">
@@ -124,8 +125,8 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             isDisabled={formVariant === 'view'}
             rules={{ required: "Поле обов'язкове до заповнення!" }}
             control={control}
-            clearErrors={clearErrors}
             options={experienceVariants}
+            clearErrors={clearErrors}
           />
           <SelectField
             name="type_participant"
@@ -134,8 +135,8 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             isDisabled={formVariant === 'view'}
             rules={{ required: "Поле обов'язкове до заповнення!" }}
             control={control}
-            clearErrors={clearErrors}
             options={projectType}
+            clearErrors={clearErrors}
           />
         </div>
         <div id="two-inputs-wrapper">
@@ -149,7 +150,6 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             pattern={cityRegex.source}
             readonly={formVariant === 'view'}
             defaultValue={defaultValues?.city}
-            clearErrors={clearErrors}
           />
           <Input
             name="comment"
@@ -158,7 +158,6 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             control={control}
             readonly={formVariant === 'view'}
             defaultValue={defaultValues?.comment}
-            clearErrors={clearErrors}
           />
         </div>
       </div>
@@ -185,7 +184,6 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             pattern={discordRegex.source}
             readonly={formVariant === 'view'}
             defaultValue={defaultValues?.account_discord}
-            clearErrors={clearErrors}
           />
           <Input
             name="account_linkedin"
@@ -199,7 +197,6 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             pattern={linkedRegex.source}
             defaultValue={defaultValues?.account_linkedin}
             readonly={formVariant === 'view'}
-            clearErrors={clearErrors}
           />
         </div>
         <div id="two-inputs-wrapper">
@@ -213,7 +210,6 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             defaultValue={defaultValues?.phone_number}
             pattern={phoneNumberRegex.source}
             control={control}
-            clearErrors={clearErrors}
           />
           <Input
             name="email"
@@ -227,7 +223,6 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             maxLength={70}
             pattern={emailRegex.source}
             control={control}
-            clearErrors={clearErrors}
           />
         </div>
       </div>
@@ -251,9 +246,9 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
               title="Проєкт *"
               control={control}
               rules={{ required: "Поле обов'язкове до заповнення!" }}
-              clearErrors={clearErrors}
               options={projectsSearcher}
               placeholder="Назва"
+              clearErrors={clearErrors}
             />
             <Button
               btnType="button"
