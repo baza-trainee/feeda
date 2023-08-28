@@ -90,7 +90,6 @@ export const Form = styled.form`
       align-items: center;
       gap: 8px;
       width: 100%;
-      /* margin-bottom: 16px; */
       border: 0;
       padding: 16px;
       border-radius: 4px;

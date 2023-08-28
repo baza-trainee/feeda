@@ -27,7 +27,7 @@ export function PopUp({ type, target, mobileWidth, closeModalFunc, yesCallback, 
   useEffect(() => {
     if (type === 'success') {
       setTimeout(() => {
-        closeModalFunc();
+        closeModalFunc && closeModalFunc();
       }, 2000);
     }
     // eslint-disable-next-line
@@ -35,7 +35,7 @@ export function PopUp({ type, target, mobileWidth, closeModalFunc, yesCallback, 
 
   const closeModal = () => {
     if (noCallback) noCallback();
-    else closeModalFunc();
+    else closeModalFunc && closeModalFunc();
   };
   const copy = {
     projects: 'проєкт',
