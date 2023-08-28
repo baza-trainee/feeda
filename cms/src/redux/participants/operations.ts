@@ -26,9 +26,9 @@ export const createParticipant = createAsyncThunk(
   ) => {
     try {
       console.log('formData: ', formData);
-      // manageFormFields(formData, instructions);
-      // console.log('Create: ', formData);
-      const { data } = await axios.post<ParticipantData>('add-participant/', formData);
+      const requestData = manageFormFields(formData, instructions);
+      console.log('Create: ', requestData);
+      const { data } = await axios.post<ParticipantData>('add-participant/', requestData);
       return data;
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -60,9 +60,9 @@ export const updateParticipant = createAsyncThunk(
   'participants/updateParticipant',
   async ({ formData, userId, instructions }: UpdateParticipantTypes, { rejectWithValue }) => {
     try {
-      manageFormFields(formData, instructions);
+      const requestData = manageFormFields(formData, instructions);
       console.log('Update: ', formData);
-      const { data } = await axios.put<ParticipantData>(`participant-detail/${userId}/`, formData);
+      const { data } = await axios.put<ParticipantData>(`participant-detail/${userId}/`, requestData);
       return data;
     } catch (err) {
       if (err instanceof AxiosError) {
