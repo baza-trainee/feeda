@@ -46,13 +46,13 @@ export const IconSprite = ({ icon }: { icon: IconType }) => {
     trash: <Trash />,
   };
 
-	const selectedIcon = icons[icon];
+  const selectedIcon = icons[icon];
 
-	if (!selectedIcon) {
-		return null;
-	}
+  if (!selectedIcon) {
+    return null;
+  }
 
-	return selectedIcon;
+  return selectedIcon;
 };
 
 export const iconTypes = {
@@ -77,6 +77,35 @@ export const iconTypes = {
   doc: 'doc',
   noRole: 'noRole',
   trash: 'trash',
+  roundCheckmark: 'roundCheckmark',
+  checkmark: 'checkmark',
+  cross: 'cross',
+  calendar: 'calendar',
+=========
+	exit: 'exit',
+	add: 'add',
+	delete: 'delete',
+	edit: 'edit',
+	plus: 'plus',
+	pencil: 'pencil',
+	team: 'team',
+	arrowDown: 'arrowDown',
+	complexityInactive: 'complexityInactive',
+	complexityActive: 'complexityActive',
+	teamBuilding: 'teamBuilding',
+	ongoing: 'ongoing',
+	finished: 'finished',
+	design: 'design',
+	backend: 'backend',
+	front: 'front',
+	qa: 'qa',
+	seo: 'seo',
+	doc: 'doc',
+	noRole: 'noRole',
+	trash: 'trash',
+	eyeOpen: 'eyeOpen',
+	eyeClosed: 'eyeClosed',
+>>>>>>>>> Temporary merge branch 2
 } as const;
 
 export type IconType = keyof typeof iconTypes;

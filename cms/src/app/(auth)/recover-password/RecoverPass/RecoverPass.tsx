@@ -1,20 +1,30 @@
 'use client';
 /** @jsxImportSource @emotion/react */
+import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 
 import { Button } from '~/src/components/Button/Button';
 import { Input } from '~/src/components/Input/Input';
 import { Title } from '~/src/components/Title/Title';
+import { AppDispatch } from '~/src/redux/store/store';
 
+import { resetPassword } from '../../authOperations/operations';
 import { btnText, formTitle, inputPlaceholderText, labelsTitle, patternsCheck } from '../../consts';
 import { BlockCss, HeaderCss, InputCss, RecoverFormCss, SubtitleCss } from './RecoverPass.styles';
 
 export function RecoverForm() {
 	const { control, clearErrors, getValues } = useForm();
 
+  const dispatch = useDispatch<AppDispatch>();
+
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		console.log(getValues());
+		const { email } = getValues();
+    const data = { email };
+		console.log(data);
+		
+		dispatch(resetPassword(data));
 	};
 
 	return (
@@ -30,7 +40,7 @@ export function RecoverForm() {
 					<Input
 						placeholder={inputPlaceholderText.mail}
 						type="text"
-						name="login"
+						name="email"
 						id="login"
 						control={control}
 						clearErrors={clearErrors}
