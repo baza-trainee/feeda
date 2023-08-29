@@ -36,6 +36,7 @@ type InputProps = {
   required?: boolean;
   minLength?: number;
   maxLength?: number;
+  onclick?: () => void;
   pattern?: string;
   begIconId?: IconType | undefined;
   endIconId?: IconType | undefined;
@@ -59,6 +60,7 @@ export function Input({
   minLength,
   maxLength,
   pattern,
+  onclick,
   begIconId,
   endIconId,
   control,
@@ -83,7 +85,7 @@ export function Input({
         return (
           <ClassNames>
             {({ css }) => (
-              <div id="input-wrapper" style={{ position: 'relative' }}>
+              <div id="input-wrapper" style={{ position: 'relative' }} onClick={onclick}>
                 {label && (
                   <LabelComp
                     htmlFor={id}
@@ -97,7 +99,7 @@ export function Input({
                 )}
                 <InputWrapper checkIsValid={Boolean(pattern && inputValue?.length)} isError={Boolean(error)}>
                   {begIconId && (
-                    <InputIconWrapper css={[firstIconStyles]} isDisabled={disabled}>
+                    <InputIconWrapper css={firstIconStyles} isDisabled={disabled}>
                       <IconSprite icon={begIconId} />
                     </InputIconWrapper>
                   )}
@@ -132,7 +134,7 @@ export function Input({
                     />
                   )}
                   {endIconId && (
-                    <InputIconWrapper css={[lastIconStyles]} isDisabled={disabled}>
+                    <InputIconWrapper css={lastIconStyles} isDisabled={disabled}>
                       <IconSprite icon={endIconId} />
                     </InputIconWrapper>
                   )}
