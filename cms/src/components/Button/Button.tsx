@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 import { IconSprite, IconType } from '../IconSprite/IconSprite';
-import { IconBtn, PopUpBtnAccept, PopUpBtnCancel, PrimaryBtn, TextBtn, SubNavBtn, NavBtn } from './Button.styles';
+import { IconBtn, NavBtn, PopUpBtnAccept, PopUpBtnCancel, PrimaryBtn, SubNavBtn, TextBtn } from './Button.styles';
 
 type ButtonProps = {
   isDisabled?: boolean;

@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 
 import { colors, fonts, media } from '../../styles/theme';
-import { IconSprite } from '../IconSprite/IconSprite';
 
 export const PrimaryBtn = styled.button<{ isPressed: boolean; disabled: boolean }>`
   display: flex;

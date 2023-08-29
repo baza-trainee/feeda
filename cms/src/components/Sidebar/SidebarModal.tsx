@@ -5,6 +5,8 @@ import ReactDOM from 'react-dom';
 import { Sidebar } from './Sidebar';
 import { ModalWindow, Overlay } from './Sidebar.style';
 
+const modalRoot = document.getElementById('modal-root');
+
 export function SidebarModal({ isOpen, closeModal }: { isOpen: boolean; closeModal: () => void }) {
   useEffect(() => {
     if (isOpen) {
@@ -26,5 +28,5 @@ export function SidebarModal({ isOpen, closeModal }: { isOpen: boolean; closeMod
     </Overlay>
   );
 
-  return ReactDOM.createPortal(ModalContent, document.getElementById('modal-root')!);
+  return modalRoot ? ReactDOM.createPortal(ModalContent, modalRoot) : null;
 }

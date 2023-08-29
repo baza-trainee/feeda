@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 'use client';
 
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 import Link from 'next/link';
 
@@ -65,7 +65,11 @@ export function Header() {
             </MenuWrapper>
           ))}
         <SearchWrapper isOpen={showModal}>
-          <SearchInput placeholder="Ключове слово" maxLength={50} onInput={(ev) => console.log(ev.target.value)} />
+          <SearchInput
+            placeholder="Ключове слово"
+            maxLength={50}
+            onInput={(ev: ChangeEvent<HTMLInputElement>) => console.log(ev.target.value)}
+          />
           <SearchIconBox>
             <SearchIcon />
           </SearchIconBox>
