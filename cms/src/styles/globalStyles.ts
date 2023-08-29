@@ -14,3 +14,4 @@ export const globalStyles = css`
   ${common}
   ${reset}
 `;
+

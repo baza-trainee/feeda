@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 import { colors, fonts, media } from '../../styles/theme';
+import { breakpointDesktop } from '../../styles/vars';
 
 export const PrimaryBtn = styled.button<{ isPressed: boolean; disabled: boolean }>`
   display: flex;
@@ -17,6 +18,7 @@ export const PrimaryBtn = styled.button<{ isPressed: boolean; disabled: boolean 
   background-color: #232323;
   border: none;
   cursor: pointer;
+  text-wrap: nowrap;
 
   &:disabled {
     color: #939393;
@@ -30,6 +32,35 @@ export const PrimaryBtn = styled.button<{ isPressed: boolean; disabled: boolean 
   }
 
   ${({ isPressed }) => (isPressed ? ' background-color: #ffbd00 !important; color: #232323 !important;' : '')}
+
+  transition: all 250ms ease-in;
+`;
+
+export const TabBtn = styled(PrimaryBtn)<{ isSelected: boolean }>`
+  font-size: 16px;
+  font-weight: 600;
+  padding: 8px 16px;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+
+  ${({ isSelected, isPressed }) =>
+    !isSelected &&
+    `
+    background-color: #FCFCFC;
+    color: #232323;
+
+    &:disabled {
+      color: #bfbfbf;
+      background-color: #fcfcfc;
+    }
+
+    &:not(:disabled):hover {
+      background-color: #fde8af;
+      color: #121212;
+    }
+
+    ${isPressed ? ' background-color: #FFD210 !important; ' : ''}
+  `}
 
   transition: all 250ms ease-in;
 `;
@@ -97,23 +128,20 @@ export const NavBtn = styled(PrimaryBtn)<{ isPressed: boolean; btnClicked: boole
   background-color: ${({ btnClicked }) => (btnClicked ? colors.mainLabel : colors.white)};
 
   &:not(:disabled):hover {
-    background-color: ${colors.mainLabel};
-    color: ${colors.white};
+    background-color: ${({ btnClicked }) => (btnClicked ? colors.mainText : colors.textAccent)};
+    color: ${({ btnClicked }) => (btnClicked ? colors.mainAccent : colors.mainText)};
   }
 
   ${({ isPressed }) =>
-    isPressed ? ` background-color: ${colors.mainLabel} !important; color: ${colors.white} !important;` : ''}
+    isPressed ? ` background-color: ${colors.mainLabel} !important; color: ${colors.textAccent} !important;` : ''}
 `;
 
 export const SubNavBtn = styled(NavBtn)<{ isPressed: boolean; btnClicked: boolean; titleContinuation: boolean }>`
   position: relative;
-  padding: 8px 16px;
   font-weight: ${fonts.body.fontWeight};
   font-size: ${fonts.body.fontSize.desktop}px;
   letter-spacing: 0px;
   border-bottom: 1px solid ${colors.disabledBtnBg};
-  color: ${({ btnClicked }) => (btnClicked ? colors.white : colors.mainText)};
-  background-color: ${({ btnClicked }) => (btnClicked ? colors.mainLabel : colors.white)};
 
   @media screen and (${media.desktop}) {
     &:after {
@@ -122,17 +150,25 @@ export const SubNavBtn = styled(NavBtn)<{ isPressed: boolean; btnClicked: boolea
       left: 48%;
     }
   }
+`;
 
-  &:not(:disabled):hover {
-    background-color: ${colors.mainLabel};
-    color: ${colors.white};
+export const GoBackBtn = styled(IconBtn)`
+  display: none;
+  position: absolute;
+  width: fit-content;
+  right: 0;
+  bottom: 0;
+  border-radius: 4px 0px;
+
+  @media screen and (min-width: ${breakpointDesktop}px) {
+    display: flex;
   }
-
-  ${({ isPressed }) =>
-    isPressed ? ` background-color: ${colors.mainLabel} !important; color: ${colors.white} !important;` : ''}
 `;
 
 export const SignOutBtn = styled(TextBtn)`
   letter-spacing: ${fonts.title.letterSpacing.tablet}px;
   width: 112px;
+  @media screen and (${media.tablet}) {
+    margin-bottom: 16px;
+  }
 `;

@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import { IconSprite, IconType } from '../IconSprite/IconSprite';
 import {
+  GoBackBtn,
   IconBtn,
   NavBtn,
   PopUpBtnAccept,
@@ -11,6 +12,7 @@ import {
   PrimaryBtn,
   SignOutBtn,
   SubNavBtn,
+  TabBtn,
   TextBtn,
 } from './Button.styles';
 
@@ -18,12 +20,13 @@ type ButtonProps = {
   isDisabled?: boolean;
   func?: (ev: React.MouseEvent<HTMLButtonElement>) => void;
   btnType?: 'button' | 'submit' | 'reset';
-  variant: 'primary' | 'text' | 'icon' | 'accept' | 'cancel' | 'nav' | 'subnav' | 'signout';
+  variant: 'primary' | 'text' | 'icon' | 'accept' | 'cancel' | 'tab' | 'goBack' | 'nav' | 'subnav' | 'signout';
   icon?: IconType | null;
   secondIcon?: IconType | null;
   title?: string;
   btnClicked?: boolean;
   titleContinuation?: boolean;
+  isSelected?: boolean;
 };
 
 export const Button = ({
@@ -36,6 +39,7 @@ export const Button = ({
   btnType = 'button',
   btnClicked = false,
   titleContinuation = false,
+  isSelected = false,
 }: ButtonProps) => {
   const [isPressed, setIsPressed] = useState(false);
 
@@ -52,12 +56,15 @@ export const Button = ({
     nav: NavBtn,
     subnav: SubNavBtn,
     signout: SignOutBtn,
+    goBack: GoBackBtn,
+    tab: TabBtn,
   };
 
   const ButtonComponent = btnVariants[variant] || PrimaryBtn;
 
   return (
     <ButtonComponent
+      isSelected={isSelected}
       onClick={onClickHandler}
       onMouseDown={() => setIsPressed(true)}
       onMouseUp={() => setIsPressed(false)}

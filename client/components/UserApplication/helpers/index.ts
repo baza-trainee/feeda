@@ -1,4 +1,3 @@
-import { getExpValue, getProjValue, getTypeValue } from './getValues';
 import {
 	cityPlaceholder,
 	emailPlaceholder,
@@ -19,9 +18,6 @@ export {
 	emailRegex,
 	discordRegex,
 	linkedRegex,
-	getExpValue,
-	getProjValue,
-	getTypeValue,
 	requiredField,
 	nameRegex,
 	emailPlaceholder,

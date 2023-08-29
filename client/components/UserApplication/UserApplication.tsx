@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import { useGlobalState } from '~/hooks/useGlobalState';
 import Button from '~components/Button/Button';
 import Title from '~components/Title/Title';
 
+import { fetchProjects, fetchProjectTypes, sendApplication } from '../../api';
 import { CheckBox } from '../Checkbox/Checkbox';
 import { FormField } from '../FormField/FormField';
 import { CustomSelect } from '../SelectField/SelectField';
@@ -15,9 +16,6 @@ import {
 	emailPlaceholder,
 	emailRegex,
 	experiencePlaceholder,
-	getExpValue,
-	getProjValue,
-	getTypeValue,
 	lastnamePlaceholder,
 	linkedInPlaceholder,
 	linkedRegex,
@@ -30,8 +28,14 @@ import {
 	stackPlaceholder,
 	typePlaceholder,
 } from './helpers';
-import { experience, projects, type } from './lists';
+import { experience, projectsTemporary } from './lists';
 import { CheckWrapper, Form, FormWrapper, InputsWrapper, SelectWrapper } from './UserApplication.styles';
+
+interface pprojType {
+	id?: string;
+	value: string;
+	label: string;
+}
 
 export const UserApplication = () => {
 	const {
@@ -47,22 +51,53 @@ export const UserApplication = () => {
 		reValidateMode: 'onBlur',
 	});
 
+	const [projectTypes, setProjectTypes] = useState<pprojType[]>();
+	const [projects, setProjects] = useState<pprojType[]>();
 	const [isActivationButton, setIsActivationButton] = useState(false);
-	const [isTermsChecked, setIsTermsChecked] = useState(false);
-	const [isAgreementChecked, setIsAgreementChecked] = useState(false);
-	const { setState } = useGlobalState();
+	const { state, setState } = useGlobalState();
 
-	const nameValue = watch('name');
-	const lastnameValue = watch('lastname');
+	console.log('Project types:', projectTypes);
+	console.log('Projects:', projects);
+
+	const nameValue = watch('first_name');
+	const lastnameValue = watch('last_name');
 	const stackValue = watch('stack');
-	const phoneValue = watch('tel');
+	const phoneValue = watch('phone_number');
 	const emailValue = watch('email');
-	const linkedInvalue = watch('linkedin');
-	const discordValue = watch('discord');
+	const linkedInvalue = watch('account_linkedin');
+	const discordValue = watch('account_discord');
 
-	const handleTermsCheckboxChange = () => setIsTermsChecked(!isTermsChecked);
+	const fetchTypesOfProjectsAndParticipants = async () => {
+		try {
+			const projsTypes = [] as pprojType[];
+			const projs = [] as pprojType[];
+			const projTypes = (await fetchProjectTypes) as { project_type: string }[];
+			const prjsList = (await fetchProjects) as { id: number; title: string }[];
+			// console.log('prjsList', prjsList);
 
-	const handleAgreementCheckboxChange = () => setIsAgreementChecked(!isAgreementChecked);
+			projTypes &&
+				projTypes.map((item, index: number) => {
+					item.project_type && projsTypes.push({ value: `${index + 1}`, label: item.project_type });
+				});
+			setProjectTypes(projsTypes);
+
+			prjsList && prjsList.map((item) => projs.push({ value: `${item.id}`, label: item.title }));
+
+			setState((prev) => ({ ...prev, projects: prjsList }));
+			setProjects(projs);
+		} catch (error) {
+			console.log('error', error);
+		}
+	};
+
+	useEffect(() => {
+		const controller = new AbortController();
+		fetchTypesOfProjectsAndParticipants();
+		return () => {
+			controller.abort();
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	useEffect(() => {
 		if (discordValue && nameValue && lastnameValue && stackValue && phoneValue && emailValue && linkedInvalue)
@@ -70,20 +105,50 @@ export const UserApplication = () => {
 		else setIsActivationButton(false);
 	}, [discordValue, nameValue, lastnameValue, stackValue, phoneValue, emailValue, linkedInvalue]);
 
-	const onFormSubmit = (data: object) => {
-		console.log('data :>> ', data);
+	const onFormSubmit: SubmitHandler<FieldValues> = (data) => {
+		const {
+			first_name,
+			last_name,
+			stack,
+			phone_number,
+			email,
+			account_discord,
+			account_linkedin,
+			city,
+			experience,
+			type_participant,
+			project,
+		} = data;
+		const processedData = {
+			first_name,
+			last_name,
+			stack,
+			phone_number,
+			email,
+			account_discord,
+			account_linkedin,
+			city,
+			experience: experience.value === '1' ? true : experience.value === '0' && false,
+			type_participant: Number(type_participant.value),
+			project: [Number(project.value)],
+			conditions_participation: state.approved?.terms,
+			processing_personal_data: state.approved?.agreement,
+		};
+		// console.log('processedData', processedData);
+		sendApplication(processedData);
 		setState((prev) => ({ ...prev, location: 'finish' }));
 		setTimeout(() => {
 			reset();
 		}, 0);
 	};
 
-	return (
+	return projectTypes ? (
 		<FormWrapper
 			key="application"
-			style={{ opacity: 0, translateY: '-100vh' }}
+			style={{ opacity: 0, translateY: '100px' }}
 			animate={{ opacity: 1, translateY: '0' }}
-			transition={{ duration: 1 }}
+			exit={{ opacity: 0, translateY: '-100px' }}
+			transition={{ duration: 0.5 }}
 		>
 			<Form key="application" onSubmit={handleSubmit(onFormSubmit)}>
 				<Title main application>
@@ -96,21 +161,21 @@ export const UserApplication = () => {
 						type="text"
 						placeholder={namePlaceholder}
 						register={register}
-						name="name"
+						name="first_name"
 						errors={errors?.name}
 						inputProps={{
 							required: requiredField,
 							minLength: {
 								value: 2,
-								message: 'поле повинно містити мінімум 2 символи',
+								message: 'Поле повинно містити мінімум 2 символи',
 							},
 							maxLength: {
 								value: 50,
-								message: 'поле повинно містити не більше 50 символів',
+								message: 'Поле повинно містити не більше 50 символів',
 							},
 							pattern: {
 								value: nameRegex,
-								message: "будь ласка введіть валіднe ім'я",
+								message: "Будь ласка введіть валіднe ім'я",
 							},
 						}}
 					/>
@@ -121,21 +186,21 @@ export const UserApplication = () => {
 						type="text"
 						placeholder={lastnamePlaceholder}
 						register={register}
-						name="lastname"
+						name="last_name"
 						errors={errors?.lastname}
 						inputProps={{
 							required: requiredField,
 							minLength: {
 								value: 2,
-								message: 'поле повинно містити мінімум 2 символи',
+								message: 'Поле повинно містити мінімум 2 символи',
 							},
 							maxLength: {
 								value: 50,
-								message: 'поле повинно містити не більше 50 символів',
+								message: 'Поле повинно містити не більше 50 символів',
 							},
 							pattern: {
 								value: nameRegex,
-								message: 'будь ласка введіть валіднe прізвище',
+								message: 'Будь ласка введіть валіднe прізвище',
 							},
 						}}
 					/>
@@ -152,11 +217,11 @@ export const UserApplication = () => {
 							required: requiredField,
 							minLength: {
 								value: 2,
-								message: 'поле повинно містити мінімум 2 символи',
+								message: 'Поле повинно містити мінімум 2 символи',
 							},
 							maxLength: {
 								value: 300,
-								message: 'поле повинно містити не більше 300 символів',
+								message: 'Поле повинно містити не більше 300 символів',
 							},
 						}}
 					/>
@@ -167,12 +232,12 @@ export const UserApplication = () => {
 						type="tel"
 						placeholder={phoneNumberFormat}
 						register={register}
-						name="tel"
+						name="phone_number"
 						errors={errors?.tel}
 						inputProps={{
 							required: requiredField,
 							pattern: {
-								message: `введіть номер у форматі: ${phoneNumberFormat}`,
+								message: `Введіть номер у форматі: ${phoneNumberFormat}`,
 								value: phoneNumberRegex,
 							},
 						}}
@@ -208,22 +273,22 @@ export const UserApplication = () => {
 						autoComplete="off"
 						type="text"
 						register={register}
-						name="discord"
+						name="account_discord"
 						errors={errors?.discord}
 						inputProps={{
 							required: requiredField,
 							pattern: {
-								message: "введіть валідне ім'я користувача",
+								message: "Введіть валідне ім'я користувача",
 								value: discordRegex,
 							},
 
 							minLength: {
 								value: 2,
-								message: 'поле повинно містити мінімум 2 символи',
+								message: 'Поле повинно містити мінімум 2 символи',
 							},
 							maxLength: {
 								value: 37,
-								message: 'поле повинно містити не більше 37 символів',
+								message: 'Поле повинно містити не більше 37 символів',
 							},
 						}}
 						discordValue={discordValue}
@@ -235,21 +300,21 @@ export const UserApplication = () => {
 						type="text"
 						placeholder={linkedInPlaceholder}
 						register={register}
-						name="linkedin"
+						name="account_linkedin"
 						errors={errors?.linkedin}
 						inputProps={{
 							required: requiredField,
 							pattern: {
-								message: 'будь ласка введіть правильну адресу',
+								message: 'Будь ласка введіть правильну адресу',
 								value: linkedRegex,
 							},
 							minLength: {
 								value: 19,
-								message: 'поле повинно містити мінімум 19 символів',
+								message: 'Поле повинно містити мінімум 19 символів',
 							},
 							maxLength: {
 								value: 128,
-								message: 'поле повинно містити не більше 128 символів',
+								message: 'Поле повинно містити не більше 128 символів',
 							},
 						}}
 					/>
@@ -265,14 +330,14 @@ export const UserApplication = () => {
 						inputProps={{
 							minLength: {
 								value: 2,
-								message: 'поле повинно містити мінімум 2 символи',
+								message: 'Поле повинно містити мінімум 2 символи',
 							},
 							maxLength: {
 								value: 50,
-								message: 'поле повинно містити не більше 50 символів',
+								message: 'Поле повинно містити не більше 50 символів',
 							},
 							pattern: {
-								message: 'будь ласка введіть валідну назву міста(країни)',
+								message: 'Будь ласка введіть валідну назву міста(країни)',
 								value: cityRegex,
 							},
 						}}
@@ -287,51 +352,45 @@ export const UserApplication = () => {
 						options={experience}
 						placeholder={experiencePlaceholder}
 						clearErrors={clearErrors}
-						valueGetter={(value) => getExpValue(value)}
+						valueGetter={(value: string) => value && experience.find((item) => item.label === value)}
 					/>
 					<CustomSelect
 						title={'Тип участі *'}
 						control={control}
-						name="type"
+						name="type_participant"
 						rules={{ required: requiredField }}
-						options={type}
+						options={projectTypes}
 						placeholder={typePlaceholder}
 						clearErrors={clearErrors}
-						valueGetter={(value) => getTypeValue(value)}
+						valueGetter={(value: string) => value && projectTypes.find((item) => item.value === value)}
 					/>
 					<CustomSelect
 						title={'Проєкт на вибір *'}
 						control={control}
-						name="projects"
+						name="project"
 						rules={{ required: requiredField }}
-						options={projects}
+						options={projects || projectsTemporary}
 						placeholder={projectPlaceholder}
 						clearErrors={clearErrors}
-						valueGetter={(value) => getProjValue(value)}
+						valueGetter={(value: string) => value && projectsTemporary.find((item) => item.value === value)}
 					/>
 				</SelectWrapper>
 
 				<CheckWrapper>
-					<CheckBox
-						name="terms"
-						labeltxt="Ознайомлений/на з "
-						linkText="умовами участі в проєкті *"
-						onChange={() => handleTermsCheckboxChange()}
-					/>
-					<CheckBox
-						name="agreement"
-						labeltxt="Погоджуюсь з "
-						linkText="обробкою персональних даних *"
-						onChange={() => handleAgreementCheckboxChange()}
-					/>
+					<CheckBox name="terms" labeltxt="Ознайомлений/на з " linkText="умовами участі в проєкті *" />
+					<CheckBox name="agreement" labeltxt="Погоджуюсь з " linkText="обробкою персональних даних *" />
 				</CheckWrapper>
 				<Button
-					isDisabled={Object.keys(errors).length > 0 || !isActivationButton || !isTermsChecked || !isAgreementChecked}
+					isDisabled={
+						Object.keys(errors).length > 0 || !isActivationButton || !state.approved?.agreement || !state.approved.terms
+					}
 					func={handleSubmit(onFormSubmit)}
 				>
 					Відправити анкету
 				</Button>
 			</Form>
 		</FormWrapper>
+	) : (
+		<></>
 	);
 };

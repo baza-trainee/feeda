@@ -11,7 +11,7 @@ export const Wrapper = styled.div`
   background-color: #fcfcfc66;
 `;
 export const PopUpWindow = styled.div<{ borderColor: false | '#29ca56'; mobileWidth: string | undefined }>`
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -47,6 +47,8 @@ export const ContentWrapper = styled.div`
   & > svg {
     height: fit-content;
     margin-right: 16px;
+    width: 24px;
+    height: 24px;
   }
 `;
 
