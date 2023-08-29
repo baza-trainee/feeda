@@ -15,6 +15,8 @@ export default function ProjectsPage() {
   const dispatch = useDispatch<AppDispatch>();
   const { projects, loading } = useSelector((state: RootState) => state.projects);
 
+  console.log(projects);
+
   useEffect(() => {
     dispatch(fetchProjects());
   }, [dispatch]);

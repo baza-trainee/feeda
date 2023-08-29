@@ -7,7 +7,7 @@ import { projectDifficulty, projectStatus, projectType } from '../SelectField/li
 import { Button } from '../Button/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '~/src/redux/store/store';
-import { addProject } from '~/src/redux/slices/projects/actions';
+import { addProject } from '~/src/redux/projects/actions';
 import { PopUp } from '../PopUp/PopUp';
 import { useState } from 'react';
 

@@ -10,7 +10,7 @@ import { OptionType } from '~/src/components/SelectField/SelectField';
 import { MemberRole, ProjectState } from '~/src/components/SelectField/lists';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '~/src/redux/store/store';
-import { fetchTeam } from '~/src/redux/slices/projects/actions';
+import { fetchTeam } from '~/src/redux/projects/actions';
 
 export interface FormData {
   title: string;

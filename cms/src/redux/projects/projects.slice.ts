@@ -19,7 +19,7 @@ const { reducer, actions, name } = createSlice({
       console.log(state.loading);
     });
     builder.addCase(fetchProjects.fulfilled, (state, { payload }) => {
-      state.projects = payload.results;
+      state.projects = payload;
       state.loading = 'success';
       console.log(state.loading);
       console.log('Fetching participants');
