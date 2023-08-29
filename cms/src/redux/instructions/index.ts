@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:8000/user-project/';
-axios.defaults.headers.Authorization = 'Token 2f2691a9e0585570f09d180ef9b10b922f96106b';
+axios.defaults.headers.Authorization = 'Token 6f5075a85b6fdd7db4bf48cb6eec40f9e2d52ec1';
 
 const initialState: InstructionsStateType = {
   specialities: null,
@@ -41,7 +41,7 @@ export const instructionsSlice = createSlice({
     });
     builder.addCase(getInstructions.rejected, (state) => {
       state.error = true;
-      console.log(state.error);
+      console.log('Get instructions error: ', state.error);
       state.isLoading = false;
     });
   },
@@ -49,7 +49,7 @@ export const instructionsSlice = createSlice({
 
 export default instructionsSlice.reducer;
 
-interface InstructionsStateType {
+export interface InstructionsStateType {
   specialities: null | IdNameType[];
   participation_types: null | IdNameType[];
   project_types: null | { project_type: string }[];
@@ -59,5 +59,5 @@ interface InstructionsStateType {
 
 export interface IdNameType {
   id: number;
-  name: string;
+  title: string;
 }

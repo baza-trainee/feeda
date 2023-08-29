@@ -3,13 +3,13 @@
 import { useState } from 'react';
 
 import { IconSprite, IconType } from '../IconSprite/IconSprite';
-import { IconBtn, PopUpBtnAccept, PopUpBtnCancel, PrimaryBtn, TabBtn, TextBtn } from './Button.styles';
+import { GoBackBtn, IconBtn, PopUpBtnAccept, PopUpBtnCancel, PrimaryBtn, TabBtn, TextBtn } from './Button.styles';
 
 type ButtonProps = {
   isDisabled?: boolean;
   func?: (ev: React.MouseEvent<HTMLButtonElement>) => void;
   btnType?: 'button' | 'submit' | 'reset';
-  variant: 'primary' | 'text' | 'icon' | 'accept' | 'cancel' | 'tab';
+  variant: 'primary' | 'text' | 'icon' | 'accept' | 'cancel' | 'tab' | 'goBack';
   icon?: IconType | null;
   title?: string;
   isSelected?: boolean;
@@ -36,6 +36,7 @@ export const Button = ({
     icon: IconBtn,
     accept: PopUpBtnAccept,
     cancel: PopUpBtnCancel,
+    goBack: GoBackBtn,
     tab: TabBtn,
   };
 

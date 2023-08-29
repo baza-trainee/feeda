@@ -30,7 +30,7 @@ type InputProps = {
   supportLabel?: string;
   onValidLabel?: string;
   placeholder?: string;
-  defaultValue?: string | Date;
+  defaultValue?: string;
   readonly?: boolean;
   disabled?: boolean;
   required?: boolean;
@@ -41,14 +41,13 @@ type InputProps = {
   endIconId?: IconType | undefined;
   control: Control;
   rules?: object;
-  clearErrors?: (name?: string | string[]) => void;
   onTypeFunc?: (value: string) => void;
 };
 
 export function Input({
   placeholder,
   type = 'text',
-  defaultValue = '',
+  defaultValue,
   name,
   id,
   label,
@@ -64,7 +63,6 @@ export function Input({
   endIconId,
   control,
   rules,
-  clearErrors,
   onTypeFunc,
 }: InputProps) {
   const [inputValue, setInputValue] = useState(defaultValue);
@@ -78,7 +76,6 @@ export function Input({
       rules={rules}
       render={({ field: { onChange }, fieldState: { error } }) => {
         const handleChange = (value: string) => {
-          clearErrors && clearErrors(name);
           onChange(value);
           if (onTypeFunc) onTypeFunc(value);
           if (pattern || label || type === 'date') setInputValue(value);
@@ -90,14 +87,15 @@ export function Input({
                 {label && (
                   <LabelComp
                     htmlFor={id}
-                    inputValueLen={inputValue?.length}
+                    inputValueLen={Boolean(inputValue?.length)}
                     isDisabled={disabled}
                     checkIsValid={Boolean(pattern && inputValue?.length)}
+                    isError={Boolean(error)}
                   >
                     {label}
                   </LabelComp>
                 )}
-                <InputWrapper checkIsValid={Boolean(pattern && inputValue?.length)}>
+                <InputWrapper checkIsValid={Boolean(pattern && inputValue?.length)} isError={Boolean(error)}>
                   {begIconId && (
                     <InputIconWrapper css={[firstIconStyles]} isDisabled={disabled}>
                       <IconSprite icon={begIconId} />
@@ -139,9 +137,9 @@ export function Input({
                     </InputIconWrapper>
                   )}
                 </InputWrapper>
-                {(supportLabel || onValidLabel) && (
+                {(supportLabel || onValidLabel || error) && (
                   <SupportLabelComp
-                    id={supportLabel ? 'support-label' : 'on-valid-label'}
+                    id={onValidLabel || error ? 'on-valid-label' : 'support-label'}
                     htmlFor={id}
                     isDisabled={disabled}
                   >
