@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { deleteProject,fetchProjects } from './actions';
+import { deleteProject, fetchProjects } from './actions';
 
 const initialState: ProjectsState = {
   projects: [],
@@ -18,9 +18,10 @@ const { reducer, actions, name } = createSlice({
       console.log(state.loading);
     });
     builder.addCase(fetchProjects.fulfilled, (state, { payload }) => {
-      state.projects = payload;
+      state.projects = payload.results;
       state.loading = 'success';
       console.log(state.loading);
+      console.log('Fetching participants');
     });
     builder.addCase(fetchProjects.rejected, (state, action) => {
       state.projects = [];
@@ -32,9 +33,9 @@ const { reducer, actions, name } = createSlice({
       state.loading = 'loading';
       console.log(state.loading);
     });
-    builder.addCase(deleteProject.fulfilled, (state, { payload }) => {
+    builder.addCase(deleteProject.fulfilled, (state) => {
       state.loading = 'success';
-      console.log(state.loading, payload);
+      console.log(state.loading);
     });
     builder.addCase(deleteProject.rejected, (state, action) => {
       state.projects = [];
@@ -45,7 +46,7 @@ const { reducer, actions, name } = createSlice({
   },
 });
 
-interface ProjectsState {
+export interface ProjectsState {
   projects: ProjectData[];
   loading: 'loading' | 'success' | 'rejected' | null;
   errors: string | null;

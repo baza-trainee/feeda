@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { colors, fonts, media } from '../../styles/theme';
+import { breakpointTablet } from '../../styles/vars';
 
 export const Wrapper = styled.header<{ isOpen: boolean }>`
   margin-bottom: ${({ isOpen }) => (isOpen ? '0px' : '24px')};
@@ -31,8 +32,8 @@ export const DesktopContent = styled.div`
 `;
 
 export const Logo = styled.div`
+  position: relative;
   width: fit-content;
-  padding: 16px;
   border-radius: 0px 0px 4px 4px;
   color: ${colors.mainTitle};
   font-size: 36px;
@@ -42,9 +43,15 @@ export const Logo = styled.div`
   @media screen and (${media.desktop}) {
     width: 100%;
     max-width: 286px;
-    padding: 16px 24px;
     font-size: 45px;
     line-height: calc(52 / 45);
+  }
+  & > a {
+    display: inline-block;
+    padding: 16px;
+    @media screen and (${media.desktop}) {
+      padding: 16px 134px 16px 24px;
+    }
   }
 `;
 
@@ -65,6 +72,7 @@ export const PageTitle = styled.h1`
   color: ${colors.mainTitle};
   text-overflow: ellipsis;
   overflow: hidden;
+  width: 100%;
 `;
 
 export const MobileHeaderWrapper = styled.div<{ isOpen: boolean }>`
@@ -76,10 +84,16 @@ export const MobileHeaderWrapper = styled.div<{ isOpen: boolean }>`
   background-color: ${({ isOpen }) => (isOpen ? colors.mainAccent : 'initial')};
   @media screen and (${media.tablet}) {
     max-width: 223px;
-    gap: 0;
   }
   @media screen and (${media.desktop}) {
     max-width: 388px;
+  }
+
+  & > div#input-wrapper {
+    width: 100%;
+    @media screen and (max-width: ${breakpointTablet}px) {
+      max-width: 239px;
+    }
   }
 `;
 

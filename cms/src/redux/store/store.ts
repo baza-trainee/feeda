@@ -1,13 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import instructionsReducer from '../slices/instructions';
-import participantsReducer from '../slices/participants';
-import { reducer as projectsReducer } from '../slices/projects/projects';
+import instructionsReducer, { InstructionsStateType } from '../instructions';
+import participantsReducer from '../participants/reducer';
+import { ParticipantsStateTypes } from '../participants/reducer';
+import { reducer as projectsReducer } from '../projects/projects';
+import { ProjectsState } from '../projects/projects.slice';
 
 export const store = configureStore({
   reducer: {
     projects: projectsReducer,
     participants: participantsReducer,
+    auth: authSliceReducer,
     instructions: instructionsReducer,
   },
 });
@@ -15,3 +18,9 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
+
+export type StoreTypes = {
+  projects: ProjectsState;
+  participants: ParticipantsStateTypes;
+  instructions: InstructionsStateType;
+};

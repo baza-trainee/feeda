@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 import { colors, fonts, media } from '../../styles/theme';
+import { breakpointDesktop } from '../../styles/vars';
 
 export const PrimaryBtn = styled.button<{ isPressed: boolean; disabled: boolean }>`
   display: flex;
@@ -31,6 +32,35 @@ export const PrimaryBtn = styled.button<{ isPressed: boolean; disabled: boolean 
   }
 
   ${({ isPressed }) => (isPressed ? ' background-color: #ffbd00 !important; color: #232323 !important;' : '')}
+
+  transition: all 250ms ease-in;
+`;
+
+export const TabBtn = styled(PrimaryBtn)<{ isSelected: boolean }>`
+  font-size: 16px;
+  font-weight: 600;
+  padding: 8px 16px;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+
+  ${({ isSelected, isPressed }) =>
+    !isSelected &&
+    `
+    background-color: #FCFCFC;
+    color: #232323;
+
+    &:disabled {
+      color: #bfbfbf;
+      background-color: #fcfcfc;
+    }
+
+    &:not(:disabled):hover {
+      background-color: #fde8af;
+      color: #121212;
+    }
+
+    ${isPressed ? ' background-color: #FFD210 !important; ' : ''}
+  `}
 
   transition: all 250ms ease-in;
 `;
@@ -119,5 +149,18 @@ export const SubNavBtn = styled(NavBtn)<{ isPressed: boolean; btnClicked: boolea
       content: ${({ titleContinuation }) => (titleContinuation ? "'команди'" : "''")};
       left: 48%;
     }
+  }
+`;
+
+export const GoBackBtn = styled(IconBtn)`
+  display: none;
+  position: absolute;
+  width: fit-content;
+  right: 0;
+  bottom: 0;
+  border-radius: 4px 0px;
+
+  @media screen and (min-width: ${breakpointDesktop}px) {
+    display: flex;
   }
 `;

@@ -1,34 +1,15 @@
 export const experience = [
-	{ value: 'Так', label: 'Так' },
-	{ label: 'Ні', value: 'Ні' },
+	{ value: '1', label: 'Так' },
+	{ value: '0', label: 'Ні' },
 ];
 
-export const projects = [
+export const projectsTemporary = [
 	{
-		value: 'project1',
-		label: 'Проєкт 1',
+		value: '0',
+		label: 'Proj1',
 	},
 	{
-		value: 'project2',
-		label: 'Проєкт 2',
-	},
-	{
-		value: 'project3',
-		label: 'Проєкт 3',
-	},
-];
-
-export const type = [
-	{
-		label: 'безкоштовний',
-		value: 'for free',
-	},
-	{
-		label: 'платний',
-		value: 'paid',
-	},
-	{
-		label: 'буткамп',
-		value: 'bootcamp',
+		value: '1',
+		label: 'Proj2',
 	},
 ];

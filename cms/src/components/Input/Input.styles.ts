@@ -3,7 +3,12 @@ import styled from '@emotion/styled';
 
 import { colors } from '../../styles/theme';
 
-export const LabelComp = styled.label<{ inputValueLen: number; isDisabled: boolean; checkIsValid: boolean }>`
+export const LabelComp = styled.label<{
+  inputValueLen: boolean;
+  isDisabled: boolean;
+  checkIsValid: boolean;
+  isError: boolean;
+}>`
   --txtColor: ${({ inputValueLen, isDisabled }) =>
     isDisabled ? colors.disabledBtnBg : inputValueLen ? colors.mainPlaceholder : colors.mainLabel};
   display: inline-block;
@@ -21,16 +26,17 @@ export const LabelComp = styled.label<{ inputValueLen: number; isDisabled: boole
         color: #14905D  \
       }'}
 
+  ${({ isError }) => isError && 'color: #dc0c31;'}
+
   &:has(+ div > input:focus) {
     color: var(--txtColor);
   }
 `;
 
-export const InputWrapper = styled.div<{ checkIsValid: boolean; begIcon: boolean; endIcon: boolean }>`
+export const InputWrapper = styled.div<{ checkIsValid: boolean; isError: boolean }>`
   display: flex;
   align-items: center;
   position: relative;
-  border: solid 1px #14905d;
   border-radius: 4px;
   border: 1px solid #cecece;
   background: #fcfcfc;
@@ -48,20 +54,31 @@ export const InputWrapper = styled.div<{ checkIsValid: boolean; begIcon: boolean
     checkIsValid &&
     '&:has(input:valid) { \
         outline: 2px solid #14905D; \
+        border: 1px solid transparent; \
         & + label#on-valid-label {  \
           visibility: visible; \
         } \
       } \
         &:has(input:invalid) {  \
           outline: 2px solid #dc0c31; \
+          border: 1px solid transparent; \
           & + label#support-label { \
             visibility: visible; \
             color: #dc0c31; \
           } \
         }'}
 
+  ${({ isError }) =>
+    isError &&
+    'outline: 2px solid #dc0c31; \
+    & + label#support-label { \
+      visibility: visible; \
+      color: #dc0c31; \
+    }'}     
+
   &:has(input:focus) {
     outline: 2px solid #939393;
+    border: 1px solid transparent;
     & + label#support-label {
       visibility: hidden;
     }
@@ -104,6 +121,10 @@ export const InputIconWrapper = styled.div<{ isDisabled: boolean }>`
   justify-content: center;
   padding: 16px;
   color: ${({ isDisabled }) => (isDisabled ? colors.disabledBtnBg : 'initial')};
+
+  & path {
+    fill: #939393;
+  }
 `;
 
 export const SupportLabelComp = styled.label<{ isDisabled: boolean }>`

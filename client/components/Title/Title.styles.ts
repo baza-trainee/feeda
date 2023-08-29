@@ -7,7 +7,7 @@ export const titleStyle = css`
 	font-size: ${fonts.mainTitle.fontSize.mobile}rem;
 	line-height: normal;
 	text-align: center;
-	color: ${colors.mainTitle};
+	color: ${colors.grey1000};
 
 	@media screen and (${media.tablet}) {
 		font-size: ${fonts.mainTitle.fontSize.tablet}rem;
