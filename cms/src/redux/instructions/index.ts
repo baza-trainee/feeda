@@ -41,7 +41,7 @@ export const instructionsSlice = createSlice({
     });
     builder.addCase(getInstructions.rejected, (state) => {
       state.error = true;
-      console.log(state.error);
+      console.log('Get instructions error: ', state.error);
       state.isLoading = false;
     });
   },
@@ -49,7 +49,7 @@ export const instructionsSlice = createSlice({
 
 export default instructionsSlice.reducer;
 
-interface InstructionsStateType {
+export interface InstructionsStateType {
   specialities: null | IdNameType[];
   participation_types: null | IdNameType[];
   project_types: null | { project_type: string }[];
@@ -59,5 +59,5 @@ interface InstructionsStateType {
 
 export interface IdNameType {
   id: number;
-  name: string;
+  title: string;
 }

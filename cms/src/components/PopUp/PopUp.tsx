@@ -16,30 +16,30 @@ import {
 
 type PopUpProps = {
   type: 'delete' | 'success' | 'rejected';
-  target?: 'project' | 'member';
+  target?: 'projects' | 'participants';
   mobileWidth?: string;
   yesCallback?: () => void;
   noCallback?: () => void;
-  closeModalFunc: () => void;
+  closeModalFunc?: () => void;
 };
 
 export function PopUp({ type, target, mobileWidth, closeModalFunc, yesCallback, noCallback }: PopUpProps) {
   useEffect(() => {
     if (type === 'success') {
       setTimeout(() => {
-        closeModalFunc();
+        closeModalFunc && closeModalFunc();
       }, 2000);
     }
     // eslint-disable-next-line
   }, []);
 
   const closeModal = () => {
-    console.log('layout');
-    closeModalFunc();
+    if (noCallback) noCallback();
+    else closeModalFunc && closeModalFunc();
   };
   const copy = {
-    project: 'проєкт',
-    member: 'учасника',
+    projects: 'проєкт',
+    participants: 'учасника',
   };
   return (
     <>

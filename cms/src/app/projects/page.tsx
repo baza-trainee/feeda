@@ -5,11 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Link from 'next/link';
 
-import { Button } from '~/src/components/Button/Button';
-import { CardsContent } from '~/src/components/CardsContent/CardsContent';
-import { deleteProject, fetchProjects } from '~/src/redux/slices/projects/actions';
-import { AppDispatch, RootState } from '~/src/redux/store/store';
-
+import { Button } from '../../components/Button/Button';
+import { CardsContent } from '../../components/CardsContent/CardsContent';
+import { fetchProjects } from '../../redux/projects/actions';
+import { AppDispatch, RootState } from '../../redux/store/store';
 import { AddButtonWrapper, ProjectsContainer } from './ProjectsPage.styles';
 
 export default function ProjectsPage() {
@@ -20,12 +19,6 @@ export default function ProjectsPage() {
     dispatch(fetchProjects());
   }, [dispatch]);
 
-  const handleDelete = (title: string | number | null) => {
-    dispatch(deleteProject(title)).then(() => {
-      dispatch(fetchProjects());
-    });
-  };
-
   return (
     <ProjectsContainer>
       <AddButtonWrapper>
@@ -34,7 +27,7 @@ export default function ProjectsPage() {
         </Link>
       </AddButtonWrapper>
       {loading === 'loading' && <div>Loading ...</div>}
-      {loading === 'success' && <CardsContent type="projects" data={projects} onDelete={handleDelete} />}
+      {loading === 'success' && <CardsContent type="projects" data={projects} />}
       {loading === 'rejected' && <div>Щось рішло не так... Спробуйте пізніше</div>}
     </ProjectsContainer>
   );

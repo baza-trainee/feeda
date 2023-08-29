@@ -3,7 +3,12 @@ import styled from '@emotion/styled';
 
 import { colors } from '../../styles/theme';
 
-export const LabelComp = styled.label<{ inputValueLen: number; isDisabled: boolean; checkIsValid: boolean }>`
+export const LabelComp = styled.label<{
+  inputValueLen: boolean;
+  isDisabled: boolean;
+  checkIsValid: boolean;
+  isError: boolean;
+}>`
   --txtColor: ${({ inputValueLen, isDisabled }) =>
     isDisabled ? colors.disabledBtnBg : inputValueLen ? colors.mainPlaceholder : colors.mainLabel};
   display: inline-block;
@@ -21,12 +26,14 @@ export const LabelComp = styled.label<{ inputValueLen: number; isDisabled: boole
         color: #14905D  \
       }'}
 
+  ${({ isError }) => isError && 'color: #dc0c31;'}
+
   &:has(+ div > input:focus) {
     color: var(--txtColor);
   }
 `;
 
-export const InputWrapper = styled.div<{ checkIsValid: boolean; begIcon: boolean; endIcon: boolean }>`
+export const InputWrapper = styled.div<{ checkIsValid: boolean; isError: boolean }>`
   display: flex;
   align-items: center;
   position: relative;
@@ -59,6 +66,14 @@ export const InputWrapper = styled.div<{ checkIsValid: boolean; begIcon: boolean
             color: #dc0c31; \
           } \
         }'}
+
+  ${({ isError }) =>
+    isError &&
+    'outline: 2px solid #dc0c31; \
+    & + label#support-label { \
+      visibility: visible; \
+      color: #dc0c31; \
+    }'}     
 
   &:has(input:focus) {
     outline: 2px solid #939393;
