@@ -25,15 +25,21 @@ export interface userForm {
   password: string;
 }
 
-// export const logIni = createAsyncThunk(
-//   'auth/login',
-//   async (credentials, thunkAPI) => {
-//     try {
-//       const res = await axios.post('/users/login', credentials);
-//       setAuthHeader(res.data.token);
-//       return res.data;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error.message);
-//     }
-//   }
+// export const resetPassword = createAsyncThunk(
+//   'auth/reset-password-email',
+  // async (email: string, thunkAPI) => {
+  //   const resetLink = `http://localhost:8000/reset-password?token=${resetToken}`;
+  //   const mailOptions = {
+  //     to: email,
+  //     subject: 'Password Reset',
+  //     html: `Click <a href="${resetLink}">here</a> to reset your password.`,
+  //   };
+
+  //   try {
+  //     await transporter.sendMail(mailOptions);
+  //     return true;
+  //   } catch (error) {
+  //     return thunkAPI.rejectWithValue('Failed to send reset link.');
+  //   }
+  // }
 // );

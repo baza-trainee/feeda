@@ -1,7 +1,9 @@
 /** @jsxImportSource @emotion/react */
-import { useRef, useState } from 'react';
+
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux'; ///
+import { useSelector } from 'react-redux';
 
 import { useRouter } from 'next/navigation';
 
@@ -10,11 +12,12 @@ import { Input } from '~/src/components/Input/Input';
 import { Title } from '~/src/components/Title/Title';
 import { AppDispatch } from '~/src/redux/store/store';
 
+import { getToken } from '../../../../redux/slices/auth/selectors';
+import { logIn } from '../../authOperations/operations';
 import { CheckboxComponent } from '../../components/CheckboxComponent/CheckboxComponent';
 import { btnText, formTitle, inputPlaceholderText, labelsTitle, patternsCheck } from '../../consts';
 import { ForgotPassword } from './ForgotPassword/ForgotPassword';
 import { ContainerCss, FormCss, InputCss, TitleCss } from './Login.styles';
-import { logIn } from '../../authOperations/operations';
 
 export function LoginForm() {
   const { control, clearErrors, getValues, handleSubmit } = useForm();
@@ -22,6 +25,16 @@ export function LoginForm() {
   const [isShowPassword, setIsShowPassword] = useState(false);
   const typePasswordInput = isShowPassword ? 'text' : 'password';
   const iconInputPassword = isShowPassword ? 'eyeOpen' : 'eyeClosed';
+
+  const router = useRouter();
+
+  const token = useSelector(getToken);
+  console.log(token);
+
+  useEffect(() => {
+    token && router.push('/projects');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -79,7 +92,7 @@ export function LoginForm() {
             label={labelsTitle.password}
             minLength={8}
             maxLength={12}
-            // pattern={patternsCheck.password.source}
+            pattern={patternsCheck.password.source}
             // endIconId={iconInputPassword}
             supportLabel="Неправильний пароль"
           />
