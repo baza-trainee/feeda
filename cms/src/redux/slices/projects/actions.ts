@@ -3,8 +3,8 @@ import axios from 'axios';
 import { format } from 'date-fns';
 
 import { ActionType } from './common';
-import { ProjectData } from './projects.slice';
 import { FormData } from '../../../app/projects/[projectId]/page';
+import { getComplixity, getProjectStatus, getProjectType, getRole } from '~/src/components/SelectField/lists';
 
 const AuthToken = '624e3e488cdc0f0c0f57a197c05068b4b5c2cfd5';
 
@@ -47,7 +47,7 @@ const addProject = createAsyncThunk(ActionType.ADD_PROJECT, async (formData: For
     },
   });
 
-  const teamData: TeamDataParams = {
+  const teamData: { team_lead: string; user: string[]; project: string } = {
     team_lead: 'f7d31f25-36d2-4ab9-98ed-1aa8aa5e29c6',
     user: ['f7d31f25-36d2-4ab9-98ed-1aa8aa5e29c6', 'e81be77f-ec88-4e94-9ab5-236ac428d15b'],
     project: data.project.id.toString(),
@@ -64,21 +64,62 @@ const addProject = createAsyncThunk(ActionType.ADD_PROJECT, async (formData: For
   return combinedData;
 });
 
+const fetchTeam = createAsyncThunk(ActionType.GET_TEAM, async (title: string) => {
+  const { data } = await axios.get<{ team_lead: string; project: ProjectDataParams; user: userDataParams[] }>(
+    `http://localhost:8000/user-project/command-project-detail/${title}/`,
+    {
+      headers: {
+        Authorization: `Token ${AuthToken}`, //implement auth,
+      },
+    }
+  );
+  console.log(data);
+  const { project, user, team_lead } = data;
+
+  const currentTeam: FormData = {
+    title: project.title,
+    comment: project.comment,
+    complixity: getComplixity(project.complexity),
+    project_status: getProjectStatus('developing'),
+    type_project: getProjectType('paid'),
+    start_date_project: new Date(project.start_date_project),
+    end_date_project: project.end_date_project ? new Date(project.end_date_project) : null,
+    address_site: project.address_site || null,
+    user: user.map((user) => ({
+      id: user.id,
+      first_name: user.first_name,
+      membersRole: getRole('front'),
+    })),
+    team_lead: null,
+  };
+
+  console.log(currentTeam);
+
+  return currentTeam; /// TEMP PAGINATION
+});
+
 export interface ProjectDataParams {
+  id?: string;
   title: string;
   comment: string;
   type_project: number;
   complexity: number;
   project_status: number;
   start_date_project: string;
-  end_date_project?: string;
-  address_site?: string;
+  end_date_project?: string | null;
+  address_site?: string | null;
+  url?: string;
 }
 
 export interface TeamDataParams {
-  team_lead?: string;
-  user?: string[];
-  project: string;
+  team_lead?: string | null;
+  user: userDataParams[];
+  project: ProjectDataParams;
 }
 
-export { fetchProjects, deleteProject, addProject };
+export interface userDataParams {
+  id: string;
+  first_name: string;
+}
+
+export { fetchProjects, deleteProject, addProject, fetchTeam };

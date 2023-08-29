@@ -1,10 +1,11 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 
-import { deleteProject, fetchProjects, addProject } from './actions';
+import { deleteProject, fetchProjects, addProject, fetchTeam } from './actions';
 
 const initialState: ProjectsState = {
   projects: [],
   loading: null,
+  currentTeam: {},
   errors: null,
 };
 
@@ -19,6 +20,16 @@ const { reducer, actions, name } = createSlice({
     });
     builder.addCase(fetchProjects.fulfilled, (state, { payload }) => {
       state.projects = payload;
+      state.loading = 'success';
+      console.log(state.loading);
+    });
+    builder.addCase(fetchTeam.pending, (state) => {
+      state.loading = 'loading';
+      console.log(state.loading);
+    });
+    builder.addCase(fetchTeam.fulfilled, (state, { payload }) => {
+      state.currentTeam = payload;
+      console.log(payload);
       state.loading = 'success';
       console.log(state.loading);
     });
@@ -53,6 +64,7 @@ const { reducer, actions, name } = createSlice({
 
 interface ProjectsState {
   projects: ProjectData[];
+  currentTeam: ProjectTeam | {};
   loading: 'loading' | 'success' | 'rejected' | null;
   errors: string | null;
 }
@@ -71,6 +83,13 @@ export interface ProjectData {
   };
   participants_count: string;
   start_date_project: string;
+}
+
+export interface ProjectTeam {
+  id: string;
+  project: {};
+  user: {};
+  team_lead: string;
 }
 
 export { actions, name, reducer };

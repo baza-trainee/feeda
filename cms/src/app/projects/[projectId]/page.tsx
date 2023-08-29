@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '~/src/components/Button/Button';
 import { ProjectForm } from '~/src/components/ProjectForm/ProjectForm';
 import { MemberType, ProjectTeamForm } from '~/src/components/ProjectTeamForm/ProjectTeamForm';
@@ -8,6 +8,9 @@ import { NavContainer, ProjectContainer } from './styles';
 import { FieldValues, useForm } from 'react-hook-form';
 import { OptionType } from '~/src/components/SelectField/SelectField';
 import { MemberRole, ProjectState } from '~/src/components/SelectField/lists';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '~/src/redux/store/store';
+import { fetchTeam } from '~/src/redux/slices/projects/actions';
 
 export interface FormData {
   title: string;
@@ -16,10 +19,10 @@ export interface FormData {
   project_status: OptionType;
   type_project: OptionType;
   start_date_project: Date;
-  end_date_project: Date;
-  address_site: string;
+  end_date_project: Date | null;
+  address_site: string | null;
   user: MemberType[];
-  team_lead: MemberType[];
+  team_lead: MemberType[] | null;
 }
 
 type ProjectPageProps = {
@@ -29,7 +32,7 @@ type ProjectPageProps = {
 };
 
 const tempInitialState = {
-  name: 'Test Project',
+  title: '',
   comment: '',
   complixity: null,
   project_status: {
@@ -74,11 +77,29 @@ const tempInitialState = {
 };
 
 export default function ProjectPage({ params }: ProjectPageProps) {
+  const dispatch = useDispatch<AppDispatch>();
+  const { currentTeam } = useSelector((state: RootState) => state.projects);
   const [currentTab, setCurrentTab] = useState('Опис');
-  const { control, clearErrors, handleSubmit, trigger } = useForm<FieldValues>({
-    defaultValues: tempInitialState,
+  const { control, clearErrors, handleSubmit, trigger, reset } = useForm<FieldValues>({
+    defaultValues: currentTeam,
   });
-  const projectId = params.projectId;
+
+  useEffect(() => {
+    const projectId = params.projectId;
+    console.log(projectId);
+    if (projectId !== 'add') {
+      dispatch(fetchTeam(projectId));
+    }
+
+    console.log(currentTeam);
+  }, []);
+
+  React.useEffect(() => {
+    if (currentTeam) {
+      console.log('reset');
+      reset(currentTeam);
+    }
+  }, [currentTeam, reset]);
 
   const handleTabClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const nextTab = e.currentTarget.title;

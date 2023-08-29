@@ -19,7 +19,7 @@ export const TeamFormSection: React.FC<TeamSectionProps> = ({ control, clearErro
 
   const addMember = () => {
     append({
-      name: '',
+      first_name: '',
       membersRole: null,
       comment: '',
       id: '',

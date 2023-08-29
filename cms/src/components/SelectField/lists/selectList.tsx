@@ -3,14 +3,14 @@ import { ProjectDifficulty } from './ProjectDifficulty';
 import { ProjectState } from './ProjectState';
 import { ProjectType } from './ProjectsType';
 
-export const getProjectValue = (value: string | number) =>
-  value ? projectStatus.find((item) => item.value === value) : { value: '', label: '' };
-export const getRoleValue = (value: string | number) =>
-  value ? membersRole.find((item) => item.value === value) : { value: '', label: '' };
-export const getDiffValue = (value: string | number) =>
-  value ? projectDifficulty.find((item) => item.value === value) : { value: '', label: '' };
-export const getProjectTypeValue = (value: string | number) =>
-  value ? projectType.find((item) => item.value === value) : { value: '', label: '' };
+export const getProjectStatus = (value: string | number) =>
+  value ? projectStatus.find((item) => item.value === value) || { value: '', label: '' } : { value: '', label: '' };
+export const getRole = (value: string | number) =>
+  value ? membersRole.find((item) => item.value === value) || { value: '', label: '' } : { value: '', label: '' };
+export const getComplixity = (value: string | number) =>
+  value ? projectDifficulty.find((item) => item.value === value) || { value: '', label: '' } : { value: '', label: '' };
+export const getProjectType = (value: string | number) =>
+  value ? projectType.find((item) => item.value === value) || { value: '', label: '' } : { value: '', label: '' };
 
 export interface ListProps {
   value: string | number;

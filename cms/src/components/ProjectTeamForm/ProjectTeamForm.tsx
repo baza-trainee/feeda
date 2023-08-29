@@ -2,6 +2,7 @@ import { Control, FieldValues, UseFormHandleSubmit, SubmitHandler, useFormState 
 import { FormWrapper } from './ProjectTeamForm.styles';
 
 import { TeamFormSection } from './TeamFormSection';
+import { OptionType } from '../SelectField/SelectField';
 
 export interface TeamFormProps {
   control: Control;
@@ -10,9 +11,9 @@ export interface TeamFormProps {
 }
 
 export type MemberType = {
-  name: string;
-  membersRole: { value: string; label: JSX.Element };
-  comment: string;
+  first_name: string;
+  membersRole: OptionType;
+  comment?: string;
   id: string;
 };
 
