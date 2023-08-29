@@ -5,9 +5,10 @@ import ReactDOM from 'react-dom';
 import { Sidebar } from './Sidebar';
 import { ModalWindow, Overlay } from './Sidebar.style';
 
-const modalRoot = document.getElementById('modal-root');
 
 export function SidebarModal({ isOpen, closeModal }: { isOpen: boolean; closeModal: () => void }) {
+  const modalRoot = document.getElementById('modal-root');
+  
   useEffect(() => {
     if (isOpen) {
       document.body.classList.add('modal-open');

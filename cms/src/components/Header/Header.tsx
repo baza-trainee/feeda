@@ -8,11 +8,10 @@ import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import useMobileDetect from '~/src/hooks/useMobileDetect';
-import { useWindowWidth } from '~/src/hooks/useWindowWidth';
+import { useWindowWidth } from '~/src/helpers/useWindowWidth';
 
 import CloseMenuIcon from '../../../public/close_menu.svg';
-import MenuIcon from '../../../public/menu.svg';
+import MenuIcon from '../../../public/open_menu.svg';
 import { StoreTypes } from '../../redux/store/store';
 import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
@@ -34,7 +33,6 @@ export function Header() {
   const [prevLocation, setPrevLocation] = useState('' as string);
 
   const windowWidth = useWindowWidth();
-  const mobile = useMobileDetect().isMobile();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -113,13 +111,12 @@ export function Header() {
       </DesktopContent>
 
       <MobileHeaderWrapper isOpen={showModal}>
-        {/*Why it doesnt work?*/}
-        {mobile ||
-          (windowWidth && windowWidth < 768 && (
-            <MenuWrapper>
-              <MenuBtn onClick={toggleSidebar}>{showSidebar ? <CloseMenuIcon /> : <MenuIcon />}</MenuBtn>
-            </MenuWrapper>
-          ))}
+        {windowWidth && windowWidth < 768 && (
+          <MenuWrapper>
+            <MenuBtn onClick={toggleSidebar}>{showSidebar ? <CloseMenuIcon /> : <MenuIcon />}</MenuBtn>
+          </MenuWrapper>
+        )}
+
         <Input
           name="search-input"
           placeholder="Ключове слово"

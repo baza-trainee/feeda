@@ -4,8 +4,7 @@ import { Exo_2 } from 'next/font/google';
 import { Header } from '../components/Header/Header';
 import { LayoutContainer } from '../components/LayoutContainer/LayoutContainer';
 import { Sidebar } from '../components/Sidebar/Sidebar';
-import useMobileDetect from '../hooks/useMobileDetect';
-import { useWindowWidth } from '../hooks/useWindowWidth';
+import { useWindowWidth } from '../helpers/useWindowWidth';
 import { ReduxProvider } from '../redux/store/ReduxProvider';
 import { ApiFetchComp } from './ApiFetchComp';
 import EmotionRegistry from './registry';
@@ -24,7 +23,6 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const windowWidth = useWindowWidth();
-  const mobile = useMobileDetect().isMobile();
 
   return (
     <html lang="en" className={eho.className}>
@@ -35,8 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div id="modal-root"></div>
             <LayoutContainer>
               <div style={{ display: 'flex' }}>
-                {/*Why it doesnt work?*/}
-                {!mobile || (windowWidth && windowWidth >= 768 && <Sidebar />)}
+                {windowWidth && windowWidth >= 768 && <Sidebar />}
                 {children}
               </div>
               <ApiFetchComp />
