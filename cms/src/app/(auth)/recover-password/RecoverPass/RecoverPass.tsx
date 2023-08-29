@@ -14,44 +14,44 @@ import { btnText, formTitle, inputPlaceholderText, labelsTitle, patternsCheck } 
 import { BlockCss, HeaderCss, InputCss, RecoverFormCss, SubtitleCss } from './RecoverPass.styles';
 
 export function RecoverForm() {
-	const { control, clearErrors, getValues } = useForm();
+  const { control, clearErrors, getValues } = useForm();
 
   const dispatch = useDispatch<AppDispatch>();
 
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		const { email } = getValues();
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const { email } = getValues();
     const data = { email };
-		console.log(data);
-		
-		dispatch(resetPassword(data));
-	};
+    console.log(data);
 
-	return (
-		<form onSubmit={handleSubmit} css={RecoverFormCss}>
-			<div css={BlockCss}>
-				<header css={HeaderCss}>
-					<Title title={formTitle['recover-password']} main />
-					<p css={SubtitleCss}>
-						Для відновлення паролю введіть Вашу електронну адресу. Вам надійде лист із посиланням для зміни паролю
-					</p>
-				</header>
-				<div css={InputCss}>
-					<Input
-						placeholder={inputPlaceholderText.mail}
-						type="text"
-						name="email"
-						id="login"
-						control={control}
-						clearErrors={clearErrors}
-						label={labelsTitle.mail}
-						pattern={patternsCheck.login.source}
-						minLength={6}
-						maxLength={70}
-					/>
-				</div>
-			</div>
-			<Button btnType="submit" title={btnText.login} variant="primary"></Button>
-		</form>
-	);
+    dispatch(resetPassword(data));
+  };
+
+  return (
+    <form onSubmit={handleSubmit} css={RecoverFormCss}>
+      <div css={BlockCss}>
+        <header css={HeaderCss}>
+          <Title title={formTitle['recover-password']} main />
+          <p css={SubtitleCss}>
+            Для відновлення паролю введіть Вашу електронну адресу. Вам надійде лист із посиланням для зміни паролю
+          </p>
+        </header>
+        <div css={InputCss}>
+          <Input
+            placeholder={inputPlaceholderText.mail}
+            type="text"
+            name="email"
+            id="login"
+            control={control}
+            clearErrors={clearErrors}
+            label={labelsTitle.mail}
+            pattern={patternsCheck.login.source}
+            minLength={6}
+            maxLength={70}
+          />
+        </div>
+      </div>
+      <Button btnType="submit" title={btnText.send} variant="primary"></Button>
+    </form>
+  );
 }

@@ -14,17 +14,18 @@ import { AppDispatch } from '~/src/redux/store/store';
 
 import { getToken } from '../../../../redux/slices/auth/selectors';
 import { logIn } from '../../authOperations/operations';
-import { CheckboxComponent } from '../../components/CheckboxComponent/CheckboxComponent';
+import { CheckBox } from '../../components/Checkbox/Checkbox';
+// import { CheckboxComponent } from '../../components/CheckboxComponent/CheckboxComponent';
 import { btnText, formTitle, inputPlaceholderText, labelsTitle, patternsCheck } from '../../consts';
 import { ForgotPassword } from './ForgotPassword/ForgotPassword';
-import { ContainerCss, FormCss, InputCss, TitleCss } from './Login.styles';
+import { ContainerCss, FormCss, TitleCss } from './Login.styles';
 
 export function LoginForm() {
   const { control, clearErrors, getValues, handleSubmit } = useForm();
   const checkboxRef = useRef<HTMLInputElement>(null);
   const [isShowPassword, setIsShowPassword] = useState(false);
   const typePasswordInput = isShowPassword ? 'text' : 'password';
-  const iconInputPassword = isShowPassword ? 'eyeOpen' : 'eyeClosed';
+  const iconInputPassword = isShowPassword ? 'eyeClosed' : 'eyeOpen';
 
   const router = useRouter();
 
@@ -54,51 +55,46 @@ export function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)} css={FormCss}>
-      <div css={TitleCss}>
-        <Title title={formTitle.login} main />
-      </div>
+      <Title css={TitleCss} title={formTitle.login} main />
       <div css={ContainerCss}>
-        <div css={InputCss}>
-          <Input
-            placeholder={inputPlaceholderText.login}
-            type="text"
-            name="email"
-            id="login"
-            control={control}
-            rules={{
-              login: {
-                required: true,
-                minLength: 6,
-                maxLength: 70,
-                pattern: patternsCheck.login,
-              },
-            }}
-            clearErrors={clearErrors}
-            label={labelsTitle.login}
-            pattern={patternsCheck.login.source}
-            minLength={6}
-            maxLength={70}
-            supportLabel="Неправильний логін"
-          />
-        </div>
-        <div css={InputCss} onClick={onClickHandler}>
-          <Input
-            placeholder={inputPlaceholderText.password}
-            type={typePasswordInput}
-            name="password"
-            id="password"
-            control={control}
-            clearErrors={clearErrors}
-            label={labelsTitle.password}
-            minLength={8}
-            maxLength={12}
-            pattern={patternsCheck.password.source}
-            // endIconId={iconInputPassword}
-            supportLabel="Неправильний пароль"
-          />
-        </div>
+        <Input
+          placeholder={inputPlaceholderText.login}
+          type="text"
+          name="email"
+          id="login"
+          control={control}
+          rules={{
+            login: {
+              required: true,
+              minLength: 6,
+              maxLength: 70,
+              pattern: patternsCheck.login,
+            },
+          }}
+          clearErrors={clearErrors}
+          label={labelsTitle.login}
+          pattern={patternsCheck.login.source}
+          minLength={6}
+          maxLength={70}
+          supportLabel="Неправильний логін"
+        />
+        <Input
+          placeholder={inputPlaceholderText.password}
+          type={typePasswordInput}
+          name="password"
+          id="password"
+          control={control}
+          clearErrors={clearErrors}
+          label={labelsTitle.password}
+          minLength={8}
+          maxLength={12}
+          pattern={patternsCheck.password.source}
+          endIconId={iconInputPassword}
+          supportLabel="Неправильний пароль"
+          onclick={onClickHandler}
+        />
       </div>
-      <CheckboxComponent ref={checkboxRef} />
+      <CheckBox ref={checkboxRef} />
       <ForgotPassword />
       <Button btnType="submit" title={btnText.login} variant="primary"></Button>
     </form>
