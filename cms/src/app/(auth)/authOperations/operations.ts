@@ -3,14 +3,9 @@ import axios, { AxiosError } from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:8000';
 
-const setAuthHeader = (token: string) => {
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-};
-
 export const logIn = createAsyncThunk('auth/login', async (credentials: userForm, thunkAPI) => {
   try {
     const res = await axios.post('/users/login/', credentials);
-    // setAuthHeader(res.data.token);
     console.log(res.data);
     return res.data;
   } catch (error) {
@@ -25,21 +20,35 @@ export interface userForm {
   password: string;
 }
 
-// export const resetPassword = createAsyncThunk(
-//   'auth/reset-password-email',
-  // async (email: string, thunkAPI) => {
-  //   const resetLink = `http://localhost:8000/reset-password?token=${resetToken}`;
-  //   const mailOptions = {
-  //     to: email,
-  //     subject: 'Password Reset',
-  //     html: `Click <a href="${resetLink}">here</a> to reset your password.`,
-  //   };
+export const resetPassword = createAsyncThunk('reset/resetPassword', async (credentials: resetForm, thunkAPI) => {
+  try {
+    const res = await axios.post('/users/reset-password-email/', credentials);
+    console.log(res.data);
+    return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return thunkAPI.rejectWithValue(error.message);
+    } else throw Error;
+  }
+});
 
-  //   try {
-  //     await transporter.sendMail(mailOptions);
-  //     return true;
-  //   } catch (error) {
-  //     return thunkAPI.rejectWithValue('Failed to send reset link.');
-  //   }
-  // }
-// );
+export interface resetForm {
+  email: string;
+}
+
+export const setNewPassword = createAsyncThunk('changePassword/resetPassword', async (credentials: changeForm, thunkAPI) => {
+  try {
+    const res = await axios.post('/users/password-reset-complete/', credentials);
+    console.log(res.data);
+    return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return thunkAPI.rejectWithValue(error.message);
+    } else throw Error;
+  }
+});
+
+export interface changeForm {
+  repeatNewPassword: string;
+  newPassword:string;
+}

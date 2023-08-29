@@ -92,7 +92,7 @@ export function LoginForm() {
             label={labelsTitle.password}
             minLength={8}
             maxLength={12}
-            pattern={patternsCheck.password.source}
+            // pattern={patternsCheck.password.source}
             // endIconId={iconInputPassword}
             supportLabel="Неправильний пароль"
           />

@@ -15,10 +15,9 @@ const initialState: ResetPasswordState = {
 };
 
 const resetPasswordSlice = createSlice({
-  name: 'resetPassword',
+  name: 'reset',
   initialState,
   reducers: {
-    // ... інші редуктори
   },
   extraReducers: (builder) => {
     builder
@@ -38,4 +37,4 @@ const resetPasswordSlice = createSlice({
 });
 
 
-export default resetPasswordSlice.reducer;
+export const resetPasswordSliceReducer = resetPasswordSlice.reducer;

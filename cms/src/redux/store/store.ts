@@ -1,5 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import { resetPasswordSliceReducer } from '~/src/app/(auth)/authOperations/resetPasswordSlice';
+import { changePasswordSliceReducer } from '~/src/app/(auth)/authOperations/setNewPassowrdSlice';
 import { authSliceReducer } from '~/src/redux/slices/auth/loginSlice';
 
 import instructionsReducer from '../slices/instructions';
@@ -12,6 +14,8 @@ export const store = configureStore({
     participants: participantsReducer,
     auth: authSliceReducer,
     instructions: instructionsReducer,
+    resetPasswordSlice: resetPasswordSliceReducer,
+    changePasswordSlice: changePasswordSliceReducer,
   },
 });
 
