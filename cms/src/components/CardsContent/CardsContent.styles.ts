@@ -8,7 +8,6 @@ export const List = styled.ul`
   grid-template-columns: repeat(1, 1fr);
   justify-content: center;
   justify-items: center;
-  margin: 0 auto !important;
   gap: 16px;
   @media screen and (${media.tablet}) {
     grid-template-columns: 224px 224px;
@@ -25,8 +24,8 @@ export const ListItem = styled.li`
   & > a {
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    padding: 24px 16px;
+    gap: 16px;
+    padding: 16px;
     border-radius: 8px;
     background-color: #fdf5dd;
     cursor: pointer;
@@ -63,20 +62,50 @@ export const FirstBlockWrapper = styled.div`
       text-align: center;
     }
   }
+
+  & > p#project-type-participant {
+    font-weight: 400;
+  }
 `;
 
 export const SecondBlockWrapper = styled.div<{ type: 'participants' | 'projects' }>`
   & > h2 {
-    margin-bottom: 8px;
-    color: ${colors.mainText};
-    font-size: ${({ type }) => (type === 'participants' ? '24px' : '22px')};
-    font-weight: 700;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 1;
     line-height: calc(30 / 24);
+    font-weight: 600;
+    font-size: ${({ type }) => (type === 'participants' ? '24px' : '22px')};
+    color: ${colors.mainText};
   }
+  & > h2 + h2 {
+    margin-bottom: 8px;
+  }
+
+  & > h2#project-name {
+    font-size: 16px;
+    line-height: normal;
+    @media screen and (${media.tablet}) {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: calc(20 / 14);
+    }
+    @media screen and (${media.desktop}) {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: normal;
+    }
+  }
+
   & > p {
     color: ${colors.mainPlaceholder};
     font-size: 16px;
     font-weight: 400;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 1;
   }
 `;
 
@@ -100,6 +129,7 @@ export const ThirdBlockElementsWrapper = styled.div`
   & > p#value {
     font-weight: 500;
   }
+
   & > div#icon-wrapper {
     display: flex;
     height: min-content;
@@ -108,13 +138,34 @@ export const ThirdBlockElementsWrapper = styled.div`
     border-radius: 4px;
     background: #fcfcfc;
   }
+
+  & > div.participantIconWrapper {
+    & > svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  & > div.projectIconWrapper {
+    & > svg {
+      width: 8px;
+      height: 8px;
+    }
+  }
+
   & > div#complexity {
     display: flex;
     & > div#complexity-icon {
       display: flex;
       margin-right: 8px;
+
       &:last-child {
         margin-right: 0;
+      }
+
+      & > svg {
+        width: 16px;
+        height: 16px;
       }
     }
   }
