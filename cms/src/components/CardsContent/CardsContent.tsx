@@ -121,16 +121,14 @@ export function CardsContent({ type, data }: CardsContentType) {
                         <p id="name">Складість</p>
                         <div id="complexity">
                           {commonVariants.complexity.map((complexity) => (
-                            <>
-                              <IconSprite
-                                key={complexity}
-                                icon={
-                                  complexity <= Number.parseInt((item as ProjectData).complexity.complexity)
-                                    ? 'complexityActive'
-                                    : 'complexityInactive'
-                                }
-                              />
-                            </>
+                            <IconSprite
+                              key={complexity}
+                              icon={
+                                complexity <= Number.parseInt((item as ProjectData).complexity.complexity)
+                                  ? 'complexityActive'
+                                  : 'complexityInactive'
+                              }
+                            />
                           ))}
                         </div>
                       </ThirdBlockElementsWrapper>

@@ -4,14 +4,13 @@ import axios, { AxiosError } from 'axios';
 axios.defaults.baseURL = 'http://localhost:8000';
 
 const setAuthHeader = (token: string) => {
-  axios.defaults.headers.common.Authorization = `Token ${token}`;
+  axios.defaults.headers.Authorization = `Token ${token}`;
 };
 
 export const logIn = createAsyncThunk('auth/login', async (credentials: userForm, thunkAPI) => {
   try {
     const res = await axios.post('/users/login/', credentials);
     setAuthHeader(res.data.token);
-    console.log(res.data);
     return res.data;
   } catch (error) {
     if (error instanceof AxiosError) {
