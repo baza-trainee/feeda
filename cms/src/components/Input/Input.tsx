@@ -36,7 +36,7 @@ type InputProps = {
   required?: boolean;
   minLength?: number;
   maxLength?: number;
-  onclick?: () => void;
+  onclick?: (event: React.MouseEvent<HTMLDivElement>) => void;
   pattern?: string;
   begIconId?: IconType | undefined;
   endIconId?: IconType | undefined;
