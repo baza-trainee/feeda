@@ -91,17 +91,33 @@ const fetchTeam = createAsyncThunk(ActionType.GET_TEAM, async (title: string, th
 
   const { project, user, team_lead } = data;
 
+  console.log(user);
+
   const currentTeam = {
     title: project.title,
     comment: project.comment,
     complexity: project.complexity,
     project_status: currentStatus?.status || '',
     type_project: currentType?.project_type || '',
-    address_site: project.address_site || '',
     start_date_project: project.start_date_project || '2023-01-01',
     end_date_project: project.end_date_project || '2023-01-01',
-    team_lead: team_lead || '',
-    user,
+    address_site: project.address_site || '',
+    //team_lead: Endpoint
+    user:
+      user.map((user) => {
+        const memberRole = user.speciality
+          ? instructions.specialities?.find((item) => item.title === user.speciality?.title) || ''
+          : '';
+
+        return {
+          full_name: {
+            label: `${user.first_name} ${user.last_name}`,
+            value: user.id,
+          },
+          membersRole: memberRole ? memberRole.title : 'None',
+          comment: user.comment || '',
+        };
+      }) || [],
   };
 
   return currentTeam;
@@ -129,6 +145,12 @@ export interface TeamDataParams {
 export interface userDataParams {
   id: string;
   first_name: string;
+  last_name: string;
+  speciality: {
+    id: number;
+    title: string;
+  } | null;
+  comment: string | null;
 }
 
 export { fetchProjects, deleteProject, addProject, fetchTeam };

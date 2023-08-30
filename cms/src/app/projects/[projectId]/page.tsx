@@ -14,7 +14,7 @@ import { fetchTeam } from '~/src/redux/projects/actions';
 export interface FormData {
   title: string;
   comment: string;
-  complixity: OptionType;
+  complexity: OptionType;
   project_status: OptionType;
   type_project: OptionType;
   start_date_project: Date;
@@ -41,7 +41,6 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   useEffect(() => {
     const projectId = params.projectId;
     if (projectId !== 'add') {
-      console.log(projectId);
       dispatch(fetchTeam(projectId));
     }
   }, []);

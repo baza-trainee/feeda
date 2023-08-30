@@ -40,7 +40,6 @@ export const getInstructions = createAsyncThunk('instructions/getInstructions', 
     project_types: project_types.data,
     project_status: project_status.data,
   };
-  console.log(returnValue);
   return returnValue;
 });
 
@@ -54,7 +53,6 @@ export const instructionsSlice = createSlice({
       state.error = null;
     });
     builder.addCase(getInstructions.fulfilled, (state, { payload }) => {
-      console.log(payload);
       state.specialities = payload.specialities;
       state.participation_types = payload.participation_types;
       state.project_types = payload.project_types;

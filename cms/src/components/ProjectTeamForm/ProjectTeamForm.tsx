@@ -11,7 +11,7 @@ export interface TeamFormProps {
 }
 
 export type MemberType = {
-  first_name: string;
+  full_name: OptionType;
   membersRole: OptionType;
   comment?: string;
   id: string;

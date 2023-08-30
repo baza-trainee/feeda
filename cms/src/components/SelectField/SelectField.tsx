@@ -89,7 +89,7 @@ interface AsyncFieldProps {
   control: Control;
   name: string;
   rules?: object;
-  options: OptionType[];
+  options: (inputValue: string) => Promise<{ value: string; label: string }[]>;
   placeholder: string | JSX.Element;
   clearErrors: (name?: string | string[]) => void;
   title: string;
