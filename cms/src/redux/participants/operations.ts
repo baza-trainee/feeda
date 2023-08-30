@@ -1,14 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:8000';
+axios.defaults.baseURL = 'http://localhost:8000/';
 
 import { FormDataTypes, InstructionsTypes, manageFormFields } from '../../helpers/manageParticipantFormValues';
 import { IdNameType } from '../instructions';
 
 export const fetchParticipants = createAsyncThunk('participants/fetchParticipants', async (_, { rejectWithValue }) => {
   try {
-    const { data } = await axios.get<ParticipantsResponseTypes>('participants-list/');
+    const { data } = await axios.get<ParticipantsResponseTypes>('user-project/participants-list/');
     return data;
   } catch (err) {
     if (err instanceof AxiosError) {
@@ -26,7 +26,7 @@ export const createParticipant = createAsyncThunk(
     try {
       const requestData = manageFormFields(formData, instructions);
       console.log('Create: ', requestData);
-      const { data } = await axios.post<ParticipantData>('add-participant/', requestData);
+      const { data } = await axios.post<ParticipantData>('user-project/add-participant/', requestData);
       return data;
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -40,7 +40,7 @@ export const getParticipant = createAsyncThunk(
   'participants/getParticipant',
   async (id: string, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get<ParticipantData>(`get-participant/${id}/`);
+      const { data } = await axios.get<ParticipantData>(`user-project/get-participant/${id}/`);
       return data;
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -60,7 +60,7 @@ export const updateParticipant = createAsyncThunk(
     try {
       const requestData = manageFormFields(formData, instructions);
       console.log('Update: ', requestData);
-      const { data } = await axios.put<ParticipantData>(`participant-detail/${userId}/`, requestData);
+      const { data } = await axios.put<ParticipantData>(`user-project/participant-detail/${userId}/`, requestData);
       return data;
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -74,7 +74,7 @@ export const deleteParticipant = createAsyncThunk(
   'participants/deleteParticipant',
   async (userId: string, { dispatch, rejectWithValue }) => {
     try {
-      await axios.delete<ParticipantData>(`participant-detail/${userId}/`);
+      await axios.delete<ParticipantData>(`user-project/participant-detail/${userId}/`);
       await dispatch(fetchParticipants());
       return;
     } catch (err) {
@@ -91,7 +91,7 @@ export const deleteParticipant = createAsyncThunk(
 
 export const sendEmail = createAsyncThunk('participants/sendEmail', async (userId: string, { rejectWithValue }) => {
   try {
-    const { data } = await axios.get<{ message: string }>(`send/${userId}/`);
+    const { data } = await axios.get<{ message: string }>(`user-project/send/${userId}/`);
     return data;
   } catch (err) {
     if (err instanceof AxiosError) {
@@ -108,7 +108,7 @@ export const searchProjects = createAsyncThunk(
   'participants/searchProjects',
   async (search: string, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get<{ id: number; label: string }[]>('search-projects', {
+      const { data } = await axios.get<{ id: number; label: string }[]>('user-project/search-projects', {
         params: { query: search },
       });
       return data;
@@ -124,7 +124,7 @@ export const searchParticipants = createAsyncThunk(
   'participants/searchParticipants',
   async (search: string, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get<ParticipantsResponseTypes>('search-user', {
+      const { data } = await axios.get<ParticipantsResponseTypes>('user-project/search-user', {
         params: { query: search },
       });
       return data;

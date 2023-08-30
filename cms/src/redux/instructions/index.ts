@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:8000';
+axios.defaults.baseURL = 'http://localhost:8000/';
 
 const initialState: InstructionsStateType = {
   specialities: null,
@@ -12,9 +12,9 @@ const initialState: InstructionsStateType = {
 };
 
 export const getInstructions = createAsyncThunk('instructions/getInstructions', async () => {
-  const specialities = await axios.get<IdNameType[]>('speciality-list/');
-  const participation_types = await axios.get<IdNameType[]>('types-participant-list/');
-  const project_types = await axios.get<{ project_type: string }[]>('types-project-list/');
+  const specialities = await axios.get<IdNameType[]>('user-project/speciality-list/');
+  const participation_types = await axios.get<IdNameType[]>('user-project/types-participant-list/');
+  const project_types = await axios.get<{ project_type: string }[]>('user-project/types-project-list/');
   const returnValue = {
     specialities: specialities.data,
     participation_types: participation_types.data,

@@ -123,6 +123,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                           {commonVariants.complexity.map((complexity) => (
                             <>
                               <IconSprite
+                                key={complexity}
                                 icon={
                                   complexity <= Number.parseInt((item as ProjectData).complexity.complexity)
                                     ? 'complexityActive'

@@ -22,7 +22,7 @@ export default function ParticipantsPage() {
 
   const throttledSearch = throttle(
     () => {
-      if (query.length > 2 || list.length === 0) {
+      if (query.length > 2 || list?.length === 0) {
         dispatch(searchParticipants(query));
       }
     },
