@@ -1,8 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:8000/user-project/';
-axios.defaults.headers.Authorization = 'Token 6f5075a85b6fdd7db4bf48cb6eec40f9e2d52ec1';
+axios.defaults.baseURL = 'http://localhost:8000';
 
 import { FormDataTypes, InstructionsTypes, manageFormFields } from '../../helpers/manageParticipantFormValues';
 import { IdNameType } from '../instructions';
