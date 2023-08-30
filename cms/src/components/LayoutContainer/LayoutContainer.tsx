@@ -4,6 +4,8 @@ import React, { ReactNode } from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
+import { breakpointDesktop } from '../../styles/vars';
+
 export function LayoutContainer({ children }: { children: ReactNode }) {
   return (
     <div
@@ -12,6 +14,10 @@ export function LayoutContainer({ children }: { children: ReactNode }) {
         min-height: 100vh;
         margin: 0 auto;
         padding: 0 32px;
+        padding-bottom: 48px;
+        @media screen and (${breakpointDesktop}) {
+          padding-bottom: 60px;
+        }
       `}
     >
       {children}
