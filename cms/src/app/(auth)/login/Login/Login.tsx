@@ -10,9 +10,11 @@ import { useRouter } from 'next/navigation';
 import { Button } from '~/src/components/Button/Button';
 import { Input } from '~/src/components/Input/Input';
 import { Title } from '~/src/components/Title/Title';
+import { loginByToken } from '~/src/redux/auth/loginSlice';
+import { getInstructions } from '~/src/redux/instructions';
 import { AppDispatch } from '~/src/redux/store/store';
 
-import { getToken } from '../../../../redux/slices/auth/selectors';
+import { getToken } from '../../../../redux/auth/selectors';
 import { logIn } from '../../authOperations/operations';
 import { CheckBox } from '../../components/Checkbox/Checkbox';
 // import { CheckboxComponent } from '../../components/CheckboxComponent/CheckboxComponent';
@@ -30,10 +32,18 @@ export function LoginForm() {
   const router = useRouter();
 
   const token = useSelector(getToken);
-  console.log(token);
+  // console.log(token);
 
   useEffect(() => {
-    token && router.push('/projects');
+    console.log('Є токен? ', token);
+    if (!token) {
+      const savedToken = localStorage.getItem('token');
+      savedToken && dispatch(loginByToken(savedToken));
+    } else {
+      dispatch(getInstructions());
+      router.back();
+    }
+    // else router.replace('/projects');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
@@ -42,8 +52,13 @@ export function LoginForm() {
   const handleSubmitForm = () => {
     const { email, password } = getValues();
     const data = { email, password };
-    console.log(data, checkboxRef.current?.checked);
-    dispatch(logIn(data));
+    dispatch(logIn(data)).then((response) => {
+      if (response.meta.requestStatus === 'fulfilled' && checkboxRef.current?.checked) {
+        // router.replace('/projects');
+        localStorage.setItem('token', response.payload.token);
+        router.replace('/projects');
+      }
+    });
   };
 
   const onClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -71,7 +86,6 @@ export function LoginForm() {
               pattern: patternsCheck.login,
             },
           }}
-          clearErrors={clearErrors}
           label={labelsTitle.login}
           pattern={patternsCheck.login.source}
           minLength={6}

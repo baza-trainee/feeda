@@ -1,15 +1,17 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { getInstructions } from '../redux/instructions';
-import { AppDispatch } from '../redux/store/store';
+import { useRouter } from 'next/navigation';
 
 export function ApiFetchComp() {
-  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
+  const { isLogged } = useSelector(({ auth }) => auth);
+
   useEffect(() => {
-    dispatch(getInstructions());
+    if (!isLogged) router.push('/login');
+    // else dispatch(getInstructions());
     // eslint-disable-next-line
   }, []);
   return <></>;
