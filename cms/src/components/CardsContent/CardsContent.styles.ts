@@ -73,28 +73,20 @@ export const SecondBlockWrapper = styled.div<{ type: 'participants' | 'projects'
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    -webkit-line-clamp: 1;
-    line-height: calc(30 / 24);
+    -webkit-line-clamp: ${({ type }) => (type === 'participants' ? 1 : 2)};
+    text-overflow: ellipsis;
+    word-wrap: break-word;
     font-weight: 600;
-    font-size: ${({ type }) => (type === 'participants' ? '24px' : '22px')};
-    color: ${colors.mainText};
-  }
-  & > h2 + h2 {
-    margin-bottom: 8px;
-  }
-
-  & > h2#project-name {
     font-size: 16px;
-    line-height: normal;
-    @media screen and (${media.tablet}) {
-      font-size: 14px;
-      font-weight: 500;
-      line-height: calc(20 / 14);
-    }
-    @media screen and (${media.desktop}) {
-      font-size: 16px;
-      font-weight: 600;
-      line-height: normal;
+    color: ${colors.mainText};
+    margin-bottom: 8px;
+
+    @media screen and (${media.tablet}) and (max-width: ${breakpointDesktop}px) {
+      ${({ type }) =>
+        type === 'projects' &&
+        'font-size: 14px;\
+        font-weight: 500;\
+        '}
     }
   }
 
@@ -109,7 +101,11 @@ export const SecondBlockWrapper = styled.div<{ type: 'participants' | 'projects'
   }
 `;
 
-export const ThirdBlockWrapper = styled.div``;
+export const ThirdBlockWrapper = styled.div`
+  & > div.complexity-wrapper {
+    margin-bottom: 8px;
+  }
+`;
 
 export const ThirdBlockElementsWrapper = styled.div`
   display: flex;
@@ -119,15 +115,13 @@ export const ThirdBlockElementsWrapper = styled.div`
   font-weight: 400;
   line-height: calc(24 / 16);
   color: ${colors.mainText};
-  margin-bottom: 8px;
-  &:last-child {
-    margin-bottom: 0;
-  }
+
   & > p#name {
     margin-right: auto;
   }
   & > p#value {
     font-weight: 500;
+    line-height: calc(20 / 16);
   }
 
   & > div#icon-wrapper {
@@ -137,16 +131,6 @@ export const ThirdBlockElementsWrapper = styled.div`
     padding: 8px;
     border-radius: 4px;
     background: #fcfcfc;
-  }
-
-  & > div.participantIconWrapper {
-    & > svg {
-      width: 24px;
-      height: 24px;
-    }
-  }
-
-  & > div.projectIconWrapper {
     & > svg {
       width: 8px;
       height: 8px;
@@ -155,17 +139,12 @@ export const ThirdBlockElementsWrapper = styled.div`
 
   & > div#complexity {
     display: flex;
-    & > div#complexity-icon {
-      display: flex;
+    & > svg {
+      width: 16px;
+      height: 16px;
       margin-right: 8px;
-
-      &:last-child {
+      &:last-of-type {
         margin-right: 0;
-      }
-
-      & > svg {
-        width: 16px;
-        height: 16px;
       }
     }
   }

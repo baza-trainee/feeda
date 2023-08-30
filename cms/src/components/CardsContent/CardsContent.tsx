@@ -75,15 +75,14 @@ export function CardsContent({ type, data }: CardsContentType) {
                 <SecondBlockWrapper type={type}>
                   {type === 'participants' ? (
                     <>
-                      <h2 title={(item as ParticipantData).last_name}>{(item as ParticipantData).last_name}</h2>
-                      <h2 title={(item as ParticipantData).first_name}>{(item as ParticipantData).first_name}</h2>
+                      <h2 title={`${(item as ParticipantData).last_name} ${(item as ParticipantData).first_name}`}>
+                        {(item as ParticipantData).last_name} {(item as ParticipantData).first_name}
+                      </h2>
                       <p title={(item as ParticipantData).stack}>{(item as ParticipantData).stack || 'None'}</p>
                     </>
                   ) : (
                     <>
-                      <h2 id="project-name" title={(item as ProjectData).title}>
-                        {(item as ProjectData).title}
-                      </h2>
+                      <h2 title={(item as ProjectData).title}>{(item as ProjectData).title}</h2>
                       <p title={(item as ProjectData).participants_count}>
                         {(item as ProjectData).participants_count}{' '}
                         {projectParticipantsEnding(Number((item as ProjectData).participants_count))}
@@ -104,7 +103,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                       </ThirdBlockElementsWrapper>
                       <ThirdBlockElementsWrapper>
                         <p id="name">Роль</p>
-                        <div id="icon-wrapper" className="participantIconWrapper">
+                        <div id="icon-wrapper">
                           <IconSprite
                             icon={
                               commonVariants.role.find(
@@ -113,16 +112,16 @@ export function CardsContent({ type, data }: CardsContentType) {
                             }
                           />
                         </div>
-                        <p id="value">{(item as ParticipantData).speciality?.title}</p>
+                        <p id="value">{(item as ParticipantData).speciality?.title || 'None'}</p>
                       </ThirdBlockElementsWrapper>
                     </>
                   ) : (
                     <>
-                      <ThirdBlockElementsWrapper>
+                      <ThirdBlockElementsWrapper className="complexity-wrapper">
                         <p id="name">Складість</p>
                         <div id="complexity">
-                          {commonVariants.complexity.map((complexity, idx) => (
-                            <div id="complexity-icon" key={idx}>
+                          {commonVariants.complexity.map((complexity) => (
+                            <>
                               <IconSprite
                                 icon={
                                   complexity <= Number.parseInt((item as ProjectData).complexity.complexity)
@@ -130,13 +129,13 @@ export function CardsContent({ type, data }: CardsContentType) {
                                     : 'complexityInactive'
                                 }
                               />
-                            </div>
+                            </>
                           ))}
                         </div>
                       </ThirdBlockElementsWrapper>
                       <ThirdBlockElementsWrapper>
                         <p id="name">Стан</p>
-                        <div id="icon-wrapper" className="projectIconWrapper">
+                        <div id="icon-wrapper">
                           <IconSprite
                             icon={
                               commonVariants.status.find(
