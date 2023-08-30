@@ -37,5 +37,4 @@ const resetPasswordSlice = createSlice({
   },
 });
 
-
 export default resetPasswordSlice.reducer;
