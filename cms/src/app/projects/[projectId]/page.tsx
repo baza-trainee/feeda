@@ -7,7 +7,6 @@ import { MemberType, ProjectTeamForm } from '~/src/components/ProjectTeamForm/Pr
 import { NavContainer, ProjectContainer } from './styles';
 import { FieldValues, useForm } from 'react-hook-form';
 import { OptionType } from '~/src/components/SelectField/SelectField';
-import { MemberRole, ProjectState } from '~/src/components/SelectField/lists';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '~/src/redux/store/store';
 import { fetchTeam } from '~/src/redux/projects/actions';
@@ -31,51 +30,6 @@ type ProjectPageProps = {
   };
 };
 
-const tempInitialState = {
-  title: '',
-  comment: '',
-  complixity: null,
-  project_status: {
-    value: 'ended',
-    label: <ProjectState type="orange" title="Завершено" />,
-  },
-  type_project: null,
-  start_date_project: '',
-  end_date_project: '',
-  address_site: '',
-  user: [
-    {
-      name: 'John Smith',
-      membersRole: {
-        value: 'front',
-        label: <MemberRole type="orange" title="Front" />,
-      },
-      comment: 'Some comments',
-      id: 'f7d31f25-36d2-4ab9-98ed-1aa8aa5e29c6',
-    },
-    {
-      name: 'Bill Gates',
-      membersRole: {
-        value: 'front',
-        label: <MemberRole type="orange" title="Front" />,
-      },
-      comment: 'Some comments',
-      id: 'e81be77f-ec88-4e94-9ab5-236ac428d15b',
-    },
-  ],
-  team_lead: [
-    {
-      name: 'Bill Gates',
-      membersRole: {
-        value: 'front',
-        label: <MemberRole type="orange" title="Front" />,
-      },
-      comment: 'Some comments',
-      id: 'f7d31f25-36d2-4ab9-98ed-1aa8aa5e29c6',
-    },
-  ],
-};
-
 export default function ProjectPage({ params }: ProjectPageProps) {
   const dispatch = useDispatch<AppDispatch>();
   const { currentTeam } = useSelector((state: RootState) => state.projects);
@@ -86,17 +40,15 @@ export default function ProjectPage({ params }: ProjectPageProps) {
 
   useEffect(() => {
     const projectId = params.projectId;
-    console.log(projectId);
     if (projectId !== 'add') {
+      console.log(projectId);
       dispatch(fetchTeam(projectId));
     }
-
-    console.log(currentTeam);
   }, []);
 
   React.useEffect(() => {
     if (currentTeam) {
-      console.log('reset');
+      console.log(currentTeam);
       reset(currentTeam);
     }
   }, [currentTeam, reset]);

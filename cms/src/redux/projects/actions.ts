@@ -3,8 +3,9 @@ import axios from 'axios';
 import { format } from 'date-fns';
 
 import { ActionType } from './common';
-import { FormData } from '../../app/projects/[projectId]/page';
-import { getComplixity, getProjectStatus, getProjectType, getRole } from '~/src/components/SelectField/lists';
+import { FieldValues } from 'react-hook-form';
+import { getInstructions } from '../instructions';
+import { RootState } from '../store/store';
 
 const AuthToken = '624e3e488cdc0f0c0f57a197c05068b4b5c2cfd5';
 
@@ -28,7 +29,7 @@ const deleteProject = createAsyncThunk(ActionType.DELETE_PROJECT, async (title: 
   return data;
 });
 
-const addProject = createAsyncThunk(ActionType.ADD_PROJECT, async (formData: FormData) => {
+const addProject = createAsyncThunk(ActionType.ADD_PROJECT, async (formData: FieldValues) => {
   const projectData: ProjectDataParams = {
     title: formData.title,
     comment: formData.comment,
@@ -64,7 +65,10 @@ const addProject = createAsyncThunk(ActionType.ADD_PROJECT, async (formData: For
   return combinedData;
 });
 
-const fetchTeam = createAsyncThunk(ActionType.GET_TEAM, async (title: string) => {
+const fetchTeam = createAsyncThunk(ActionType.GET_TEAM, async (title: string, thunkAPI) => {
+  await thunkAPI.dispatch(getInstructions());
+  const { instructions } = (await thunkAPI.getState()) as RootState;
+
   const { data } = await axios.get<{ team_lead: string; project: ProjectDataParams; user: userDataParams[] }>(
     `http://localhost:8000/user-project/command-project-detail/${title}/`,
     {
@@ -73,29 +77,34 @@ const fetchTeam = createAsyncThunk(ActionType.GET_TEAM, async (title: string) =>
       },
     }
   );
-  console.log(data);
+
+  let currentStatus: { id: number; status: string } | undefined;
+  let currentType: { id: number; project_type: string } | undefined;
+
+  if (instructions.project_status) {
+    currentStatus = instructions.project_status.find((item) => item.id === data.project.project_status);
+  }
+
+  if (instructions.project_types) {
+    currentType = instructions.project_types.find((item) => item.id === data.project.type_project);
+  }
+
   const { project, user, team_lead } = data;
 
-  const currentTeam: FormData = {
+  const currentTeam = {
     title: project.title,
     comment: project.comment,
-    complixity: getComplixity(project.complexity),
-    project_status: getProjectStatus('developing'),
-    type_project: getProjectType('paid'),
-    start_date_project: new Date(project.start_date_project),
-    end_date_project: project.end_date_project ? new Date(project.end_date_project) : null,
-    address_site: project.address_site || null,
-    user: user.map((user) => ({
-      id: user.id,
-      first_name: user.first_name,
-      membersRole: getRole('front'),
-    })),
-    team_lead: null,
+    complexity: project.complexity,
+    project_status: currentStatus?.status || '',
+    type_project: currentType?.project_type || '',
+    address_site: project.address_site || '',
+    start_date_project: project.start_date_project || '2023-01-01',
+    end_date_project: project.end_date_project || '2023-01-01',
+    team_lead: team_lead || '',
+    user,
   };
 
-  console.log(currentTeam);
-
-  return currentTeam; /// TEMP PAGINATION
+  return currentTeam;
 });
 
 export interface ProjectDataParams {

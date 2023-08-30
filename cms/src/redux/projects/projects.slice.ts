@@ -15,39 +15,29 @@ const { reducer, actions, name } = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchProjects.pending, (state) => {
-      state.loading = 'loading';
       console.log(state.loading);
     });
     builder.addCase(fetchProjects.fulfilled, (state, { payload }) => {
       state.projects = payload;
-      state.loading = 'success';
       console.log(state.loading);
       console.log('Fetching participants');
     });
     builder.addCase(fetchTeam.pending, (state) => {
       state.loading = 'loading';
-      console.log(state.loading);
     });
     builder.addCase(fetchTeam.fulfilled, (state, { payload }) => {
       state.currentTeam = payload;
-      console.log(payload);
-      state.loading = 'success';
-      console.log(state.loading);
     });
     builder.addCase(deleteProject.pending, (state) => {
-      state.loading = 'loading';
       console.log(state.loading);
     });
     builder.addCase(deleteProject.fulfilled, (state) => {
-      state.loading = 'success';
       console.log(state.loading);
     });
     builder.addCase(addProject.pending, (state) => {
-      state.loading = 'loading';
       console.log(state.loading);
     });
     builder.addCase(addProject.fulfilled, (state, { payload }) => {
-      state.loading = 'success';
       console.log(payload);
       console.log(state.loading, payload);
     });

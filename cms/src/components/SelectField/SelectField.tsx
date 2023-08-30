@@ -22,6 +22,7 @@ interface SelectFieldProps {
   clearErrors: (name?: string | string[]) => void;
   title: string;
   isDisabled?: boolean;
+  valueGetter?: (value: string) => OptionType | undefined | string;
 }
 
 export const SelectField = ({
@@ -33,6 +34,7 @@ export const SelectField = ({
   clearErrors,
   title,
   isDisabled = false,
+  valueGetter,
 }: SelectFieldProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -46,6 +48,8 @@ export const SelectField = ({
           clearErrors(name);
         };
 
+        const computedValue = typeof valueGetter === 'function' ? valueGetter(value) : value;
+
         return (
           <div style={{ position: 'relative' }} id="input-wrapper">
             <Label>
@@ -58,10 +62,11 @@ export const SelectField = ({
                 styles={selectStyles(!!error, isDropdownOpen, isDisabled)}
                 placeholder={placeholder}
                 options={options}
-                value={value}
-                onChange={(selectedOption) => {
+                value={computedValue}
+                onChange={(selectedOption: OptionType) => {
+                  console.log('selectedOption', selectedOption);
                   setIsDropdownOpen(false);
-                  onChange(selectedOption);
+                  onChange(selectedOption.value);
                   handleSelectChange();
                 }}
                 onMenuOpen={() => setIsDropdownOpen(true)}
@@ -109,7 +114,7 @@ export const AsyncField = ({
       name={name}
       rules={rules}
       render={({ field: { onChange, value, onBlur }, fieldState: { error } }) => {
-        const handleSelectChange = (selectedOption) => {
+        const handleSelectChange = (selectedOption: OptionType) => {
           clearErrors(name);
           setIsDropdownOpen(false);
           onChange(selectedOption);

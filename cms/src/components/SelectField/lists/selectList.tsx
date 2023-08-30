@@ -19,15 +19,15 @@ export interface ListProps {
 
 export const projectStatus: ListProps[] = [
   {
-    value: 'team_formation',
+    value: 'Формування команди',
     label: <ProjectState type="green" title="Формування команди" />,
   },
   {
-    value: 'developing',
+    value: 'В розробці',
     label: <ProjectState type="yellow" title="В розробці" />,
   },
   {
-    value: 'ended',
+    value: '"Завершено"',
     label: <ProjectState type="orange" title="Завершено" />,
   },
 ];
@@ -92,8 +92,8 @@ export const projectType: ListProps[] = [
     label: <ProjectType title="Безкоштовний" />,
   },
   {
-    value: 'Платний',
-    label: <ProjectType title="Платний" />,
+    value: 'Комерційний',
+    label: <ProjectType title="Комерційний" />,
   },
   {
     value: 'Буткамп',

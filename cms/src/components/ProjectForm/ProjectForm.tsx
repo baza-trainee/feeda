@@ -3,7 +3,14 @@ import { Control, UseFormHandleSubmit, UseFormGetValues, FieldValues, SubmitHand
 import { Input } from '../Input/Input';
 import { SelectField } from '../SelectField/SelectField';
 import { FormControllers, FormWrapper, InputsWrapper } from './ProjectForm.styles';
-import { projectDifficulty, projectStatus, projectType } from '../SelectField/lists';
+import {
+  getComplixity,
+  getProjectStatus,
+  getProjectType,
+  projectDifficulty,
+  projectStatus,
+  projectType,
+} from '../SelectField/lists';
 import { Button } from '../Button/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '~/src/redux/store/store';
@@ -33,7 +40,6 @@ export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormP
       <InputsWrapper>
         <Input
           control={control}
-          clearErrors={clearErrors}
           name="title"
           label="Назва"
           placeholder="Назва"
@@ -41,22 +47,16 @@ export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormP
           required={true}
           rules={{ required: 'це поле є обовязковим' }}
         />
-        <Input
-          control={control}
-          clearErrors={clearErrors}
-          name="comment"
-          label="Коментар"
-          placeholder="Введіть текст"
-          maxLength={50}
-        />
+        <Input control={control} name="comment" label="Коментар" placeholder="Введіть текст" maxLength={50} />
         <SelectField
           control={control}
           clearErrors={clearErrors}
-          name="complixity"
+          name="complexity"
           placeholder="Введіть текст"
           options={projectDifficulty}
           title="Складність"
           rules={{ required: 'це поле є обовязковим' }}
+          valueGetter={(value) => getComplixity(value)}
         />
         <SelectField
           control={control}
@@ -66,6 +66,7 @@ export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormP
           options={projectStatus}
           title="Стан проекту"
           rules={{ required: 'це поле є обовязковим' }}
+          valueGetter={(value) => getProjectStatus(value)}
         />
         <SelectField
           control={control}
@@ -75,25 +76,12 @@ export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormP
           options={projectType}
           title="Тип проекту"
           rules={{ required: 'це поле є обовязковим' }}
+          valueGetter={(value) => getProjectType(value)}
         />
+        <Input control={control} name="start_date_project" label="Старт проету" type="date" />
+        <Input control={control} name="end_date_project" label="Завершення проету" type="date" />
         <Input
           control={control}
-          clearErrors={clearErrors}
-          name="start_date_project"
-          label="Старт проету"
-          rules={{ required: 'це поле є обовязковим' }}
-          type="date"
-        />
-        <Input
-          control={control}
-          clearErrors={clearErrors}
-          name="end_date_project"
-          label="Завершення проету"
-          type="date"
-        />
-        <Input
-          control={control}
-          clearErrors={clearErrors}
           name="address_site"
           label="Адреса сайту"
           placeholder="https://example.con"
