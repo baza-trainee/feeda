@@ -38,25 +38,21 @@ export default function ParticipantsPage() {
     // eslint-disable-next-line
   }, [query]);
 
-  return token ? (
-    isLoading ? (
-      <Loader />
-    ) : error ? (
-      <Title title={typeof error == 'string' ? error : 'Error'} />
-    ) : (
-      <Wrapper>
-        <Link href="participants/create">
-          <IconSprite icon="plus" />
-          Додати учасника
-        </Link>
-        {query.length && !list?.length ? (
-          <Title title="Нічого не знайдено" />
-        ) : (
-          <CardsContent type="participants" data={list} />
-        )}
-      </Wrapper>
-    )
+  return isLoading ? (
+    <Loader />
+  ) : error ? (
+    <Title title={typeof error == 'string' ? error : 'Error'} />
   ) : (
-    <></>
+    <Wrapper>
+      <Link href="participants/create">
+        <IconSprite icon="plus" />
+        Додати учасника
+      </Link>
+      {query.length && !list?.length ? (
+        <Title title="Нічого не знайдено" />
+      ) : (
+        <CardsContent type="participants" data={list} />
+      )}
+    </Wrapper>
   );
 }
