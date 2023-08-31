@@ -97,7 +97,12 @@ export function Input({
                     {label}
                   </LabelComp>
                 )}
-                <InputWrapper checkIsValid={Boolean(pattern && inputValue?.length)} isError={Boolean(error)}>
+                <InputWrapper
+                  checkIsValid={Boolean(pattern && inputValue?.length)}
+                  begIcon={Boolean(begIconId)}
+                  endIcon={Boolean(endIconId)}
+                  isError={Boolean(error)}
+                >
                   {begIconId && (
                     <InputIconWrapper css={firstIconStyles} isDisabled={disabled}>
                       <IconSprite icon={begIconId} />

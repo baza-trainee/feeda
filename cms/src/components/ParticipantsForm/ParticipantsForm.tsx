@@ -189,7 +189,7 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             name="account_linkedin"
             label="LinkedIn *"
             placeholder="www.linkedin.com/in/"
-            type="url"
+            type="text"
             rules={{ required: "Це поле обов'язкове до заповнення!" }}
             minLength={19}
             maxLength={128}
