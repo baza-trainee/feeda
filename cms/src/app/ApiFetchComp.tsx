@@ -10,9 +10,20 @@ export function ApiFetchComp() {
   const { isLogged } = useSelector(({ auth }) => auth);
 
   useEffect(() => {
-    if (!isLogged) router.push('/login');
-    // else dispatch(getInstructions());
-    // eslint-disable-next-line
-  }, []);
+    const savedToken = localStorage.getItem('token');
+    if (!token && !savedToken && !path.includes('/login')) {
+      router.push('/login');
+    } else if (!token && savedToken) {
+      dispatch(loginByToken(savedToken));
+      path !== '/login' ? router.push(path) : router.push('projects');
+    } else if (token && !savedToken) {
+      dispatch(getInstructions());
+      if (remember) {
+        localStorage.setItem('token', token);
+      }
+      router.push('/projects');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
   return <></>;
 }
