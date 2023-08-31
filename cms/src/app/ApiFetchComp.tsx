@@ -1,13 +1,19 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+
+import { loginByToken } from '../redux/auth/loginSlice';
+import { getInstructions } from '../redux/instructions';
+import { AppDispatch } from '../redux/store/store';
 
 export function ApiFetchComp() {
+  const dispatch = useDispatch<AppDispatch>();
+  const path = usePathname();
   const router = useRouter();
-  const { isLogged } = useSelector(({ auth }) => auth);
+  const { token, remember } = useSelector(({ auth }) => auth);
 
   useEffect(() => {
     const savedToken = localStorage.getItem('token');
