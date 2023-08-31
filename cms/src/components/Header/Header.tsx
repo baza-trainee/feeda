@@ -79,7 +79,7 @@ export function Header() {
     <Wrapper>
       <DesktopContent>
         <Logo>
-          <Link href="/">
+          <Link href="/projects">
             Feeda
             {pathname !== '/participants' && pathname !== '/projects' && (
               <Button variant="goBack" icon="arrowLeft" func={goBackHandler} />

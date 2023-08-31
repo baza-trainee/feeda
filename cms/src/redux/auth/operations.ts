@@ -27,11 +27,32 @@ export interface userForm {
   password: string;
 }
 
-export const resetPassword = createAsyncThunk('auth/reset-password-email', async (email: string, thunkAPI) => {
+export const resetPassword = createAsyncThunk('auth/resetPassword', async (email: string, thunkAPI) => {
   try {
-    const result = axios.post('/reset-password-email/', email);
-    return result;
+    await axios.post('/users/reset-password-email/', email);
   } catch (error) {
-    return thunkAPI.rejectWithValue('Failed to send reset link.');
+    if (error instanceof AxiosError) {
+      return thunkAPI.rejectWithValue(error.message);
+    } else throw Error;
   }
 });
+
+export const setNewPassword = createAsyncThunk('auth/setNewPassword', async (credentials: changeForm, thunkAPI) => {
+  try {
+    await axios.patch('/users/password-reset-complete/', credentials);
+    // const res = await axios.post('/users/password-reset-complete/', credentials);
+    // console.log(res.data);
+    // return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return thunkAPI.rejectWithValue(error.message);
+    } else throw Error;
+  }
+});
+
+export interface changeForm {
+  confirm_password: string;
+  password: string;
+  token: string;
+  uidb64: string;
+}

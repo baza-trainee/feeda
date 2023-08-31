@@ -2,24 +2,22 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { resetPassword } from './operations';
 
-interface ResetPasswordState {
+export interface ResetPasswordTypes {
   emailSent: boolean;
   resetInProgress: boolean;
   resetError: string | null;
 }
 
-const initialState: ResetPasswordState = {
+const initialState: ResetPasswordTypes = {
   emailSent: false,
   resetInProgress: false,
   resetError: null,
 };
 
 const resetPasswordSlice = createSlice({
-  name: 'resetPassword',
+  name: 'reset',
   initialState,
-  reducers: {
-    // ... інші редуктори
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(resetPassword.pending, (state) => {
@@ -37,4 +35,4 @@ const resetPasswordSlice = createSlice({
   },
 });
 
-export default resetPasswordSlice.reducer;
+export const resetPasswordSliceReducer = resetPasswordSlice.reducer;

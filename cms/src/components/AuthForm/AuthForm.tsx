@@ -11,7 +11,7 @@ import { Title } from '~/src/components/Title/Title';
 import { AppDispatch } from '~/src/redux/store/store';
 
 import { btnText, formTitle, inputPlaceholderText, labelsTitle, patternsCheck } from '../../app/(auth)/consts';
-import { logIn } from '../../redux/auth/operations';
+import { logIn, resetPassword, setNewPassword } from '../../redux/auth/operations';
 import { ContainerCss, FormCss, newPassContainerCss, SubtitleCss, TitleCss } from './AuthForm.styles';
 import { CheckBox } from './Checkbox/Checkbox';
 import { ForgotPassword } from './ForgotPassword/ForgotPassword';
@@ -30,10 +30,35 @@ export function AuthForm({ newPass, recover }: AuthFormTypes) {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleSubmitForm = () => {
+  const signIn = () => {
     const { email, password } = getValues();
     const data = { email, password };
     dispatch(logIn({ credentials: data, remember: checkboxRef.current?.checked || false }));
+  };
+
+  const recoverPass = () => {
+    const { email } = getValues();
+    dispatch(resetPassword(email));
+  };
+
+  const setNewPass = () => {
+    const { newPassword, repeatNewPassword } = getValues();
+    dispatch(
+      setNewPassword({
+        password: newPassword,
+        confirm_password: repeatNewPassword,
+        token: 'string',
+        uidb64: 'string',
+      })
+    );
+  };
+
+  const handleSubmitForm = () => {
+    if (recover) {
+      recoverPass();
+    } else if (newPass) {
+      setNewPass();
+    } else signIn();
   };
 
   const onClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -64,21 +89,21 @@ export function AuthForm({ newPass, recover }: AuthFormTypes) {
           name={newPass ? 'newPassword' : 'email'}
           id={newPass ? 'newPassword' : 'login'}
           control={control}
-          rules={
-            !newPass && {
+          label={recover ? labelsTitle.mail : newPass ? labelsTitle.newPassword : labelsTitle.login}
+          pattern={newPass ? patternsCheck.password.source : patternsCheck.login.source}
+          minLength={newPass ? 8 : 6}
+          maxLength={newPass ? 12 : 70}
+          {...(!newPass && {
+            rules: {
               login: {
                 required: true,
                 minLength: 6,
                 maxLength: 70,
                 pattern: patternsCheck.login,
               },
-            }
-          }
-          label={recover ? labelsTitle.mail : newPass ? labelsTitle.newPassword : labelsTitle.login}
-          pattern={newPass ? patternsCheck.password.source : patternsCheck.login.source}
-          minLength={newPass ? 8 : 6}
-          maxLength={newPass ? 12 : 70}
-          {...(!newPass && { supportLabel: 'Неправильний логін' })}
+            },
+            supportLabel: 'Неправильний логін',
+          })}
         />
         {!recover && (
           <Input
