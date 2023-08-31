@@ -87,15 +87,14 @@ export const participantsSlice = createSlice({
       state.error = null;
     });
     builder.addCase(getParticipant.fulfilled, (state, { payload }) => {
-      const output: Record<string, { id: number; label: string }> = {};
-      payload.project.forEach((item, index) => {
-        const newKey = `project_${index}`;
-        output[newKey] = {
-          id: item.id,
-          label: item.title,
-        };
+      payload.project.forEach((item) => {
+        item.label = item.title;
+        item.projectId = item.id;
+        for (const key in item) {
+          if (key !== 'label' && key !== 'projectId')
+            delete (item as ParticipantData['project'][0])[key as keyof ParticipantData['project'][0]];
+        }
       });
-      payload.project = output;
       state.participant = payload;
       state.isLoading = false;
     });

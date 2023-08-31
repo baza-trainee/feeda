@@ -1,11 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
-import throttle from 'lodash.throttle';
 import Link from 'next/link';
+import { uid } from 'uid';
 
 import { FormDataTypes } from '../../helpers/manageParticipantFormValues';
 import { cityRegex, discordRegex, emailRegex, linkedRegex, nameRegex, phoneNumberRegex } from '../../helpers/regexs';
@@ -25,10 +24,7 @@ type Props = {
 
 export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Props) {
   const dispatch = useDispatch<AppDispatch>();
-  const [projectsAmount, setProjectsAmount] = useState(
-    (defaultValues && Object.keys(defaultValues.project).length) || 0
-  );
-  const { control, unregister, handleSubmit, clearErrors } = useForm(
+  const { control, handleSubmit, clearErrors, unregister } = useForm(
     defaultValues
       ? {
           defaultValues: {
@@ -41,7 +37,7 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
               label: projectType.find((item) => item.value === defaultValues.type_participant.title)?.label,
             },
             experience: experienceVariants.find((item) => item.value === (defaultValues.experience ? 'Так' : 'Ні')),
-            ...defaultValues.project,
+            projectsArr: defaultValues.project,
           },
         }
       : {
@@ -50,19 +46,14 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
           },
         }
   );
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'projectsArr',
+  });
 
-  const projectsSearcher = throttle(
-    async (value: string) => {
-      return dispatch(searchProjects(value)).then((response) => {
-        for (const item of response.payload as { id: number; title: string; label: string }[]) {
-          item.label = item.title;
-          return response.payload;
-        }
-      });
-    },
-    400,
-    { trailing: true, leading: false }
-  );
+  const projectsSearcher = async (value: string) => {
+    return (await dispatch(searchProjects(value))).payload;
+  };
 
   return (
     <Form onSubmit={handleSubmit(submitFunc)}>
@@ -235,35 +226,37 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             title="Додати проєкт"
             icon="plus"
             isDisabled={formVariant === 'view'}
-            func={() => setProjectsAmount(projectsAmount + 1)}
+            func={() => append({ id: uid() })}
           />
         </div>
-
-        {Array.from({ length: projectsAmount }, (_, index) => (
-          <div id="project-wrapper" key={index}>
-            <AsyncField
-              name={`project_${index}`}
-              title="Проєкт *"
-              control={control}
-              rules={{ required: "Поле обов'язкове до заповнення!" }}
-              options={projectsSearcher}
-              placeholder="Назва"
-              clearErrors={clearErrors}
-            />
-            <Button
-              btnType="button"
-              variant="icon"
-              icon="trash"
-              isDisabled={formVariant === 'view'}
-              func={() => {
-                setProjectsAmount(projectsAmount - 1);
-                unregister(`project_${index}`);
-              }}
-            />
-          </div>
-        ))}
+        {fields.map((field, idx) => {
+          return (
+            <div id="project-wrapper" key={field.id}>
+              <AsyncField
+                name={`project_${field.id}`}
+                defaultValue={{ id: field.projectId, label: field.label }}
+                title="Проєкт *"
+                control={control}
+                options={projectsSearcher}
+                placeholder="Назва"
+                clearErrors={clearErrors}
+                // isDisabled={formVariant === 'view'}
+                rules={{ required: "Поле обов'язкове до заповнення!" }}
+              />
+              <Button
+                btnType="button"
+                variant="icon"
+                icon="trash"
+                isDisabled={formVariant === 'view'}
+                func={() => {
+                  remove(idx);
+                  unregister(`project_${field.id}`);
+                }}
+              />
+            </div>
+          );
+        })}
       </div>
-
       <div id="buttons-wrapper">
         {formVariant === 'view' ? (
           <Link href={`/participants/edit/${defaultValues?.id}`}>Редагувати</Link>

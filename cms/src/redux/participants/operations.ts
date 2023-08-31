@@ -111,6 +111,9 @@ export const searchProjects = createAsyncThunk(
       const { data } = await axios.get<{ id: number; label: string }[]>('user-project/search-projects', {
         params: { query: search },
       });
+      for (const item of data as { id: number; title: string; label: string }[]) {
+        item.label = item.title;
+      }
       return data;
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -170,7 +173,7 @@ export interface ParticipantData {
   stack: string;
   processing_personal_data: boolean;
   speciality: { id: number; title: string };
-  project: { id: number; label: string; title: string }[];
+  project: { id: number; label: string; title: string; projectId: number }[];
   project_count: number;
   type_participant: { id: number; title: 'Безкоштовний' | 'Платний' | 'Буткамп' };
 }
