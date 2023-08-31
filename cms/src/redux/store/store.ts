@@ -1,17 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import { resetPasswordSliceReducer } from '~/src/app/(auth)/authOperations/resetPasswordSlice';
+import { changePasswordSliceReducer } from '~/src/app/(auth)/authOperations/setNewPassowrdSlice';
 import { authSliceReducer } from '~/src/redux/slices/auth/loginSlice';
 
-import instructionsReducer from '../slices/instructions';
-import participantsReducer from '../slices/participants';
-import { reducer as projectsReducer } from '../slices/projects/projects';
+// import instructionsReducer from '../slices/instructions';
+// import participantsReducer from '../slices/participants';
+// import { reducer as projectsReducer } from '../slices/projects/projects';
 
 export const store = configureStore({
   reducer: {
-    projects: projectsReducer,
-    participants: participantsReducer,
+    // projects: projectsReducer,
+    // participants: participantsReducer,
     auth: authSliceReducer,
-    instructions: instructionsReducer,
+    // instructions: instructionsReducer,
     resetPasswordSlice: resetPasswordSliceReducer,
     changePasswordSlice: changePasswordSliceReducer,
   },

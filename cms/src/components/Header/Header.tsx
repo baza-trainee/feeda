@@ -29,7 +29,7 @@ export function Header() {
   const searchParams = useSearchParams();
   const { control, clearErrors } = useForm();
   const [prevLocation, setPrevLocation] = useState('' as string);
-  const { participant, isLoading } = useSelector((store: StoreTypes) => store.participants);
+  // const { participant, isLoading } = useSelector((store: StoreTypes) => store.participants);
 
   const manageHeaderTitle = () => {
     if (pathname === '/participants') {

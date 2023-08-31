@@ -57,7 +57,8 @@ export function LoginForm() {
     <form onSubmit={handleSubmit(handleSubmitForm)} css={FormCss}>
       <Title css={TitleCss} title={formTitle.login} main />
       <div css={ContainerCss}>
-        <div css={InputCss}>
+        <div 
+        >
           <Input
             placeholder={inputPlaceholderText.login}
             type="text"
@@ -80,7 +81,7 @@ export function LoginForm() {
             supportLabel="Неправильний логін"
           />
         </div>
-        <div css={InputCss} onClick={onClickHandler}>
+        <div  onClick={onClickHandler}>
           <Input
             placeholder={inputPlaceholderText.password}
             type={typePasswordInput}
@@ -91,13 +92,13 @@ export function LoginForm() {
             label={labelsTitle.password}
             minLength={8}
             maxLength={12}
-            pattern={patternsCheck.password.source}
+            // pattern={patternsCheck.password.source}
             // endIconId={iconInputPassword}
             supportLabel="Неправильний пароль"
           />
         </div>
       </div>
-      <CheckboxComponent ref={checkboxRef} />
+      {/* <CheckboxComponent ref={checkboxRef} /> */}
       <ForgotPassword />
       <Button btnType="submit" title={btnText.login} variant="primary"></Button>
     </form>
