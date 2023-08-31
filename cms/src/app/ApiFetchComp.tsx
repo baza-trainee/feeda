@@ -1,18 +1,35 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+
+import { loginByToken } from '../redux/auth/loginSlice';
+import { getInstructions } from '../redux/instructions';
+import { AppDispatch } from '../redux/store/store';
 
 export function ApiFetchComp() {
+  const dispatch = useDispatch<AppDispatch>();
+  const path = usePathname();
   const router = useRouter();
-  const { isLogged } = useSelector(({ auth }) => auth);
+  const { token, remember } = useSelector(({ auth }) => auth);
 
   useEffect(() => {
-    if (!isLogged) router.push('/login');
-    // else dispatch(getInstructions());
-    // eslint-disable-next-line
-  }, []);
+    const savedToken = localStorage.getItem('token');
+    if (!token && !savedToken && !path.includes('/login')) {
+      router.push('/login');
+    } else if (!token && savedToken) {
+      dispatch(loginByToken(savedToken));
+      path !== '/login' ? router.push(path) : router.push('projects');
+    } else if (token) {
+      dispatch(getInstructions());
+      if (remember) {
+        localStorage.setItem('token', token);
+      }
+      router.push('/projects');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
   return <></>;
 }

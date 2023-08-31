@@ -27,9 +27,10 @@ export function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { control, clearErrors } = useForm();
+  const { control } = useForm();
   const [prevLocation, setPrevLocation] = useState('' as string);
   const { participant, isLoading } = useSelector((store: StoreTypes) => store.participants);
+  const { token } = useSelector((state: StoreTypes) => state.auth);
 
   const manageHeaderTitle = () => {
     if (pathname === '/participants') {
@@ -74,11 +75,11 @@ export function Header() {
     router.push(`/${pathname.split('/')[1]}`);
   };
 
-  return (
+  return token ? (
     <Wrapper>
       <DesktopContent>
         <Logo>
-          <Link href="/">
+          <Link href="/projects">
             Feeda
             {pathname !== '/participants' && pathname !== '/projects' && (
               <Button variant="goBack" icon="arrowLeft" func={goBackHandler} />
@@ -100,10 +101,11 @@ export function Header() {
           onTypeFunc={manageUrl}
           defaultValue={searchParams.get('q') || ''}
           control={control}
-          clearErrors={clearErrors}
         />
       </MobileHeaderWrapper>
       <PageTitle css={[pageMobileTitleStyles]}>{manageHeaderTitle()}</PageTitle>
     </Wrapper>
+  ) : (
+    <></>
   );
 }
