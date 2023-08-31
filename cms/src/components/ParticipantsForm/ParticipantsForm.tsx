@@ -24,7 +24,7 @@ type Props = {
 
 export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Props) {
   const dispatch = useDispatch<AppDispatch>();
-  const { control, handleSubmit, clearErrors, unregister } = useForm(
+  const { control, handleSubmit, clearErrors, unregister, reset } = useForm(
     defaultValues
       ? {
           defaultValues: {
@@ -263,7 +263,7 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
         ) : (
           <>
             <Button btnType="submit" variant="primary" title="Зберегти зміни" />
-            <Button btnType="reset" variant="text" title="Скасувати" />
+            <Button btnType="reset" variant="text" title="Скасувати" func={() => reset()} />
           </>
         )}
       </div>

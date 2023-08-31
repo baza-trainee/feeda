@@ -45,7 +45,7 @@ export const participantsSlice = createSlice({
       state.error = null;
     });
     builder.addCase(searchParticipants.fulfilled, (state, { payload }) => {
-      state.list = payload;
+      state.list = payload.results;
       state.isLoading = false;
     });
     builder.addCase(searchParticipants.rejected, (state, { payload }) => {
@@ -85,6 +85,7 @@ export const participantsSlice = createSlice({
     builder.addCase(getParticipant.pending, (state) => {
       state.isLoading = true;
       state.error = null;
+      state.participant = null;
     });
     builder.addCase(getParticipant.fulfilled, (state, { payload }) => {
       payload.project.forEach((item) => {
