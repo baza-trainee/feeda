@@ -19,7 +19,7 @@ export const commonVariants = {
     { name: 'Front', icon: 'front' },
     { name: 'QA', icon: 'qa' },
     { name: 'SEO', icon: 'seo' },
-    { name: 'Doc', icon: 'doc' },
+    { name: 'PM', icon: 'doc' },
     { name: 'None', icon: 'noRole' },
   ],
 } as ListTypes;

@@ -14,17 +14,18 @@ import { AppDispatch } from '~/src/redux/store/store';
 
 import { getToken } from '../../../../redux/slices/auth/selectors';
 import { logIn } from '../../authOperations/operations';
-import { CheckboxComponent } from '../../components/CheckboxComponent/CheckboxComponent';
+import { CheckBox } from '../../components/Checkbox/Checkbox';
+// import { CheckboxComponent } from '../../components/CheckboxComponent/CheckboxComponent';
 import { btnText, formTitle, inputPlaceholderText, labelsTitle, patternsCheck } from '../../consts';
 import { ForgotPassword } from './ForgotPassword/ForgotPassword';
-import { ContainerCss, FormCss, InputCss, TitleCss } from './Login.styles';
+import { ContainerCss, FormCss, TitleCss } from './Login.styles';
 
 export function LoginForm() {
   const { control, clearErrors, getValues, handleSubmit } = useForm();
   const checkboxRef = useRef<HTMLInputElement>(null);
   const [isShowPassword, setIsShowPassword] = useState(false);
   const typePasswordInput = isShowPassword ? 'text' : 'password';
-  const iconInputPassword = isShowPassword ? 'eyeOpen' : 'eyeClosed';
+  const iconInputPassword = isShowPassword ? 'eyeClosed' : 'eyeOpen';
 
   const router = useRouter();
 
@@ -54,9 +55,7 @@ export function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)} css={FormCss}>
-      <div css={TitleCss}>
-        <Title title={formTitle.login} main />
-      </div>
+      <Title css={TitleCss} title={formTitle.login} main />
       <div css={ContainerCss}>
         <div css={InputCss}>
           <Input
@@ -92,7 +91,7 @@ export function LoginForm() {
             label={labelsTitle.password}
             minLength={8}
             maxLength={12}
-            // pattern={patternsCheck.password.source}
+            pattern={patternsCheck.password.source}
             // endIconId={iconInputPassword}
             supportLabel="Неправильний пароль"
           />

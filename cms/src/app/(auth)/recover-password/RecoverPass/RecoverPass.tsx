@@ -22,35 +22,36 @@ export function RecoverForm() {
     event.preventDefault();
     const { email } = getValues();
     const data = { email };
-    console.log(data);
-    dispatch(resetPassword(data));
-  };
+		console.log(data);
+		
+		dispatch(resetPassword(data));
+	};
 
-  return (
-    <form onSubmit={handleSubmit} css={RecoverFormCss}>
-      <div css={BlockCss}>
-        <header css={HeaderCss}>
-          <Title title={formTitle['recover-password']} main />
-          <p css={SubtitleCss}>
-            Для відновлення паролю введіть Вашу електронну адресу. Вам надійде лист із посиланням для зміни паролю
-          </p>
-        </header>
-        <div css={InputCss}>
-          <Input
-            placeholder={inputPlaceholderText.mail}
-            type="text"
-            name="email"
-            id="login"
-            control={control}
-            clearErrors={clearErrors}
-            label={labelsTitle.mail}
-            pattern={patternsCheck.login.source}
-            minLength={6}
-            maxLength={70}
-          />
-        </div>
-      </div>
-      <Button btnType="submit" title={btnText.login} variant="primary"></Button>
-    </form>
-  );
+	return (
+		<form onSubmit={handleSubmit} css={RecoverFormCss}>
+			<div css={BlockCss}>
+				<header css={HeaderCss}>
+					<Title title={formTitle['recover-password']} main />
+					<p css={SubtitleCss}>
+						Для відновлення паролю введіть Вашу електронну адресу. Вам надійде лист із посиланням для зміни паролю
+					</p>
+				</header>
+				<div css={InputCss}>
+					<Input
+						placeholder={inputPlaceholderText.mail}
+						type="text"
+						name="email"
+						id="login"
+						control={control}
+						clearErrors={clearErrors}
+						label={labelsTitle.mail}
+						pattern={patternsCheck.login.source}
+						minLength={6}
+						maxLength={70}
+					/>
+				</div>
+			</div>
+			<Button btnType="submit" title={btnText.login} variant="primary"></Button>
+		</form>
+	);
 }
