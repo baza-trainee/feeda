@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:8000/user-project/';
-//axios.defaults.headers.Authorization = 'Token 624e3e488cdc0f0c0f57a197c05068b4b5c2cfd5';
+axios.defaults.baseURL = 'http://localhost:8000/';
 
 const initialState: InstructionsStateType = {
   specialities: null,
@@ -14,26 +13,11 @@ const initialState: InstructionsStateType = {
 };
 
 export const getInstructions = createAsyncThunk('instructions/getInstructions', async () => {
-  const specialities = await axios.get<IdNameType[]>('speciality-list/', {
-    headers: {
-      Authorization: 'Token 624e3e488cdc0f0c0f57a197c05068b4b5c2cfd5',
-    },
-  });
-  const participation_types = await axios.get<IdNameType[]>('types-participant-list/', {
-    headers: {
-      Authorization: 'Token 624e3e488cdc0f0c0f57a197c05068b4b5c2cfd5',
-    },
-  });
-  const project_types = await axios.get<{ id: number; project_type: string }[]>('types-project-list/', {
-    headers: {
-      Authorization: 'Token 624e3e488cdc0f0c0f57a197c05068b4b5c2cfd5',
-    },
-  });
-  const project_status = await axios.get<{ id: number; status: string }[]>('/status-project-list/', {
-    headers: {
-      Authorization: 'Token 624e3e488cdc0f0c0f57a197c05068b4b5c2cfd5',
-    },
-  });
+  const specialities = await axios.get<IdNameType[]>('user-project/speciality-list/');
+  const participation_types = await axios.get<IdNameType[]>('user-project/types-participant-list/');
+  const project_types = await axios.get<IdNameType[]>('user-project/types-project-list/');
+  const project_status = await axios.get<{ id: number; status: string }[]>('/status-project-list/');
+
   const returnValue = {
     specialities: specialities.data,
     participation_types: participation_types.data,
@@ -74,7 +58,7 @@ export default instructionsSlice.reducer;
 export interface InstructionsStateType {
   specialities: null | IdNameType[];
   participation_types: null | IdNameType[];
-  project_types: null | { id: number; project_type: string }[];
+  project_types: null | IdNameType[];
   project_status: null | { id: number; status: string }[];
   isLoading: boolean;
   error: true | null;

@@ -11,6 +11,8 @@ import Design from './design_role.svg';
 import Edit from './edit.svg';
 import EmptyCircle from './empty_circle.svg';
 import Exit from './exit.svg';
+import EyeClosed from './eye_closed.svg';
+import EyeOpen from './eye_open.svg';
 import Finished from './finished_status.svg';
 import Front from './front_role.svg';
 import Ongoing from './ongoing_status.svg';
@@ -29,29 +31,31 @@ import Trash from './trash.svg';
 export {
   Add,
   ArrowDown,
+  ArrowLeft,
   Backend,
+  Calendar,
+  Checkmark,
   ComplexityActive,
-  EmptyCircle,
+  Cross,
   Delete,
   Design,
   Pm,
   Edit,
+  EmptyCircle,
   Exit,
+  EyeClosed,
+  EyeOpen,
   Finished,
   Front,
   Ongoing,
+  OpenMenu,
   Pencil,
   Plus,
   Qa,
+  RoundCheckmark,
+  SearchIcon,
   Seo,
   Team,
   TeamBuilding,
   Trash,
-  RoundCheckmark,
-  Checkmark,
-  Cross,
-  SearchIcon,
-  ArrowLeft,
-  Calendar,
-  OpenMenu,
 };

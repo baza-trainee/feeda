@@ -7,27 +7,24 @@ import { FieldValues } from 'react-hook-form';
 import { getInstructions } from '../instructions';
 import { RootState } from '../store/store';
 
-const AuthToken = '624e3e488cdc0f0c0f57a197c05068b4b5c2cfd5';
-
 const fetchProjects = createAsyncThunk(ActionType.GET_ALL, async () => {
-  const { data } = await axios.get('http://localhost:8000/user-project/projects/', {
-    headers: {
-      Authorization: `Token ${AuthToken}`, //implement auth,
-    },
-  });
+  const { data } = await axios.get('http://localhost:8000/user-project/projects/');
   console.log(data);
   return data.results; /// TEMP PAGINATION
 });
 
-const deleteProject = createAsyncThunk(ActionType.DELETE_PROJECT, async (title: string | number | null) => {
-  const { data } = await axios.delete(`http://localhost:8000/user-project/project/${title}`, {
-    headers: {
-      Authorization: `Token ${AuthToken}`, //implement auth,
-    },
-  });
-
-  return data;
-});
+const deleteProject = createAsyncThunk(
+  ActionType.DELETE_PROJECT,
+  async (title: string | number | null, { dispatch }) => {
+    try {
+      await axios.delete(`http://localhost:8000/user-project/project/${title}`);
+      await dispatch(fetchProjects());
+      return;
+    } catch (err) {
+      console.log('Delete error: ', err);
+    }
+  }
+);
 
 const addProject = createAsyncThunk(ActionType.ADD_PROJECT, async (formData: FieldValues) => {
   const projectData: ProjectDataParams = {
@@ -42,11 +39,7 @@ const addProject = createAsyncThunk(ActionType.ADD_PROJECT, async (formData: Fie
   };
 
   console.log('dispatch', projectData);
-  const { data } = await axios.post(`http://localhost:8000/user-project/create-project/`, projectData, {
-    headers: {
-      Authorization: `Token ${AuthToken}`, //implement auth,
-    },
-  });
+  const { data } = await axios.post(`http://localhost:8000/user-project/create-project/`, projectData);
 
   const teamData: { team_lead: string; user: string[]; project: string } = {
     team_lead: 'f7d31f25-36d2-4ab9-98ed-1aa8aa5e29c6',
@@ -54,11 +47,7 @@ const addProject = createAsyncThunk(ActionType.ADD_PROJECT, async (formData: Fie
     project: data.project.id.toString(),
   };
 
-  const response = await axios.put(`http://localhost:8000/user-project/command-update/${data.command.id}/`, teamData, {
-    headers: {
-      Authorization: `Token ${AuthToken}`, //implement auth,
-    },
-  });
+  const response = await axios.put(`http://localhost:8000/user-project/command-update/${data.command.id}/`, teamData);
 
   const combinedData = { project: data, team: response.data };
 
@@ -70,12 +59,7 @@ const fetchTeam = createAsyncThunk(ActionType.GET_TEAM, async (title: string, th
   const { instructions } = (await thunkAPI.getState()) as RootState;
 
   const { data } = await axios.get<{ team_lead: string; project: ProjectDataParams; user: userDataParams[] }>(
-    `http://localhost:8000/user-project/command-project-detail/${title}/`,
-    {
-      headers: {
-        Authorization: `Token ${AuthToken}`, //implement auth,
-      },
-    }
+    `http://localhost:8000/user-project/command-project-detail/${title}/`
   );
 
   let currentStatus: { id: number; status: string } | undefined;
