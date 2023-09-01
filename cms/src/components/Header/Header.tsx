@@ -1,7 +1,7 @@
 'use client';
 /** @jsxImportSource @emotion/react */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
@@ -27,10 +27,11 @@ export function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { control } = useForm();
+  const { control, watch } = useForm();
   const [prevLocation, setPrevLocation] = useState('' as string);
   const { participant, isLoading } = useSelector((store: StoreTypes) => store.participants);
   const { token } = useSelector((state: StoreTypes) => state.auth);
+  const searchInput = watch('search-input');
 
   const manageHeaderTitle = () => {
     if (pathname === '/participants') {
@@ -55,7 +56,7 @@ export function Header() {
   };
 
   const manageUrl = (value: string) => {
-    if (value.length) {
+    if (value?.length) {
       if ((pathname !== prevLocation && pathname !== '/participants') || !prevLocation.length) {
         setPrevLocation(pathname);
       } else if (pathname !== '/participants') {
@@ -63,7 +64,7 @@ export function Header() {
       } else {
         router.push(`?q=${value}`);
       }
-    } else if (!value.length) {
+    } else if (!value?.length) {
       if (!prevLocation.length) router.push('/participants');
       else router.push(prevLocation);
     }
@@ -74,6 +75,9 @@ export function Header() {
     ev.stopPropagation();
     router.push(`/${pathname.split('/')[1]}`);
   };
+
+  //eslint-disable-next-line
+  useEffect(() => manageUrl(searchInput), [searchInput]);
 
   return token ? (
     <Wrapper>
@@ -98,7 +102,6 @@ export function Header() {
           name="search-input"
           placeholder="Ключове слово"
           endIconId="search"
-          onTypeFunc={manageUrl}
           defaultValue={searchParams.get('q') || ''}
           control={control}
         />

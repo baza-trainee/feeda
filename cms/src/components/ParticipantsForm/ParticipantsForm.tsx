@@ -1,13 +1,12 @@
 'use client';
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
-import throttle from 'lodash.throttle';
 import Link from 'next/link';
 
-import { FormDataTypes } from '../../helpers/manageParticipantFormValues';
+import { participantsDefaultValues, ParticipantsDefaultValuesTypes } from '~/src/helpers/makeParticipantsDefaultValues';
+
 import { cityRegex, discordRegex, emailRegex, linkedRegex, nameRegex, phoneNumberRegex } from '../../helpers/regexs';
 import { ParticipantData, searchProjects, sendEmail } from '../../redux/participants/operations';
 import { AppDispatch } from '../../redux/store/store';
@@ -18,54 +17,28 @@ import { AsyncField, SelectField } from '../SelectField/SelectField';
 import { Form } from './ParticipantsForm.styles';
 
 type Props = {
+  formData?: ParticipantData;
   formVariant: 'create' | 'edit' | 'view';
-  submitFunc?: (formData: FormDataTypes) => void;
-  defaultValues?: ParticipantData;
+  submitFunc?: (formData: ParticipantsDefaultValuesTypes) => void;
 };
 
-export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Props) {
+export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
   const dispatch = useDispatch<AppDispatch>();
-  const [projectsAmount, setProjectsAmount] = useState(
-    (defaultValues && Object.keys(defaultValues.project).length) || 0
-  );
-  const { control, unregister, handleSubmit, clearErrors } = useForm(
-    defaultValues
-      ? {
-          defaultValues: {
-            speciality: {
-              value: defaultValues.speciality?.title,
-              label: membersRole.find((item) => item.value === defaultValues.speciality?.title)?.label,
-            },
-            type_participant: {
-              value: defaultValues.type_participant.title,
-              label: projectType.find((item) => item.value === defaultValues.type_participant.title)?.label,
-            },
-            experience: experienceVariants.find((item) => item.value === (defaultValues.experience ? 'Так' : 'Ні')),
-            ...defaultValues.project,
-          },
-        }
-      : {
-          defaultValues: {
-            speciality: { ...membersRole[6] },
-          },
-        }
-  );
+  const { control, handleSubmit, clearErrors, reset } = useForm({
+    defaultValues: participantsDefaultValues(formData) as ParticipantsDefaultValuesTypes,
+  });
 
-  const projectsSearcher = throttle(
-    async (value: string) => {
-      return dispatch(searchProjects(value)).then((response) => {
-        for (const item of response.payload as { id: number; title: string; label: string }[]) {
-          item.label = item.title;
-          return response.payload;
-        }
-      });
-    },
-    400,
-    { trailing: true, leading: false }
-  );
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'project',
+  });
 
+  const projectsSearcher = async (value: string) => {
+    return (await dispatch(searchProjects(value))).payload;
+  };
+  console.log('Rerender: ', formData);
   return (
-    <Form onSubmit={handleSubmit(submitFunc)}>
+    <Form onSubmit={submitFunc && handleSubmit(submitFunc)}>
       <div id="form-part">
         <p id="form-part-title">Особиста інформація</p>
         <div id="two-inputs-wrapper">
@@ -73,7 +46,6 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             name="first_name"
             label="Ім'я *"
             placeholder="Ім'я"
-            defaultValue={defaultValues?.first_name}
             rules={{ required: "Це поле обов'язкове до заповнення!" }}
             control={control}
             minLength={2}
@@ -91,7 +63,6 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             control={control}
             pattern={nameRegex.source}
             readonly={formVariant === 'view'}
-            defaultValue={defaultValues?.last_name}
           />
         </div>
         <div className="stackAndRole" id="two-inputs-wrapper">
@@ -104,7 +75,6 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             maxLength={300}
             control={control}
             readonly={formVariant === 'view'}
-            defaultValue={defaultValues?.stack}
           />
           <SelectField
             name="speciality"
@@ -149,27 +119,20 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             control={control}
             pattern={cityRegex.source}
             readonly={formVariant === 'view'}
-            defaultValue={defaultValues?.city}
           />
-          <Input
-            name="comment"
-            label="Коментар"
-            maxLength={50}
-            control={control}
-            readonly={formVariant === 'view'}
-            defaultValue={defaultValues?.comment}
-          />
+          <Input name="comment" label="Коментар" maxLength={50} control={control} readonly={formVariant === 'view'} />
         </div>
       </div>
       <div id="form-part">
         <div id="titleAndButtonWrapper">
           <p id="form-part-title">Контактна інформація</p>
           <Button
+            id="smallFontBtn"
             btnType="button"
             variant="text"
             title="Відправити листа"
             isDisabled={formVariant === 'create'}
-            func={() => defaultValues && dispatch(sendEmail(defaultValues?.id))}
+            func={() => formData && dispatch(sendEmail(formData.id))}
           />
         </div>
         <div id="two-inputs-wrapper">
@@ -183,19 +146,17 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             control={control}
             pattern={discordRegex.source}
             readonly={formVariant === 'view'}
-            defaultValue={defaultValues?.account_discord}
           />
           <Input
             name="account_linkedin"
             label="LinkedIn *"
             placeholder="www.linkedin.com/in/"
-            type="url"
+            type="text"
             rules={{ required: "Це поле обов'язкове до заповнення!" }}
             minLength={19}
             maxLength={128}
             control={control}
             pattern={linkedRegex.source}
-            defaultValue={defaultValues?.account_linkedin}
             readonly={formVariant === 'view'}
           />
         </div>
@@ -207,7 +168,6 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             placeholder="+XXXXXXXXXXXX"
             readonly={formVariant === 'view'}
             rules={{ required: "Це поле обов'язкове до заповнення!" }}
-            defaultValue={defaultValues?.phone_number}
             pattern={phoneNumberRegex.source}
             control={control}
           />
@@ -218,7 +178,6 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             type="email"
             readonly={formVariant === 'view'}
             rules={{ required: "Це поле обов'язкове до заповнення!" }}
-            defaultValue={defaultValues?.email}
             minLength={6}
             maxLength={70}
             pattern={emailRegex.source}
@@ -231,46 +190,53 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
           <p id="form-part-title">Проєкт</p>
           <Button
             btnType="button"
+            id="smallFontBtn"
             variant="text"
             title="Додати проєкт"
             icon="plus"
             isDisabled={formVariant === 'view'}
-            func={() => setProjectsAmount(projectsAmount + 1)}
+            func={() => append({ label: '' })}
           />
         </div>
-
-        {Array.from({ length: projectsAmount }, (_, index) => (
-          <div id="project-wrapper" key={index}>
-            <AsyncField
-              name={`project_${index}`}
-              title="Проєкт *"
-              control={control}
-              rules={{ required: "Поле обов'язкове до заповнення!" }}
-              options={projectsSearcher}
-              placeholder="Назва"
-              clearErrors={clearErrors}
-            />
-            <Button
-              btnType="button"
-              variant="icon"
-              icon="trash"
-              isDisabled={formVariant === 'view'}
-              func={() => {
-                setProjectsAmount(projectsAmount - 1);
-                unregister(`project_${index}`);
-              }}
-            />
-          </div>
-        ))}
+        {fields.map((field, idx) => {
+          return (
+            <div id="project-wrapper" key={field.id}>
+              <AsyncField
+                name={`project.${idx}`}
+                title="Проєкт *"
+                control={control}
+                options={projectsSearcher}
+                placeholder="Назва"
+                clearErrors={clearErrors}
+                // isDisabled={formVariant === 'view'}
+                rules={{ required: "Поле обов'язкове до заповнення!" }}
+              />
+              <Button
+                btnType="button"
+                variant="icon"
+                icon="trash"
+                isDisabled={formVariant === 'view'}
+                func={() => {
+                  remove(idx);
+                }}
+              />
+            </div>
+          );
+        })}
       </div>
-
       <div id="buttons-wrapper">
         {formVariant === 'view' ? (
-          <Link href={`/participants/edit/${defaultValues?.id}`}>Редагувати</Link>
+          <Link href={`/participants/edit/${formData?.id}`}>Редагувати</Link>
         ) : (
           <>
-            <Button btnType="submit" variant="primary" title="Зберегти зміни" />
-            <Button btnType="reset" variant="text" title="Скасувати" />
+            <Button id="bigFontBtn" btnType="submit" variant="primary" title="Зберегти зміни" />
+            <Button
+              id="cancelBtn"
+              btnType="reset"
+              variant="text"
+              title="Скасувати"
+              func={() => reset(participantsDefaultValues(formData) as ParticipantsDefaultValuesTypes)}
+            />
           </>
         )}
       </div>
