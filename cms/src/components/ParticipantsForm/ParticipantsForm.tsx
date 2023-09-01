@@ -156,6 +156,7 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
         <div id="titleAndButtonWrapper">
           <p id="form-part-title">Контактна інформація</p>
           <Button
+            id="smallFontBtn"
             btnType="button"
             variant="text"
             title="Відправити листа"
@@ -222,6 +223,7 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
           <p id="form-part-title">Проєкт</p>
           <Button
             btnType="button"
+            id="smallFontBtn"
             variant="text"
             title="Додати проєкт"
             icon="plus"
@@ -262,8 +264,8 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
           <Link href={`/participants/edit/${defaultValues?.id}`}>Редагувати</Link>
         ) : (
           <>
-            <Button btnType="submit" variant="primary" title="Зберегти зміни" />
-            <Button btnType="reset" variant="text" title="Скасувати" func={() => reset()} />
+            <Button id="bigFontBtn" btnType="submit" variant="primary" title="Зберегти зміни" />
+            <Button id="cancelBtn" btnType="reset" variant="text" title="Скасувати" func={() => reset()} />
           </>
         )}
       </div>

@@ -9,6 +9,7 @@ type ButtonProps = {
   isDisabled?: boolean;
   func?: (ev: React.MouseEvent<HTMLButtonElement>) => void;
   btnType?: 'button' | 'submit' | 'reset';
+  id?: string;
   variant: 'primary' | 'text' | 'icon' | 'accept' | 'cancel' | 'tab' | 'goBack';
   icon?: IconType | null;
   title?: string;
@@ -23,6 +24,7 @@ export const Button = ({
   icon = null,
   btnType = 'button',
   isSelected = false,
+  id,
 }: ButtonProps) => {
   const [isPressed, setIsPressed] = useState(false);
 
@@ -44,6 +46,7 @@ export const Button = ({
 
   return (
     <ButtonComponent
+      id={id}
       isSelected={isSelected}
       onClick={onClickHandler}
       onMouseDown={() => setIsPressed(true)}
