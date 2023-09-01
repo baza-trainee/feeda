@@ -26,7 +26,7 @@ type Props = {
 
 export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
   const dispatch = useDispatch<AppDispatch>();
-  const { control, handleSubmit, clearErrors, unregister, reset, getValues } = useForm({
+  const { control, handleSubmit, clearErrors, unregister, reset } = useForm({
     ...participantsDefaultValues(formData),
   });
 
@@ -233,8 +233,7 @@ export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
           <Link href={`/participants/edit/${formData?.id}`}>Редагувати</Link>
         ) : (
           <>
-            {/* <Button id="bigFontBtn" btnType="submit" variant="primary" title="Зберегти зміни" /> */}
-            <Button id="bigFontBtn" variant="primary" title="Show" func={() => console.log(getValues())} />
+            <Button id="bigFontBtn" btnType="submit" variant="primary" title="Зберегти зміни" />
             <Button id="cancelBtn" btnType="reset" variant="text" title="Скасувати" func={() => reset()} />
           </>
         )}
