@@ -16,7 +16,7 @@ export const getInstructions = createAsyncThunk('instructions/getInstructions', 
   const specialities = await axios.get<IdNameType[]>('user-project/speciality-list/');
   const participation_types = await axios.get<IdNameType[]>('user-project/types-participant-list/');
   const project_types = await axios.get<IdNameType[]>('user-project/types-project-list/');
-  const project_status = await axios.get<{ id: number; status: string }[]>('/status-project-list/');
+  const project_status = await axios.get<{ id: number; status: string }[]>('user-project/status-project-list/');
 
   const returnValue = {
     specialities: specialities.data,

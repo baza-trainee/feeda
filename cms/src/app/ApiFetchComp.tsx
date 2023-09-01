@@ -22,7 +22,8 @@ export function ApiFetchComp() {
     } else if (!token && savedToken) {
       dispatch(loginByToken(savedToken));
       path !== '/login' ? router.push(path) : router.push('projects');
-    } else if (token) {
+      dispatch(getInstructions());
+    } else if (token && !savedToken) {
       dispatch(getInstructions());
       if (remember) {
         localStorage.setItem('token', token);
@@ -31,5 +32,5 @@ export function ApiFetchComp() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
-  return <></>;
+  return <div></div>;
 }
