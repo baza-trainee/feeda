@@ -10,7 +10,8 @@ import { ErrorText, Label, selectStyles } from './SelectField.style';
 
 export interface OptionType {
   label: JSX.Element | string;
-  value: string | number;
+  value?: string | number;
+  id?: number;
 }
 
 interface SelectFieldProps {

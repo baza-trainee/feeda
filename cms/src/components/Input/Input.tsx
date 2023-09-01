@@ -6,6 +6,8 @@ import { Control, Controller } from 'react-hook-form';
 import { ClassNames } from '@emotion/react';
 import uk_UA from 'date-fns/locale/uk';
 
+import { ParticipantsDefaultValuesTypes } from '~/src/helpers/makeParticipantsDefaultValues';
+
 import { IconSprite, IconType } from '../IconSprite/IconSprite';
 import { ErrorText } from '../SelectField/SelectField.style';
 import {
@@ -22,7 +24,7 @@ import {
 import 'react-datepicker/dist/react-datepicker.css';
 
 type InputProps = {
-  name: string;
+  name: keyof ParticipantsDefaultValuesTypes;
   type?: React.HTMLInputTypeAttribute;
   id?: string;
   label?: string;
@@ -39,7 +41,7 @@ type InputProps = {
   pattern?: string;
   begIconId?: IconType | undefined;
   endIconId?: IconType | undefined;
-  control: Control;
+  control: Control<ParticipantsDefaultValuesTypes>;
   rules?: object;
 };
 
@@ -68,11 +70,12 @@ export function Input({
 
   return (
     <Controller
+      name={name}
       defaultValue={defaultValue}
       control={control}
-      name={name}
       rules={rules}
       render={({ field: { onChange, value }, fieldState: { error } }) => {
+        const valueLen = typeof value === 'string' ? value.length : 0;
         return (
           <ClassNames>
             {({ css }) => (
@@ -80,16 +83,16 @@ export function Input({
                 {label && (
                   <LabelComp
                     htmlFor={id}
-                    inputValueLen={Boolean(value?.length)}
+                    inputValueLen={Boolean(valueLen)}
                     isDisabled={disabled}
-                    checkIsValid={Boolean(pattern && value?.length)}
+                    checkIsValid={Boolean(pattern && valueLen)}
                     isError={Boolean(error)}
                   >
                     {label}
                   </LabelComp>
                 )}
                 <InputWrapper
-                  checkIsValid={Boolean(pattern && value?.length)}
+                  checkIsValid={Boolean(pattern && valueLen)}
                   begIcon={Boolean(begIconId)}
                   endIcon={Boolean(endIconId)}
                   isError={Boolean(error)}
@@ -105,7 +108,7 @@ export function Input({
                       dateFormat="dd MMMM yyyy"
                       locale="uk_UA"
                       placeholderText={placeholder}
-                      selected={value}
+                      selected={value instanceof Date ? value : undefined}
                       className={css(inputStyles)}
                       readOnly={readonly}
                       calendarStartDay={1}
@@ -119,14 +122,12 @@ export function Input({
                       placeholder={placeholder}
                       readOnly={readonly}
                       type={type}
-                      // name={name}
                       disabled={disabled}
                       required={required}
                       maxLength={maxLength}
                       minLength={minLength}
                       pattern={pattern}
-                      // defaultValue={defaultValue}
-                      defaultValue={value}
+                      defaultValue={value as string}
                       onChange={onChange}
                     />
                   )}

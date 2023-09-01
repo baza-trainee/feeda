@@ -171,7 +171,6 @@ export interface ParticipantData {
   city: string;
   experience: boolean;
   stack: string;
-  processing_personal_data: boolean;
   speciality: { id: number; title: string };
   project: { id: number; label: string; title: string; projectId: number }[];
   project_count: number;

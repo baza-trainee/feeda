@@ -48,13 +48,10 @@ export function manageFormFields(formData: FormDataTypes, instructions: Instruct
 
     for (const key in formData) {
       if (key.includes('project_')) {
-        requestData.project.push(formData[key].id);
-      }
-    }
-
-    for (const key in requestData) {
-      if (requestData[key as keyof FormDataTypes] === null || requestData[key as keyof FormDataTypes] === undefined) {
-        requestData[key] = '';
+        const projectData = formData[key as keyof FormDataTypes];
+        if (typeof projectData === 'object' && 'id' in projectData) {
+          requestData.project.push(projectData.id);
+        }
       }
     }
 
@@ -93,6 +90,7 @@ export interface FormDataTypes {
   speciality: { value: string };
   stack: string;
   type_participant: { value: string };
+  project_0?: { id: number; label: string };
 }
 
 export interface InstructionsTypes {

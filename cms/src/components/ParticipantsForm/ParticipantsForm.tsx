@@ -6,9 +6,8 @@ import { useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { uid } from 'uid';
 
-import { participantsDefaultValues } from '~/src/helpers/makeParticipantsDefaultValues';
+import { participantsDefaultValues, ParticipantsDefaultValuesTypes } from '~/src/helpers/makeParticipantsDefaultValues';
 
-import { FormDataTypes } from '../../helpers/manageParticipantFormValues';
 import { cityRegex, discordRegex, emailRegex, linkedRegex, nameRegex, phoneNumberRegex } from '../../helpers/regexs';
 import { ParticipantData, searchProjects, sendEmail } from '../../redux/participants/operations';
 import { AppDispatch } from '../../redux/store/store';
@@ -21,13 +20,13 @@ import { Form } from './ParticipantsForm.styles';
 type Props = {
   formData?: ParticipantData;
   formVariant: 'create' | 'edit' | 'view';
-  submitFunc?: (formData: FormDataTypes) => void;
+  submitFunc?: (formData: ParticipantsDefaultValuesTypes) => void;
 };
 
 export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
   const dispatch = useDispatch<AppDispatch>();
   const { control, handleSubmit, clearErrors, unregister, reset } = useForm({
-    ...participantsDefaultValues(formData),
+    defaultValues: participantsDefaultValues(formData) as ParticipantsDefaultValuesTypes,
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -40,7 +39,7 @@ export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
   };
 
   return (
-    <Form onSubmit={handleSubmit(submitFunc)}>
+    <Form onSubmit={submitFunc && handleSubmit(submitFunc)}>
       <div id="form-part">
         <p id="form-part-title">Особиста інформація</p>
         <div id="two-inputs-wrapper">
@@ -197,7 +196,7 @@ export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
             title="Додати проєкт"
             icon="plus"
             isDisabled={formVariant === 'view'}
-            func={() => append({ id: uid() })}
+            func={() => append({ label: uid() })}
           />
         </div>
         {fields.map((field, idx) => {

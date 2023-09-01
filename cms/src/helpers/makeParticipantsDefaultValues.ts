@@ -4,8 +4,8 @@ import { ParticipantData } from '../redux/participants/operations';
 
 export const participantsDefaultValues = (
   formData: ParticipantData | undefined
-): { defaultValues: DefaultValuesTypes | { speciality: OptionType } } => {
-  if (!formData) return { defaultValues: { speciality: membersRole[6] } };
+): ParticipantsDefaultValuesTypes | { speciality: OptionType } => {
+  if (!formData) return { speciality: membersRole[6] };
   else {
     const {
       id,
@@ -43,7 +43,7 @@ export const participantsDefaultValues = (
       },
     };
 
-    return { defaultValues };
+    return defaultValues;
   }
 };
 
@@ -52,7 +52,7 @@ type DropDownTypes = {
   label: JSX.Element | undefined;
 };
 
-export type DefaultValuesTypes = {
+export type ParticipantsDefaultValuesTypes = {
   id: string;
   first_name: string;
   last_name: string;
@@ -67,9 +67,9 @@ export type DefaultValuesTypes = {
   type_participant: DropDownTypes;
   experience: ListProps | undefined;
   projectsArr: {
-    id: number;
+    id?: number;
     label: string;
-    title: string;
-    projectId: number;
+    title?: string;
+    projectId?: number;
   }[];
 };
