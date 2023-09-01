@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { usePathname } from 'next/navigation';
 
+import { ParticipantsDefaultValuesTypes } from '~/src/helpers/makeParticipantsDefaultValues';
+
 import { ParticipantsForm } from '../../../../components/ParticipantsForm/ParticipantsForm';
 import { PopUp } from '../../../../components/PopUp/PopUp';
 import { Title } from '../../../../components/Title/Title';
-import { FormDataTypes } from '../../../../helpers/manageParticipantFormValues';
 import { getParticipant, updateParticipant } from '../../../../redux/participants/operations';
 import { AppDispatch, StoreTypes } from '../../../../redux/store/store';
 import Loader from '../../../loading';
@@ -27,7 +28,7 @@ export default function EditParticipant() {
     // eslint-disable-next-line
   }, []);
 
-  const handleSubmit = (formData: FormDataTypes) => {
+  const handleSubmit = (formData: ParticipantsDefaultValuesTypes) => {
     if (!specialities || !participation_types) return console.log('Instructions not loaded');
     dispatch(updateParticipant({ formData, userId, instructions: { specialities, participation_types } })).then(
       (res: { meta: { requestStatus: string } }) => {

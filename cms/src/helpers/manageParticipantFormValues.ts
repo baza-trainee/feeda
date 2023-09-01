@@ -1,6 +1,7 @@
 import { IdNameType } from '../redux/instructions';
+import { ParticipantsDefaultValuesTypes } from './makeParticipantsDefaultValues';
 
-export function manageFormFields(formData: FormDataTypes, instructions: InstructionsTypes) {
+export function manageFormFields(formData: ParticipantsDefaultValuesTypes, instructions: InstructionsTypes) {
   try {
     if (!instructions.specialities || !instructions.participation_types) throw new Error('Instructions not loaded');
     const {
@@ -28,9 +29,9 @@ export function manageFormFields(formData: FormDataTypes, instructions: Instruct
       first_name,
       last_name,
       phone_number,
-      project: project.map((item) => item.id),
+      project: project.map((item) => item.id || 0),
       stack,
-      experience: experience.value === 'Так',
+      experience: experience?.value === 'Так' || false,
       speciality: 0,
       type_participant: 0,
     };
@@ -67,22 +68,6 @@ interface RequestDataTypes {
   speciality: number;
   stack: string;
   type_participant: number;
-}
-
-export interface FormDataTypes {
-  account_discord: string;
-  account_linkedin: string;
-  city?: string;
-  comment?: string;
-  email: string;
-  experience: { value: string };
-  first_name: string;
-  last_name: string;
-  phone_number: string;
-  speciality: { value: string };
-  stack: string;
-  type_participant: { value: string };
-  project: { id: number; label: string; title: string }[];
 }
 
 export interface InstructionsTypes {

@@ -3,7 +3,9 @@ import axios, { AxiosError } from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:8000/';
 
-import { FormDataTypes, InstructionsTypes, manageFormFields } from '../../helpers/manageParticipantFormValues';
+import { ParticipantsDefaultValuesTypes } from '~/src/helpers/makeParticipantsDefaultValues';
+
+import { InstructionsTypes, manageFormFields } from '../../helpers/manageParticipantFormValues';
 import { IdNameType } from '../instructions';
 
 export const fetchParticipants = createAsyncThunk('participants/fetchParticipants', async (_, { rejectWithValue }) => {
@@ -20,7 +22,7 @@ export const fetchParticipants = createAsyncThunk('participants/fetchParticipant
 export const createParticipant = createAsyncThunk(
   'participants/createParticipant',
   async (
-    { formData, instructions }: { formData: FormDataTypes; instructions: InstructionsTypes },
+    { formData, instructions }: { formData: ParticipantsDefaultValuesTypes; instructions: InstructionsTypes },
     { rejectWithValue }
   ) => {
     try {
@@ -144,7 +146,7 @@ export const searchParticipants = createAsyncThunk(
 );
 
 interface UpdateParticipantTypes {
-  formData: FormDataTypes;
+  formData: ParticipantsDefaultValuesTypes;
   userId: string;
   instructions: {
     specialities: IdNameType[];
