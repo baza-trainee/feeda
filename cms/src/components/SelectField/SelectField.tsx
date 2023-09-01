@@ -122,7 +122,6 @@ export const AsyncField = ({
               <AsyncSelect
                 components={{ DropdownIndicator }}
                 instanceId={name}
-                defaultInputValue={value.label}
                 styles={selectStyles(!!error, isDropdownOpen, isDisabled)}
                 placeholder={placeholder}
                 loadOptions={options}
