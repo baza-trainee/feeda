@@ -4,7 +4,6 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
 import Link from 'next/link';
-import { uid } from 'uid';
 
 import { participantsDefaultValues, ParticipantsDefaultValuesTypes } from '~/src/helpers/makeParticipantsDefaultValues';
 
@@ -25,13 +24,13 @@ type Props = {
 
 export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
   const dispatch = useDispatch<AppDispatch>();
-  const { control, handleSubmit, clearErrors, unregister, reset } = useForm({
+  const { control, handleSubmit, clearErrors, reset } = useForm({
     defaultValues: participantsDefaultValues(formData) as ParticipantsDefaultValuesTypes,
   });
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'projectsArr',
+    name: 'project',
   });
 
   const projectsSearcher = async (value: string) => {
@@ -196,15 +195,14 @@ export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
             title="Додати проєкт"
             icon="plus"
             isDisabled={formVariant === 'view'}
-            func={() => append({ label: uid() })}
+            func={() => append({ label: '' })}
           />
         </div>
         {fields.map((field, idx) => {
           return (
             <div id="project-wrapper" key={field.id}>
               <AsyncField
-                name={`project_${field.id}`}
-                defaultValue={{ id: field.projectId, label: field.label }}
+                name={`project.${idx}`}
                 title="Проєкт *"
                 control={control}
                 options={projectsSearcher}
@@ -220,7 +218,6 @@ export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
                 isDisabled={formVariant === 'view'}
                 func={() => {
                   remove(idx);
-                  unregister(`project_${field.id}`);
                 }}
               />
             </div>

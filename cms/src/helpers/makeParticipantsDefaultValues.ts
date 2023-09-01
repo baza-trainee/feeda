@@ -31,7 +31,7 @@ export const participantsDefaultValues = (
       account_linkedin,
       city,
       stack,
-      projectsArr: project,
+      project,
       experience: experienceVariants.find((item) => item.value === (formData.experience ? 'Так' : 'Ні')),
       speciality: {
         value: formData.speciality?.title,
@@ -66,10 +66,9 @@ export type ParticipantsDefaultValuesTypes = {
   speciality: DropDownTypes;
   type_participant: DropDownTypes;
   experience: ListProps | undefined;
-  projectsArr: {
+  project: {
     id?: number;
     label: string;
     title?: string;
-    projectId?: number;
   }[];
 };

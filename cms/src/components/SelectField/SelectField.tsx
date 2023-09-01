@@ -90,7 +90,6 @@ interface AsyncFieldProps {
   clearErrors: (name?: string | string[]) => void;
   title: string;
   isDisabled?: boolean;
-  defaultValue?: OptionType;
 }
 
 export const AsyncField = ({
@@ -102,7 +101,6 @@ export const AsyncField = ({
   clearErrors,
   title,
   isDisabled = false,
-  defaultValue,
 }: AsyncFieldProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -117,7 +115,6 @@ export const AsyncField = ({
           setIsDropdownOpen(false);
           onChange(selectedOption);
         };
-        if (!value && defaultValue) onChange(defaultValue);
         return (
           <div style={{ position: 'relative' }} id="input-wrapper">
             <Label>
@@ -125,8 +122,7 @@ export const AsyncField = ({
               <AsyncSelect
                 components={{ DropdownIndicator }}
                 instanceId={name}
-                defaultValue={defaultValue}
-                defaultInputValue={defaultValue?.label as string}
+                defaultInputValue={value.label}
                 styles={selectStyles(!!error, isDropdownOpen, isDisabled)}
                 placeholder={placeholder}
                 loadOptions={options}
