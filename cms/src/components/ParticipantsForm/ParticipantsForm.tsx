@@ -36,7 +36,7 @@ export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
   const projectsSearcher = async (value: string) => {
     return (await dispatch(searchProjects(value))).payload;
   };
-
+  console.log('Rerender: ', formData);
   return (
     <Form onSubmit={submitFunc && handleSubmit(submitFunc)}>
       <div id="form-part">
@@ -230,7 +230,13 @@ export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
         ) : (
           <>
             <Button id="bigFontBtn" btnType="submit" variant="primary" title="Зберегти зміни" />
-            <Button id="cancelBtn" btnType="reset" variant="text" title="Скасувати" func={() => reset()} />
+            <Button
+              id="cancelBtn"
+              btnType="reset"
+              variant="text"
+              title="Скасувати"
+              func={() => reset(participantsDefaultValues(formData) as ParticipantsDefaultValuesTypes)}
+            />
           </>
         )}
       </div>
