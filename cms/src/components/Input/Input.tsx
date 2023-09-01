@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import { Control, Controller } from 'react-hook-form';
 
@@ -42,7 +41,6 @@ type InputProps = {
   endIconId?: IconType | undefined;
   control: Control;
   rules?: object;
-  onTypeFunc?: (value: string) => void;
 };
 
 export function Input({
@@ -65,9 +63,7 @@ export function Input({
   endIconId,
   control,
   rules,
-  onTypeFunc,
 }: InputProps) {
-  const [inputValue, setInputValue] = useState(defaultValue);
   registerLocale('uk_UA', uk_UA);
 
   return (
@@ -76,12 +72,7 @@ export function Input({
       control={control}
       name={name}
       rules={rules}
-      render={({ field: { onChange }, fieldState: { error } }) => {
-        const handleChange = (value: string) => {
-          onChange(value);
-          if (onTypeFunc) onTypeFunc(value);
-          if (pattern || label || type === 'date') setInputValue(value);
-        };
+      render={({ field: { onChange, value }, fieldState: { error } }) => {
         return (
           <ClassNames>
             {({ css }) => (
@@ -89,16 +80,16 @@ export function Input({
                 {label && (
                   <LabelComp
                     htmlFor={id}
-                    inputValueLen={Boolean(inputValue?.length)}
+                    inputValueLen={Boolean(value?.length)}
                     isDisabled={disabled}
-                    checkIsValid={Boolean(pattern && inputValue?.length)}
+                    checkIsValid={Boolean(pattern && value?.length)}
                     isError={Boolean(error)}
                   >
                     {label}
                   </LabelComp>
                 )}
                 <InputWrapper
-                  checkIsValid={Boolean(pattern && inputValue?.length)}
+                  checkIsValid={Boolean(pattern && value?.length)}
                   begIcon={Boolean(begIconId)}
                   endIcon={Boolean(endIconId)}
                   isError={Boolean(error)}
@@ -114,11 +105,11 @@ export function Input({
                       dateFormat="dd MMMM yyyy"
                       locale="uk_UA"
                       placeholderText={placeholder}
-                      selected={inputValue}
+                      selected={value}
                       className={css(inputStyles)}
                       readOnly={readonly}
                       calendarStartDay={1}
-                      onChange={handleChange}
+                      onChange={onChange}
                     />
                   ) : (
                     <InputComp
@@ -128,14 +119,15 @@ export function Input({
                       placeholder={placeholder}
                       readOnly={readonly}
                       type={type}
-                      name={name}
+                      // name={name}
                       disabled={disabled}
                       required={required}
                       maxLength={maxLength}
                       minLength={minLength}
                       pattern={pattern}
-                      defaultValue={defaultValue}
-                      onChange={(ev) => handleChange(ev.target.value)}
+                      // defaultValue={defaultValue}
+                      defaultValue={value}
+                      onChange={onChange}
                     />
                   )}
                   {endIconId && (

@@ -6,6 +6,8 @@ import { useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { uid } from 'uid';
 
+import { participantsDefaultValues } from '~/src/helpers/makeParticipantsDefaultValues';
+
 import { FormDataTypes } from '../../helpers/manageParticipantFormValues';
 import { cityRegex, discordRegex, emailRegex, linkedRegex, nameRegex, phoneNumberRegex } from '../../helpers/regexs';
 import { ParticipantData, searchProjects, sendEmail } from '../../redux/participants/operations';
@@ -17,35 +19,17 @@ import { AsyncField, SelectField } from '../SelectField/SelectField';
 import { Form } from './ParticipantsForm.styles';
 
 type Props = {
+  formData?: ParticipantData;
   formVariant: 'create' | 'edit' | 'view';
   submitFunc?: (formData: FormDataTypes) => void;
-  defaultValues?: ParticipantData;
 };
 
-export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Props) {
+export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
   const dispatch = useDispatch<AppDispatch>();
-  const { control, handleSubmit, clearErrors, unregister, reset } = useForm(
-    defaultValues
-      ? {
-          defaultValues: {
-            speciality: {
-              value: defaultValues.speciality?.title,
-              label: membersRole.find((item) => item.value === defaultValues.speciality?.title)?.label,
-            },
-            type_participant: {
-              value: defaultValues.type_participant.title,
-              label: projectType.find((item) => item.value === defaultValues.type_participant.title)?.label,
-            },
-            experience: experienceVariants.find((item) => item.value === (defaultValues.experience ? 'Так' : 'Ні')),
-            projectsArr: defaultValues.project,
-          },
-        }
-      : {
-          defaultValues: {
-            speciality: { ...membersRole[6] },
-          },
-        }
-  );
+  const { control, handleSubmit, clearErrors, unregister, reset, getValues } = useForm({
+    ...participantsDefaultValues(formData),
+  });
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'projectsArr',
@@ -64,7 +48,6 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             name="first_name"
             label="Ім'я *"
             placeholder="Ім'я"
-            defaultValue={defaultValues?.first_name}
             rules={{ required: "Це поле обов'язкове до заповнення!" }}
             control={control}
             minLength={2}
@@ -82,7 +65,6 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             control={control}
             pattern={nameRegex.source}
             readonly={formVariant === 'view'}
-            defaultValue={defaultValues?.last_name}
           />
         </div>
         <div className="stackAndRole" id="two-inputs-wrapper">
@@ -95,7 +77,6 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             maxLength={300}
             control={control}
             readonly={formVariant === 'view'}
-            defaultValue={defaultValues?.stack}
           />
           <SelectField
             name="speciality"
@@ -140,16 +121,8 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             control={control}
             pattern={cityRegex.source}
             readonly={formVariant === 'view'}
-            defaultValue={defaultValues?.city}
           />
-          <Input
-            name="comment"
-            label="Коментар"
-            maxLength={50}
-            control={control}
-            readonly={formVariant === 'view'}
-            defaultValue={defaultValues?.comment}
-          />
+          <Input name="comment" label="Коментар" maxLength={50} control={control} readonly={formVariant === 'view'} />
         </div>
       </div>
       <div id="form-part">
@@ -161,7 +134,7 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             variant="text"
             title="Відправити листа"
             isDisabled={formVariant === 'create'}
-            func={() => defaultValues && dispatch(sendEmail(defaultValues?.id))}
+            func={() => formData && dispatch(sendEmail(formData.id))}
           />
         </div>
         <div id="two-inputs-wrapper">
@@ -175,7 +148,6 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             control={control}
             pattern={discordRegex.source}
             readonly={formVariant === 'view'}
-            defaultValue={defaultValues?.account_discord}
           />
           <Input
             name="account_linkedin"
@@ -187,7 +159,6 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             maxLength={128}
             control={control}
             pattern={linkedRegex.source}
-            defaultValue={defaultValues?.account_linkedin}
             readonly={formVariant === 'view'}
           />
         </div>
@@ -199,7 +170,6 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             placeholder="+XXXXXXXXXXXX"
             readonly={formVariant === 'view'}
             rules={{ required: "Це поле обов'язкове до заповнення!" }}
-            defaultValue={defaultValues?.phone_number}
             pattern={phoneNumberRegex.source}
             control={control}
           />
@@ -210,7 +180,6 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
             type="email"
             readonly={formVariant === 'view'}
             rules={{ required: "Це поле обов'язкове до заповнення!" }}
-            defaultValue={defaultValues?.email}
             minLength={6}
             maxLength={70}
             pattern={emailRegex.source}
@@ -261,10 +230,11 @@ export function ParticipantsForm({ submitFunc, formVariant, defaultValues }: Pro
       </div>
       <div id="buttons-wrapper">
         {formVariant === 'view' ? (
-          <Link href={`/participants/edit/${defaultValues?.id}`}>Редагувати</Link>
+          <Link href={`/participants/edit/${formData?.id}`}>Редагувати</Link>
         ) : (
           <>
-            <Button id="bigFontBtn" btnType="submit" variant="primary" title="Зберегти зміни" />
+            {/* <Button id="bigFontBtn" btnType="submit" variant="primary" title="Зберегти зміни" /> */}
+            <Button id="bigFontBtn" variant="primary" title="Show" func={() => console.log(getValues())} />
             <Button id="cancelBtn" btnType="reset" variant="text" title="Скасувати" func={() => reset()} />
           </>
         )}

@@ -28,7 +28,7 @@ export default function ParticipantProfile() {
   ) : (
     participant && (
       <>
-        <ParticipantsForm formVariant="view" defaultValues={participant} />
+        <ParticipantsForm formVariant="view" formData={participant} />
         {isLoading && <Loader />}
       </>
     )
