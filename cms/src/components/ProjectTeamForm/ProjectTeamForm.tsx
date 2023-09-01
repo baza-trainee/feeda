@@ -1,13 +1,12 @@
-import { Control, FieldValues, UseFormHandleSubmit, SubmitHandler, useFormState } from 'react-hook-form';
-import { FormWrapper } from './ProjectTeamForm.styles';
+import { Control } from 'react-hook-form';
 
-import { TeamFormSection } from './TeamFormSection';
 import { OptionType } from '../SelectField/SelectField';
+import { FormWrapper } from './ProjectTeamForm.styles';
+import { TeamFormSection } from './TeamFormSection';
 
 export interface TeamFormProps {
   control: Control;
   clearErrors: (name?: string | string[]) => void;
-  handleSubmit: UseFormHandleSubmit<FieldValues>;
 }
 
 export type MemberType = {
@@ -17,7 +16,7 @@ export type MemberType = {
   id: string;
 };
 
-export const ProjectTeamForm: React.FC<TeamFormProps> = ({ control, clearErrors, handleSubmit }) => {
+export const ProjectTeamForm: React.FC<TeamFormProps> = ({ control, clearErrors }) => {
   return (
     <FormWrapper>
       <TeamFormSection control={control} clearErrors={clearErrors} name="user" title="Загальна команда" />

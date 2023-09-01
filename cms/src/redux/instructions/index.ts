@@ -15,7 +15,7 @@ const initialState: InstructionsStateType = {
 export const getInstructions = createAsyncThunk('instructions/getInstructions', async () => {
   const specialities = await axios.get<IdNameType[]>('user-project/speciality-list/');
   const participation_types = await axios.get<IdNameType[]>('user-project/types-participant-list/');
-  const project_types = await axios.get<IdNameType[]>('user-project/types-project-list/');
+  const project_types = await axios.get<{ id: number; project_type: string }[]>('user-project/types-project-list/');
   const project_status = await axios.get<{ id: number; status: string }[]>('user-project/status-project-list/');
 
   const returnValue = {
@@ -24,7 +24,6 @@ export const getInstructions = createAsyncThunk('instructions/getInstructions', 
     project_types: project_types.data,
     project_status: project_status.data,
   };
-  console.log(returnValue);
   return returnValue;
 });
 
@@ -38,7 +37,6 @@ export const instructionsSlice = createSlice({
       state.error = null;
     });
     builder.addCase(getInstructions.fulfilled, (state, { payload }) => {
-      console.log(payload);
       state.specialities = payload.specialities;
       state.participation_types = payload.participation_types;
       state.project_types = payload.project_types;
@@ -58,7 +56,7 @@ export default instructionsSlice.reducer;
 export interface InstructionsStateType {
   specialities: null | IdNameType[];
   participation_types: null | IdNameType[];
-  project_types: null | IdNameType[];
+  project_types: null | { id: number; project_type: string }[];
   project_status: null | { id: number; status: string }[];
   isLoading: boolean;
   error: true | null;

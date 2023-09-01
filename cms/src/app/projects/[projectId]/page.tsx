@@ -1,15 +1,17 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { FieldValues, useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { Button } from '~/src/components/Button/Button';
 import { ProjectForm } from '~/src/components/ProjectForm/ProjectForm';
 import { MemberType, ProjectTeamForm } from '~/src/components/ProjectTeamForm/ProjectTeamForm';
-import { NavContainer, ProjectContainer } from './styles';
-import { FieldValues, useForm } from 'react-hook-form';
 import { OptionType } from '~/src/components/SelectField/SelectField';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '~/src/redux/store/store';
 import { fetchTeam } from '~/src/redux/projects/actions';
+import { AppDispatch, RootState } from '~/src/redux/store/store';
+
+import { NavContainer, ProjectContainer } from './styles';
 
 export interface FormData {
   title: string;
@@ -34,8 +36,8 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   const dispatch = useDispatch<AppDispatch>();
   const { currentTeam } = useSelector((state: RootState) => state.projects);
   const [currentTab, setCurrentTab] = useState('Опис');
-  const { control, clearErrors, handleSubmit, trigger, reset } = useForm<FieldValues>({
-    defaultValues: currentTeam,
+  const { control, clearErrors, handleSubmit, trigger } = useForm<FieldValues>({
+    values: currentTeam,
   });
 
   useEffect(() => {
@@ -44,14 +46,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
       console.log(projectId);
       dispatch(fetchTeam(projectId));
     }
-  }, []);
-
-  React.useEffect(() => {
-    if (currentTeam) {
-      console.log(currentTeam);
-      reset(currentTeam);
-    }
-  }, [currentTeam, reset]);
+  }, [dispatch, params.projectId]);
 
   const handleTabClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const nextTab = e.currentTarget.title;
@@ -72,7 +67,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
     },
     {
       title: 'Команда',
-      content: <ProjectTeamForm control={control} clearErrors={clearErrors} handleSubmit={handleSubmit} />,
+      content: <ProjectTeamForm control={control} clearErrors={clearErrors} />,
     },
   ];
 

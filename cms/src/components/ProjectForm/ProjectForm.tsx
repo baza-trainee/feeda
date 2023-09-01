@@ -1,8 +1,14 @@
 'use client';
-import { Control, UseFormHandleSubmit, UseFormGetValues, FieldValues, SubmitHandler } from 'react-hook-form';
+import { useState } from 'react';
+import { Control, FieldValues, SubmitHandler, UseFormHandleSubmit } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { addProject } from '~/src/redux/projects/actions';
+import { AppDispatch, RootState } from '~/src/redux/store/store';
+
+import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
-import { SelectField } from '../SelectField/SelectField';
-import { FormControllers, FormWrapper, InputsWrapper } from './ProjectForm.styles';
+import { PopUp } from '../PopUp/PopUp';
 import {
   getComplixity,
   getProjectStatus,
@@ -11,12 +17,8 @@ import {
   projectStatus,
   projectType,
 } from '../SelectField/lists';
-import { Button } from '../Button/Button';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '~/src/redux/store/store';
-import { addProject } from '~/src/redux/projects/actions';
-import { PopUp } from '../PopUp/PopUp';
-import { useState } from 'react';
+import { SelectField } from '../SelectField/SelectField';
+import { FormControllers, FormWrapper, InputsWrapper } from './ProjectForm.styles';
 
 export interface ProjectFormProps {
   control: Control;

@@ -1,15 +1,16 @@
+import { FieldValues } from 'react-hook-form';
+
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { format } from 'date-fns';
 
-import { ActionType } from './common';
-import { FieldValues } from 'react-hook-form';
 import { getInstructions } from '../instructions';
 import { RootState } from '../store/store';
+import { ActionType } from './common';
+import { ProjectTeam } from './projects.slice';
 
 const fetchProjects = createAsyncThunk(ActionType.GET_ALL, async () => {
   const { data } = await axios.get('http://localhost:8000/user-project/projects/');
-  console.log(data);
   return data.results; /// TEMP PAGINATION
 });
 
@@ -39,7 +40,7 @@ const addProject = createAsyncThunk(ActionType.ADD_PROJECT, async (formData: Fie
   };
 
   console.log('dispatch', projectData);
-  const { data } = await axios.post(`http://localhost:8000/user-project/create-project/`, projectData);
+  const { data } = await axios.post('http://localhost:8000/user-project/create-project/', projectData);
 
   const teamData: { team_lead: string; user: string[]; project: string } = {
     team_lead: 'f7d31f25-36d2-4ab9-98ed-1aa8aa5e29c6',
@@ -73,9 +74,9 @@ const fetchTeam = createAsyncThunk(ActionType.GET_TEAM, async (title: string, th
     currentType = instructions.project_types.find((item) => item.id === data.project.type_project);
   }
 
-  const { project, user, team_lead } = data;
+  const { project, user } = data;
 
-  const currentTeam = {
+  const currentTeam: ProjectTeam = {
     title: project.title,
     comment: project.comment,
     complexity: project.complexity,
@@ -84,8 +85,22 @@ const fetchTeam = createAsyncThunk(ActionType.GET_TEAM, async (title: string, th
     address_site: project.address_site || '',
     start_date_project: project.start_date_project || '2023-01-01',
     end_date_project: project.end_date_project || '2023-01-01',
-    team_lead: team_lead || '',
-    user,
+    // team_lead: team_lead || '',
+    user:
+      user.map((user) => {
+        const memberRole = user.speciality
+          ? instructions.specialities?.find((item) => item.title === user.speciality?.title) || ''
+          : '';
+
+        return {
+          full_name: {
+            label: `${user.first_name} ${user.last_name}`,
+            value: user.id,
+          },
+          membersRole: memberRole ? memberRole.title : 'None',
+          comment: user.comment || '',
+        };
+      }) || [],
   };
 
   return currentTeam;
@@ -113,6 +128,12 @@ export interface TeamDataParams {
 export interface userDataParams {
   id: string;
   first_name: string;
+  last_name: string;
+  speciality: {
+    id: number;
+    title: string;
+  } | null;
+  comment: string | null;
 }
 
 export { fetchProjects, deleteProject, addProject, fetchTeam };

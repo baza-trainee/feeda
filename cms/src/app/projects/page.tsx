@@ -17,6 +17,7 @@ export default function ProjectsPage() {
   const { token } = useSelector((state: StoreTypes) => state.auth);
 
   console.log(projects);
+  console.log(token);
 
   useEffect(() => {
     dispatch(fetchProjects());
