@@ -24,7 +24,8 @@ import {
 import 'react-datepicker/dist/react-datepicker.css';
 
 type InputProps = {
-  name: keyof ParticipantsDefaultValuesTypes | 'search-input';
+  name: keyof ParticipantsDefaultValuesTypes;
+  control: Control<ParticipantsDefaultValuesTypes>;
   type?: React.HTMLInputTypeAttribute;
   id?: string;
   label?: string;
@@ -41,7 +42,6 @@ type InputProps = {
   pattern?: string;
   begIconId?: IconType | undefined;
   endIconId?: IconType | undefined;
-  control: Control<ParticipantsDefaultValuesTypes>;
   rules?: object;
 };
 

@@ -95,6 +95,7 @@ export const participantsSlice = createSlice({
             delete (item as ParticipantData['project'][0])[key as keyof ParticipantData['project'][0]];
         }
       });
+      console.log(payload);
       state.participant = payload;
       state.isLoading = false;
     });
@@ -111,13 +112,16 @@ export const participantsSlice = createSlice({
       state.error = null;
     });
     builder.addCase(updateParticipant.fulfilled, (state, { payload }) => {
+      console.log('Update participant: ', payload);
       state.participant = payload;
       state.isLoading = false;
     });
     builder.addCase(updateParticipant.rejected, (state, { payload }) => {
       if (typeof payload === 'object' && payload) {
         const formattedString = Object.entries(payload)
-          .map(([key, value]) => `${key}: ${value.join(', ')}`)
+          .map(([key, value]) => {
+            return Array.isArray(value) ? `${key}: ${value.join(', ')}` : `${key}: ${value}`;
+          })
           .join('\n');
         state.error = formattedString;
       } else if (typeof payload === 'string') {

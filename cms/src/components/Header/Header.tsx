@@ -27,11 +27,13 @@ export function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { control, watch } = useForm();
+  const { control, watch } = useForm<{ searchInput: string }>({
+    defaultValues: { searchInput: searchParams.get('q') || '' },
+  });
   const [prevLocation, setPrevLocation] = useState('' as string);
   const { participant, isLoading } = useSelector((store: StoreTypes) => store.participants);
   const { token } = useSelector((state: StoreTypes) => state.auth);
-  const searchInput = watch('search-input');
+  const searchInput = watch('searchInput');
 
   const manageHeaderTitle = () => {
     if (pathname === '/participants') {
@@ -98,13 +100,7 @@ export function Header() {
             <IconSprite icon="openMenu" />
           </MenuBtn>
         </MenuWrapper>
-        <Input
-          name="search-input"
-          placeholder="Ключове слово"
-          endIconId="search"
-          defaultValue={searchParams.get('q') || ''}
-          control={control}
-        />
+        <Input name="searchInput" placeholder="Ключове слово" endIconId="search" control={control} />
       </MobileHeaderWrapper>
       <PageTitle css={[pageMobileTitleStyles]}>{manageHeaderTitle()}</PageTitle>
     </Wrapper>
