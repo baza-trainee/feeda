@@ -1,11 +1,11 @@
 'use client';
 
-import { useFieldArray, useForm } from 'react-hook-form';
+import { FieldValues, useFieldArray, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
 import Link from 'next/link';
 
-import { participantsDefaultValues, ParticipantsDefaultValuesTypes } from '~/src/helpers/makeParticipantsDefaultValues';
+import { participantsDefaultValues } from '~/src/helpers/makeParticipantsDefaultValues';
 
 import { cityRegex, discordRegex, emailRegex, linkedRegex, nameRegex, phoneNumberRegex } from '../../helpers/regexs';
 import { ParticipantData, searchProjects, sendEmail } from '../../redux/participants/operations';
@@ -13,19 +13,19 @@ import { AppDispatch } from '../../redux/store/store';
 import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
 import { experienceVariants, membersRole, projectType } from '../SelectField/lists';
-import { AsyncField, SelectField } from '../SelectField/SelectField';
+import { AsyncField, OptionType, SelectField } from '../SelectField/SelectField';
 import { Form } from './ParticipantsForm.styles';
 
 type Props = {
   formData?: ParticipantData;
   formVariant: 'create' | 'edit' | 'view';
-  submitFunc?: (formData: ParticipantsDefaultValuesTypes) => void;
+  submitFunc?: (formData: FieldValues) => void;
 };
 
 export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
   const dispatch = useDispatch<AppDispatch>();
-  const { control, handleSubmit, clearErrors, reset } = useForm({
-    defaultValues: participantsDefaultValues(formData) as ParticipantsDefaultValuesTypes,
+  const { control, handleSubmit, clearErrors, reset } = useForm<FieldValues>({
+    defaultValues: participantsDefaultValues(formData),
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -34,7 +34,8 @@ export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
   });
 
   const projectsSearcher = async (value: string) => {
-    return (await dispatch(searchProjects(value))).payload;
+    const projects = (await dispatch(searchProjects(value))).payload as OptionType[];
+    return projects;
   };
 
   return (
@@ -235,7 +236,7 @@ export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
               btnType="reset"
               variant="text"
               title="Скасувати"
-              func={() => reset(participantsDefaultValues(formData) as ParticipantsDefaultValuesTypes)}
+              func={() => reset(participantsDefaultValues(formData))}
             />
           </>
         )}

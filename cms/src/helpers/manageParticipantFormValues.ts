@@ -1,7 +1,8 @@
-import { IdNameType } from '../redux/instructions';
-import { ParticipantsDefaultValuesTypes } from './makeParticipantsDefaultValues';
+import { FieldValues } from 'react-hook-form';
 
-export function manageFormFields(formData: ParticipantsDefaultValuesTypes, instructions: InstructionsTypes) {
+import { IdNameType } from '../redux/instructions';
+
+export function manageFormFields(formData: FieldValues, instructions: InstructionsTypes) {
   try {
     if (!instructions.specialities || !instructions.participation_types) throw new Error('Instructions not loaded');
     const {
@@ -29,7 +30,7 @@ export function manageFormFields(formData: ParticipantsDefaultValuesTypes, instr
       first_name,
       last_name,
       phone_number,
-      project: project.map((item) => item.id || 0),
+      project: project.map((item: { id: number }) => item.id || 0),
       stack,
       experience: experience?.value === 'Так' || false,
       speciality: 0,

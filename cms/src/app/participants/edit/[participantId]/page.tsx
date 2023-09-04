@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { FieldValues } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { usePathname } from 'next/navigation';
@@ -28,7 +29,7 @@ export default function EditParticipant() {
     // eslint-disable-next-line
   }, []);
 
-  const handleSubmit = (formData: ParticipantsDefaultValuesTypes) => {
+  const handleSubmit = (formData: FieldValues) => {
     if (!specialities || !participation_types) return console.log('Instructions not loaded');
     dispatch(updateParticipant({ formData, userId, instructions: { specialities, participation_types } })).then(
       (res: { meta: { requestStatus: string } }) => {

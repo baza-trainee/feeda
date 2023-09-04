@@ -2,7 +2,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
 import Link from 'next/link';
@@ -27,7 +27,7 @@ export function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { control, watch } = useForm<{ searchInput: string }>({
+  const { control, watch } = useForm<FieldValues>({
     defaultValues: { searchInput: searchParams.get('q') || '' },
   });
   const [prevLocation, setPrevLocation] = useState('' as string);

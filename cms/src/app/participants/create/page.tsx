@@ -1,8 +1,7 @@
 'use client';
 import { useState } from 'react';
+import { FieldValues } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { ParticipantsDefaultValuesTypes } from '~/src/helpers/makeParticipantsDefaultValues';
 
 import { ParticipantsForm } from '../../../components/ParticipantsForm/ParticipantsForm';
 import { PopUp } from '../../../components/PopUp/PopUp';
@@ -17,15 +16,13 @@ export default function CreateParticipant() {
   const { error, isLoading } = useSelector((state: StoreTypes) => state.participants);
   const [showPopUp, setShowPopUp] = useState(false);
 
-  const handleSubmit = (formData: ParticipantsDefaultValuesTypes) => {
+  const handleSubmit = (formData: FieldValues) => {
     if (!specialities || !participation_types) return console.log('Instructions not loaded');
-    dispatch(createParticipant({ formData, instructions: { specialities, participation_types } })).then(
-      (res: { meta: { requestStatus: string } }) => {
-        if (res.meta.requestStatus === 'fulfilled') {
-          setShowPopUp(true);
-        }
+    dispatch(createParticipant({ formData, instructions: { specialities, participation_types } })).then((res) => {
+      if (res.meta.requestStatus === 'fulfilled') {
+        setShowPopUp(true);
       }
-    );
+    });
   };
 
   const closeModalFunc = () => {
