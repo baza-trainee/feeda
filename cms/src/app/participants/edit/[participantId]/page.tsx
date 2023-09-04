@@ -46,7 +46,7 @@ export default function EditParticipant() {
     <Title title={typeof error == 'string' ? error : 'Error'} />
   ) : (
     <>
-      {participant && <ParticipantsForm formVariant="edit" defaultValues={participant} submitFunc={handleSubmit} />}
+      {participant && <ParticipantsForm formVariant="edit" formData={participant} submitFunc={handleSubmit} />}
       {showPopUp && <PopUp type="success" mobileWidth="256px" closeModalFunc={closeModalFunc} />}
       {isLoading && <Loader />}
     </>

@@ -111,6 +111,9 @@ export const searchProjects = createAsyncThunk(
       const { data } = await axios.get<{ id: number; label: string }[]>('user-project/search-projects', {
         params: { query: search },
       });
+      for (const item of data as { id: number; title: string; label: string }[]) {
+        item.label = item.title;
+      }
       return data;
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -124,7 +127,7 @@ export const searchParticipants = createAsyncThunk(
   'participants/searchParticipants',
   async (search: string, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get<{ results: ParticipantData[] }>('user-project/search-user', {
+      const { data } = await axios.get<ParticipantsResponseTypes>('user-project/search-user', {
         params: { query: search },
       });
       return data;
@@ -168,9 +171,8 @@ export interface ParticipantData {
   city: string;
   experience: boolean;
   stack: string;
-  processing_personal_data: boolean;
   speciality: { id: number; title: string };
-  project: { id: number; label: string; title: string }[];
+  project: { id: number; label: string; title: string; projectId: number }[];
   project_count: number;
   type_participant: { id: number; title: 'Безкоштовний' | 'Платний' | 'Буткамп' };
 }

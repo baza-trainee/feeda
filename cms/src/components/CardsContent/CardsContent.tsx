@@ -31,7 +31,6 @@ export function CardsContent({ type, data }: CardsContentType) {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const [showPopUp, setShowPopUp] = useState<boolean | number | string>(false);
-
   const projectParticipantsEnding = (count: number) => {
     const countLastDigit = count.toString()[count.toString().length - 1];
     return countLastDigit === '1'

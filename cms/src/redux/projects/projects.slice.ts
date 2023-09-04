@@ -31,6 +31,7 @@ const { reducer, actions, name } = createSlice({
       state.projects = payload;
       console.log(state.loading);
       console.log('Fetching participants');
+      state.loading = 'success';
     });
     builder.addCase(fetchTeam.pending, (state) => {
       state.loading = 'loading';
@@ -84,6 +85,7 @@ export interface ProjectData {
   };
   participants_count: string;
   start_date_project: string;
+  url: string;
 }
 
 export interface ProjectTeam {

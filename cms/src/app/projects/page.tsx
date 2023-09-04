@@ -8,22 +8,19 @@ import Link from 'next/link';
 import { Button } from '../../components/Button/Button';
 import { CardsContent } from '../../components/CardsContent/CardsContent';
 import { fetchProjects } from '../../redux/projects/actions';
-import { AppDispatch, RootState, StoreTypes } from '../../redux/store/store';
+import { AppDispatch, StoreTypes } from '../../redux/store/store';
 import { AddButtonWrapper, ProjectsContainer } from './ProjectsPage.styles';
 
 export default function ProjectsPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const { projects, loading } = useSelector((state: RootState) => state.projects);
-  const { token } = useSelector((state: StoreTypes) => state.auth);
-
-  console.log(projects);
-  console.log(token);
+  const { projects, loading } = useSelector((state: StoreTypes) => state.projects);
+  // const { token } = useSelector((state: StoreTypes) => state.auth);
 
   useEffect(() => {
     dispatch(fetchProjects());
   }, [dispatch]);
 
-  return token ? (
+  return (
     <ProjectsContainer>
       <AddButtonWrapper>
         <Link href={'./projects/add'}>
@@ -34,7 +31,5 @@ export default function ProjectsPage() {
       {loading === 'success' && <CardsContent type="projects" data={projects} />}
       {loading === 'rejected' && <div>Щось рішло не так... Спробуйте пізніше</div>}
     </ProjectsContainer>
-  ) : (
-    <></>
   );
 }

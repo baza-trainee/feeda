@@ -10,7 +10,8 @@ import { ErrorText, Label, selectStyles } from './SelectField.style';
 
 export interface OptionType {
   label: JSX.Element | string;
-  value: string | number;
+  value?: string | number;
+  id?: number;
 }
 
 interface SelectFieldProps {
@@ -119,7 +120,6 @@ export const AsyncField = ({
           setIsDropdownOpen(false);
           onChange(selectedOption);
         };
-
         return (
           <div style={{ position: 'relative' }} id="input-wrapper">
             <Label>
@@ -131,6 +131,7 @@ export const AsyncField = ({
                 placeholder={placeholder}
                 loadOptions={options}
                 value={value}
+                isDisabled={isDisabled}
                 onChange={handleSelectChange}
                 onMenuOpen={() => setIsDropdownOpen(true)}
                 onMenuClose={() => setIsDropdownOpen(false)}
