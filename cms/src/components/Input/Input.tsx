@@ -23,9 +23,10 @@ import {
 
 import 'react-datepicker/dist/react-datepicker.css';
 
-type InputProps = {
-  name: keyof ParticipantsDefaultValuesTypes;
-  control: Control<ParticipantsDefaultValuesTypes>;
+type InputProps<T> = {
+  // name: string;
+  name: keyof T;
+  control: Control<T>;
   type?: React.HTMLInputTypeAttribute;
   id?: string;
   label?: string;
