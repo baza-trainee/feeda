@@ -16,9 +16,10 @@ export interface MemberCardProps {
   index: number;
   onDelete: (index: number) => void;
   name: string;
+  isDisabled: boolean;
 }
 
-export const MemberCard: React.FC<MemberCardProps> = ({ control, clearErrors, index, onDelete, name }) => {
+export const MemberCard: React.FC<MemberCardProps> = ({ control, clearErrors, index, onDelete, name, isDisabled }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { list } = useSelector((state: RootState) => state.participants);
 
@@ -42,6 +43,7 @@ export const MemberCard: React.FC<MemberCardProps> = ({ control, clearErrors, in
         options={loadingOptions}
         title="Ім'я"
         rules={{ required: 'це полу обовязкове' }}
+        isDisabled={isDisabled}
       />
       <SelectField
         control={control}
@@ -52,6 +54,7 @@ export const MemberCard: React.FC<MemberCardProps> = ({ control, clearErrors, in
         title="Роль"
         // rules={{ required: 'це поле є обовязковим' }}
         valueGetter={(value) => getRole(value)}
+        isDisabled={isDisabled}
       />
       <Input
         control={control}
@@ -59,6 +62,7 @@ export const MemberCard: React.FC<MemberCardProps> = ({ control, clearErrors, in
         name={`${name}..${index}.comment`}
         label="Коментар"
         maxLength={50}
+        disabled={isDisabled}
       />
       <DelBtnWrapper>
         <Button
@@ -67,6 +71,7 @@ export const MemberCard: React.FC<MemberCardProps> = ({ control, clearErrors, in
           func={() => {
             onDelete(index);
           }}
+          isDisabled={isDisabled}
         />
       </DelBtnWrapper>
     </MemberCardWrapper>

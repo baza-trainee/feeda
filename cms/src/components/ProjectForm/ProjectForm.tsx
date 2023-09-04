@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { Control, FieldValues, SubmitHandler, UseFormHandleSubmit } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -24,9 +24,11 @@ export interface ProjectFormProps {
   control: Control;
   clearErrors: (name?: string | string[]) => void;
   handleSubmit: UseFormHandleSubmit<FieldValues>;
+  isDisabled: boolean;
+  setDisabled: Dispatch<SetStateAction<boolean>>;
 }
 
-export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormProps) => {
+export const ProjectForm = ({ control, clearErrors, handleSubmit, isDisabled, setDisabled }: ProjectFormProps) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const { loading } = useSelector((state: RootState) => state.projects);
   const dispatch = useDispatch<AppDispatch>();
@@ -48,8 +50,16 @@ export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormP
           maxLength={30}
           required={true}
           rules={{ required: 'це поле є обовязковим' }}
+          disabled={isDisabled}
         />
-        <Input control={control} name="comment" label="Коментар" placeholder="Введіть текст" maxLength={50} />
+        <Input
+          control={control}
+          name="comment"
+          label="Коментар"
+          placeholder="Введіть текст"
+          maxLength={50}
+          disabled={isDisabled}
+        />
         <SelectField
           control={control}
           clearErrors={clearErrors}
@@ -59,6 +69,7 @@ export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormP
           title="Складність"
           rules={{ required: 'це поле є обовязковим' }}
           valueGetter={(value) => getComplixity(value)}
+          isDisabled={isDisabled}
         />
         <SelectField
           control={control}
@@ -69,6 +80,7 @@ export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormP
           title="Стан проекту"
           rules={{ required: 'це поле є обовязковим' }}
           valueGetter={(value) => getProjectStatus(value)}
+          isDisabled={isDisabled}
         />
         <SelectField
           control={control}
@@ -79,19 +91,32 @@ export const ProjectForm = ({ control, clearErrors, handleSubmit }: ProjectFormP
           title="Тип проекту"
           rules={{ required: 'це поле є обовязковим' }}
           valueGetter={(value) => getProjectType(value)}
+          isDisabled={isDisabled}
         />
-        <Input control={control} name="start_date_project" label="Старт проету" type="date" />
-        <Input control={control} name="end_date_project" label="Завершення проету" type="date" />
+        <Input control={control} name="start_date_project" label="Старт проету" type="date" disabled={isDisabled} />
+        <Input control={control} name="end_date_project" label="Завершення проету" type="date" disabled={isDisabled} />
         <Input
           control={control}
           name="address_site"
           label="Адреса сайту"
           placeholder="https://example.con"
           maxLength={30}
+          disabled={isDisabled}
         />
       </InputsWrapper>
       <FormControllers>
-        <Button variant="primary" title="Зберегти зміни" btnType="submit" func={handleSubmit(onFormSubmit)} />
+        {isDisabled ? (
+          <Button
+            variant="primary"
+            title="Редагувати"
+            func={(e) => {
+              e.preventDefault();
+              setDisabled(false);
+            }}
+          />
+        ) : (
+          <Button variant="primary" title="Зберегти зміни" btnType="submit" func={handleSubmit(onFormSubmit)} />
+        )}
         <Button variant="text" title="Скасувати" func={() => console.log('CANCEL form fetsh')} />
       </FormControllers>
       {loading === 'success' && isModalOpen && <PopUp type="success" closeModalFunc={() => setModalOpen(false)} />}

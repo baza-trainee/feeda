@@ -36,6 +36,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   const dispatch = useDispatch<AppDispatch>();
   const { currentTeam } = useSelector((state: RootState) => state.projects);
   const [currentTab, setCurrentTab] = useState('Опис');
+  const [isDisabled, setDisabled] = useState(true);
   const { control, clearErrors, handleSubmit, trigger } = useForm<FieldValues>({
     values: currentTeam,
   });
@@ -45,13 +46,13 @@ export default function ProjectPage({ params }: ProjectPageProps) {
     if (projectId !== 'add') {
       console.log(projectId);
       dispatch(fetchTeam(projectId));
-    }
+    } else setDisabled(false);
   }, [dispatch, params.projectId]);
 
   const handleTabClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const nextTab = e.currentTarget.title;
     const isValid = await trigger();
-    console.log(isValid);
+
     if (isValid) {
       setCurrentTab(nextTab);
     } else return;
@@ -63,11 +64,19 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   }[] = [
     {
       title: 'Опис',
-      content: <ProjectForm control={control} clearErrors={clearErrors} handleSubmit={handleSubmit} />,
+      content: (
+        <ProjectForm
+          control={control}
+          clearErrors={clearErrors}
+          handleSubmit={handleSubmit}
+          isDisabled={isDisabled}
+          setDisabled={setDisabled}
+        />
+      ),
     },
     {
       title: 'Команда',
-      content: <ProjectTeamForm control={control} clearErrors={clearErrors} />,
+      content: <ProjectTeamForm control={control} clearErrors={clearErrors} isDisabled={isDisabled} />,
     },
   ];
 
