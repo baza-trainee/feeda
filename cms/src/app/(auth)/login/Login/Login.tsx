@@ -15,7 +15,7 @@ import { AppDispatch } from '~/src/redux/store/store';
 import { getToken } from '../../../../redux/slices/auth/selectors';
 import { logIn } from '../../authOperations/operations';
 import { CheckBox } from '../../components/Checkbox/Checkbox';
-// import { CheckboxComponent } from '../../components/CheckboxComponent/CheckboxComponent';
+import { CheckboxComponent } from '../../components/CheckboxComponent/CheckboxComponent';
 import { btnText, formTitle, inputPlaceholderText, labelsTitle, patternsCheck } from '../../consts';
 import { ForgotPassword } from './ForgotPassword/ForgotPassword';
 import { ContainerCss, FormCss, TitleCss } from './Login.styles';
@@ -90,15 +90,15 @@ export function LoginForm() {
             control={control}
             clearErrors={clearErrors}
             label={labelsTitle.password}
-            minLength={8}
-            maxLength={12}
+            // minLength={8}
+            // maxLength={12}
             // pattern={patternsCheck.password.source}
-            // endIconId={iconInputPassword}
+            endIconId={iconInputPassword}
             supportLabel="Неправильний пароль"
           />
         </div>
       </div>
-      {/* <CheckboxComponent ref={checkboxRef} /> */}
+      <CheckboxComponent ref={checkboxRef} />
       <ForgotPassword />
       <Button btnType="submit" title={btnText.login} variant="primary"></Button>
     </form>
