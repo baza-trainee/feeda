@@ -13,7 +13,7 @@ import { AddButtonWrapper, ProjectsContainer } from './ProjectsPage.styles';
 
 export default function ProjectsPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const { projects, loading } = useSelector((state: RootState) => state.projects);
+  // const { projects, loading } = useSelector((state: RootState) => state.projects);
 
   useEffect(() => {
     dispatch(fetchProjects());
@@ -26,9 +26,9 @@ export default function ProjectsPage() {
           <Button variant="text" icon="plus" title="Додати проект" />
         </Link>
       </AddButtonWrapper>
-      {loading === 'loading' && <div>Loading ...</div>}
-      {loading === 'success' && <CardsContent type="projects" data={projects} />}
-      {loading === 'rejected' && <div>Щось рішло не так... Спробуйте пізніше</div>}
+      {/* {loading === 'loading' && <div>Loading ...</div>} */}
+      {/* {loading === 'success' && <CardsContent type="projects" data={projects} />} */}
+      {/* {loading === 'rejected' && <div>Щось рішло не так... Спробуйте пізніше</div>} */}
     </ProjectsContainer>
   );
 }
