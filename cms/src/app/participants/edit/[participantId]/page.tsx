@@ -5,8 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { usePathname } from 'next/navigation';
 
-import { ParticipantsDefaultValuesTypes } from '~/src/helpers/makeParticipantsDefaultValues';
-
 import { ParticipantsForm } from '../../../../components/ParticipantsForm/ParticipantsForm';
 import { PopUp } from '../../../../components/PopUp/PopUp';
 import { Title } from '../../../../components/Title/Title';
