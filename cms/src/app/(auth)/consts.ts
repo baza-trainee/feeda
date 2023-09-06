@@ -2,15 +2,15 @@
 
 export const formTitle = {
   login: 'Вхід',
-  'recover-password': 'Відновити пароль',
+  recover: 'Відновити пароль',
 };
 
 export const labelsTitle = {
   login: 'Логін',
   password: 'Пароль',
   mail: 'E-mail',
-  'new-password': 'Новий пароль*',
-  'repeat-new-password': 'Підтвердити новий пароль*',
+  newPassword: 'Новий пароль*',
+  repeatNewPassword: 'Підтвердити новий пароль*',
 };
 
 export const inputPlaceholderText = {

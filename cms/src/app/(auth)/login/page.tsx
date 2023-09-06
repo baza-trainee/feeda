@@ -1,12 +1,5 @@
-'use client';
-/** @jsxImportSource @emotion/react */
-import { LoginForm } from './Login/Login';
-import { ContainerCss } from './styles';
+import { AuthForm } from '../../../components/AuthForm/AuthForm';
 
 export default function LoginPage() {
-	return (
-		<article css={ContainerCss}>
-			<LoginForm />
-		</article>
-	);
+  return <AuthForm />;
 }

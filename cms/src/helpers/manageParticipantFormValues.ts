@@ -16,6 +16,7 @@ export function manageFormFields(formData: FormDataTypes, instructions: Instruct
       speciality,
       stack,
       type_participant,
+      project,
     } = formData;
 
     const requestData: RequestDataTypes = {
@@ -27,7 +28,7 @@ export function manageFormFields(formData: FormDataTypes, instructions: Instruct
       first_name,
       last_name,
       phone_number,
-      project: [],
+      project: project.map((item) => item.id),
       stack,
       experience: experience.value === 'Так',
       speciality: 0,
@@ -45,18 +46,6 @@ export function manageFormFields(formData: FormDataTypes, instructions: Instruct
     );
     if (!tmp_type) throw new Error('Participation type not found');
     requestData.type_participant = tmp_type.id;
-
-    for (const key in formData) {
-      if (key.includes('project_')) {
-        requestData.project.push(formData[key].id);
-      }
-    }
-
-    for (const key in requestData) {
-      if (requestData[key as keyof FormDataTypes] === null || requestData[key as keyof FormDataTypes] === undefined) {
-        requestData[key] = '';
-      }
-    }
 
     return requestData;
   } catch (err) {
@@ -93,6 +82,7 @@ export interface FormDataTypes {
   speciality: { value: string };
   stack: string;
   type_participant: { value: string };
+  project: { id: number; label: string; title: string }[];
 }
 
 export interface InstructionsTypes {

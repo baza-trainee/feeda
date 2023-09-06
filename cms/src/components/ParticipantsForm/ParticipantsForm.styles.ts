@@ -4,11 +4,30 @@ import { colors, media } from '../../styles/theme';
 
 export const Form = styled.form`
   & button {
+    @media screen and (${media.tablet}) {
+      width: fit-content;
+    }
+  }
+  & button#smallFontBtn {
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 0.15px;
+  }
+  & button#cancelBtn {
+    @media screen and (${media.desktop}) {
+      font-size: 22px;
+      font-weight: 400;
+      line-height: calc(30 / 22);
+    }
+  }
+  & button#bigFontBtn {
+    margin-bottom: 16px;
+    font-size: 22px;
+    font-weight: 700;
     @media screen and (${media.tablet}) {
-      width: fit-content;
+      margin-left: auto;
+      margin-bottom: 0;
+      margin-right: 16px;
     }
   }
   & div#form-part {
@@ -84,6 +103,12 @@ export const Form = styled.form`
   }
 
   & div#buttons-wrapper {
+    @media screen and (${media.tablet}) {
+      display: flex;
+      align-items: center;
+      /* margin-left: auto; */
+      /* width: fit-content; */
+    }
     & > a {
       display: flex;
       justify-content: center;
@@ -111,31 +136,6 @@ export const Form = styled.form`
       @media screen and (${media.tablet}) {
         width: fit-content;
         margin-left: auto;
-      }
-    }
-
-    & > button {
-      line-height: 30.8px;
-    }
-    & > button:first-of-type {
-      margin-bottom: 16px;
-      font-size: 22px;
-      font-weight: 700;
-    }
-    @media screen and (${media.tablet}) {
-      display: flex;
-      align-items: center;
-      margin-left: auto;
-      width: fit-content;
-      & > button:first-of-type {
-        margin-bottom: 0;
-        margin-right: 16px;
-      }
-    }
-    @media screen and (${media.desktop}) {
-      & > button:last-of-type {
-        font-size: 22px;
-        font-weight: 400;
       }
     }
   }

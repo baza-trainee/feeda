@@ -33,7 +33,7 @@ export const LabelComp = styled.label<{
   }
 `;
 
-export const InputWrapper = styled.div<{ checkIsValid: boolean; isError: boolean }>`
+export const InputWrapper = styled.div<{ checkIsValid: boolean; isError: boolean; begIcon: boolean; endIcon: boolean }>`
   display: flex;
   align-items: center;
   position: relative;
@@ -106,6 +106,11 @@ export const inputStyles = css`
   background: transparent;
   &::-webkit-input-placeholder {
     color: ${colors.mainPlaceholder};
+  }
+  &:focus {
+    &::-webkit-input-placeholder {
+      color: white;
+    }
   }
 `;
 
