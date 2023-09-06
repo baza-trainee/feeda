@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
-export const RecoverFormCss = css`
+export const FormCss = css`
   width: 100%;
-  max-width: 335px;
-  box-sizing: border-box;
   padding: 32px;
+  box-sizing: border-box;
+  max-width: 335px;
   border-radius: 16px;
   border: 1px solid #cecece;
   display: flex;
@@ -15,33 +15,17 @@ export const RecoverFormCss = css`
   @media (min-width: 768px) {
     max-width: 464px;
   }
-  @media (min-width: 1280px) {
-    max-width: 459px;
+  @media (min-width: 1200px) {
+    max-width: 456px;
   }
 `;
 
-export const BlockCss = css`
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-`;
-
-export const HeaderCss = css`
-  width: 328px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-
-  @media (min-width: 768px) {
-    width: 395px;
-  }
+export const TitleCss = css`
+  text-align: center;
 `;
 
 export const SubtitleCss = css`
-  padding: 0;
-  margin: 0;
-  width: 75.6%;
+  margin-top: 1rem;
   color: #464646;
   text-align: center;
   font-size: 14px;
@@ -53,6 +37,12 @@ export const SubtitleCss = css`
   }
 `;
 
-export const InputCss = css`
-  height: 96px;
+export const ContainerCss = css`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+export const newPassContainerCss = css`
+  gap: 32px;
 `;

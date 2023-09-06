@@ -36,8 +36,11 @@ export function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { control, clearErrors } = useForm();
+
+  const { control, watch } = useForm();
   const { participant, isLoading } = useSelector((store: StoreTypes) => store.participants);
+  const { token } = useSelector((state: StoreTypes) => state.auth);
+  const searchInput = watch('search-input');
 
   useEffect(() => {
     if (windowWidth && windowWidth >= 768) {
@@ -76,7 +79,7 @@ export function Header() {
   };
 
   const manageUrl = (value: string) => {
-    if (value.length) {
+    if (value?.length) {
       if ((pathname !== prevLocation && pathname !== '/participants') || !prevLocation.length) {
         setPrevLocation(pathname);
       } else if (pathname !== '/participants') {
@@ -84,7 +87,7 @@ export function Header() {
       } else {
         router.push(`?q=${value}`);
       }
-    } else if (!value.length) {
+    } else if (!value?.length) {
       if (!prevLocation.length) router.push('/participants');
       else router.push(prevLocation);
     }
@@ -96,11 +99,14 @@ export function Header() {
     router.push(`/${pathname.split('/')[1]}`);
   };
 
-  return (
-    <Wrapper isOpen={showModal}>
+  //eslint-disable-next-line
+  useEffect(() => manageUrl(searchInput), [searchInput]);
+
+  return token ? (
+    <Wrapper>
       <DesktopContent>
         <Logo>
-          <Link href="/">
+          <Link href="/projects">
             Feeda
             {pathname !== '/participants' && pathname !== '/projects' && (
               <Button variant="goBack" icon="arrowLeft" func={goBackHandler} />
@@ -121,10 +127,8 @@ export function Header() {
           name="search-input"
           placeholder="Ключове слово"
           endIconId="search"
-          onTypeFunc={manageUrl}
           defaultValue={searchParams.get('q') || ''}
           control={control}
-          clearErrors={clearErrors}
         />
       </MobileHeaderWrapper>
 
@@ -132,5 +136,7 @@ export function Header() {
 
       {showModal && <SidebarModal isOpen={showModal} closeModal={closeModal} />}
     </Wrapper>
+  ) : (
+    <></>
   );
 }

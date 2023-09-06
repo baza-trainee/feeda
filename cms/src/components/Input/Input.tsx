@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import { Control, Controller } from 'react-hook-form';
 
 import { ClassNames } from '@emotion/react';
 import uk_UA from 'date-fns/locale/uk';
+
+import { ParticipantsDefaultValuesTypes } from '~/src/helpers/makeParticipantsDefaultValues';
 
 import { IconSprite, IconType } from '../IconSprite/IconSprite';
 import { ErrorText } from '../SelectField/SelectField.style';
@@ -23,7 +24,7 @@ import {
 import 'react-datepicker/dist/react-datepicker.css';
 
 type InputProps = {
-  name: string;
+  name: keyof ParticipantsDefaultValuesTypes;
   type?: React.HTMLInputTypeAttribute;
   id?: string;
   label?: string;
@@ -36,13 +37,12 @@ type InputProps = {
   required?: boolean;
   minLength?: number;
   maxLength?: number;
-  onclick?: () => void;
+  onclick?: (event: React.MouseEvent<HTMLDivElement>) => void;
   pattern?: string;
   begIconId?: IconType | undefined;
   endIconId?: IconType | undefined;
-  control: Control;
+  control: Control<ParticipantsDefaultValuesTypes>;
   rules?: object;
-  onTypeFunc?: (value: string) => void;
 };
 
 export function Input({
@@ -65,23 +65,17 @@ export function Input({
   endIconId,
   control,
   rules,
-  onTypeFunc,
 }: InputProps) {
-  const [inputValue, setInputValue] = useState(defaultValue);
   registerLocale('uk_UA', uk_UA);
 
   return (
     <Controller
+      name={name}
       defaultValue={defaultValue}
       control={control}
-      name={name}
       rules={rules}
-      render={({ field: { onChange }, fieldState: { error } }) => {
-        const handleChange = (value: string) => {
-          onChange(value);
-          if (onTypeFunc) onTypeFunc(value);
-          if (pattern || label || type === 'date') setInputValue(value);
-        };
+      render={({ field: { onChange, value }, fieldState: { error } }) => {
+        const valueLen = typeof value === 'string' ? value.length : 0;
         return (
           <ClassNames>
             {({ css }) => (
@@ -89,15 +83,20 @@ export function Input({
                 {label && (
                   <LabelComp
                     htmlFor={id}
-                    inputValueLen={Boolean(inputValue?.length)}
+                    inputValueLen={Boolean(valueLen)}
                     isDisabled={disabled}
-                    checkIsValid={Boolean(pattern && inputValue?.length)}
+                    checkIsValid={Boolean(pattern && valueLen)}
                     isError={Boolean(error)}
                   >
                     {label}
                   </LabelComp>
                 )}
-                <InputWrapper checkIsValid={Boolean(pattern && inputValue?.length)} isError={Boolean(error)}>
+                <InputWrapper
+                  checkIsValid={Boolean(pattern && valueLen)}
+                  begIcon={Boolean(begIconId)}
+                  endIcon={Boolean(endIconId)}
+                  isError={Boolean(error)}
+                >
                   {begIconId && (
                     <InputIconWrapper css={firstIconStyles} isDisabled={disabled}>
                       <IconSprite icon={begIconId} />
@@ -109,11 +108,11 @@ export function Input({
                       dateFormat="dd MMMM yyyy"
                       locale="uk_UA"
                       placeholderText={placeholder}
-                      selected={inputValue}
+                      selected={value instanceof Date ? value : undefined}
                       className={css(inputStyles)}
                       readOnly={readonly}
                       calendarStartDay={1}
-                      onChange={handleChange}
+                      onChange={onChange}
                     />
                   ) : (
                     <InputComp
@@ -123,14 +122,13 @@ export function Input({
                       placeholder={placeholder}
                       readOnly={readonly}
                       type={type}
-                      name={name}
                       disabled={disabled}
                       required={required}
                       maxLength={maxLength}
                       minLength={minLength}
                       pattern={pattern}
-                      defaultValue={defaultValue}
-                      onChange={(ev) => handleChange(ev.target.value)}
+                      defaultValue={value as string}
+                      onChange={onChange}
                     />
                   )}
                   {endIconId && (
