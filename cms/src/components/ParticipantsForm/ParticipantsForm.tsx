@@ -136,54 +136,56 @@ export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
             func={() => formData && dispatch(sendEmail(formData.id))}
           />
         </div>
-        <div id="two-inputs-wrapper">
-          <Input
-            name="account_discord"
-            label="Discord *"
-            placeholder="XXXX#XXXX"
-            rules={{ required: "Це поле обов'язкове до заповнення!" }}
-            minLength={2}
-            maxLength={37}
-            control={control}
-            pattern={discordRegex.source}
-            readonly={formVariant === 'view'}
-          />
-          <Input
-            name="account_linkedin"
-            label="LinkedIn *"
-            placeholder="www.linkedin.com/in/"
-            type="text"
-            rules={{ required: "Це поле обов'язкове до заповнення!" }}
-            minLength={19}
-            maxLength={128}
-            control={control}
-            pattern={linkedRegex.source}
-            readonly={formVariant === 'view'}
-          />
-        </div>
-        <div id="two-inputs-wrapper">
-          <Input
-            name="phone_number"
-            label="Телефон *"
-            type="tel"
-            placeholder="+XXXXXXXXXXXX"
-            readonly={formVariant === 'view'}
-            rules={{ required: "Це поле обов'язкове до заповнення!" }}
-            pattern={phoneNumberRegex.source}
-            control={control}
-          />
-          <Input
-            name="email"
-            label="E-mail *"
-            placeholder="xxx@xxxx.xxx"
-            type="email"
-            readonly={formVariant === 'view'}
-            rules={{ required: "Це поле обов'язкове до заповнення!" }}
-            minLength={6}
-            maxLength={70}
-            pattern={emailRegex.source}
-            control={control}
-          />
+        <div className="contactsInputs">
+          <div id="two-inputs-wrapper">
+            <Input
+              name="account_discord"
+              label="Discord *"
+              placeholder="XXXX#XXXX"
+              rules={{ required: "Це поле обов'язкове до заповнення!" }}
+              minLength={2}
+              maxLength={37}
+              control={control}
+              pattern={discordRegex.source}
+              readonly={formVariant === 'view'}
+            />
+            <Input
+              name="account_linkedin"
+              label="LinkedIn *"
+              placeholder="www.linkedin.com/in/"
+              type="text"
+              rules={{ required: "Це поле обов'язкове до заповнення!" }}
+              minLength={19}
+              maxLength={128}
+              control={control}
+              pattern={linkedRegex.source}
+              readonly={formVariant === 'view'}
+            />
+          </div>
+          <div id="two-inputs-wrapper">
+            <Input
+              name="phone_number"
+              label="Телефон *"
+              type="tel"
+              placeholder="+XXXXXXXXXXXX"
+              readonly={formVariant === 'view'}
+              rules={{ required: "Це поле обов'язкове до заповнення!" }}
+              pattern={phoneNumberRegex.source}
+              control={control}
+            />
+            <Input
+              name="email"
+              label="E-mail *"
+              placeholder="xxx@xxxx.xxx"
+              type="email"
+              readonly={formVariant === 'view'}
+              rules={{ required: "Це поле обов'язкове до заповнення!" }}
+              minLength={6}
+              maxLength={70}
+              pattern={emailRegex.source}
+              control={control}
+            />
+          </div>
         </div>
       </div>
       <div id="form-part">
@@ -216,7 +218,7 @@ export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
                 btnType="button"
                 variant="icon"
                 icon="trash"
-                isDisabled={formVariant === 'view'}
+                isDisabled={formVariant === 'view' || fields.length === 1}
                 func={() => {
                   remove(idx);
                 }}

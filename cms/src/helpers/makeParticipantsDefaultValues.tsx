@@ -5,7 +5,11 @@ import { ParticipantData } from '../redux/participants/operations';
 export const participantsDefaultValues = (
   formData: ParticipantData | undefined
 ): ParticipantsDefaultValuesTypes | { speciality: OptionType } => {
-  if (!formData) return { speciality: membersRole[6] };
+  if (!formData)
+    return {
+      speciality: membersRole[6],
+      type_participant: { value: '', label: 'Виберіть стан' },
+    };
   else {
     const {
       id,

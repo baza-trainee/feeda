@@ -100,7 +100,7 @@ export function Header() {
             <IconSprite icon="openMenu" />
           </MenuBtn>
         </MenuWrapper>
-        <Input name="searchInput" placeholder="Ключове слово" endIconId="search" control={control} />
+        <Input name="searchInput" placeholder="Ключове слово" endIconId="search" control={control} maxLength={50} />
       </MobileHeaderWrapper>
       <PageTitle css={[pageMobileTitleStyles]}>{manageHeaderTitle()}</PageTitle>
     </Wrapper>

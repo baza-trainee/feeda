@@ -39,6 +39,26 @@ export const Form = styled.form`
       }
     }
   }
+  & div.contactsInputs {
+    @media screen and (${media.desktop}) {
+      display: flex;
+      & > div#two-inputs-wrapper {
+        flex-direction: column;
+        flex: 2;
+
+        &:first-of-type {
+          margin-right: 24px;
+        }
+        & > div#input-wrapper {
+          margin-right: 0;
+
+          &:first-of-type {
+            margin-bottom: 24px;
+          }
+        }
+      }
+    }
+  }
   & p#form-part-title {
     color: ${colors.mainText};
     font-size: 22px;
