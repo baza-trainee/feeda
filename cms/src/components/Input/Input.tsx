@@ -1,4 +1,5 @@
 'use client';
+import { parseISO } from 'date-fns';
 
 import DatePicker, { registerLocale } from 'react-datepicker';
 import { Control, Controller } from 'react-hook-form';
@@ -108,7 +109,7 @@ export function Input({
                       dateFormat="dd MMMM yyyy"
                       locale="uk_UA"
                       placeholderText={placeholder}
-                      selected={value instanceof Date ? value : undefined}
+                      selected={value ? new Date(value as string) : undefined}
                       className={css(inputStyles)}
                       readOnly={readonly}
                       calendarStartDay={1}

@@ -10,6 +10,7 @@ import { MemberType, ProjectTeamForm } from '~/src/components/ProjectTeamForm/Pr
 import { OptionType } from '~/src/components/SelectField/SelectField';
 import { fetchTeam } from '~/src/redux/projects/actions';
 import { AppDispatch, RootState } from '~/src/redux/store/store';
+import { parseISO } from 'date-fns';
 
 import { NavContainer, ProjectContainer } from './styles';
 
@@ -40,7 +41,9 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   const { control, clearErrors, handleSubmit, trigger } = useForm<FieldValues>({
     values: currentTeam,
   });
-  console.log(currentTeam);
+
+  console.log(new Date(currentTeam.start_date_project || ''));
+
   useEffect(() => {
     const projectId = params.projectId;
     if (projectId !== 'add') {

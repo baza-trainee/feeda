@@ -98,6 +98,7 @@ export interface ProjectTeam {
   start_date_project: string | null;
   end_date_project: string | null;
   user: userDataParams | object;
+  team_lead: userDataParams | object;
 }
 
 export { actions, name, reducer };

@@ -92,12 +92,10 @@ const addProject = createAsyncThunk(ActionType.ADD_PROJECT, async (formData: Fie
 const fetchTeam = createAsyncThunk(ActionType.GET_TEAM, async (title: string, thunkAPI) => {
   await thunkAPI.dispatch(getInstructions());
   const { instructions } = (await thunkAPI.getState()) as RootState;
-  console.log(instructions);
-  const { data } = await axios.get<{ team_lead: string; project: ProjectDataParams; user: userDataParams[] }>(
+
+  const { data } = await axios.get<{ team_lead: userDataParams[]; project: ProjectDataParams; user: userDataParams[] }>(
     `http://127.0.0.1:8000/api/v1/user-project/command-project-detail/${title}/`
   );
-
-  console.log(data);
 
   let currentStatus: { id: number; status: string } | undefined;
   let currentType: { id: number; project_type: string } | undefined;
@@ -110,7 +108,7 @@ const fetchTeam = createAsyncThunk(ActionType.GET_TEAM, async (title: string, th
     currentType = instructions.project_types.find((item) => item.id === data.project.type_project);
   }
 
-  const { project, user } = data;
+  const { project, user, team_lead } = data;
 
   const currentTeam: ProjectTeam = {
     title: project.title,
@@ -119,9 +117,23 @@ const fetchTeam = createAsyncThunk(ActionType.GET_TEAM, async (title: string, th
     project_status: currentStatus?.status || '',
     type_project: currentType?.project_type || '',
     address_site: project.address_site || '',
-    start_date_project: project.start_date_project || '2023-01-01',
-    end_date_project: project.end_date_project || '2023-01-01',
-    // team_lead: team_lead || '',
+    start_date_project: project.start_date_project || '2024-12-31',
+    end_date_project: project.end_date_project || '2024-12-31',
+    team_lead:
+      team_lead.map((lead) => {
+        const memberRole = lead.speciality
+          ? instructions.specialities?.find((item) => item.id === lead.speciality) || ''
+          : '';
+
+        return {
+          full_name: {
+            label: `${lead.first_name} ${lead.last_name}`,
+            value: lead.id,
+          },
+          membersRole: memberRole ? memberRole.title : 'None',
+          comment: lead.comment || '',
+        };
+      }) || [],
     user:
       user.map((user) => {
         const memberRole = user.speciality
@@ -157,7 +169,7 @@ export interface ProjectDataParams {
 }
 
 export interface TeamDataParams {
-  team_lead?: string | null;
+  team_lead: userDataParams[];
   user: userDataParams[];
   project: ProjectDataParams;
 }
