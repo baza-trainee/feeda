@@ -10,7 +10,7 @@ import { ActionType } from './common';
 import { ProjectTeam } from './projects.slice';
 
 const fetchProjects = createAsyncThunk(ActionType.GET_ALL, async () => {
-  const { data } = await axios.get('http://localhost:8000/user-project/projects/');
+  const { data } = await axios.get('http://127.0.0.1:8000/api/v1/user-project/projects/');
   return data.results; /// TEMP PAGINATION
 });
 
@@ -18,7 +18,7 @@ const deleteProject = createAsyncThunk(
   ActionType.DELETE_PROJECT,
   async (title: string | number | null, { dispatch }) => {
     try {
-      await axios.delete(`http://localhost:8000/user-project/project/${title}`);
+      await axios.delete(`http://127.0.0.1:8000/api/v1/user-project/project/${title}`);
       await dispatch(fetchProjects());
       return;
     } catch (err) {
@@ -27,28 +27,62 @@ const deleteProject = createAsyncThunk(
   }
 );
 
-const addProject = createAsyncThunk(ActionType.ADD_PROJECT, async (formData: FieldValues) => {
+const addProject = createAsyncThunk(ActionType.ADD_PROJECT, async (formData: FieldValues, thunkAPI) => {
+  await thunkAPI.dispatch(getInstructions());
+  const { instructions } = (await thunkAPI.getState()) as RootState;
+
+  let currentStatus: { id: number; status: string } | undefined;
+  let currentType: { id: number; project_type: string } | undefined;
+
+  if (instructions.project_status) {
+    currentStatus = instructions.project_status.find((item) => item.status === formData.project_status);
+  }
+
+  if (instructions.project_types) {
+    currentType = instructions.project_types.find((item) => item.project_type === formData.type_project);
+  }
+
+  console.log(currentType);
+
   const projectData: ProjectDataParams = {
     title: formData.title,
     comment: formData.comment,
-    type_project: Number(formData.project_status.value) || 2, /// GET INSTRUCTIONS
-    complexity: Number(formData.complixity.value) || 2, /// GET INSTRUCTIONS
-    project_status: Number(formData.project_status.value) || 1, ///  /// GET INSTRUCTIONS
+    type_project: currentType?.id || 1,
+    complexity: formData.complexity,
+    project_status: currentStatus?.id || 1,
     start_date_project: format(formData.start_date_project, 'yyyy-MM-dd'),
     end_date_project: formData.start_date_project ? format(formData.start_date_project, 'yyyy-MM-dd') : '2023-12-31',
     address_site: formData.address_site,
   };
 
   console.log('dispatch', projectData);
-  const { data } = await axios.post('http://localhost:8000/user-project/create-project/', projectData);
+  const { data } = await axios.post('http://127.0.0.1:8000/api/v1/user-project/create-project/', projectData);
 
-  const teamData: { team_lead: string; user: string[]; project: string } = {
-    team_lead: 'f7d31f25-36d2-4ab9-98ed-1aa8aa5e29c6',
-    user: ['f7d31f25-36d2-4ab9-98ed-1aa8aa5e29c6', 'e81be77f-ec88-4e94-9ab5-236ac428d15b'],
-    project: data.project.id.toString(),
-  };
+  const transformedUserData = formData.user.reduce(
+    (result, user) => {
+      const userId = user.full_name.value;
+      result.user.push(userId);
+      result.comments[userId] = user.comment;
 
-  const response = await axios.put(`http://localhost:8000/user-project/command-update/${data.command.id}/`, teamData);
+      if (instructions.specialities !== null) {
+        const specialityMatch = instructions.specialities.find((item) => item.title === user.membersRole);
+        result.speciality[userId] = specialityMatch ? specialityMatch.id : 9;
+      } else {
+        result.speciality[userId] = null;
+      }
+
+      return result;
+    },
+    { user: [], comments: {}, speciality: {}, project: data.project.id }
+  );
+
+  console.log(data);
+  console.log(transformedUserData);
+
+  const response = await axios.put(
+    `http://127.0.0.1:8000/api/v1/user-project/command-update/${data.command.id}/`,
+    transformedUserData
+  );
 
   const combinedData = { project: data, team: response.data };
 
@@ -58,10 +92,12 @@ const addProject = createAsyncThunk(ActionType.ADD_PROJECT, async (formData: Fie
 const fetchTeam = createAsyncThunk(ActionType.GET_TEAM, async (title: string, thunkAPI) => {
   await thunkAPI.dispatch(getInstructions());
   const { instructions } = (await thunkAPI.getState()) as RootState;
-
+  console.log(instructions);
   const { data } = await axios.get<{ team_lead: string; project: ProjectDataParams; user: userDataParams[] }>(
-    `http://localhost:8000/user-project/command-project-detail/${title}/`
+    `http://127.0.0.1:8000/api/v1/user-project/command-project-detail/${title}/`
   );
+
+  console.log(data);
 
   let currentStatus: { id: number; status: string } | undefined;
   let currentType: { id: number; project_type: string } | undefined;
@@ -89,7 +125,7 @@ const fetchTeam = createAsyncThunk(ActionType.GET_TEAM, async (title: string, th
     user:
       user.map((user) => {
         const memberRole = user.speciality
-          ? instructions.specialities?.find((item) => item.title === user.speciality?.title) || ''
+          ? instructions.specialities?.find((item) => item.id === user.speciality) || ''
           : '';
 
         return {
@@ -103,6 +139,7 @@ const fetchTeam = createAsyncThunk(ActionType.GET_TEAM, async (title: string, th
       }) || [],
   };
 
+  console.log('current team', currentTeam);
   return currentTeam;
 });
 
@@ -129,10 +166,7 @@ export interface userDataParams {
   id: string;
   first_name: string;
   last_name: string;
-  speciality: {
-    id: number;
-    title: string;
-  } | null;
+  speciality: number | null;
   comment: string | null;
 }
 

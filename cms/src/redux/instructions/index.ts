@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:8000/';
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api/v1/';
 
 const initialState: InstructionsStateType = {
   specialities: null,
@@ -13,16 +13,16 @@ const initialState: InstructionsStateType = {
 };
 
 export const getInstructions = createAsyncThunk('instructions/getInstructions', async () => {
-  const specialities = await axios.get<IdNameType[]>('user-project/speciality-list/');
-  const participation_types = await axios.get<IdNameType[]>('user-project/types-participant-list/');
-  const project_types = await axios.get<{ id: number; project_type: string }[]>('user-project/types-project-list/');
-  const project_status = await axios.get<{ id: number; status: string }[]>('user-project/status-project-list/');
+  const specialities = await axios.get<{ results: SpecialitiesType[] }>('user-project/speciality-list/');
+  const participation_types = await axios.get<{ results: ParticipantType[] }>('user-project/types-participant-list/');
+  const project_types = await axios.get<{ results: ProjectTypes[] }>('user-project/types-project-list/');
+  const project_status = await axios.get<{ results: ProjectStatusType[] }>('user-project/status-project-list/');
 
   const returnValue = {
-    specialities: specialities.data,
-    participation_types: participation_types.data,
-    project_types: project_types.data,
-    project_status: project_status.data,
+    specialities: specialities.data.results,
+    participation_types: participation_types.data.results,
+    project_types: project_types.data.results,
+    project_status: project_status.data.results,
   };
   return returnValue;
 });
@@ -54,12 +54,32 @@ export const instructionsSlice = createSlice({
 export default instructionsSlice.reducer;
 
 export interface InstructionsStateType {
-  specialities: null | IdNameType[];
-  participation_types: null | IdNameType[];
-  project_types: null | { id: number; project_type: string }[];
-  project_status: null | { id: number; status: string }[];
+  specialities: null | SpecialitiesType[];
+  participation_types: null | ParticipantType[];
+  project_types: null | ProjectTypes[];
+  project_status: null | ProjectStatusType[];
   isLoading: boolean;
   error: true | null;
+}
+
+export interface ProjectStatusType {
+  id: number;
+  status: string;
+}
+
+export interface ParticipantType {
+  id: number;
+  title: string;
+}
+
+export interface ProjectTypes {
+  id: number;
+  project_type: string;
+}
+
+export interface SpecialitiesType {
+  id: number;
+  title: string;
 }
 
 export interface IdNameType {

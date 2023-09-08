@@ -40,7 +40,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   const { control, clearErrors, handleSubmit, trigger } = useForm<FieldValues>({
     values: currentTeam,
   });
-
+  console.log(currentTeam);
   useEffect(() => {
     const projectId = params.projectId;
     if (projectId !== 'add') {
