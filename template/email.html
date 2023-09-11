@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Baza Trainee Email</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2&display=swap" rel="stylesheet" />
+  </head>
+  <body style="padding: 0; max-width: 600px; margin: 0 auto">
+    <style type="text/css">
+      .header {
+        padding: 16px 48px;
+        display: flex;
+        gap: 48px;
+        align-items: center;
+        background: rgb(255, 189, 0);
+      }
+      .content {
+        font-size: 18px;
+        padding: 48px 48px 75px 48px;
+        line-height: 1.4;
+        letter-spacing: 0.25px;
+        color: #000;
+      }
+      .link {
+        color: #000;
+      }
+    </style>
+
+    <table
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      width="100%"
+      style="font-family: 'Exo 2', sans-serif; font-weight: 400; border-collapse: collapse"
+    >
+      <tbody style="background: rgb(255, 255, 255)">
+        <tr>
+          <td class="header">
+            <a href="" target="_blank" style="display: inline-block">
+              <img
+                alt="Baza trainee Ukraine"
+                width="68"
+                src="{% static 'logo/Logo.png' %}"
+                style="display: block; max-height: 68px"
+              />
+            </a>
+            <span style="display: block; font-size: 22px; line-height: 1.4"> Вітаємо на Baza Trainee Ukraine </span>
+          </td>
+        </tr>
+        <tr>
+          <td class="content">
+            <span style="display: block">
+              {{letter}}
+              {% if reset %}
+              {{absolut_url}}
+              {% endif %}
+              <br /><br />
+              Анкета на <a href="/cms/public/email.test.html" class="link">Baza Trainee Ukraine</a> <br /><br /><br />
+              Наш email: <a href="mailto:info@baza-trainee.tech" class="link">info@baza-trainee.tech</a>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

@@ -18,8 +18,6 @@ class ProjectsFilter(django_filters.FilterSet):
 
 class ParticipantFilter(django_filters.FilterSet):
     speciality = SpecialitySerializer
-    stack = AddParticipantSerializer
-    last_name = AddParticipantSerializer
     experience = AddParticipantSerializer
     type_participant = TypeParticipantSerializer
 

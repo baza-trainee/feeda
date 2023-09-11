@@ -21,11 +21,8 @@ from .yasg import urlpatterns as doc_url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('auth/', include('djoser.urls')),
-    # path('auth/', include('djoser.urls.authtoken')),
-    # path('auth/', include('djoser.urls.jwt')),
-    path('user-project/', include('src.user_project.urls')),
-    path('users/', include('src.users.urls'))
+    path('api/v1/user-project/', include('src.user_project.urls')),
+    path('api/v1/users/', include('src.users.urls'))
 ]
 
 urlpatterns += doc_url

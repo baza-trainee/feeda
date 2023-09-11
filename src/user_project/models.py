@@ -1,12 +1,12 @@
-from django.db import models
-from django.utils.text import slugify
+from django.db import models, transaction
+# from django.utils.text import slugify
+from slugify import slugify
 from phonenumber_field.modelfields import PhoneNumberField
 import uuid
 
 
 class TemplateLatter(models.Model):
     letter = models.TextField()
-    pdf_file = models.FileField(upload_to='files/')
 
     def __str__(self):
         return f'{self.letter}'
@@ -48,11 +48,11 @@ class TypeParticipant(models.Model):
 
 
 class Projects(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=30)
     comment = models.TextField(blank=True, null=True, max_length=50)
-    type_project = models.ForeignKey(TypeProject, blank=True, null=True, on_delete=models.PROTECT)
-    complexity = models.ForeignKey(Complexity, blank=True, null=True, on_delete=models.CASCADE)
-    project_status = models.ForeignKey(StatusProject, blank=True, null=True, on_delete=models.CASCADE)
+    type_project = models.ForeignKey(TypeProject, on_delete=models.PROTECT)
+    complexity = models.ForeignKey(Complexity, on_delete=models.CASCADE)
+    project_status = models.ForeignKey(StatusProject, on_delete=models.CASCADE)
     start_date_project = models.DateField()
     end_date_project = models.DateField(blank=True, null=True)
     address_site = models.URLField(blank=True, null=True, max_length=30)
@@ -78,7 +78,7 @@ class Projects(models.Model):
 
 class Participant(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    first_name = models.CharField(max_length=20)
+    first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     comment = models.CharField(max_length=50, blank=True, null=True)
     phone_number = PhoneNumberField()
@@ -89,7 +89,7 @@ class Participant(models.Model):
     experience = models.BooleanField(default=False)
     speciality = models.ForeignKey(Speciality, blank=True, null=True, on_delete=models.PROTECT)
     stack = models.CharField(max_length=300)
-    project = models.ManyToManyField(Projects, blank=True, null=True)
+    project = models.ManyToManyField(Projects)
     type_participant = models.ForeignKey(
         TypeParticipant,
         on_delete=models.PROTECT,
@@ -104,7 +104,12 @@ class Participant(models.Model):
 
 class ProjectParticipants(models.Model):
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ManyToManyField(Participant, blank=True, null=True)
+    user = models.ManyToManyField(Participant, blank=True, null=True, related_name='user')
+    team_lead = models.ManyToManyField(
+        Participant,
+        blank=True, null=True,
+        related_name='team_lead'
+    )
     project = models.ForeignKey(
         Projects,
         on_delete=models.CASCADE,

@@ -12,6 +12,9 @@ from django.conf import settings
 from django.utils import timezone
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.authtoken.views import ObtainAuthToken
+from django.utils.html import strip_tags
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
 from rest_framework.authtoken.models import Token
 from rest_framework_simplejwt.tokens import RefreshToken
 from drf_yasg import openapi
@@ -73,7 +76,7 @@ class CustomAuthToken(ObtainAuthToken):
         token, created = Token.objects.get_or_create(user=user)
         # token.life_tome_token = timezone.now() + datetime.timedelta(minutes=1)
 
-        return Response({'token': token.key})
+        return Response({'token': token.key}, status=status.HTTP_201_CREATED)
 
 
 class CustomTokenDestroy(generics.DestroyAPIView):
@@ -149,20 +152,52 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
             token = PasswordResetTokenGenerator().make_token(user)
             current_site = get_current_site(request=request).domain
             relative_link = reverse('reset-password-confirm', kwargs={'uidb64': uidb64, 'token': token})
-            absolut_url = 'http://' + current_site + relative_link
+            # absolut_url = 'http://' + current_site + relative_link
+            absolut_url = 'http://localhost:3000' + relative_link
             email_body = f'Hello, Use link below to reset your password {absolut_url}'
-            data = {
-                'email_body': email_body,
-                'to_email': user.email,
-                'absolut_url': absolut_url,
-                'email_subject': 'Reset your password'
+            context = {
+                'absolut_url': email_body,
+                'reset': True
             }
-            Util.send_mail(data)
+            html_letter = render_to_string('email.html', context)
+            data_message = strip_tags(html_letter)
+            message = EmailMultiAlternatives(
+                subject=email_body,
+                body=data_message,
+                from_email=settings.EMAIL_HOST_USER,
+                to=[user.email]
+            )
+            message.attach_alternative(html_letter, 'text/html')
+            message.send()
+            # data = {
+            #     'email_body': email_body,
+            #     'to_email': user.email,
+            #     'absolut_url': absolut_url,
+            #     'email_subject': 'Reset your password'
+            # }
+            # Util.send_mail(data)
         return Response({'message:' 'Ми надіслали лист для заміни пароля'}, status=status.HTTP_200_OK)
 
 
 class PasswordTokenCheckAPI(APIView):
     """Перевірка валідності токена"""
+
+    @swagger_auto_schema(
+        responses={
+            status.HTTP_200_OK: openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            ),
+            status.HTTP_400_BAD_REQUEST: openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING)
+                }
+            )
+        }
+    )
     def get(self, request, uidb64, token):
         try:
             id = smart_str(urlsafe_base64_decode(uidb64))
@@ -184,6 +219,21 @@ class NewPassword(generics.GenericAPIView):
     serializer_class = NewPasswordSerializer
 
     @swagger_auto_schema(
+        operation_description="Search for participants based on various criteria.",
+        manual_parameters=[
+            openapi.Parameter(
+                'uidb64_query',
+                openapi.IN_QUERY,
+                type=openapi.TYPE_STRING,
+                required=True,
+            ),
+            openapi.Parameter(
+                'token',
+                openapi.IN_QUERY,
+                type=openapi.TYPE_STRING,
+                required=True
+            )
+        ],
         responses={
             status.HTTP_400_BAD_REQUEST: openapi.Response(
                 description='Invalid data',
@@ -197,6 +247,32 @@ class NewPassword(generics.GenericAPIView):
         }
     )
     def patch(self, request):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        return Response({'success': True, 'message': 'Password reset'}, status=status.HTTP_201_CREATED)
+        uidb64_query = request.query_params.get('uuidb64', None)
+        token_query = request.query_params.get('token', None)
+
+        if uidb64_query and token_query:
+            data_dict = {
+                'token': token_query,
+                'uidb64': uidb64_query,
+                'password': request.data.get('password'),
+                'confirm_password': request.data.get('confirm_password')
+            }
+            serializer = self.serializer_class(data=data_dict)
+            # serializer = self.serializer_class(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            return Response({'success': True, 'message': 'Password reset'}, status=status.HTTP_201_CREATED)
+        return Response({'message': 'Query not found'})
+
+
+class CheckToken(APIView):
+    def get(self, request):
+        token = Token.objects.get(user=request.user)
+        if token:
+            return True
+        else:
+            return Response(False)
+        # try:
+        #     token = Token.objects.get(user=request.user)
+        #     return Response(True)
+        # except Token.DoesNotExist:
+        #     return Response(False)

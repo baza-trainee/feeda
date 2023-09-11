@@ -1,27 +1,27 @@
 from django.urls import path
+from django.conf.urls.static import static
 from .views import *
 
 
 urlpatterns = [
-    path('types-project-list/', types_project_list),
-    path('types-participant-list/', types_participant_list),
-    path('speciality-list/', speciality_list),
-    path('join/', join_project),
-    path('add-participant/', add_participant),
-    path('participants-list/', get_all_participant),
-    path('participant-detail/<uuid:id>/', detail_participant),
-    path('get-participant/<uuid:id>/', get_participant),
-    path('send/<uuid:id>/', send_email),
-    path('create-project/', create_project),
-    path('projects/', list_projects),
-    path('project/<str:project_url>/', detail_project),
-    path('command/', create_command),
-    path('commands/', commands_list),
-    path('command-update/<str:id>/', command_update),
-    path('command-delete/<str:id>/', delete_command),
-    # path('filter-participant/', filter_participant_list),
-    path('filter-project/', filter_project_list),
-    path('search-user/', search),
-    path('search-projects/', search_projects),
-    path('down/', downland_swagger)
+    path('status-project-list/', StatusProjectList.as_view()),
+    path('types-project-list/', TypesProjectList.as_view()),
+    path('types-participant-list/', TypeParticipantList.as_view()),
+    path('speciality-list/', SpecialityList.as_view()),
+    path('join/', JoinProject.as_view()),
+    path('add-participant/', AddParticipant.as_view()),
+    path('participants-list/', GetAllParticipants.as_view()),
+    path('participant-detail/<uuid:participant_id>/', DetailParticipant.as_view()),
+    path('send-email/<uuid:participant_id>/', send_template),
+    path('detail-project/<project_url>/', DetailCreateUpdateDeleteProject.as_view()),
+    path('project/', DetailCreateUpdateDeleteProject.as_view()),
+    path('projects/', ListProjects.as_view()),
+    path('commands/', TeamsList.as_view()),
+    path('command-project-detail/<str:project_url>/', TeamProjectDetail.as_view()),
+    path('command-update-delete/<team_id>', TeamProjectDetail.as_view()),
+    path('search-user/', SearchFilterParticipant.as_view()),
+    path('search-filter-projects/', SearchFilterProjects.as_view()),
+    path('down/', downland_swagger),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
