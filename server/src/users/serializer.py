@@ -1,37 +1,11 @@
-from django.contrib.sites.shortcuts import get_current_site
+
 from rest_framework import serializers
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnicodeDecodeError
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.utils.encoding import force_str
+from django.utils.http import urlsafe_base64_decode
 from rest_framework.exceptions import AuthenticationFailed
-from django.core.validators import EmailValidator
-from django.contrib.auth import authenticate
-from rest_framework.authtoken.models import Token
-from rest_framework_simplejwt.tokens import RefreshToken, TokenError
-from djoser.serializers import UserCreateSerializer
-from django.urls import reverse
-from django.contrib.auth import get_user_model
 from .models import *
-from .utils import *
-
-
-# class UserRegisterSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = CustomUser
-#         fields = ('email', 'password')
-#         extra_kwargs = {
-#             'password': {'write_only': True}
-#         }
-#
-#     def create(self, validated_data):
-#         password = validated_data.pop('password', None)
-#         instance = self.Meta.model(**validated_data)
-#
-#         if password is not None:
-#             instance.set_password(password)
-#
-#         instance.save()
-#         return instance
+import re
 
 
 class AuthTokenSerializer(serializers.ModelSerializer):
@@ -47,6 +21,7 @@ class AuthTokenSerializer(serializers.ModelSerializer):
 
         if len(email) < 12:
             raise serializers.ValidationError('Email invalid')
+
         return attrs
 
 
@@ -59,7 +34,7 @@ class ResetPasswordRequestEmailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ('email', )
+        fields = ('email',)
 
 
 class NewPasswordSerializer(serializers.ModelSerializer):
@@ -89,6 +64,13 @@ class NewPasswordSerializer(serializers.ModelSerializer):
 
             if password != confirm_password:
                 raise AuthenticationFailed('Passwords do not match')
+
+            if not re.search(r'[A-Z]', password):
+                raise serializers.ValidationError('The password must contain at least one capital letter')
+            if not re.search(r'[a-z]', password):
+                raise serializers.ValidationError('The password must contain at least one lowercase letter')
+            if not re.search(r'\d', password):
+                raise serializers.ValidationError('The password must contain at least one digit')
 
             user.set_password(password)
             user.save()
