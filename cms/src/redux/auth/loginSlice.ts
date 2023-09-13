@@ -14,7 +14,7 @@ export const authSlice = createSlice({
   reducers: {
     loginByToken: (state, action) => {
       state.token = action.payload;
-      axios.defaults.headers.Authorization = `Token ${action.payload}`;
+      axios.defaults.headers.Authorization = `Bearer ${action.payload}`;
       state.error = null;
     },
   },

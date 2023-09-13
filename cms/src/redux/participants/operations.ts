@@ -10,7 +10,7 @@ import { IdNameType } from '../instructions';
 
 export const fetchParticipants = createAsyncThunk('participants/fetchParticipants', async (_, { rejectWithValue }) => {
   try {
-    const { data } = await axios.get<ParticipantsResponseTypes>('user-project/participants-list/');
+    const { data } = await axios.get<ParticipantsResponseTypes>('api/v1/participant/');
     return data;
   } catch (err) {
     if (err instanceof AxiosError) {
@@ -28,7 +28,7 @@ export const createParticipant = createAsyncThunk(
     try {
       const requestData = manageFormFields(formData, instructions);
       console.log('Create: ', requestData);
-      const { data } = await axios.post<ParticipantData>('user-project/add-participant/', requestData);
+      const { data } = await axios.post<ParticipantData>('api/v1/participant/', requestData);
       return data;
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -42,7 +42,7 @@ export const getParticipant = createAsyncThunk(
   'participants/getParticipant',
   async (id: string, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get<ParticipantData>(`user-project/get-participant/${id}/`);
+      const { data } = await axios.get<ParticipantData>(`api/v1/participant/${id}/`);
       return data;
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -62,7 +62,7 @@ export const updateParticipant = createAsyncThunk(
     try {
       const requestData = manageFormFields(formData, instructions);
       console.log('Update: ', requestData);
-      const { data } = await axios.put<ParticipantData>(`user-project/participant-detail/${userId}/`, requestData);
+      const { data } = await axios.put<ParticipantData>(`api/v1/participant/${userId}/`, requestData);
       return data;
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -76,7 +76,7 @@ export const deleteParticipant = createAsyncThunk(
   'participants/deleteParticipant',
   async (userId: string, { dispatch, rejectWithValue }) => {
     try {
-      await axios.delete<ParticipantData>(`user-project/participant-detail/${userId}/`);
+      await axios.delete<ParticipantData>(`api/v1/participant/${userId}/`);
       await dispatch(fetchParticipants());
       return;
     } catch (err) {
@@ -110,13 +110,13 @@ export const searchProjects = createAsyncThunk(
   'participants/searchProjects',
   async (search: string, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get<{ id: number; label: string }[]>('user-project/search-projects', {
-        params: { query: search },
+      const { data } = await axios.get<{ id: number; label: string }[]>('api/v1/project', {
+        params: { search },
       });
-      for (const item of data as { id: number; title: string; label: string }[]) {
-        item.label = item.title;
-      }
-      return data;
+      // for (const item of data as { id: number; title: string; label: string }[]) {
+      //   item.label = item.title;
+      // }
+      return data.results;
     } catch (err) {
       if (err instanceof AxiosError) {
         return rejectWithValue(err.response?.data);
@@ -129,7 +129,7 @@ export const searchParticipants = createAsyncThunk(
   'participants/searchParticipants',
   async (search: string, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get<ParticipantsResponseTypes>('user-project/search-user', {
+      const { data } = await axios.get<ParticipantsResponseTypes>('api/v1/participant/', {
         params: { query: search },
       });
       return data;

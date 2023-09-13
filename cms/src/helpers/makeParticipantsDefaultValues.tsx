@@ -8,7 +8,6 @@ export const participantsDefaultValues = (
   if (!formData)
     return {
       speciality: membersRole[6],
-      type_participant: { value: '', label: 'Виберіть стан' },
     };
   else {
     const {
@@ -37,13 +36,13 @@ export const participantsDefaultValues = (
       stack,
       project,
       experience: experienceVariants.find((item) => item.value === (formData.experience ? 'Так' : 'Ні')),
-      speciality: {
+      role: {
         value: formData.speciality?.title,
-        label: membersRole.find((item) => item.value === formData.speciality?.title)?.label,
+        label: membersRole.find((item) => item.value === formData.role)?.label,
       },
-      type_participant: {
-        value: formData.type_participant.title,
-        label: projectType.find((item) => item.value === formData.type_participant.title)?.label,
+      type: {
+        value: formData.type,
+        label: projectType.find((item) => item.value === formData.type)?.label,
       },
     };
 

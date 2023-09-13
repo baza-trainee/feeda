@@ -35,6 +35,7 @@ export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
 
   const projectsSearcher = async (value: string) => {
     const projects = (await dispatch(searchProjects(value))).payload as OptionType[];
+    console.log(projects);
     return projects;
   };
 
@@ -78,7 +79,7 @@ export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
             readonly={formVariant === 'view'}
           />
           <SelectField
-            name="speciality"
+            name="role"
             title="Роль"
             placeholder="Роль"
             rules={{ required: "Поле обов'язкове до заповнення!" }}
@@ -100,7 +101,7 @@ export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
             clearErrors={clearErrors}
           />
           <SelectField
-            name="type_participant"
+            name="type"
             title="Тип участі *"
             placeholder="Платний"
             isDisabled={formVariant === 'view'}

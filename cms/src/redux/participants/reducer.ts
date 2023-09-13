@@ -30,6 +30,7 @@ export const participantsSlice = createSlice({
     });
     builder.addCase(fetchParticipants.fulfilled, (state, { payload }) => {
       state.list = payload.results;
+      console.log(payload.results);
       state.isLoading = false;
     });
     builder.addCase(fetchParticipants.rejected, (state, { payload }) => {
@@ -88,14 +89,14 @@ export const participantsSlice = createSlice({
       state.participant = null;
     });
     builder.addCase(getParticipant.fulfilled, (state, { payload }) => {
-      payload.project.forEach((item) => {
-        item.label = item.title;
-        for (const key in item) {
-          if (key !== 'label' && key !== 'id')
-            delete (item as ParticipantData['project'][0])[key as keyof ParticipantData['project'][0]];
-        }
-      });
-      console.log(payload);
+      // payload.project.forEach((item) => {
+      //   item.label = item.title;
+      //   for (const key in item) {
+      //     if (key !== 'label' && key !== 'id')
+      //       delete (item as ParticipantData['project'][0])[key as keyof ParticipantData['project'][0]];
+      //   }
+      // });
+      console.log('Get: ', payload);
       state.participant = payload;
       state.isLoading = false;
     });
