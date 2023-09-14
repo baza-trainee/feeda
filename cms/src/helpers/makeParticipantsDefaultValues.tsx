@@ -21,8 +21,9 @@ export const participantsDefaultValues = (
       account_linkedin,
       city,
       stack,
-      project,
+      projects,
     } = formData;
+    console.log(projects);
     const defaultValues = {
       id,
       first_name,
@@ -34,7 +35,9 @@ export const participantsDefaultValues = (
       account_linkedin,
       city,
       stack,
-      project,
+      projects: projects.map(({ project }) => {
+        return { label: project };
+      }),
       experience: experienceVariants.find((item) => item.value === (formData.experience ? 'Так' : 'Ні')),
       role: {
         value: formData.speciality?.title,
@@ -45,7 +48,7 @@ export const participantsDefaultValues = (
         label: projectType.find((item) => item.value === formData.type)?.label,
       },
     };
-
+    console.log(defaultValues);
     return defaultValues;
   }
 };

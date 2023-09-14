@@ -17,7 +17,6 @@ export default function EditParticipant() {
   const pathname = usePathname();
   const [showPopUp, setShowPopUp] = useState(false);
   const { isLoading, error, participant } = useSelector((state: StoreTypes) => state.participants);
-  const { specialities, participation_types } = useSelector((state: StoreTypes) => state.instructions);
   const userId = pathname.split('/')[pathname.split('/').length - 1];
 
   useEffect(() => {
@@ -28,14 +27,11 @@ export default function EditParticipant() {
   }, []);
 
   const handleSubmit = (formData: FieldValues) => {
-    if (!specialities || !participation_types) return console.log('Instructions not loaded');
-    dispatch(updateParticipant({ formData, userId, instructions: { specialities, participation_types } })).then(
-      (res: { meta: { requestStatus: string } }) => {
-        if (res.meta.requestStatus === 'fulfilled') {
-          setShowPopUp(true);
-        }
+    dispatch(updateParticipant({ formData, userId })).then((res: { meta: { requestStatus: string } }) => {
+      if (res.meta.requestStatus === 'fulfilled') {
+        setShowPopUp(true);
       }
-    );
+    });
   };
 
   const closeModalFunc = () => {

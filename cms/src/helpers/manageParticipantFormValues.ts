@@ -1,10 +1,7 @@
 import { FieldValues } from 'react-hook-form';
 
-import { IdNameType } from '../redux/instructions';
-
-export function manageFormFields(formData: FieldValues, instructions: InstructionsTypes) {
+export function manageFormFields(formData: FieldValues) {
   try {
-    if (!instructions.specialities || !instructions.participation_types) throw new Error('Instructions not loaded');
     const {
       account_discord,
       account_linkedin,
@@ -15,10 +12,10 @@ export function manageFormFields(formData: FieldValues, instructions: Instructio
       first_name,
       last_name,
       phone_number,
-      speciality,
+      role,
       stack,
-      type_participant,
-      project,
+      type,
+      projects,
     } = formData;
 
     const requestData: RequestDataTypes = {
@@ -30,24 +27,26 @@ export function manageFormFields(formData: FieldValues, instructions: Instructio
       first_name,
       last_name,
       phone_number,
-      project: project.map((item: { id: number }) => item.id || 0),
       stack,
       experience: experience?.value === 'Так' || false,
-      speciality: 0,
-      type_participant: 0,
+      role: role.value,
+      type: type.value,
+      projects: projects.map((item: { id: number }) => {
+        return { project: item.id };
+      }),
     };
 
-    const tmp_spec = instructions.specialities.find(
-      (item) => item.title.toLowerCase() === speciality.value.toLowerCase()
-    );
-    if (!tmp_spec) throw new Error('Speciality not found');
-    requestData.speciality = tmp_spec.id;
+    // const tmp_spec = instructions.specialities.find(
+    //   (item) => item.title.toLowerCase() === speciality.value.toLowerCase()
+    // );
+    // if (!tmp_spec) throw new Error('Speciality not found');
+    // requestData.speciality = tmp_spec.id;
 
-    const tmp_type = instructions.participation_types.find(
-      (item) => item.title.toLowerCase() === type_participant.value.toLowerCase()
-    );
-    if (!tmp_type) throw new Error('Participation type not found');
-    requestData.type_participant = tmp_type.id;
+    // const tmp_type = instructions.participation_types.find(
+    //   (item) => item.title.toLowerCase() === type_participant.value.toLowerCase()
+    // );
+    // if (!tmp_type) throw new Error('Participation type not found');
+    // requestData.type_participant = tmp_type.id;
 
     return requestData;
   } catch (err) {
@@ -69,9 +68,4 @@ interface RequestDataTypes {
   speciality: number;
   stack: string;
   type_participant: number;
-}
-
-export interface InstructionsTypes {
-  specialities: IdNameType[];
-  participation_types: IdNameType[];
 }

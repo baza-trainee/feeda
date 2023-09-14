@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { usePathname, useRouter } from 'next/navigation';
 
 import { loginByToken } from '../redux/auth/loginSlice';
-import { getInstructions } from '../redux/instructions';
 import { AppDispatch } from '../redux/store/store';
 
 export function ApiFetchComp() {
@@ -22,9 +21,7 @@ export function ApiFetchComp() {
     } else if (!token && savedToken) {
       dispatch(loginByToken(savedToken));
       path !== '/login' ? router.push(path) : router.push('projects');
-      // dispatch(getInstructions());
     } else if (token && !savedToken) {
-      // dispatch(getInstructions());
       if (remember) {
         localStorage.setItem('token', token);
       }

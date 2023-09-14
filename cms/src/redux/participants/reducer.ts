@@ -118,6 +118,7 @@ export const participantsSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(updateParticipant.rejected, (state, { payload }) => {
+      console.log('Update error: ', payload);
       if (typeof payload === 'object' && payload) {
         const formattedString = Object.entries(payload)
           .map(([key, value]) => {

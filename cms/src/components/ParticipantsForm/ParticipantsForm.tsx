@@ -13,7 +13,7 @@ import { AppDispatch } from '../../redux/store/store';
 import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
 import { experienceVariants, membersRole, projectType } from '../SelectField/lists';
-import { AsyncField, OptionType, SelectField } from '../SelectField/SelectField';
+import { AsyncField, SelectField } from '../SelectField/SelectField';
 import { Form } from './ParticipantsForm.styles';
 
 type Props = {
@@ -24,19 +24,17 @@ type Props = {
 
 export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
   const dispatch = useDispatch<AppDispatch>();
-  const { control, handleSubmit, clearErrors, reset } = useForm<FieldValues>({
+  const { control, handleSubmit, clearErrors, reset, getValues } = useForm<FieldValues>({
     defaultValues: participantsDefaultValues(formData),
   });
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'project',
+    name: 'projects',
   });
 
   const projectsSearcher = async (value: string) => {
-    const projects = (await dispatch(searchProjects(value))).payload as OptionType[];
-    console.log(projects);
-    return projects;
+    return (await dispatch(searchProjects(value))).payload;
   };
 
   return (
@@ -206,7 +204,7 @@ export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
           return (
             <div id="project-wrapper" key={field.id}>
               <AsyncField
-                name={`project.${idx}`}
+                name={`projects.${idx}`}
                 title="Проєкт *"
                 control={control}
                 options={projectsSearcher}
@@ -233,7 +231,14 @@ export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
           <Link href={`/participants/edit/${formData?.id}`}>Редагувати</Link>
         ) : (
           <>
-            <Button id="bigFontBtn" btnType="submit" variant="primary" title="Зберегти зміни" />
+            {/* <Button id="bigFontBtn" btnType="submit" variant="primary" title="Зберегти зміни" /> */}
+            <Button
+              id="bigFontBtn"
+              btnType="button"
+              variant="primary"
+              title="Зберегти зміни"
+              func={() => console.log(getValues())}
+            />
             <Button
               id="cancelBtn"
               btnType="reset"

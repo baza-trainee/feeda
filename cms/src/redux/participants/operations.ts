@@ -5,8 +5,7 @@ axios.defaults.baseURL = 'http://localhost:8000/';
 
 import { FieldValues } from 'react-hook-form';
 
-import { InstructionsTypes, manageFormFields } from '../../helpers/manageParticipantFormValues';
-import { IdNameType } from '../instructions';
+import { manageFormFields } from '../../helpers/manageParticipantFormValues';
 
 export const fetchParticipants = createAsyncThunk('participants/fetchParticipants', async (_, { rejectWithValue }) => {
   try {
@@ -21,12 +20,9 @@ export const fetchParticipants = createAsyncThunk('participants/fetchParticipant
 
 export const createParticipant = createAsyncThunk(
   'participants/createParticipant',
-  async (
-    { formData, instructions }: { formData: FieldValues; instructions: InstructionsTypes },
-    { rejectWithValue }
-  ) => {
+  async ({ formData }: { formData: FieldValues }, { rejectWithValue }) => {
     try {
-      const requestData = manageFormFields(formData, instructions);
+      const requestData = manageFormFields(formData);
       console.log('Create: ', requestData);
       const { data } = await axios.post<ParticipantData>('api/v1/participant/', requestData);
       return data;
@@ -58,10 +54,10 @@ export const getParticipant = createAsyncThunk(
 
 export const updateParticipant = createAsyncThunk(
   'participants/updateParticipant',
-  async ({ formData, userId, instructions }: UpdateParticipantTypes, { rejectWithValue }) => {
+  async ({ formData, userId }: UpdateParticipantTypes, { rejectWithValue }) => {
     try {
-      const requestData = manageFormFields(formData, instructions);
-      console.log('Update: ', requestData);
+      console.log('Update: ', formData);
+      const requestData = manageFormFields(formData);
       const { data } = await axios.put<ParticipantData>(`api/v1/participant/${userId}/`, requestData);
       return data;
     } catch (err) {
@@ -110,12 +106,13 @@ export const searchProjects = createAsyncThunk(
   'participants/searchProjects',
   async (search: string, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get<{ id: number; label: string }[]>('api/v1/project', {
+      const { data } = await axios.get<{ results: { id: number; label: string; title: string }[] }>('api/v1/project', {
         params: { search },
       });
-      // for (const item of data as { id: number; title: string; label: string }[]) {
-      //   item.label = item.title;
-      // }
+      for (const item of data.results) {
+        item.label = item.title;
+      }
+      console.log(data.results);
       return data.results;
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -148,10 +145,6 @@ export const searchParticipants = createAsyncThunk(
 interface UpdateParticipantTypes {
   formData: FieldValues;
   userId: string;
-  instructions: {
-    specialities: IdNameType[];
-    participation_types: IdNameType[];
-  };
 }
 
 interface ParticipantsResponseTypes {

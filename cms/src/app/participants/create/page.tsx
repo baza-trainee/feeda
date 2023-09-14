@@ -12,13 +12,11 @@ import Loader from '../../loading';
 
 export default function CreateParticipant() {
   const dispatch = useDispatch<AppDispatch>();
-  const { specialities, participation_types } = useSelector((state: StoreTypes) => state.instructions);
   const { error, isLoading } = useSelector((state: StoreTypes) => state.participants);
   const [showPopUp, setShowPopUp] = useState(false);
 
   const handleSubmit = (formData: FieldValues) => {
-    if (!specialities || !participation_types) return console.log('Instructions not loaded');
-    dispatch(createParticipant({ formData, instructions: { specialities, participation_types } })).then((res) => {
+    dispatch(createParticipant(formData)).then((res) => {
       if (res.meta.requestStatus === 'fulfilled') {
         setShowPopUp(true);
       }
