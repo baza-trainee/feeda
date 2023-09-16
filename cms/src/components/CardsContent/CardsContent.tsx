@@ -98,7 +98,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                       </ThirdBlockElementsWrapper>
                       <ThirdBlockElementsWrapper>
                         <p id="name">Проєкти</p>
-                        <p id="value">{(item as ParticipantData).project_count}</p>
+                        <p id="value">{(item as ParticipantData).count_projects}</p>
                       </ThirdBlockElementsWrapper>
                       <ThirdBlockElementsWrapper>
                         <p id="name">Роль</p>

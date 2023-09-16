@@ -24,7 +24,7 @@ type Props = {
 
 export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
   const dispatch = useDispatch<AppDispatch>();
-  const { control, handleSubmit, clearErrors, reset, getValues } = useForm<FieldValues>({
+  const { control, handleSubmit, clearErrors, reset } = useForm<FieldValues>({
     defaultValues: participantsDefaultValues(formData),
   });
 
@@ -197,7 +197,7 @@ export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
             title="Додати проєкт"
             icon="plus"
             isDisabled={formVariant === 'view'}
-            func={() => append({ label: '' })}
+            func={() => append({ label: null, id: null })}
           />
         </div>
         {fields.map((field, idx) => {
@@ -210,7 +210,7 @@ export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
                 options={projectsSearcher}
                 placeholder="Назва"
                 clearErrors={clearErrors}
-                // isDisabled={formVariant === 'view'}
+                isDisabled={formVariant === 'view'}
                 rules={{ required: "Поле обов'язкове до заповнення!" }}
               />
               <Button
@@ -231,14 +231,7 @@ export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
           <Link href={`/participants/edit/${formData?.id}`}>Редагувати</Link>
         ) : (
           <>
-            {/* <Button id="bigFontBtn" btnType="submit" variant="primary" title="Зберегти зміни" /> */}
-            <Button
-              id="bigFontBtn"
-              btnType="button"
-              variant="primary"
-              title="Зберегти зміни"
-              func={() => console.log(getValues())}
-            />
+            <Button id="bigFontBtn" btnType="submit" variant="primary" title="Зберегти зміни" />
             <Button
               id="cancelBtn"
               btnType="reset"

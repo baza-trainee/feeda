@@ -6,7 +6,6 @@ import {
   fetchParticipants,
   getParticipant,
   ParticipantData,
-  searchParticipants,
   searchProjects,
   sendEmail,
   updateParticipant,
@@ -30,32 +29,15 @@ export const participantsSlice = createSlice({
     });
     builder.addCase(fetchParticipants.fulfilled, (state, { payload }) => {
       state.list = payload.results;
-      console.log(payload.results);
+      // console.log(payload.results);
       state.isLoading = false;
     });
     builder.addCase(fetchParticipants.rejected, (state, { payload }) => {
       if (typeof payload === 'string') state.error = payload;
       else state.error = true;
+      console.log('Error: ', payload);
       state.isLoading = false;
     });
-
-    // - - -
-
-    builder.addCase(searchParticipants.pending, (state) => {
-      state.isLoading = true;
-      state.error = null;
-    });
-    builder.addCase(searchParticipants.fulfilled, (state, { payload }) => {
-      state.list = payload.results;
-      state.isLoading = false;
-    });
-    builder.addCase(searchParticipants.rejected, (state, { payload }) => {
-      if (typeof payload === 'string') state.error = payload;
-      else state.error = true;
-      state.isLoading = false;
-    });
-
-    // - - -
 
     builder.addCase(createParticipant.pending, (state) => {
       state.isLoading = true;
@@ -66,18 +48,9 @@ export const participantsSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(createParticipant.rejected, (state, { payload }) => {
-      if (typeof payload === 'object' && payload) {
-        const formattedString = Object.entries(payload)
-          .map(([key, value]) => `${key}: ${value.join(', ')}`)
-          .join('\n');
-        state.error = formattedString;
-      } else if (typeof payload === 'string') {
-        console.log('Error: ', payload);
-        state.error = payload;
-      } else {
-        console.log('Error: ', payload);
-        state.error = true;
-      }
+      if (typeof payload === 'string') state.error = payload;
+      else state.error = true;
+      console.log('Error: ', payload);
       state.isLoading = false;
     });
 
@@ -89,13 +62,6 @@ export const participantsSlice = createSlice({
       state.participant = null;
     });
     builder.addCase(getParticipant.fulfilled, (state, { payload }) => {
-      // payload.project.forEach((item) => {
-      //   item.label = item.title;
-      //   for (const key in item) {
-      //     if (key !== 'label' && key !== 'id')
-      //       delete (item as ParticipantData['project'][0])[key as keyof ParticipantData['project'][0]];
-      //   }
-      // });
       console.log('Get: ', payload);
       state.participant = payload;
       state.isLoading = false;
@@ -119,20 +85,9 @@ export const participantsSlice = createSlice({
     });
     builder.addCase(updateParticipant.rejected, (state, { payload }) => {
       console.log('Update error: ', payload);
-      if (typeof payload === 'object' && payload) {
-        const formattedString = Object.entries(payload)
-          .map(([key, value]) => {
-            return Array.isArray(value) ? `${key}: ${value.join(', ')}` : `${key}: ${value}`;
-          })
-          .join('\n');
-        state.error = formattedString;
-      } else if (typeof payload === 'string') {
-        console.log('Error: ', payload);
-        state.error = payload;
-      } else {
-        console.log('Error: ', payload);
-        state.error = true;
-      }
+      if (typeof payload === 'string') state.error = payload;
+      else state.error = true;
+      console.log('Error: ', payload);
       state.isLoading = false;
     });
 
@@ -149,6 +104,7 @@ export const participantsSlice = createSlice({
       console.log('Participant delete error: ', payload);
       if (typeof payload === 'string') state.error = payload;
       else state.error = true;
+      console.log('Error: ', payload);
       state.isLoading = false;
     });
 

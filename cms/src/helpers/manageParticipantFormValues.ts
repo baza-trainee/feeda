@@ -2,11 +2,12 @@ import { FieldValues } from 'react-hook-form';
 
 export function manageFormFields(formData: FieldValues) {
   try {
+    console.log('Form data: ', formData);
     const {
       account_discord,
       account_linkedin,
-      city,
-      comment,
+      city = '',
+      comment = '',
       email,
       experience,
       first_name,
@@ -21,8 +22,8 @@ export function manageFormFields(formData: FieldValues) {
     const requestData: RequestDataTypes = {
       account_discord,
       account_linkedin,
-      city: city || '',
-      comment: comment || '',
+      city,
+      comment,
       email,
       first_name,
       last_name,
@@ -36,18 +37,6 @@ export function manageFormFields(formData: FieldValues) {
       }),
     };
 
-    // const tmp_spec = instructions.specialities.find(
-    //   (item) => item.title.toLowerCase() === speciality.value.toLowerCase()
-    // );
-    // if (!tmp_spec) throw new Error('Speciality not found');
-    // requestData.speciality = tmp_spec.id;
-
-    // const tmp_type = instructions.participation_types.find(
-    //   (item) => item.title.toLowerCase() === type_participant.value.toLowerCase()
-    // );
-    // if (!tmp_type) throw new Error('Participation type not found');
-    // requestData.type_participant = tmp_type.id;
-
     return requestData;
   } catch (err) {
     console.log('Participant manager err: ', err);
@@ -57,15 +46,15 @@ export function manageFormFields(formData: FieldValues) {
 interface RequestDataTypes {
   account_discord: string;
   account_linkedin: string;
-  city: string;
-  comment: string;
+  city: string | null;
+  comment: string | null;
   email: string;
   experience: boolean;
   first_name: string;
   last_name: string;
   phone_number: string;
-  project: number[];
-  speciality: number;
+  projects: { project: number }[];
+  role: string;
   stack: string;
-  type_participant: number;
+  type: number;
 }

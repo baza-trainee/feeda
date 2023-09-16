@@ -3,14 +3,16 @@ import axios from 'axios';
 
 import { logIn } from './operations';
 
+const initialState: AuthStateTypes = {
+  token: null,
+  loading: false,
+  error: null,
+  remember: false,
+};
+
 export const authSlice = createSlice({
   name: 'auth',
-  initialState: {
-    token: null,
-    loading: false,
-    error: null as string | null,
-    remember: false,
-  },
+  initialState,
   reducers: {
     loginByToken: (state, action) => {
       state.token = action.payload;
@@ -25,15 +27,17 @@ export const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(logIn.fulfilled, (state, action) => {
+      .addCase(logIn.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.token = action.payload.token;
-        state.remember = action.payload.remember;
+        state.token = payload.token;
+        state.remember = payload.remember;
       })
-      .addCase(logIn.rejected, (state, action) => {
+      .addCase(logIn.rejected, (state, { payload }) => {
         state.token = null;
         state.loading = false;
-        state.error = action.error.message || null;
+        if (typeof payload === 'string') state.error = payload;
+        else state.error = true;
+        console.log('Error: ', payload);
       });
   },
 });
@@ -41,7 +45,8 @@ export const authSlice = createSlice({
 export interface AuthStateTypes {
   token: string | null;
   loading: boolean;
-  error: string | null;
+  error: string | null | boolean;
+  remember: boolean;
 }
 export const authSliceReducer = authSlice.reducer;
 export const { loginByToken } = authSlice.actions;
