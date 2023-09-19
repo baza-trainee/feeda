@@ -3,30 +3,33 @@ import axios, { AxiosError } from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:8000/';
 
-import { FormDataTypes, InstructionsTypes, manageFormFields } from '../../helpers/manageParticipantFormValues';
-import { IdNameType } from '../instructions';
+import { FieldValues } from 'react-hook-form';
 
-export const fetchParticipants = createAsyncThunk('participants/fetchParticipants', async (_, { rejectWithValue }) => {
-  try {
-    const { data } = await axios.get<ParticipantsResponseTypes>('user-project/participants-list/');
-    return data;
-  } catch (err) {
-    if (err instanceof AxiosError) {
-      return rejectWithValue(err.response?.data);
-    } else return rejectWithValue(true);
+import { manageFormFields } from '../../helpers/manageParticipantFormValues';
+
+export const fetchParticipants = createAsyncThunk(
+  'participants/fetchParticipants',
+  async (search: string | undefined, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get<ParticipantsResponseTypes>('api/v1/participant/', {
+        params: { search: search || '' },
+      });
+      return data;
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        return rejectWithValue(err.response?.data);
+      } else return rejectWithValue(true);
+    }
   }
-});
+);
 
 export const createParticipant = createAsyncThunk(
   'participants/createParticipant',
-  async (
-    { formData, instructions }: { formData: FormDataTypes; instructions: InstructionsTypes },
-    { rejectWithValue }
-  ) => {
+  async (formData: FieldValues, { rejectWithValue }) => {
     try {
-      const requestData = manageFormFields(formData, instructions);
+      const requestData = manageFormFields(formData);
       console.log('Create: ', requestData);
-      const { data } = await axios.post<ParticipantData>('user-project/add-participant/', requestData);
+      const { data } = await axios.post<ParticipantData>('api/v1/participant/', requestData);
       return data;
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -40,7 +43,7 @@ export const getParticipant = createAsyncThunk(
   'participants/getParticipant',
   async (id: string, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get<ParticipantData>(`user-project/get-participant/${id}/`);
+      const { data } = await axios.get<ParticipantData>(`api/v1/participant/${id}/`);
       return data;
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -56,11 +59,11 @@ export const getParticipant = createAsyncThunk(
 
 export const updateParticipant = createAsyncThunk(
   'participants/updateParticipant',
-  async ({ formData, userId, instructions }: UpdateParticipantTypes, { rejectWithValue }) => {
+  async ({ formData, userId }: UpdateParticipantTypes, { rejectWithValue }) => {
     try {
-      const requestData = manageFormFields(formData, instructions);
-      console.log('Update: ', requestData);
-      const { data } = await axios.put<ParticipantData>(`user-project/participant-detail/${userId}/`, requestData);
+      const requestData = manageFormFields(formData);
+      console.log('Update: ', formData);
+      const { data } = await axios.put<ParticipantData>(`api/v1/participant/${userId}/`, requestData);
       return data;
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -74,7 +77,7 @@ export const deleteParticipant = createAsyncThunk(
   'participants/deleteParticipant',
   async (userId: string, { dispatch, rejectWithValue }) => {
     try {
-      await axios.delete<ParticipantData>(`user-project/participant-detail/${userId}/`);
+      await axios.delete<ParticipantData>(`api/v1/participant/${userId}/`);
       await dispatch(fetchParticipants());
       return;
     } catch (err) {
@@ -108,13 +111,14 @@ export const searchProjects = createAsyncThunk(
   'participants/searchProjects',
   async (search: string, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get<{ id: number; label: string }[]>('user-project/search-projects', {
-        params: { query: search },
+      const { data } = await axios.get<{ results: { id: number; label: string; title: string }[] }>('api/v1/project', {
+        params: { search },
       });
-      for (const item of data as { id: number; title: string; label: string }[]) {
+      for (const item of data.results) {
         item.label = item.title;
       }
-      return data;
+      console.log(data.results);
+      return data.results;
     } catch (err) {
       if (err instanceof AxiosError) {
         return rejectWithValue(err.response?.data);
@@ -123,33 +127,29 @@ export const searchProjects = createAsyncThunk(
   }
 );
 
-export const searchParticipants = createAsyncThunk(
-  'participants/searchParticipants',
-  async (search: string, { rejectWithValue }) => {
-    try {
-      const { data } = await axios.get<ParticipantsResponseTypes>('user-project/search-user', {
-        params: { query: search },
-      });
-      return data;
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        if (err.response?.status === 404) {
-          return rejectWithValue('Помилка, статус 404');
-        } else if (err.response?.status === 500) {
-          return rejectWithValue('Помилка сервера, статус 500');
-        } else return rejectWithValue(err.response?.data);
-      } else return rejectWithValue(true);
-    }
-  }
-);
+// export const searchParticipants = createAsyncThunk(
+//   'participants/searchParticipants',
+//   async (search: string, { rejectWithValue }) => {
+//     try {
+//       const { data } = await axios.get<ParticipantsResponseTypes>('api/v1/participant/', {
+//         params: { search },
+//       });
+//       return data;
+//     } catch (err) {
+//       if (err instanceof AxiosError) {
+//         if (err.response?.status === 404) {
+//           return rejectWithValue('Помилка, статус 404');
+//         } else if (err.response?.status === 500) {
+//           return rejectWithValue('Помилка сервера, статус 500');
+//         } else return rejectWithValue(err.response?.data);
+//       } else return rejectWithValue(true);
+//     }
+//   }
+// );
 
 interface UpdateParticipantTypes {
-  formData: FormDataTypes;
+  formData: FieldValues;
   userId: string;
-  instructions: {
-    specialities: IdNameType[];
-    participation_types: IdNameType[];
-  };
 }
 
 interface ParticipantsResponseTypes {
@@ -171,8 +171,8 @@ export interface ParticipantData {
   city: string;
   experience: boolean;
   stack: string;
-  speciality: { id: number; title: string };
-  project: { id: number; label: string; title: string; projectId: number }[];
-  project_count: number;
-  type_participant: { id: number; title: 'Безкоштовний' | 'Платний' | 'Буткамп' };
+  role: string;
+  count_projects: number;
+  type: 'Безкоштовний' | 'Платний' | 'Буткамп';
+  projects: { id: number; project: string }[];
 }

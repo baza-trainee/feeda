@@ -19,6 +19,7 @@ const { reducer, actions, name } = createSlice({
     });
     builder.addCase(fetchProjects.fulfilled, (state, { payload }) => {
       state.projects = payload.results;
+      console.log(payload.results);
       state.loading = 'success';
       console.log(state.loading);
       console.log('Fetching participants');
@@ -55,16 +56,10 @@ export interface ProjectsState {
 export interface ProjectData {
   id: number;
   title: string;
-  type_project: {
-    project_type: string;
-  };
-  project_status: {
-    status: string;
-  };
-  complexity: {
-    complexity: string;
-  };
-  participants_count: string;
+  type: string;
+  status: string;
+  complexity: string;
+  count_participants: string;
   start_date_project: string;
 }
 

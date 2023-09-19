@@ -1,6 +1,5 @@
 import { Exo_2 } from 'next/font/google';
 
-import { Header } from '../components/Header/Header';
 import { LayoutContainer } from '../components/LayoutContainer/LayoutContainer';
 import { ReduxProvider } from '../redux/store/ReduxProvider';
 import { ApiFetchComp } from './ApiFetchComp';
@@ -25,7 +24,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <body>
           <ReduxProvider>
             <LayoutContainer>
-              <Header />
               {children}
               <ApiFetchComp />
             </LayoutContainer>

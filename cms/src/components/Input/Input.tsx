@@ -6,8 +6,7 @@ import { Control, Controller } from 'react-hook-form';
 import { ClassNames } from '@emotion/react';
 import uk_UA from 'date-fns/locale/uk';
 
-import { ParticipantsDefaultValuesTypes } from '~/src/helpers/makeParticipantsDefaultValues';
-
+import { Button } from '../Button/Button';
 import { IconSprite, IconType } from '../IconSprite/IconSprite';
 import { ErrorText } from '../SelectField/SelectField.style';
 import {
@@ -24,7 +23,8 @@ import {
 import 'react-datepicker/dist/react-datepicker.css';
 
 type InputProps = {
-  name: keyof ParticipantsDefaultValuesTypes;
+  name: string;
+  control: Control;
   type?: React.HTMLInputTypeAttribute;
   id?: string;
   label?: string;
@@ -38,10 +38,10 @@ type InputProps = {
   minLength?: number;
   maxLength?: number;
   onclick?: (event: React.MouseEvent<HTMLDivElement>) => void;
+  submitBtn?: boolean;
   pattern?: string;
   begIconId?: IconType | undefined;
   endIconId?: IconType | undefined;
-  control: Control<ParticipantsDefaultValuesTypes>;
   rules?: object;
 };
 
@@ -65,6 +65,7 @@ export function Input({
   endIconId,
   control,
   rules,
+  submitBtn,
 }: InputProps) {
   registerLocale('uk_UA', uk_UA);
 
@@ -131,10 +132,14 @@ export function Input({
                       onChange={onChange}
                     />
                   )}
-                  {endIconId && (
-                    <InputIconWrapper css={lastIconStyles} isDisabled={disabled}>
-                      <IconSprite icon={endIconId} />
-                    </InputIconWrapper>
+                  {submitBtn && endIconId ? (
+                    <Button variant="text" btnType="submit" icon={endIconId} />
+                  ) : (
+                    endIconId && (
+                      <InputIconWrapper css={lastIconStyles} isDisabled={disabled}>
+                        <IconSprite icon={endIconId} />
+                      </InputIconWrapper>
+                    )
                   )}
                 </InputWrapper>
                 {(supportLabel || onValidLabel || error) && (
