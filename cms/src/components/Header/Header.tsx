@@ -1,7 +1,7 @@
 'use client';
 /** @jsxImportSource @emotion/react */
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
@@ -27,13 +27,11 @@ export function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { control, watch } = useForm<FieldValues>({
+  const [prevLocation, setPrevLocation] = useState('');
+  const { participant, isLoading } = useSelector((store: StoreTypes) => store.participants);
+  const { control, getValues } = useForm<FieldValues>({
     defaultValues: { searchInput: searchParams.get('q') || '' },
   });
-  const [prevLocation, setPrevLocation] = useState('' as string);
-  const { participant, isLoading } = useSelector((store: StoreTypes) => store.participants);
-  const { token } = useSelector((state: StoreTypes) => state.auth);
-  const searchInput = watch('searchInput');
 
   const manageHeaderTitle = () => {
     if (pathname === '/participants') {
@@ -45,11 +43,7 @@ export function Header() {
     } else if (pathname === '/projects/create') {
       return 'Додати проект';
     } else if (pathname.split('/')[1] === 'participants') {
-      if (participant && !isLoading) {
-        return `${participant?.first_name} ${participant?.last_name}`;
-      } else {
-        return '';
-      }
+      participant && !isLoading ? `${participant?.first_name} ${participant?.last_name}` : '';
     } else if (pathname.split('/')[1] === 'projects') {
       return 'Проект (змінити на його назву)';
     } else {
@@ -57,18 +51,14 @@ export function Header() {
     }
   };
 
-  const manageUrl = (value: string) => {
-    if (value?.length) {
-      if ((pathname !== prevLocation && pathname !== '/participants') || !prevLocation.length) {
-        setPrevLocation(pathname);
-      } else if (pathname !== '/participants') {
-        router.push(`/participants?q=${value}`);
-      } else {
-        router.push(`?q=${value}`);
-      }
+  const setSearch = (ev: React.FormEvent) => {
+    ev.preventDefault();
+    const value = getValues('searchInput');
+    if (value.length) {
+      if (pathname !== '/participants') setPrevLocation(pathname);
+      router.push(`/participants?q=${value}`);
     } else if (!value?.length) {
-      if (!prevLocation.length) router.push('/participants');
-      else router.push(prevLocation);
+      prevLocation.length ? router.push(prevLocation) : router.push('/participants');
     }
   };
 
@@ -78,10 +68,7 @@ export function Header() {
     router.push(`/${pathname.split('/')[1]}`);
   };
 
-  //eslint-disable-next-line
-  useEffect(() => manageUrl(searchInput), [searchInput]);
-
-  return token ? (
+  return (
     <Wrapper>
       <DesktopContent>
         <Logo>
@@ -100,11 +87,18 @@ export function Header() {
             <IconSprite icon="openMenu" />
           </MenuBtn>
         </MenuWrapper>
-        <Input name="searchInput" placeholder="Ключове слово" endIconId="search" control={control} maxLength={50} />
+        <form onSubmit={setSearch} id="form">
+          <Input
+            name="searchInput"
+            placeholder="Ключове слово"
+            endIconId="search"
+            submitBtn={true}
+            control={control}
+            maxLength={50}
+          />
+        </form>
       </MobileHeaderWrapper>
       <PageTitle css={[pageMobileTitleStyles]}>{manageHeaderTitle()}</PageTitle>
     </Wrapper>
-  ) : (
-    <></>
   );
 }
