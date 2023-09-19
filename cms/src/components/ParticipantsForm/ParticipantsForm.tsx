@@ -4,6 +4,7 @@ import { FieldValues, useFieldArray, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { participantsDefaultValues } from '~/src/helpers/makeParticipantsDefaultValues';
 
@@ -24,7 +25,8 @@ type Props = {
 
 export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
   const dispatch = useDispatch<AppDispatch>();
-  const { control, handleSubmit, clearErrors, reset } = useForm<FieldValues>({
+  const router = useRouter();
+  const { control, handleSubmit, clearErrors } = useForm<FieldValues>({
     defaultValues: participantsDefaultValues(formData),
   });
 
@@ -232,13 +234,7 @@ export function ParticipantsForm({ submitFunc, formVariant, formData }: Props) {
         ) : (
           <>
             <Button id="bigFontBtn" btnType="submit" variant="primary" title="Зберегти зміни" />
-            <Button
-              id="cancelBtn"
-              btnType="reset"
-              variant="text"
-              title="Скасувати"
-              func={() => reset(participantsDefaultValues(formData))}
-            />
+            <Button id="cancelBtn" btnType="reset" variant="text" title="Скасувати" func={() => router.back()} />
           </>
         )}
       </div>
