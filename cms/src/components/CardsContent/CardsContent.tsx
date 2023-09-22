@@ -67,8 +67,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                     }}
                   />
                   <p id={type === 'projects' ? 'project-type-participant' : ''}>
-                    {(item as ParticipantData).type_participant?.title ||
-                      (item as ProjectData).type_project.project_type}
+                    {(item as ParticipantData)?.type || (item as ProjectData).type}
                   </p>
                 </FirstBlockWrapper>
                 <SecondBlockWrapper type={type}>
@@ -82,9 +81,9 @@ export function CardsContent({ type, data }: CardsContentType) {
                   ) : (
                     <>
                       <h2 title={(item as ProjectData).title}>{(item as ProjectData).title}</h2>
-                      <p title={(item as ProjectData).participants_count}>
-                        {(item as ProjectData).participants_count}{' '}
-                        {projectParticipantsEnding(Number((item as ProjectData).participants_count))}
+                      <p title={(item as ProjectData).count_participants}>
+                        {(item as ProjectData).count_participants}{' '}
+                        {projectParticipantsEnding(Number((item as ProjectData).count_participants))}
                       </p>
                     </>
                   )}
@@ -98,7 +97,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                       </ThirdBlockElementsWrapper>
                       <ThirdBlockElementsWrapper>
                         <p id="name">Проєкти</p>
-                        <p id="value">{(item as ParticipantData).project_count}</p>
+                        <p id="value">{(item as ParticipantData).count_projects}</p>
                       </ThirdBlockElementsWrapper>
                       <ThirdBlockElementsWrapper>
                         <p id="name">Роль</p>
@@ -106,12 +105,12 @@ export function CardsContent({ type, data }: CardsContentType) {
                           <IconSprite
                             icon={
                               commonVariants.role.find(
-                                (searchItem) => searchItem.name === (item as ParticipantData).speciality?.title
+                                (searchItem) => searchItem.name === (item as ParticipantData).role
                               )?.icon || (commonVariants.role.find((item) => item.name === 'None')?.icon as IconType)
                             }
                           />
                         </div>
-                        <p id="value">{(item as ParticipantData).speciality?.title || 'None'}</p>
+                        <p id="value">{(item as ParticipantData).role || 'None'}</p>
                       </ThirdBlockElementsWrapper>
                     </>
                   ) : (
@@ -123,7 +122,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                             <IconSprite
                               key={complexity}
                               icon={
-                                complexity <= Number.parseInt((item as ProjectData).complexity.complexity)
+                                complexity <= Number.parseInt((item as ProjectData).complexity)
                                   ? 'complexityActive'
                                   : 'complexityInactive'
                               }
@@ -137,12 +136,12 @@ export function CardsContent({ type, data }: CardsContentType) {
                           <IconSprite
                             icon={
                               commonVariants.status.find(
-                                (searchItem) => searchItem.name === (item as ProjectData).project_status.status
+                                (searchItem) => searchItem.name === (item as ProjectData).status
                               )?.icon as IconType
                             }
                           />
                         </div>
-                        <p id="value">{(item as ProjectData).project_status.status}</p>
+                        <p id="value">{(item as ProjectData).status}</p>
                       </ThirdBlockElementsWrapper>
                     </>
                   )}

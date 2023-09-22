@@ -86,11 +86,21 @@ export const InputWrapper = styled.div<{ checkIsValid: boolean; isError: boolean
       visibility: hidden;
     }
   }
+
+  & > button {
+    /* display: none; */
+    height: 100%;
+    border: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    width: min-content;
+  }
+
   & > .react-datepicker-wrapper {
     width: 100%;
     & > div > input {
       padding: ${({ begIcon, endIcon }) =>
-        begIcon && endIcon ? '18px 0' : begIcon ? '18px 18px 18px 0' : endIcon ? '18px 0 18px 18px' : '18px 16px'};
+        begIcon && endIcon ? '16px 0' : begIcon ? '16px 16px 16px 0' : endIcon ? '16px 0 16px 16px' : '16px 16px'};
     }
   }
 `;
@@ -117,7 +127,7 @@ export const inputStyles = css`
 export const InputComp = styled.input<{ begIcon: boolean; endIcon: boolean }>`
   ${inputStyles}
   padding: ${({ begIcon, endIcon }) =>
-    begIcon && endIcon ? '18px 0' : begIcon ? '18px 18px 18px 0' : endIcon ? '18px 0 18px 18px' : '18px 16px'};
+    begIcon && endIcon ? '16px 0' : begIcon ? '16px 16px 16px 0' : endIcon ? '16px 0 16px 16px' : '16px 16px'};
 `;
 
 export const InputIconWrapper = styled.div<{ isDisabled: boolean }>`

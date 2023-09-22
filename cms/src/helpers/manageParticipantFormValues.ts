@@ -1,51 +1,41 @@
-import { IdNameType } from '../redux/instructions';
+import { FieldValues } from 'react-hook-form';
 
-export function manageFormFields(formData: FormDataTypes, instructions: InstructionsTypes) {
+export function manageFormFields(formData: FieldValues) {
   try {
-    if (!instructions.specialities || !instructions.participation_types) throw new Error('Instructions not loaded');
+    console.log('Form data: ', formData);
     const {
       account_discord,
       account_linkedin,
-      city,
-      comment,
+      city = '',
+      comment = '',
       email,
       experience,
       first_name,
       last_name,
       phone_number,
-      speciality,
+      role,
       stack,
-      type_participant,
-      project,
+      type,
+      projects,
     } = formData;
 
     const requestData: RequestDataTypes = {
       account_discord,
       account_linkedin,
-      city: city || '',
-      comment: comment || '',
+      city,
+      comment,
       email,
       first_name,
       last_name,
       phone_number,
-      project: project.map((item) => item.id),
       stack,
-      experience: experience.value === 'Так',
-      speciality: 0,
-      type_participant: 0,
+      experience: experience?.value === 'Так' || false,
+      role: role.value,
+      type: type.value,
+      projects: projects.map((item: { id: number }) => {
+        return { project: item.id };
+      }),
     };
-
-    const tmp_spec = instructions.specialities.find(
-      (item) => item.title.toLowerCase() === speciality.value.toLowerCase()
-    );
-    if (!tmp_spec) throw new Error('Speciality not found');
-    requestData.speciality = tmp_spec.id;
-
-    const tmp_type = instructions.participation_types.find(
-      (item) => item.title.toLowerCase() === type_participant.value.toLowerCase()
-    );
-    if (!tmp_type) throw new Error('Participation type not found');
-    requestData.type_participant = tmp_type.id;
 
     return requestData;
   } catch (err) {
@@ -56,36 +46,15 @@ export function manageFormFields(formData: FormDataTypes, instructions: Instruct
 interface RequestDataTypes {
   account_discord: string;
   account_linkedin: string;
-  city: string;
-  comment: string;
+  city: string | null;
+  comment: string | null;
   email: string;
   experience: boolean;
   first_name: string;
   last_name: string;
   phone_number: string;
-  project: number[];
-  speciality: number;
+  projects: { project: number }[];
+  role: string;
   stack: string;
-  type_participant: number;
-}
-
-export interface FormDataTypes {
-  account_discord: string;
-  account_linkedin: string;
-  city?: string;
-  comment?: string;
-  email: string;
-  experience: { value: string };
-  first_name: string;
-  last_name: string;
-  phone_number: string;
-  speciality: { value: string };
-  stack: string;
-  type_participant: { value: string };
-  project: { id: number; label: string; title: string }[];
-}
-
-export interface InstructionsTypes {
-  specialities: IdNameType[];
-  participation_types: IdNameType[];
+  type: number;
 }
