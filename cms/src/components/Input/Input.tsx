@@ -114,6 +114,7 @@ export function Input({
                       readOnly={readonly}
                       calendarStartDay={1}
                       onChange={onChange}
+                      disabled={disabled}
                     />
                   ) : (
                     <InputComp

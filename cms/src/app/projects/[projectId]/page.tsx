@@ -10,7 +10,6 @@ import { MemberType, ProjectTeamForm } from '~/src/components/ProjectTeamForm/Pr
 import { OptionType } from '~/src/components/SelectField/SelectField';
 import { fetchTeam } from '~/src/redux/projects/actions';
 import { AppDispatch, RootState } from '~/src/redux/store/store';
-import { parseISO } from 'date-fns';
 
 import { NavContainer, ProjectContainer } from './styles';
 
@@ -35,22 +34,20 @@ type ProjectPageProps = {
 
 export default function ProjectPage({ params }: ProjectPageProps) {
   const dispatch = useDispatch<AppDispatch>();
+  const { isLoading } = useSelector((state: RootState) => state.instructions);
   const { currentTeam } = useSelector((state: RootState) => state.projects);
   const [currentTab, setCurrentTab] = useState('Опис');
   const [isDisabled, setDisabled] = useState(true);
-  const { control, clearErrors, handleSubmit, trigger } = useForm<FieldValues>({
+  const { control, clearErrors, handleSubmit, trigger, reset } = useForm<FieldValues>({
     values: currentTeam,
   });
-
-  console.log(new Date(currentTeam.start_date_project || ''));
 
   useEffect(() => {
     const projectId = params.projectId;
     if (projectId !== 'add') {
-      console.log(projectId);
       dispatch(fetchTeam(projectId));
     } else setDisabled(false);
-  }, [dispatch, params.projectId]);
+  }, [dispatch, params.projectId, isLoading]);
 
   const handleTabClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const nextTab = e.currentTarget.title;
@@ -74,6 +71,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
           handleSubmit={handleSubmit}
           isDisabled={isDisabled}
           setDisabled={setDisabled}
+          resetForm={() => reset()}
         />
       ),
     },

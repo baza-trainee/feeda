@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 
-axios.defaults.baseURL = 'http://127.0.0.1:8000/api/v1/';
+// axios.defaults.baseURL = 'http://127.0.0.1:8000/api/v1/';
 
 import { FormDataTypes, InstructionsTypes, manageFormFields } from '../../helpers/manageParticipantFormValues';
 import { IdNameType } from '../instructions';
@@ -126,9 +126,13 @@ export const searchProjects = createAsyncThunk(
 export const searchParticipants = createAsyncThunk(
   'participants/searchParticipants',
   async (search: string, { rejectWithValue }) => {
+    const config = {
+      headers: { Authorization: `Bearer 709ee6c843dae3cff689dc6a70bb2d502eed3009` },
+    };
     try {
-      const { data } = await axios.get<ParticipantsResponseTypes>('user-project/search-user', {
-        params: { query: search },
+      const { data } = await axios.get<ParticipantsResponseTypes>('/participant/', {
+        ...config,
+        params: { search },
       });
       return data;
     } catch (err) {

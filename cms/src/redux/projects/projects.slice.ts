@@ -1,6 +1,7 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 
-import { addProject, deleteProject, fetchProjects, fetchTeam, userDataParams } from './actions';
+import { addProject, deleteProject, fetchProjects, fetchTeam } from './actions';
+import { userServerData } from '~/src/helpers/manageProjectServerData';
 
 const initialState: ProjectsState = {
   projects: [],
@@ -14,7 +15,8 @@ const initialState: ProjectsState = {
     address_site: '',
     start_date_project: '',
     end_date_project: '',
-    user: {},
+    users: {},
+    team_leads: {},
   },
   errors: null,
 };
@@ -66,7 +68,7 @@ const { reducer, actions, name } = createSlice({
 
 export interface ProjectsState {
   projects: ProjectData[];
-  currentTeam: ProjectTeam;
+  currentTeam: ProjectTeamState;
   loading: 'loading' | 'success' | 'rejected' | null;
   errors: string | null;
 }
@@ -88,7 +90,7 @@ export interface ProjectData {
   url: string;
 }
 
-export interface ProjectTeam {
+export interface ProjectTeamState {
   title: string;
   comment: string;
   complexity: number | null;
@@ -97,8 +99,8 @@ export interface ProjectTeam {
   address_site: string | null;
   start_date_project: string | null;
   end_date_project: string | null;
-  user: userDataParams | object;
-  team_lead: userDataParams | object;
+  users: userServerData | object;
+  team_leads: userServerData | object;
 }
 
 export { actions, name, reducer };

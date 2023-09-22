@@ -26,6 +26,8 @@ export const MemberCard: React.FC<MemberCardProps> = ({ control, clearErrors, in
   const loadingOptions = async (inputValue: string) => {
     await dispatch(searchParticipants(inputValue));
 
+    console.log(list);
+
     const options = list.map((item) => ({
       value: item.id,
       label: `${item.first_name} ${item.last_name}`,
@@ -39,7 +41,7 @@ export const MemberCard: React.FC<MemberCardProps> = ({ control, clearErrors, in
         control={control}
         placeholder="Виберіть учасника"
         clearErrors={clearErrors}
-        name={`${name}.${index}.full_name`}
+        name={`${name}.${index}.last_name`}
         options={loadingOptions}
         title="Ім'я"
         rules={{ required: 'це полу обовязкове' }}
@@ -50,7 +52,7 @@ export const MemberCard: React.FC<MemberCardProps> = ({ control, clearErrors, in
         clearErrors={clearErrors}
         options={membersRole}
         placeholder="Оберіть роль"
-        name={`${name}..${index}.membersRole`}
+        name={`${name}..${index}.role`}
         title="Роль"
         // rules={{ required: 'це поле є обовязковим' }}
         valueGetter={(value) => getRole(value)}

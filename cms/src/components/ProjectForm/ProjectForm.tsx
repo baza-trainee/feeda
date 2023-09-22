@@ -1,6 +1,6 @@
 'use client';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { Control, FieldValues, SubmitHandler, UseFormHandleSubmit } from 'react-hook-form';
+import { Control, FieldValues, SubmitHandler, UseFormHandleSubmit, UseFormReset } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { addProject } from '~/src/redux/projects/actions';
@@ -26,9 +26,17 @@ export interface ProjectFormProps {
   handleSubmit: UseFormHandleSubmit<FieldValues>;
   isDisabled: boolean;
   setDisabled: Dispatch<SetStateAction<boolean>>;
+  resetForm: UseFormReset<FieldValues>;
 }
 
-export const ProjectForm = ({ control, clearErrors, handleSubmit, isDisabled, setDisabled }: ProjectFormProps) => {
+export const ProjectForm = ({
+  control,
+  clearErrors,
+  handleSubmit,
+  isDisabled,
+  setDisabled,
+  resetForm,
+}: ProjectFormProps) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const { loading } = useSelector((state: RootState) => state.projects);
   const dispatch = useDispatch<AppDispatch>();
@@ -117,7 +125,16 @@ export const ProjectForm = ({ control, clearErrors, handleSubmit, isDisabled, se
         ) : (
           <Button variant="primary" title="Зберегти зміни" btnType="submit" func={handleSubmit(onFormSubmit)} />
         )}
-        <Button variant="text" title="Скасувати" func={() => console.log('CANCEL form fetsh')} />
+        <Button
+          variant="text"
+          title="Скасувати"
+          btnType="submit"
+          func={(e) => {
+            e.preventDefault();
+            console.log('reset');
+            resetForm();
+          }}
+        />
       </FormControllers>
       {loading === 'success' && isModalOpen && <PopUp type="success" closeModalFunc={() => setModalOpen(false)} />}
       {loading === 'rejected' && isModalOpen && <PopUp type="rejected" closeModalFunc={() => setModalOpen(false)} />}

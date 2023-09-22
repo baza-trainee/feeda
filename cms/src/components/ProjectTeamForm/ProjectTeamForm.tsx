@@ -23,14 +23,14 @@ export const ProjectTeamForm: React.FC<TeamFormProps> = ({ control, clearErrors,
       <TeamFormSection
         control={control}
         clearErrors={clearErrors}
-        name="user"
+        name="users"
         title="Загальна команда"
         isDisabled={isDisabled}
       />
       <TeamFormSection
         control={control}
         clearErrors={clearErrors}
-        name="team_lead"
+        name="team_leads"
         title="Тімлід команди"
         isDisabled={isDisabled}
       />
