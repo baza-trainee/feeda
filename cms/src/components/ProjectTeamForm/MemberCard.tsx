@@ -25,7 +25,6 @@ export const MemberCard: React.FC<MemberCardProps> = ({ control, clearErrors, in
 
   const loadingOptions = async (inputValue: string) => {
     await dispatch(searchParticipants(inputValue));
-
     console.log(list);
 
     const options = list.map((item) => ({

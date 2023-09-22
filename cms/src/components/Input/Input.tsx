@@ -105,6 +105,7 @@ export function Input({
                   )}
                   {type === 'date' ? (
                     <DatePicker
+                      value={value}
                       todayButton="Сьогодні"
                       dateFormat="dd MMMM yyyy"
                       locale="uk_UA"

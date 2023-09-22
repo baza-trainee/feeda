@@ -16,7 +16,7 @@ import { NavContainer, ProjectContainer } from './styles';
 export interface FormData {
   title: string;
   comment: string;
-  complixity: OptionType;
+  complexity: OptionType;
   project_status: OptionType;
   type_project: OptionType;
   start_date_project: Date;
