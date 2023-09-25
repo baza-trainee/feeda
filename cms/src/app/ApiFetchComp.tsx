@@ -18,29 +18,31 @@ export function ApiFetchComp() {
   console.log('Cookies:', getCookies());
 
   useEffect(() => {
-    if (!isLoggedIn && token) {
+    if (!authToken && token) {
       dispatch(loginByToken(token));
       setCookie('authToken', token);
+    } else if (!authToken && !token) {
+      router.push('/login');
     }
-  }, [dispatch, isLoggedIn, token]);
+  }, [authToken, dispatch, isLoggedIn, router, token]);
 
   useEffect(() => {
     const savedToken = localStorage.getItem('token');
-    if (!authToken && savedToken) {
-      dispatch(loginByToken(savedToken));
+    if (authToken) {
+      dispatch(loginByToken(authToken));
       path !== '/login' ? router.push(path) : router.push('projects');
-    } else if (authToken && !savedToken) {
-      if (remember) {
-        localStorage.setItem('token', authToken);
-      }
+    } else if (!savedToken && remember) {
+      remember && localStorage.setItem('token', `${authToken}`);
+      dispatch(loginByToken(authToken));
       router.push('/projects');
+    } else if (!authToken) {
+      router.push('/login');
     }
-    //// eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, path, remember, router, authToken]);
+  }, [authToken, dispatch, path, remember, router]);
 
   useEffect(() => {
     !isLoggedIn && !authToken && !path.includes('/login') && router.push('/login');
-  }, [isLoggedIn, path, router, authToken]);
+  }, [authToken, isLoggedIn, path, router]);
 
   return <></>;
 }
