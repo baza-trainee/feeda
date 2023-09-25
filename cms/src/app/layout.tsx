@@ -1,5 +1,6 @@
 import { Exo_2 } from 'next/font/google';
 
+import { Header } from '../components/Header/Header';
 import { LayoutContainer } from '../components/LayoutContainer/LayoutContainer';
 import ReduxProvider from '../redux/store/ReduxProvider';
 import { ApiFetchComp } from './ApiFetchComp';
@@ -19,17 +20,18 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ReduxProvider>
-      <html lang="en" className={eho.className}>
-        <EmotionRegistry>
-          <body>
+    <html lang="en" className={eho.className}>
+      <EmotionRegistry>
+        <body>
+          <ReduxProvider>
             <LayoutContainer>
+              <Header />
               {children}
               <ApiFetchComp />
             </LayoutContainer>
-          </body>
-        </EmotionRegistry>
-      </html>
-    </ReduxProvider>
+          </ReduxProvider>
+        </body>
+      </EmotionRegistry>
+    </html>
   );
 }
