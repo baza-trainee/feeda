@@ -3,19 +3,23 @@ import axios from 'axios';
 
 import { logIn } from './operations';
 
+const initialState: AuthStateTypes = {
+  token: null,
+  loading: false,
+  error: null,
+  remember: false,
+  isLoggedIn: false,
+};
+
 export const authSlice = createSlice({
   name: 'auth',
-  initialState: {
-    token: null,
-    loading: false,
-    error: null as string | null,
-    remember: false,
-  },
+  initialState,
   reducers: {
     loginByToken: (state, action) => {
       state.token = action.payload;
-      axios.defaults.headers.Authorization = `Token ${action.payload}`;
+      axios.defaults.headers.Authorization = `Bearer ${action.payload}`;
       state.error = null;
+      state.isLoggedIn = true;
     },
   },
   extraReducers: (builder) => {
@@ -25,15 +29,19 @@ export const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(logIn.fulfilled, (state, action) => {
+      .addCase(logIn.fulfilled, (state, { payload }) => {
+        state.isLoggedIn = true;
         state.loading = false;
-        state.token = action.payload.token;
-        state.remember = action.payload.remember;
+        state.token = payload.token;
+        state.remember = payload.remember;
       })
-      .addCase(logIn.rejected, (state, action) => {
+      .addCase(logIn.rejected, (state, { payload }) => {
+        state.isLoggedIn = false;
         state.token = null;
         state.loading = false;
-        state.error = action.error.message || null;
+        if (typeof payload === 'string') state.error = payload;
+        else state.error = true;
+        console.log('Error: ', payload);
       });
   },
 });
@@ -41,7 +49,9 @@ export const authSlice = createSlice({
 export interface AuthStateTypes {
   token: string | null;
   loading: boolean;
-  error: string | null;
+  error: string | null | boolean;
+  remember: boolean;
+  isLoggedIn: boolean;
 }
 export const authSliceReducer = authSlice.reducer;
 export const { loginByToken } = authSlice.actions;

@@ -3,12 +3,11 @@
 
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 
 import { Button } from '~/src/components/Button/Button';
 import { Input } from '~/src/components/Input/Input';
 import { Title } from '~/src/components/Title/Title';
-import { AppDispatch } from '~/src/redux/store/store';
+import { useAppDispatch } from '~/src/redux/hooks';
 
 import { btnText, formTitle, inputPlaceholderText, labelsTitle, patternsCheck } from '../../app/(auth)/consts';
 import { logIn, resetPassword, setNewPassword } from '../../redux/auth/operations';
@@ -28,12 +27,11 @@ export function AuthForm({ newPass, recover }: AuthFormTypes) {
   const typePasswordInput = isShowPassword ? 'text' : 'password';
   const iconInputPassword = isShowPassword ? 'eyeClosed' : 'eyeOpen';
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   const signIn = () => {
     const { email, password } = getValues();
-    const data = { email, password };
-    dispatch(logIn({ credentials: data, remember: checkboxRef.current?.checked || false }));
+    dispatch(logIn({ credentials: { email, password }, remember: checkboxRef.current?.checked || false }));
   };
 
   const recoverPass = () => {

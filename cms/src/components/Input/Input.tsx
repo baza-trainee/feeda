@@ -6,8 +6,6 @@ import { Control, Controller } from 'react-hook-form';
 import { ClassNames } from '@emotion/react';
 import uk_UA from 'date-fns/locale/uk';
 
-import { ParticipantsDefaultValuesTypes } from '~/src/helpers/makeParticipantsDefaultValues';
-
 import { IconSprite, IconType } from '../IconSprite/IconSprite';
 import { ErrorText } from '../SelectField/SelectField.style';
 import {
@@ -24,7 +22,8 @@ import {
 import 'react-datepicker/dist/react-datepicker.css';
 
 type InputProps = {
-  name: keyof ParticipantsDefaultValuesTypes;
+  name: string;
+  control: Control;
   type?: React.HTMLInputTypeAttribute;
   id?: string;
   label?: string;
@@ -41,7 +40,6 @@ type InputProps = {
   pattern?: string;
   begIconId?: IconType | undefined;
   endIconId?: IconType | undefined;
-  control: Control<ParticipantsDefaultValuesTypes>;
   rules?: object;
 };
 
