@@ -1,247 +1,110 @@
-
+from coreapi.compat import force_text
+from django.contrib.auth import get_user_model
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.urls import reverse
+from django.utils.encoding import (DjangoUnicodeDecodeError, force_bytes,
+                                   force_str, smart_bytes, smart_str)
+from django.utils.html import strip_tags
+from django.utils.http import urlsafe_base64_encode
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework import generics, status
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import generics, status
-from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnicodeDecodeError, force_bytes
-from drf_yasg.utils import swagger_auto_schema
-from rest_framework.authtoken.views import ObtainAuthToken
-from django.utils.html import strip_tags
-from django.template.loader import render_to_string
-from django.core.mail import EmailMultiAlternatives
-from drf_yasg import openapi
-from .serializer import *
 from rest_framework_simplejwt.views import *
+
+from src.users.documentation.schemas_settings import (password_reset_doc,
+                                                      token_delete_doc,
+                                                      token_doc, check_token_doc, password_reset_complete_doc)
+
+from .serializer import *
+
+User = get_user_model()
 
 
 class CustomAuthToken(ObtainAuthToken):
+    serializer_class = AuthTokenSerializer
     """Генерація токена доступа"""
 
-    @swagger_auto_schema(
-        request_body=openapi.Schema(
-            type=openapi.TYPE_OBJECT,
-            properties={
-                'email': openapi.Schema(type=openapi.FORMAT_EMAIL),
-                'password': openapi.Schema(type=openapi.FORMAT_PASSWORD)
-            },
-            required=['email', 'password'],
-        ),
-        responses={
-            status.HTTP_201_CREATED: openapi.Response(
-                description='Token generated successfully',
-                schema=openapi.Schema(
-                    type=openapi.TYPE_OBJECT,
-                    properties={
-                        'token': openapi.Schema(type=openapi.TYPE_STRING)
-                    }
-                )
-            ),
-            status.HTTP_400_BAD_REQUEST: openapi.Response(
-                description='Invalid data provided',
-                schema=openapi.Schema(
-                    type=openapi.TYPE_OBJECT,
-                    properties={
-                        'message': openapi.Schema(type=openapi.TYPE_STRING)
-                    }
-                )
-            ),
-        },
-    )
+    @swagger_auto_schema(**token_doc)
     def post(self, request, *args, **kwargs):
-        serializer = AuthTokenSerializer(data=request.data, context={'request': request})
+        serializer = self.get_serializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
-        email = serializer.validated_data['email']
-        password = serializer.validated_data['password']
-        # token, created = Token.objects.get_or_create(user=user)
-
-        try:
-            user = CustomUser.objects.get(email=email)
-        except CustomUser.DoesNotExist:
-            return Response({'message': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
-
-        if not user.check_password(password):
-            return Response({'message': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
-
+        user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
-        # token.life_tome_token = timezone.now() + datetime.timedelta(minutes=1)
-
-        return Response({'token': token.key}, status=status.HTTP_201_CREATED)
+        return Response({'token': token.key})
 
 
-class CustomTokenDestroy(generics.DestroyAPIView):
-    queryset = Token.objects.all()
+class CustomTokenDestroy(APIView):
 
-    @swagger_auto_schema(
-        manual_parameters=[
-            openapi.Parameter(
-                'Authorization',
-                openapi.IN_HEADER,
-                description='Token',
-                type=openapi.TYPE_STRING,
-                required=True
-            )
-        ],
-        responses={
-            status.HTTP_200_OK: openapi.Response(
-                description='Token removed',
-                schema=openapi.Schema(
-                    type=openapi.TYPE_OBJECT,
-                    properties={
-                        'message': openapi.Schema(type=openapi.TYPE_STRING)
-                    }
-                )
-            ),
-            status.HTTP_400_BAD_REQUEST: openapi.Response(
-                description='Invalid token',
-                schema=openapi.Schema(
-                    type=openapi.TYPE_OBJECT,
-                    properties={
-                        'message': openapi.Schema(type=openapi.TYPE_STRING)
-                    }
-                )
-            ),
-        },
-    )
-    def delete(self, request, *args, **kwargs):
+    @swagger_auto_schema(**token_delete_doc)
+    def delete(self, request):
         try:
-            token = Token.objects.get(user=self.request.user)
+            token = Token.objects.get(user=request.user)
         except Token.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         token.delete()
-        return Response({'message': 'Delete'}, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class RequestPasswordResetEmail(generics.GenericAPIView):
-    """Відправка email на пошту з посиланням на скидання паролю"""
-    serializer_class = ResetPasswordRequestEmailSerializer
+class PasswordReset(generics.CreateAPIView):
+    serializer_class = EmailSerializer
 
-    @swagger_auto_schema(
-        responses={
-            status.HTTP_200_OK: openapi.Response(
-                description='Success',
-                schema=ResetPasswordRequestEmailSerializer()
-            ),
-            status.HTTP_400_BAD_REQUEST: openapi.Schema(
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    'message': openapi.Schema(type=openapi.TYPE_STRING)
-                }
-            )
-        }
-    )
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        email = request.data['email']
-
-        if CustomUser.objects.filter(email=email).exists():
-            user = CustomUser.objects.get(email=email)
-            uidb64 = urlsafe_base64_encode(force_bytes(user.id))
-            token = PasswordResetTokenGenerator().make_token(user)
-            current_site = get_current_site(request=request).domain
-            relative_link = reverse('reset-password-confirm', kwargs={'uidb64': uidb64, 'token': token})
-            absolut_url = 'http://localhost:3000' + relative_link
-            email_body = f'Hello, Use link below to reset your password {absolut_url}'
-            context = {
-                'absolut_url': email_body,
-                'reset': True
-            }
-            html_letter = render_to_string('email.html', context)
-            data_message = strip_tags(html_letter)
-            message = EmailMultiAlternatives(
-                subject=email_body,
-                body=data_message,
-                from_email=settings.EMAIL_HOST_USER,
-                to=[user.email]
-            )
-            message.attach_alternative(html_letter, 'text/html')
-            message.send()
-        return Response({'message:' 'Ми надіслали лист для заміни пароля'}, status=status.HTTP_200_OK)
+    @swagger_auto_schema(**password_reset_doc)
+    def post(self, request, *args, **kwargs):
+        super().create(request, *args, **kwargs)
+        return Response(
+            {"status": status.HTTP_200_OK, "message": "Password reset email sent. Please check your email."}
+        )
 
 
 class PasswordTokenCheckAPI(APIView):
     """Перевірка валідності токена"""
 
-    @swagger_auto_schema(
-        responses={
-            status.HTTP_200_OK: openapi.Schema(
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    'message': openapi.Schema(type=openapi.TYPE_STRING)
-                }
-            ),
-            status.HTTP_400_BAD_REQUEST: openapi.Schema(
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    'message': openapi.Schema(type=openapi.TYPE_STRING)
-                }
-            )
-        }
-    )
+    @swagger_auto_schema(**check_token_doc)
     def get(self, request, uidb64, token):
-        try:
-            id = smart_str(urlsafe_base64_decode(uidb64))
-            user = CustomUser.objects.get(id=id)
+        id = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(id=id)
 
-            if not PasswordResetTokenGenerator().check_token(user, token):
-                return Response({'error': 'Token not found'}, status=status.HTTP_401_UNAUTHORIZED)
+        if not PasswordResetTokenGenerator().check_token(user, token):
+            return Response({'error': 'invalid token'}, status=status.HTTP_400_BAD_REQUEST)
 
-            return Response(
-                {'success': True, 'message': 'OK', 'uidb64': uidb64, 'token': token}, status=status.HTTP_200_OK
-            )
-        except DjangoUnicodeDecodeError as error:
-            print('error:', error)
+        return Response({'uidb64': uidb64}, status=status.HTTP_200_OK)
 
 
 class NewPassword(generics.GenericAPIView):
     """Збереження нового пароля"""
 
+    queryset = User.objects.all()
     serializer_class = NewPasswordSerializer
 
-    @swagger_auto_schema(
-        operation_description="Search for participants based on various criteria.",
-        manual_parameters=[
-            openapi.Parameter(
-                'uidb64_query',
-                openapi.IN_QUERY,
-                type=openapi.TYPE_STRING,
-                required=True,
-            ),
-            openapi.Parameter(
-                'token',
-                openapi.IN_QUERY,
-                type=openapi.TYPE_STRING,
-                required=True
-            )
-        ],
-        responses={
-            status.HTTP_400_BAD_REQUEST: openapi.Response(
-                description='Invalid data',
-                schema=openapi.Schema(
-                    type=openapi.TYPE_OBJECT,
-                    properties={
-                        'message': openapi.Schema(type=openapi.TYPE_STRING)
-                    }
-                )
-            )
-        }
-    )
-    def patch(self, request):
-        uidb64_query = request.query_params.get('uuidb64', None)
-        token_query = request.query_params.get('token', None)
+    def get_object(self):
+        uidb64 = self.request.data.pop("uidb64", None)
+        try:
+            uid = force_text(urlsafe_base64_decode(uidb64))
+        except UnicodeDecodeError:
+            raise ValidationError("User Not Found")
+        user = self.queryset.get(pk=uid)
+        return user
 
-        if uidb64_query and token_query:
-            data_dict = {
-                'token': token_query,
-                'uidb64': uidb64_query,
-                'password': request.data.get('password'),
-                'confirm_password': request.data.get('confirm_password')
-            }
-            serializer = self.serializer_class(data=data_dict)
-            # serializer = self.serializer_class(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            return Response({'success': True, 'message': 'Password reset'}, status=status.HTTP_201_CREATED)
-        return Response({'message': 'Query not found'})
+    @swagger_auto_schema(**password_reset_complete_doc)
+    def patch(self, request):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            # If 'prefetch_related' has been applied to a queryset, we need to
+            # forcibly invalidate the prefetch cache on the instance.
+            instance._prefetched_objects_cache = {}
+        return Response({"message": "Password has been updated successfully."}, status=status.HTTP_200_OK)
+
+    def perform_update(self, serializer):
+        serializer.save()
 
 
 class CheckToken(APIView):

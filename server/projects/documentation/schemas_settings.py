@@ -12,8 +12,8 @@ project_doc_schema = openapi.Schema(
         "type": openapi.Schema(type=openapi.TYPE_STRING, description="Type", min_length=1),
         "complexity": openapi.Schema(type=openapi.TYPE_INTEGER, description="Complexity"),
         "status": openapi.Schema(type=openapi.TYPE_STRING, description="Status", max_length=255),
-        "start_date_project": openapi.Schema(type=openapi.FORMAT_DATE, description="start_date_project"),
-        "end_date_project": openapi.Schema(type=openapi.FORMAT_DATE, description="end_date_project"),
+        "start_date_project": openapi.Schema(type=openapi.TYPE_STRING, format=openapi.FORMAT_DATE, description="start_date_project"),
+        "end_date_project": openapi.Schema(type=openapi.TYPE_STRING, format=openapi.FORMAT_DATE, description="end_date_project"),
         "address_site": openapi.Schema(type=openapi.TYPE_STRING, description="address_site"),
         "slug": openapi.Schema(type=openapi.TYPE_STRING, description="slug"),
         "participants": openapi.Schema(
@@ -27,6 +27,7 @@ project_doc_schema = openapi.Schema(
                         type=openapi.TYPE_OBJECT,
                         description="Дані учасника",
                         properties={
+                            "id": openapi.Schema(type=openapi.TYPE_STRING, format=openapi.FORMAT_UUID, description="Id"),
                             "first_name": openapi.Schema(type=openapi.TYPE_STRING, description="Ім'я"),
                             "last_name": openapi.Schema(type=openapi.TYPE_STRING, description="Прізвище"),
                             "comment": openapi.Schema(type=openapi.TYPE_STRING, description="Комент"),
@@ -42,6 +43,7 @@ project_doc_schema = openapi.Schema(
                         type=openapi.TYPE_OBJECT,
                         description="Дані Тім Ліда",
                         properties={
+                            "id": openapi.Schema(type=openapi.TYPE_STRING, format=openapi.FORMAT_UUID, description="Id"),
                             "first_name": openapi.Schema(type=openapi.TYPE_STRING, description="Ім'я"),
                             "last_name": openapi.Schema(type=openapi.TYPE_STRING, description="Прізвище"),
                             "comment": openapi.Schema(type=openapi.TYPE_STRING, description="Комент"),

@@ -59,7 +59,7 @@ class ProjectParticipants(models.Model):
         Participant, on_delete=models.CASCADE, related_name="all_projects"
     )
     team_lead = models.BooleanField(default=False)
-    role = models.ForeignKey("Role", on_delete=models.PROTECT, null=True, blank=True)
+    role = models.ForeignKey("Role", on_delete=models.PROTECT)
     comment = models.TextField(blank=True, null=True)
     project = models.ForeignKey(
         Project, on_delete=models.CASCADE, related_name="participants"

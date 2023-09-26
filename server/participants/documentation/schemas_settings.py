@@ -1,7 +1,6 @@
 from drf_yasg import openapi
 from rest_framework import status
 
-from participants.serializers import ParticipantSerializer
 from src.users.documentation.schemas_settings import AUTH_TOKEN_SCHEMA
 
 participant_application_schema = openapi.Schema(
@@ -60,7 +59,7 @@ participant_admin_schema = openapi.Schema(
             type=openapi.TYPE_STRING, description="LastName", max_length=255
         ),
         "comment": openapi.Schema(
-            type=openapi.TYPE_STRING, description="Comment", min_length=1
+            type=openapi.TYPE_STRING, description="Comment"
         ),
         "phone_number": openapi.Schema(type=openapi.TYPE_STRING, description="Phone"),
         "email": openapi.Schema(
@@ -113,6 +112,34 @@ participant_doc_list_parameters = [
         in_=openapi.IN_QUERY,
         type=openapi.TYPE_STRING,
         description="Пошук користувачів по прізвищу",
+        required=False,
+    ),
+    openapi.Parameter(
+        name="stack",
+        in_=openapi.IN_QUERY,
+        type=openapi.TYPE_STRING,
+        description="Пошук користувачів по стеку",
+        required=False,
+    ),
+    openapi.Parameter(
+        name="role",
+        in_=openapi.IN_QUERY,
+        type=openapi.TYPE_STRING,
+        description="Пошук користувачів по ролі",
+        required=False,
+    ),
+    openapi.Parameter(
+        name="experience",
+        in_=openapi.IN_QUERY,
+        type=openapi.TYPE_STRING,
+        description="Пошук по досвіду",
+        required=False,
+    ),
+    openapi.Parameter(
+        name="type",
+        in_=openapi.IN_QUERY,
+        type=openapi.TYPE_STRING,
+        description="Пошук по типу",
         required=False,
     ),
     openapi.Parameter(
@@ -200,5 +227,17 @@ participant_application_doc = {
         status.HTTP_201_CREATED: openapi.Response(
             description="Object has been created successfully"
         ),
+    },
+}
+
+participant_email_doc = {
+    "operation_description": "Відправлення листа користувачу",
+    "tags": ["Email"],
+    "manual_parameters": [AUTH_TOKEN_SCHEMA],
+    "responses": {
+        status.HTTP_200_OK: openapi.Response(
+            description="Email has been sent successfully"
+        ),
+        status.HTTP_500_INTERNAL_SERVER_ERROR: "Something went wrong while sending email",
     },
 }

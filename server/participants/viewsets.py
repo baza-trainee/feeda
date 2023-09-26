@@ -12,6 +12,7 @@ from participants.filters import ParticipantFilter
 from participants.serializers import (
     ParticipantSerializer,
     RetrieveParticipantSerializer,
+    ListParticipantSerializer,
 )
 from projects.serializers import (
     ProjectParticipantsSerializer,
@@ -38,11 +39,20 @@ class ParticipantViewSet(ModelViewSet):
 
     filterset_class = ParticipantFilter
 
+    def get_serializer_class(self):
+        if self.action == "list":
+            return ListParticipantSerializer
+        else:
+            return ParticipantSerializer
+
     def retrieve(self, request, *args, **kwargs):
         # повернення інфи про юзера та проекти
         with transaction.atomic():
             response = super().retrieve(request, *args, **kwargs)
             projects = ProjectParticipants.objects.filter(user=self.get_object())
+            if projects.count() > 1 or projects.count() == 1 and projects.first().project.title != "Без проєкту":
+                projects = ProjectParticipants.objects.filter(user=self.get_object()).exclude(project__title="Без проєкту")
+
             project_serializer = RetrieveParticipantSerializer(projects, many=True).data if projects else []
             response.data["projects"] = project_serializer
         return Response(response.data)
@@ -51,31 +61,28 @@ class ParticipantViewSet(ModelViewSet):
         # створення юзера
         projects = request.data.pop("projects", [])  # projects = [ { "project": 1 } ]
 
-        try:
-            with transaction.atomic():
-                response = super().create(request, *args, **kwargs)
-                if projects:
-                    # створюємо проекти з юзером
-                    for project in projects:
-                        project["user"] = response.data["id"]
-                        serializer = ProjectParticipantsSerializer(data=project)
-                        serializer.is_valid(raise_exception=True)
-                        serializer.save()
-                else:
-                    raise ValidationError("Створення без проектів не можливе")
+        with transaction.atomic():
+            response = super().create(request, *args, **kwargs)
+            if projects:
+                # створюємо проекти з юзером
+                for project in projects:
+                    project["user"] = response.data["id"]
+                    project["role"] = response.data["role"]
+                    serializer = ProjectParticipantsSerializer(data=project)
+                    serializer.is_valid(raise_exception=True)
+                    serializer.save()
+            else:
+                raise ValidationError("Створення без проектів не можливе")
 
-                # вертаємо список проектів
-                projects = ProjectParticipants.objects.filter(user=response.data["id"])
-                project_serializer = RetrieveParticipantSerializer(projects, many=True).data if projects else []
-                response.data["projects"] = project_serializer
-        except Exception as error:
-            return Response(
-                {"error": str(error)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+            # вертаємо список проектів
+            projects = ProjectParticipants.objects.filter(user=response.data["id"])
+            project_serializer = RetrieveParticipantSerializer(projects, many=True).data if projects else []
+            response.data["projects"] = project_serializer
 
         return Response(response.data, status=status.HTTP_201_CREATED)
 
     def update(self, request, *args, **kwargs):
+        project_partial = request.data["projects"] if "projects" in request.data else None
         projects = request.data.pop("projects", [])  # projects = [ { "project": 1 } ]
 
         try:
@@ -114,7 +121,11 @@ class ParticipantViewSet(ModelViewSet):
                     )
                     deleted_projects.delete()
                 else:
-                    raise ValidationError("Видалення всіх проектів неможливе")
+                    if not kwargs.get("partial"):
+                        raise ValidationError("Видалення всіх проектів неможливе")
+                    else:
+                        if project_partial is not None and not projects:
+                            raise ValidationError("Видалення всіх проектів неможливе")
 
                 # вертаємо оновлену інфу про проекти
                 projects = ProjectParticipants.objects.filter(user=self.get_object())
