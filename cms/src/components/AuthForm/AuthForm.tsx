@@ -15,6 +15,13 @@ import { ContainerCss, FormCss, newPassContainerCss, SubtitleCss, TitleCss } fro
 import { CheckBox } from './Checkbox/Checkbox';
 import { ForgotPassword } from './ForgotPassword/ForgotPassword';
 
+interface ValuesTypes {
+  email?: string;
+  password?: string;
+  newPassword?: string;
+  repeatNewPassword?: string;
+}
+
 interface AuthFormTypes {
   newPass?: boolean;
   recover?: boolean;
@@ -24,39 +31,41 @@ export function AuthForm({ newPass, recover }: AuthFormTypes) {
   const { control, getValues, handleSubmit } = useForm();
   const checkboxRef = useRef<HTMLInputElement>(null);
   const [isShowPassword, setIsShowPassword] = useState(false);
-  const typePasswordInput = isShowPassword ? 'text' : 'password';
-  const iconInputPassword = isShowPassword ? 'eyeClosed' : 'eyeOpen';
 
   const dispatch = useAppDispatch();
 
-  const signIn = () => {
-    const { email, password } = getValues();
-    dispatch(logIn({ credentials: { email, password }, remember: checkboxRef.current?.checked || false }));
+  const typePasswordInput = isShowPassword ? 'text' : 'password';
+  const iconInputPassword = isShowPassword ? 'eyeClosed' : 'eyeOpen';
+
+  const signIn = async ({ email, password }: ValuesTypes) => {
+    email &&
+      password &&
+      dispatch(
+        logIn({
+          credentials: { email, password },
+          remember: checkboxRef.current?.checked || false,
+        })
+      );
   };
 
-  const recoverPass = () => {
-    const { email } = getValues();
-    dispatch(resetPassword(email));
-  };
-
-  const setNewPass = () => {
-    const { newPassword, repeatNewPassword } = getValues();
-    dispatch(
-      setNewPassword({
-        password: newPassword,
-        confirm_password: repeatNewPassword,
-        token: 'string',
-        uidb64: 'string',
-      })
-    );
+  const setNewPass = ({ newPassword, repeatNewPassword }: ValuesTypes) => {
+    newPassword &&
+      repeatNewPassword &&
+      dispatch(
+        setNewPassword({
+          password: newPassword,
+          confirm_password: repeatNewPassword,
+        })
+      );
   };
 
   const handleSubmitForm = () => {
+    const values = getValues();
     if (recover) {
-      recoverPass();
+      dispatch(resetPassword(values.email));
     } else if (newPass) {
-      setNewPass();
-    } else signIn();
+      setNewPass(values);
+    } else signIn(values);
   };
 
   const onClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {

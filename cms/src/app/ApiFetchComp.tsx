@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 
-import { getCookie, getCookies, setCookie } from 'cookies-next';
 import { usePathname, useRouter } from 'next/navigation';
 
 import { loginByToken } from '../redux/auth/loginSlice';
@@ -13,36 +12,17 @@ export function ApiFetchComp() {
   const path = usePathname();
   const router = useRouter();
   const { token, remember, isLoggedIn } = useAppSelector(({ auth }) => auth);
-  const authToken = getCookie('authToken');
-
-  console.log('Cookies:', getCookies());
 
   useEffect(() => {
-    if (!authToken && token) {
-      dispatch(loginByToken(token));
-      setCookie('authToken', token);
-    } else if (!authToken && !token) {
-      router.push('/login');
-    }
-  }, [authToken, dispatch, isLoggedIn, router, token]);
-
-  useEffect(() => {
-    const savedToken = localStorage.getItem('token');
-    if (authToken) {
-      dispatch(loginByToken(authToken));
+    const rememberCreadentials = localStorage.getItem('remember');
+    if (token && !isLoggedIn) {
+      dispatch(loginByToken({ token, remember: rememberCreadentials }));
       path !== '/login' ? router.push(path) : router.push('projects');
-    } else if (!savedToken && remember) {
-      remember && localStorage.setItem('token', `${authToken}`);
-      dispatch(loginByToken(authToken));
-      router.push('/projects');
-    } else if (!authToken) {
+    } else if (!isLoggedIn && !token && !path.includes('/login')) {
       router.push('/login');
     }
-  }, [authToken, dispatch, path, remember, router]);
-
-  useEffect(() => {
-    !isLoggedIn && !authToken && !path.includes('/login') && router.push('/login');
-  }, [authToken, isLoggedIn, path, router]);
+    isLoggedIn && router.push(path.includes('/login') ? '/projects' : path);
+  }, [dispatch, isLoggedIn, path, remember, router, token]);
 
   return <></>;
 }
