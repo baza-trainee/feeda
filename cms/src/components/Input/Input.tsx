@@ -5,8 +5,10 @@ import { Control, Controller } from 'react-hook-form';
 
 import { ClassNames } from '@emotion/react';
 import uk_UA from 'date-fns/locale/uk';
+import { usePathname } from 'next/navigation';
 
-import { ParticipantsDefaultValuesTypes } from '~/src/helpers/makeParticipantsDefaultValues';
+import { useAppSelector } from '~/src/redux/hooks';
+import { StoreTypes } from '~/src/redux/store/store';
 
 import { IconSprite, IconType } from '../IconSprite/IconSprite';
 import { ErrorText } from '../SelectField/SelectField.style';
@@ -24,7 +26,8 @@ import {
 import 'react-datepicker/dist/react-datepicker.css';
 
 type InputProps = {
-  name: keyof ParticipantsDefaultValuesTypes;
+  name: string;
+  control: Control;
   type?: React.HTMLInputTypeAttribute;
   id?: string;
   label?: string;
@@ -41,7 +44,6 @@ type InputProps = {
   pattern?: string;
   begIconId?: IconType | undefined;
   endIconId?: IconType | undefined;
-  control: Control<ParticipantsDefaultValuesTypes>;
   rules?: object;
 };
 
@@ -67,6 +69,9 @@ export function Input({
   rules,
 }: InputProps) {
   registerLocale('uk_UA', uk_UA);
+  const path = usePathname();
+  const { email } = useAppSelector((state: StoreTypes) => state.auth);
+  const { pass } = useAppSelector((state: StoreTypes) => state.auth);
 
   return (
     <Controller
@@ -127,7 +132,13 @@ export function Input({
                       maxLength={maxLength}
                       minLength={minLength}
                       pattern={pattern}
-                      defaultValue={value as string}
+                      defaultValue={
+                        path === '/login' && name === 'email' && email
+                          ? email
+                          : path === '/login' && name === 'password' && pass
+                          ? pass
+                          : (value as string)
+                      }
                       onChange={onChange}
                     />
                   )}
