@@ -9,35 +9,39 @@ const initialState: AuthStateTypes = {
   error: null,
   remember: false,
   isLoggedIn: false,
+  email: null,
+  pass: null,
 };
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    loginByToken: (state, action) => {
-      state.token = action.payload;
-      axios.defaults.headers.Authorization = `Bearer ${action.payload}`;
+    loginByToken: (state, { payload }) => {
+      axios.defaults.headers.Authorization = `Bearer ${payload.token}`;
+      state = { ...state };
+      state.token = payload.token;
+      state.remember = payload.remember || false;
       state.error = null;
-      state.isLoggedIn = true;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(logIn.pending, (state) => {
-        state.token = null;
+        state = { ...state };
         state.loading = true;
-        state.error = null;
       })
       .addCase(logIn.fulfilled, (state, { payload }) => {
         state.isLoggedIn = true;
         state.loading = false;
         state.token = payload.token;
         state.remember = payload.remember;
+        state.email = payload.email || null;
+        state.pass = payload.password || null;
       })
       .addCase(logIn.rejected, (state, { payload }) => {
+        state = { ...state };
         state.isLoggedIn = false;
-        state.token = null;
         state.loading = false;
         if (typeof payload === 'string') state.error = payload;
         else state.error = true;
@@ -52,6 +56,8 @@ export interface AuthStateTypes {
   error: string | null | boolean;
   remember: boolean;
   isLoggedIn: boolean;
+  email?: string | null;
+  pass?: string | null;
 }
 export const authSliceReducer = authSlice.reducer;
 export const { loginByToken } = authSlice.actions;
