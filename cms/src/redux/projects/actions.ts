@@ -14,7 +14,7 @@ const deleteProject = createAsyncThunk(
   ActionType.DELETE_PROJECT,
   async (title: string | number | null, { dispatch }) => {
     try {
-      await axios.delete(`http://localhost:8000/user-project/project/${title}`);
+      await axios.delete(`http://localhost:8000/api/v1/user-project/project/${title}`);
       await dispatch(fetchProjects());
       return;
     } catch (err) {

@@ -1,8 +1,5 @@
-import { FieldValues } from 'react-hook-form';
-
-export function manageFormFields(formData: FieldValues) {
+export function manageFormFields(formData: FormDataTypes) {
   try {
-    console.log('Form data: ', formData);
     const {
       account_discord,
       account_linkedin,
@@ -30,13 +27,12 @@ export function manageFormFields(formData: FieldValues) {
       phone_number,
       stack,
       experience: experience?.value === 'Так' || false,
-      role: role.value,
-      type: type.value,
+      role: role,
+      type: +type.value,
       projects: projects.map((item: { id: number }) => {
         return { project: item.id };
       }),
     };
-
     return requestData;
   } catch (err) {
     console.log('Participant manager err: ', err);
@@ -57,4 +53,21 @@ interface RequestDataTypes {
   role: string;
   stack: string;
   type: number;
+}
+
+export interface FormDataTypes {
+  account_discord: string;
+  account_linkedin: string;
+  city?: string;
+  comment?: string;
+  email: string;
+  experience: { value: string };
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  role: string;
+  speciality: { value: string };
+  stack: string;
+  type: { value: string };
+  projects: { id: number; label: string; title: string }[];
 }

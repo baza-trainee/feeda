@@ -2,7 +2,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
 import Link from 'next/link';
@@ -27,11 +27,13 @@ export function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { control, watch } = useForm();
+  const { control, watch } = useForm<FieldValues>({
+    defaultValues: { searchInput: searchParams.get('q') || '' },
+  });
   const [prevLocation, setPrevLocation] = useState('' as string);
   const { participant, isLoading } = useSelector((store: StoreTypes) => store.participants);
   const { token } = useSelector((state: StoreTypes) => state.auth);
-  const searchInput = watch('search-input');
+  const searchInput = watch('searchInput');
 
   const manageHeaderTitle = () => {
     if (pathname === '/participants') {
@@ -77,7 +79,7 @@ export function Header() {
   };
 
   //eslint-disable-next-line
-  useEffect(() => manageUrl(searchInput), [searchInput]);
+  // useEffect(() => manageUrl(searchInput), [searchInput]);
 
   return token ? (
     <Wrapper>
@@ -98,13 +100,7 @@ export function Header() {
             <IconSprite icon="openMenu" />
           </MenuBtn>
         </MenuWrapper>
-        <Input
-          name="search-input"
-          placeholder="Ключове слово"
-          endIconId="search"
-          defaultValue={searchParams.get('q') || ''}
-          control={control}
-        />
+        <Input name="searchInput" placeholder="Ключове слово" endIconId="search" control={control} maxLength={50} />
       </MobileHeaderWrapper>
       <PageTitle css={[pageMobileTitleStyles]}>{manageHeaderTitle()}</PageTitle>
     </Wrapper>

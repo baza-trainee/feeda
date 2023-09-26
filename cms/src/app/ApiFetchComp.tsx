@@ -1,39 +1,28 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { loginByToken } from '../redux/auth/loginSlice';
-import { AppDispatch } from '../redux/store/store';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 
 export function ApiFetchComp() {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const path = usePathname();
-  const searchParams = useSearchParams();
   const router = useRouter();
-  const { token, remember } = useSelector(({ auth }) => auth);
+  const { token, remember, isLoggedIn } = useAppSelector(({ auth }) => auth);
 
   useEffect(() => {
-    const savedToken = localStorage.getItem('token');
-    if (!token && !savedToken && !path.includes('/login')) {
+    const rememberCreadentials = localStorage.getItem('remember');
+    if (token && !isLoggedIn) {
+      dispatch(loginByToken({ token, remember: rememberCreadentials }));
+      path !== '/login' ? router.push(path) : router.push('projects');
+    } else if (!isLoggedIn && !token && !path.includes('/login')) {
       router.push('/login');
-    } else if (!token && savedToken) {
-      dispatch(loginByToken(savedToken));
-      if (path === '/login') {
-        router.push('projects');
-      } else {
-        const q = searchParams.get('q');
-        q ? router.push(`/participants?q=${q}`) : router.push(path);
-      }
-    } else if (token && !savedToken) {
-      if (remember) {
-        localStorage.setItem('token', token);
-      }
-      router.push('/projects');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+    isLoggedIn && router.push(path.includes('/login') ? '/projects' : path);
+  }, [dispatch, isLoggedIn, path, remember, router, token]);
+
   return <></>;
 }
