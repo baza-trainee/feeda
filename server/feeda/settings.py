@@ -12,12 +12,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
-# from dotenv import load_dotenv, find_dotenv
+from dotenv import load_dotenv, find_dotenv
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -30,7 +29,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,17 +39,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    # 'rest_framework_simplejwt',
-    # 'rest_framework_simplejwt.token_blacklist',
     'rest_framework.authtoken',
     'drf_yasg',
     'djoser',
     'django_filters',
     'phonenumber_field',
     'corsheaders',
+    "django_extensions",
 
     'src.users',
-    'src.user_project'
+    "dashboard",
+    "projects",
+    "participants"
 ]
 
 MIDDLEWARE = [
@@ -85,7 +84,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'feeda.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -95,15 +93,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-# load_dotenv(find_dotenv())
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'feeda',
-#         'USER': 'feeda',
-#         'PASSWORD': '123'
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -126,51 +115,12 @@ AUTH_PASSWORD_VALIDATORS = [
     }
 ]
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_AUTHENTICATION_CLASSES': [
-#         'rest_framework.authentication.BasicAuthentication',
-#         'rest_framework.authentication.SessionAuthentication',
-#         'rest_framework.authentication.TokenAuthentication'
-#     ]
-# }
-
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        # 'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication'
-
-    ),
-    # 'DEFAULT_PERMISSION_CLASSES': [
-    #     'rest_framework.permissions.IsAdminUser'
-    # ],
-    'DEFAULT_FILTER_BACKENDS': (
-        'django_filters.rest_framework.DjangoFilterBackend',
-    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': ('src.users.auth.BearerTokenAuthentication',),
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100
 }
-
-DJOSER = {
-    'LOGIN_FIELD': 'email',
-    'USER_CREATE_PASSWORD_RETYPE': False,
-    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': False,
-    'SET_PASSWORD_RETYPE': False,
-    'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': True,
-    'SERIALIZERS': {
-        # 'user_create': 'src.users.serializer.UserRegisterSerializer'
-    },
-}
-
-SWAGGER_SETTINGS = {
-    'SECURITY_DEFINITIONS': {
-        'Token': {
-            'type': 'apiKey',
-            'in': 'header',
-            'name': 'Authorization'
-        }
-    },
-}
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -183,14 +133,16 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -218,15 +170,15 @@ CORS_ALLOWED_HEADERS = (
     "x-requested-with"
 )
 
-# load_dotenv(find_dotenv())
-# DISCORD_CLIENT_ID = os.getenv('DISCORD_CLIENT_ID')
-# DISCORD_PUBLIC_KEY = os.getenv('DISCORD_PUBLIC_KEY')
-# DISCORD_SECRET_KEY = os.getenv('DISCORD_SECRET_KEY')
+load_dotenv(find_dotenv())
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = 'feedabaza@gmail.com'
+EMAIL_HOST_PASSWORD = 'wurhkxwltxdxorhz'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 
+# PDF
+
+PATH_WKHTMLTOPDF = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
