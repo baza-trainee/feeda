@@ -1,7 +1,7 @@
 import { Exo_2 } from 'next/font/google';
 
 import { LayoutContainer } from '../components/LayoutContainer/LayoutContainer';
-import { ReduxProvider } from '../redux/store/ReduxProvider';
+import ReduxProvider from '../redux/store/ReduxProvider';
 import { ApiFetchComp } from './ApiFetchComp';
 import EmotionRegistry from './registry';
 

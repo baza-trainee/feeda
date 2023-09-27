@@ -1,11 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 
-// axios.defaults.baseURL = 'http://127.0.0.1:8000/api/v1/';
+axios.defaults.baseURL = 'http://localhost:8000/api/v1/';
 
+import { FormDataTypes, manageFormFields } from '../../helpers/manageParticipantFormValues';
 import { FieldValues } from 'react-hook-form';
-
-import { manageFormFields } from '../../helpers/manageParticipantFormValues';
 
 export const fetchParticipants = createAsyncThunk(
   'participants/fetchParticipants',
@@ -28,7 +27,7 @@ export const fetchParticipants = createAsyncThunk(
 
 export const createParticipant = createAsyncThunk(
   'participants/createParticipant',
-  async (formData: FieldValues, { rejectWithValue }) => {
+  async ({ formData }: { formData: FormDataTypes }, { rejectWithValue }) => {
     try {
       const requestData = manageFormFields(formData);
       console.log('Create: ', requestData);
@@ -65,8 +64,8 @@ export const updateParticipant = createAsyncThunk(
   async ({ formData, userId }: UpdateParticipantTypes, { rejectWithValue }) => {
     try {
       const requestData = manageFormFields(formData);
-      console.log('Update: ', formData);
-      const { data } = await axios.put<ParticipantData>(`api/v1/participant/${userId}/`, requestData);
+      console.log('Update: ', requestData);
+      const { data } = await axios.put<ParticipantData>(`user-project/participant-detail/${userId}/`, requestData);
       return data;
     } catch (err) {
       if (err instanceof AxiosError) {

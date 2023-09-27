@@ -4,10 +4,7 @@ import { ActionType } from './common';
 import { ProjectServerData, manageProjectSererData } from '~/src/helpers/manageProjectServerData';
 import { ProjectFormData, manageProjectFormData } from '~/src/helpers/manageProjectFormData';
 import { RootState } from '../store/store';
-
-const config = {
-  headers: { Authorization: `Bearer 709ee6c843dae3cff689dc6a70bb2d502eed3009` },
-};
+axios.defaults.headers.Authorization = 'Bearer 709ee6c843dae3cff689dc6a70bb2d502eed3009'; // ????
 
 const fetchProjects = createAsyncThunk(ActionType.GET_ALL, async () => {
   const { data } = await axios.get('http://127.0.0.1:8000/api/v1/user-project/projects/');
@@ -18,7 +15,7 @@ const deleteProject = createAsyncThunk(
   ActionType.DELETE_PROJECT,
   async (title: string | number | null, { dispatch }) => {
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/v1/user-project/project/${title}`);
+      await axios.delete(`http://localhost:8000/api/v1/user-project/project/${title}`);
       await dispatch(fetchProjects());
       return;
     } catch (err) {
@@ -32,7 +29,7 @@ const addProject = createAsyncThunk(ActionType.ADD_PROJECT, async (formData: Pro
 
   console.log('dispatch', projectData);
 
-  const { data } = await axios.post('/project/', projectData, { headers: config.headers });
+  const { data } = await axios.post('/project/', projectData);
 
   return data;
 });
@@ -44,13 +41,13 @@ const editProject = createAsyncThunk(ActionType.EDIT_PROJECT, async (formData: P
 
   console.log('dispatch', projectData);
 
-  const { data } = await axios.put(`/project/${slug}/`, projectData, { headers: config.headers });
+  const { data } = await axios.put(`/project/${slug}/`, projectData);
 
   return data;
 });
 
 const fetchTeam = createAsyncThunk(ActionType.GET_TEAM, async (title: string) => {
-  const { data } = await axios.get<ProjectServerData>(`/project/${title}/`, config);
+  const { data } = await axios.get<ProjectServerData>(`/project/${title}/`);
   console.log(data);
 
   const currentTeam = manageProjectSererData(data);
