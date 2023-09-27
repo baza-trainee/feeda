@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Control, Controller } from 'react-hook-form';
+import { Control, Controller, FieldValues, UseFormTrigger } from 'react-hook-form';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
 
@@ -24,6 +24,7 @@ interface SelectFieldProps {
   title: string;
   isDisabled?: boolean;
   valueGetter?: (value: string) => OptionType | undefined | string;
+  trigger?: UseFormTrigger<FieldValues>;
 }
 
 export const SelectField = ({
@@ -36,6 +37,7 @@ export const SelectField = ({
   title,
   isDisabled = false,
   valueGetter,
+  trigger,
 }: SelectFieldProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -73,6 +75,9 @@ export const SelectField = ({
                 onMenuOpen={() => setIsDropdownOpen(true)}
                 onMenuClose={() => setIsDropdownOpen(false)}
                 onBlur={() => {
+                  if (trigger) {
+                    trigger(name);
+                  }
                   setIsDropdownOpen(false);
                   onBlur();
                 }}
@@ -95,6 +100,7 @@ interface AsyncFieldProps {
   clearErrors: (name?: string | string[]) => void;
   title: string;
   isDisabled?: boolean;
+  trigger?: UseFormTrigger<FieldValues>;
 }
 
 export const AsyncField = ({
@@ -106,6 +112,7 @@ export const AsyncField = ({
   clearErrors,
   title,
   isDisabled = false,
+  trigger,
 }: AsyncFieldProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   return (
@@ -135,6 +142,9 @@ export const AsyncField = ({
                 onMenuOpen={() => setIsDropdownOpen(true)}
                 onMenuClose={() => setIsDropdownOpen(false)}
                 onBlur={() => {
+                  if (trigger) {
+                    trigger(name);
+                  }
                   setIsDropdownOpen(false);
                   onBlur();
                 }}

@@ -1,8 +1,7 @@
 'use client';
-import { parseISO } from 'date-fns';
 
 import DatePicker, { registerLocale } from 'react-datepicker';
-import { Control, Controller } from 'react-hook-form';
+import { Control, Controller, FieldValues, UseFormTrigger } from 'react-hook-form';
 
 import { ClassNames } from '@emotion/react';
 import uk_UA from 'date-fns/locale/uk';
@@ -11,6 +10,7 @@ import { usePathname } from 'next/navigation';
 import { useAppSelector } from '~/src/redux/hooks';
 import { StoreTypes } from '~/src/redux/store/store';
 
+import { Button } from '../Button/Button';
 import { IconSprite, IconType } from '../IconSprite/IconSprite';
 import { ErrorText } from '../SelectField/SelectField.style';
 import {
@@ -25,7 +25,6 @@ import {
 } from './Input.styles';
 
 import 'react-datepicker/dist/react-datepicker.css';
-import { Button } from '../Button/Button';
 
 type InputProps = {
   name: string;
@@ -48,6 +47,7 @@ type InputProps = {
   begIconId?: IconType | undefined;
   endIconId?: IconType | undefined;
   rules?: object;
+  trigger?: UseFormTrigger<FieldValues>;
 };
 
 export function Input({
@@ -71,6 +71,7 @@ export function Input({
   control,
   rules,
   submitBtn,
+  trigger,
 }: InputProps) {
   registerLocale('uk_UA', uk_UA);
   const path = usePathname();
@@ -124,6 +125,11 @@ export function Input({
                       calendarStartDay={1}
                       onChange={onChange}
                       disabled={disabled}
+                      onBlur={() => {
+                        if (trigger) {
+                          trigger(name);
+                        }
+                      }}
                     />
                   ) : (
                     <InputComp
@@ -147,6 +153,11 @@ export function Input({
                       }
                       onChange={onChange}
                       value={value}
+                      onBlur={() => {
+                        if (trigger) {
+                          trigger(name);
+                        }
+                      }}
                     />
                   )}
                   {submitBtn && endIconId ? (

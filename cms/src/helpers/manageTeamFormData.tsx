@@ -1,4 +1,5 @@
 import { FieldValues } from 'react-hook-form';
+
 import { InstructionsStateType } from '../redux/instructions';
 
 export const manageTeamFromData = (instructions: InstructionsStateType, data: FieldValues, projectId: number) => {

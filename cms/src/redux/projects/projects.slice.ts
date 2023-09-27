@@ -1,7 +1,8 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 
-import { addProject, deleteProject, fetchProjects, fetchTeam, editProject } from './actions';
 import { UserFormData } from '~/src/helpers/manageProjectFormData';
+
+import { addProject, deleteProject, editProject,fetchProjects, fetchTeam } from './actions';
 
 const initialState: ProjectsState = {
   projects: [],

@@ -1,4 +1,4 @@
-import { Control } from 'react-hook-form';
+import { Control, FieldValues, UseFormTrigger } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchParticipants } from '~/src/redux/participants/operations';
@@ -17,9 +17,18 @@ export interface MemberCardProps {
   onDelete: (index: number) => void;
   name: string;
   isDisabled: boolean;
+  trigger?: UseFormTrigger<FieldValues>;
 }
 
-export const MemberCard: React.FC<MemberCardProps> = ({ control, clearErrors, index, onDelete, name, isDisabled }) => {
+export const MemberCard: React.FC<MemberCardProps> = ({
+  control,
+  clearErrors,
+  index,
+  onDelete,
+  name,
+  isDisabled,
+  trigger,
+}) => {
   const dispatch = useDispatch<AppDispatch>();
   const { list } = useSelector((state: RootState) => state.participants);
 
@@ -48,6 +57,7 @@ export const MemberCard: React.FC<MemberCardProps> = ({ control, clearErrors, in
         title="Ім'я"
         rules={{ required: 'це поле обовязкове' }}
         isDisabled={isDisabled}
+        trigger={trigger}
       />
       <SelectField
         control={control}
@@ -56,9 +66,10 @@ export const MemberCard: React.FC<MemberCardProps> = ({ control, clearErrors, in
         placeholder="Оберіть роль"
         name={`${name}..${index}.role`}
         title="Роль"
-        // rules={{ required: 'це поле є обовязковим' }}
+        rules={{ required: 'це поле є обовязковим' }}
         valueGetter={(value) => getRole(value)}
         isDisabled={isDisabled}
+        trigger={trigger}
       />
       <Input
         control={control}

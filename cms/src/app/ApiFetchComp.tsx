@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { loginByToken } from '../redux/auth/loginSlice';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks';
 export function ApiFetchComp() {
   const dispatch = useAppDispatch();
   const path = usePathname();
-  const searchParams = useSearchParams();
+  //const searchParams = useSearchParams();
   const router = useRouter();
   const { token, remember, isLoggedIn } = useAppSelector(({ auth }) => auth);
 

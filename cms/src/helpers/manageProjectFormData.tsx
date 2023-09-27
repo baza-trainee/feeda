@@ -1,19 +1,20 @@
 import { format } from 'date-fns';
+
 import { ProjectServerData, userServerData } from './manageProjectServerData';
 
 export const manageProjectFormData = (data: ProjectFormData) => {
-  let start_date_project: string = '2023-01-01';
-  let end_date_project: string = '2023-12-31';
+  let start_date_project = '2023-01-01';
+  let end_date_project = '2023-12-31';
 
   if (data.start_date_project instanceof Date) {
     start_date_project = format(data.start_date_project, 'yyyy-MM-dd');
-  } else if (typeof data.start_date_project === 'string') {
+  } else if (typeof data.start_date_project === 'string' && data.start_date_project !== '') {
     start_date_project = data.start_date_project;
   }
 
   if (data.end_date_project instanceof Date) {
     end_date_project = format(data.end_date_project, 'yyyy-MM-dd');
-  } else if (typeof data.end_date_project === 'string') {
+  } else if (typeof data.end_date_project === 'string' && data.end_date_project !== '') {
     end_date_project = data.end_date_project;
   }
 

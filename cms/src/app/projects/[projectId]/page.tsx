@@ -41,7 +41,6 @@ export default function ProjectPage({ params }: ProjectPageProps) {
     values: currentTeam,
   });
 
-  console.log(currentTeam);
   useEffect(() => {
     const projectId = params.projectId;
     if (projectId !== 'add') {
@@ -73,6 +72,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
           setDisabled={setDisabled}
           resetForm={() => reset()}
           path={params.projectId}
+          trigger={trigger}
         />
       ),
     },

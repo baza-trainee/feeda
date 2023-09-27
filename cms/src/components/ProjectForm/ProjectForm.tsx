@@ -1,9 +1,19 @@
 'use client';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { Control, FieldValues, SubmitHandler, UseFormHandleSubmit, UseFormReset } from 'react-hook-form';
+import {
+  Control,
+  FieldValues,
+  SubmitHandler,
+  UseFormHandleSubmit,
+  UseFormReset,
+  UseFormTrigger,
+} from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { useRouter } from 'next/navigation';
 
+import { ProjectFormData } from '~/src/helpers/manageProjectFormData';
+import { siteAdressRegex } from '~/src/helpers/regexs';
 import { addProject, editProject } from '~/src/redux/projects/actions';
 import { AppDispatch, RootState } from '~/src/redux/store/store';
 
@@ -20,7 +30,6 @@ import {
 } from '../SelectField/lists';
 import { SelectField } from '../SelectField/SelectField';
 import { FormControllers, FormWrapper, InputsWrapper } from './ProjectForm.styles';
-import { ProjectFormData } from '~/src/helpers/manageProjectFormData';
 
 export interface ProjectFormProps {
   control: Control;
@@ -30,6 +39,7 @@ export interface ProjectFormProps {
   setDisabled: Dispatch<SetStateAction<boolean>>;
   resetForm: UseFormReset<FieldValues>;
   path: string;
+  trigger: UseFormTrigger<FieldValues>;
 }
 
 export const ProjectForm = ({
@@ -40,6 +50,7 @@ export const ProjectForm = ({
   setDisabled,
   resetForm,
   path,
+  trigger,
 }: ProjectFormProps) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const { loading } = useSelector((state: RootState) => state.projects);
@@ -84,6 +95,7 @@ export const ProjectForm = ({
           required={true}
           rules={{ required: 'це поле є обовязковим' }}
           disabled={isDisabled}
+          trigger={trigger}
         />
         <Input
           control={control}
@@ -103,6 +115,7 @@ export const ProjectForm = ({
           rules={{ required: 'це поле є обовязковим' }}
           valueGetter={(value) => getComplixity(value)}
           isDisabled={isDisabled}
+          trigger={trigger}
         />
         <SelectField
           control={control}
@@ -114,6 +127,7 @@ export const ProjectForm = ({
           rules={{ required: 'це поле є обовязковим' }}
           valueGetter={(value) => getProjectStatus(value)}
           isDisabled={isDisabled}
+          trigger={trigger}
         />
         <SelectField
           control={control}
@@ -125,6 +139,7 @@ export const ProjectForm = ({
           rules={{ required: 'це поле є обовязковим' }}
           valueGetter={(value) => getProjectType(value)}
           isDisabled={isDisabled}
+          trigger={trigger}
         />
         <Input
           placeholder="Оберіть дату"
@@ -134,6 +149,8 @@ export const ProjectForm = ({
           type="date"
           disabled={isDisabled}
           rules={{ required: 'це поле є обовязковим' }}
+          pattern={siteAdressRegex.source}
+          trigger={trigger}
         />
         <Input
           placeholder="Оберіть дату"
@@ -150,6 +167,7 @@ export const ProjectForm = ({
           placeholder="https://example.con"
           maxLength={30}
           disabled={isDisabled}
+          pattern={siteAdressRegex.source}
         />
       </InputsWrapper>
       <FormControllers>

@@ -3,8 +3,9 @@ import axios, { AxiosError } from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:8000/api/v1/';
 
-import { FormDataTypes, manageFormFields } from '../../helpers/manageParticipantFormValues';
 import { FieldValues } from 'react-hook-form';
+
+import { FormDataTypes, manageFormFields } from '../../helpers/manageParticipantFormValues';
 
 export const fetchParticipants = createAsyncThunk(
   'participants/fetchParticipants',

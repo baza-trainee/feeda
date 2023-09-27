@@ -1,7 +1,7 @@
 'use client';
 /** @jsxImportSource @emotion/react */
 
-import { useEffect, useState } from 'react';
+//import { useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
@@ -27,13 +27,13 @@ export function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { control, watch } = useForm<FieldValues>({
+  const { control } = useForm<FieldValues>({
     defaultValues: { searchInput: searchParams.get('q') || '' },
   });
-  const [prevLocation, setPrevLocation] = useState('' as string);
+  // const [prevLocation, setPrevLocation] = useState('' as string);
   const { participant, isLoading } = useSelector((store: StoreTypes) => store.participants);
   const { token } = useSelector((state: StoreTypes) => state.auth);
-  const searchInput = watch('searchInput');
+  //const searchInput = watch('searchInput');
 
   const manageHeaderTitle = () => {
     if (pathname === '/participants') {
@@ -57,20 +57,20 @@ export function Header() {
     }
   };
 
-  const manageUrl = (value: string) => {
-    if (value?.length) {
-      if ((pathname !== prevLocation && pathname !== '/participants') || !prevLocation.length) {
-        setPrevLocation(pathname);
-      } else if (pathname !== '/participants') {
-        router.push(`/participants?q=${value}`);
-      } else {
-        router.push(`?q=${value}`);
-      }
-    } else if (!value?.length) {
-      if (!prevLocation.length) router.push('/participants');
-      else router.push(prevLocation);
-    }
-  };
+  // const manageUrl = (value: string) => {
+  //   if (value?.length) {
+  //     if ((pathname !== prevLocation && pathname !== '/participants') || !prevLocation.length) {
+  //       setPrevLocation(pathname);
+  //     } else if (pathname !== '/participants') {
+  //       router.push(`/participants?q=${value}`);
+  //     } else {
+  //       router.push(`?q=${value}`);
+  //     }
+  //   } else if (!value?.length) {
+  //     if (!prevLocation.length) router.push('/participants');
+  //     else router.push(prevLocation);
+  //   }
+  // };
 
   const goBackHandler = (ev: React.MouseEvent<HTMLButtonElement>) => {
     ev.preventDefault();

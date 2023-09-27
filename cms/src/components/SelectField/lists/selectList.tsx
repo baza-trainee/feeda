@@ -19,16 +19,12 @@ export interface ListProps {
 
 export const projectStatus: ListProps[] = [
   {
-    value: 'Формування команди',
-    label: <ProjectState type="green" title="Формування команди" />,
-  },
-  {
     value: 'В розробці',
     label: <ProjectState type="yellow" title="В розробці" />,
   },
   {
-    value: '"Завершено"',
-    label: <ProjectState type="orange" title="Завершено" />,
+    value: 'Завершений',
+    label: <ProjectState type="orange" title="Завершений" />,
   },
 ];
 
@@ -42,7 +38,7 @@ export const membersRole: ListProps[] = [
     label: <MemberRole type="yellow" title="Backend" />,
   },
   {
-    value: 'Front',
+    value: 'Frontend',
     label: <MemberRole type="orange" title="Front" />,
   },
   {
@@ -92,8 +88,8 @@ export const projectType: ListProps[] = [
     label: <ProjectType title="Безкоштовний" />,
   },
   {
-    value: 'Комерційний',
-    label: <ProjectType title="Комерційний" />,
+    value: 'Платний',
+    label: <ProjectType title="Платний" />,
   },
   {
     value: 'Буткамп',
