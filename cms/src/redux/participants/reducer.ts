@@ -29,13 +29,11 @@ export const participantsSlice = createSlice({
     });
     builder.addCase(fetchParticipants.fulfilled, (state, { payload }) => {
       state.list = payload.results;
-      // console.log(payload.results);
       state.isLoading = false;
     });
     builder.addCase(fetchParticipants.rejected, (state, { payload }) => {
       if (typeof payload === 'string') state.error = payload;
       else state.error = true;
-      console.log('Error: ', payload);
       state.isLoading = false;
     });
 
@@ -50,7 +48,6 @@ export const participantsSlice = createSlice({
     builder.addCase(createParticipant.rejected, (state, { payload }) => {
       if (typeof payload === 'string') state.error = payload;
       else state.error = true;
-      console.log('Error: ', payload);
       state.isLoading = false;
     });
 
@@ -62,7 +59,6 @@ export const participantsSlice = createSlice({
       state.participant = null;
     });
     builder.addCase(getParticipant.fulfilled, (state, { payload }) => {
-      console.log('Get: ', payload);
       state.participant = payload;
       state.isLoading = false;
     });
@@ -79,15 +75,12 @@ export const participantsSlice = createSlice({
       state.error = null;
     });
     builder.addCase(updateParticipant.fulfilled, (state, { payload }) => {
-      console.log('Update participant: ', payload);
       state.participant = payload;
       state.isLoading = false;
     });
     builder.addCase(updateParticipant.rejected, (state, { payload }) => {
-      console.log('Update error: ', payload);
       if (typeof payload === 'string') state.error = payload;
       else state.error = true;
-      console.log('Error: ', payload);
       state.isLoading = false;
     });
 
@@ -101,10 +94,8 @@ export const participantsSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(deleteParticipant.rejected, (state, { payload }) => {
-      console.log('Participant delete error: ', payload);
       if (typeof payload === 'string') state.error = payload;
       else state.error = true;
-      console.log('Error: ', payload);
       state.isLoading = false;
     });
 
@@ -120,7 +111,6 @@ export const participantsSlice = createSlice({
     builder.addCase(sendEmail.rejected, (state, { payload }) => {
       if (typeof payload === 'string') state.error = payload;
       else state.error = true;
-      console.log('Send email rejected: ', payload);
       state.isLoading = false;
     });
 
@@ -129,8 +119,7 @@ export const participantsSlice = createSlice({
     builder.addCase(searchProjects.pending, (state) => {
       state.error = null;
     });
-    builder.addCase(searchProjects.rejected, (state, { payload }) => {
-      console.log('Search projects error: ', payload);
+    builder.addCase(searchProjects.rejected, (state) => {
       state.error = true;
     });
   },
