@@ -4,13 +4,13 @@ import { ProjectState } from './ProjectState';
 import { ProjectType } from './ProjectsType';
 
 export const getProjectStatus = (value: string | number) =>
-  value ? projectStatus.find((item) => item.value === value) || { value: '', label: '' } : { value: '', label: '' };
+  value ? projectStatus.find((item) => item.value === value) || { value: '', label: '' } : '';
 export const getRole = (value: string | number) =>
-  value ? membersRole.find((item) => item.value === value) || { value: '', label: '' } : { value: '', label: '' };
+  value ? membersRole.find((item) => item.value === value) || { value: '', label: '' } : '';
 export const getComplixity = (value: string | number) =>
-  value ? projectDifficulty.find((item) => item.value === value) || { value: '', label: '' } : { value: '', label: '' };
+  value ? projectDifficulty.find((item) => item.value === value) || { value: '', label: '' } : '';
 export const getProjectType = (value: string | number) =>
-  value ? projectType.find((item) => item.value === value) || { value: '', label: '' } : { value: '', label: '' };
+  value ? projectType.find((item) => item.value === value) || { value: '', label: '' } : '';
 
 export interface ListProps {
   value: string | number;

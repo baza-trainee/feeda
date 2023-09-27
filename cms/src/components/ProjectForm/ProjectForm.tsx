@@ -2,8 +2,9 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Control, FieldValues, SubmitHandler, UseFormHandleSubmit, UseFormReset } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/navigation';
 
-import { addProject } from '~/src/redux/projects/actions';
+import { addProject, editProject } from '~/src/redux/projects/actions';
 import { AppDispatch, RootState } from '~/src/redux/store/store';
 
 import { Button } from '../Button/Button';
@@ -19,6 +20,7 @@ import {
 } from '../SelectField/lists';
 import { SelectField } from '../SelectField/SelectField';
 import { FormControllers, FormWrapper, InputsWrapper } from './ProjectForm.styles';
+import { ProjectFormData } from '~/src/helpers/manageProjectFormData';
 
 export interface ProjectFormProps {
   control: Control;
@@ -27,6 +29,7 @@ export interface ProjectFormProps {
   isDisabled: boolean;
   setDisabled: Dispatch<SetStateAction<boolean>>;
   resetForm: UseFormReset<FieldValues>;
+  path: string;
 }
 
 export const ProjectForm = ({
@@ -36,15 +39,37 @@ export const ProjectForm = ({
   isDisabled,
   setDisabled,
   resetForm,
+  path,
 }: ProjectFormProps) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const { loading } = useSelector((state: RootState) => state.projects);
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
 
-  const onFormSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onAddProject: SubmitHandler<FieldValues> = async (data) => {
     console.log('fromForm', data);
     setModalOpen(true);
-    dispatch(addProject(data));
+    try {
+      const result = await dispatch(addProject(data as ProjectFormData)).unwrap();
+      const { slug } = result;
+      setTimeout(() => {
+        router.push(`/projects/${slug}`);
+      }, 1000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onEditProject: SubmitHandler<FieldValues> = async (data) => {
+    console.log('fromForm', data);
+    setModalOpen(true);
+    try {
+      const result = await dispatch(editProject(data as ProjectFormData)).unwrap();
+      console.log(result);
+      setDisabled(true);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -82,7 +107,7 @@ export const ProjectForm = ({
         <SelectField
           control={control}
           clearErrors={clearErrors}
-          name="project_status"
+          name="status"
           placeholder="Введіть текст"
           options={projectStatus}
           title="Стан проекту"
@@ -93,7 +118,7 @@ export const ProjectForm = ({
         <SelectField
           control={control}
           clearErrors={clearErrors}
-          name="type_project"
+          name="type"
           placeholder="Введіть текст"
           options={projectType}
           title="Тип проекту"
@@ -101,8 +126,23 @@ export const ProjectForm = ({
           valueGetter={(value) => getProjectType(value)}
           isDisabled={isDisabled}
         />
-        <Input control={control} name="start_date_project" label="Старт проету" type="date" disabled={isDisabled} />
-        <Input control={control} name="end_date_project" label="Завершення проету" type="date" disabled={isDisabled} />
+        <Input
+          placeholder="Оберіть дату"
+          control={control}
+          name="start_date_project"
+          label="Старт проету"
+          type="date"
+          disabled={isDisabled}
+          rules={{ required: 'це поле є обовязковим' }}
+        />
+        <Input
+          placeholder="Оберіть дату"
+          control={control}
+          name="end_date_project"
+          label="Завершення проету"
+          type="date"
+          disabled={isDisabled}
+        />
         <Input
           control={control}
           name="address_site"
@@ -123,7 +163,12 @@ export const ProjectForm = ({
             }}
           />
         ) : (
-          <Button variant="primary" title="Зберегти зміни" btnType="submit" func={handleSubmit(onFormSubmit)} />
+          <Button
+            variant="primary"
+            title="Зберегти зміни"
+            btnType="submit"
+            func={handleSubmit(path === 'add' ? onAddProject : onEditProject)}
+          />
         )}
         <Button
           variant="text"
@@ -131,8 +176,8 @@ export const ProjectForm = ({
           btnType="submit"
           func={(e) => {
             e.preventDefault();
-            console.log('reset');
             resetForm();
+            setDisabled(true);
           }}
         />
       </FormControllers>

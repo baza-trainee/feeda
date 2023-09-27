@@ -17,8 +17,8 @@ export interface FormData {
   title: string;
   comment: string;
   complexity: OptionType;
-  project_status: OptionType;
-  type_project: OptionType;
+  status: OptionType;
+  type: OptionType;
   start_date_project: Date;
   end_date_project: Date | null;
   address_site: string | null;
@@ -34,7 +34,6 @@ type ProjectPageProps = {
 
 export default function ProjectPage({ params }: ProjectPageProps) {
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoading } = useSelector((state: RootState) => state.instructions);
   const { currentTeam } = useSelector((state: RootState) => state.projects);
   const [currentTab, setCurrentTab] = useState('Опис');
   const [isDisabled, setDisabled] = useState(true);
@@ -42,12 +41,13 @@ export default function ProjectPage({ params }: ProjectPageProps) {
     values: currentTeam,
   });
 
+  console.log(currentTeam);
   useEffect(() => {
     const projectId = params.projectId;
     if (projectId !== 'add') {
       dispatch(fetchTeam(projectId));
     } else setDisabled(false);
-  }, [dispatch, params.projectId, isLoading]);
+  }, [dispatch, params.projectId]);
 
   const handleTabClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const nextTab = e.currentTarget.title;
@@ -72,6 +72,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
           isDisabled={isDisabled}
           setDisabled={setDisabled}
           resetForm={() => reset()}
+          path={params.projectId}
         />
       ),
     },

@@ -1,21 +1,9 @@
-import { FieldValues } from 'react-hook-form';
-import { InstructionsStateType } from '../redux/instructions';
 import { format } from 'date-fns';
-import { ProjectServerData } from './manageProjectServerData';
+import { ProjectServerData, userServerData } from './manageProjectServerData';
 
-export const manageProjectFormData = (instructions: InstructionsStateType, data: FieldValues) => {
-  let currentStatus: { id: number; status: string } | undefined;
-  let currentType: { id: number; project_type: string } | undefined;
+export const manageProjectFormData = (data: ProjectFormData) => {
   let start_date_project: string = '2023-01-01';
   let end_date_project: string = '2023-12-31';
-
-  if (instructions.project_status) {
-    currentStatus = instructions.project_status.find((item) => item.status === data.project_status);
-  }
-
-  if (instructions.project_types) {
-    currentType = instructions.project_types.find((item) => item.project_type === data.type_project);
-  }
 
   if (data.start_date_project instanceof Date) {
     start_date_project = format(data.start_date_project, 'yyyy-MM-dd');
@@ -29,18 +17,59 @@ export const manageProjectFormData = (instructions: InstructionsStateType, data:
     end_date_project = data.end_date_project;
   }
 
-  console.log(currentType);
+  const mapUsersToServerData = (users: (userServerData | UserFormData)[]): userServerData[] => {
+    return users.map((user) => {
+      console.log('yep');
+      const { comment, role, full_name } = user as UserFormData;
+      const { first_name, last_name, value } = full_name;
+      return {
+        first_name,
+        last_name,
+        comment,
+        role,
+        id: value,
+      };
+    });
+  };
 
   const projectData: ProjectServerData = {
     title: data.title,
     comment: data.comment,
-    type_project: currentType?.id || 1,
+    type: data.type,
     complexity: data.complexity,
-    project_status: currentStatus?.id || 1,
+    status: data.status,
     start_date_project: start_date_project,
     end_date_project: end_date_project,
     address_site: data.address_site,
+    participants: {
+      users: mapUsersToServerData(data.users),
+      team_leads: mapUsersToServerData(data.team_leads),
+    },
   };
 
   return projectData;
 };
+
+export interface ProjectFormData {
+  title: string;
+  address_site: string;
+  comment: string;
+  complexity: number;
+  end_date_project: string | Date;
+  start_date_project: string | Date;
+  team_leads: userServerData[] | UserFormData[];
+  users: userServerData[] | UserFormData[];
+  type: string;
+  status: string;
+}
+
+export interface UserFormData {
+  comment: string | null;
+  role: string | null;
+  full_name: {
+    value: string;
+    label: string;
+    first_name: string;
+    last_name: string;
+  };
+}

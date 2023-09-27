@@ -1,7 +1,7 @@
 import { Control } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { searchParticipants } from '~/src/redux/participants/operations';
+import { fetchParticipants } from '~/src/redux/participants/operations';
 import { AppDispatch, RootState } from '~/src/redux/store/store';
 
 import { Button } from '../Button/Button';
@@ -24,12 +24,15 @@ export const MemberCard: React.FC<MemberCardProps> = ({ control, clearErrors, in
   const { list } = useSelector((state: RootState) => state.participants);
 
   const loadingOptions = async (inputValue: string) => {
-    await dispatch(searchParticipants(inputValue));
+    await dispatch(fetchParticipants(inputValue));
     console.log(list);
 
     const options = list.map((item) => ({
+      id: item.id,
       value: item.id,
       label: `${item.first_name} ${item.last_name}`,
+      last_name: item.last_name,
+      first_name: item.first_name,
     }));
     return options || [];
   };
@@ -40,10 +43,10 @@ export const MemberCard: React.FC<MemberCardProps> = ({ control, clearErrors, in
         control={control}
         placeholder="Виберіть учасника"
         clearErrors={clearErrors}
-        name={`${name}.${index}.last_name`}
+        name={`${name}..${index}.full_name`}
         options={loadingOptions}
         title="Ім'я"
-        rules={{ required: 'це полу обовязкове' }}
+        rules={{ required: 'це поле обовязкове' }}
         isDisabled={isDisabled}
       />
       <SelectField

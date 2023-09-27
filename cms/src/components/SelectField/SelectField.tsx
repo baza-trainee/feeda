@@ -108,7 +108,6 @@ export const AsyncField = ({
   isDisabled = false,
 }: AsyncFieldProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
   return (
     <Controller
       control={control}

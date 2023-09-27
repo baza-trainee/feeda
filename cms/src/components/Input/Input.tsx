@@ -133,6 +133,7 @@ export function Input({
                       pattern={pattern}
                       defaultValue={value as string}
                       onChange={onChange}
+                      value={value}
                     />
                   )}
                   {submitBtn && endIconId ? (

@@ -11,7 +11,10 @@ export const fetchParticipants = createAsyncThunk(
   'participants/fetchParticipants',
   async (search: string | undefined, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get<ParticipantsResponseTypes>('api/v1/participant/', {
+      const { data } = await axios.get<ParticipantsResponseTypes>('/participant/', {
+        headers: {
+          Authorization: 'Bearer 709ee6c843dae3cff689dc6a70bb2d502eed3009',
+        },
         params: { search: search || '' },
       });
       return data;

@@ -1,13 +1,13 @@
-import { FieldValues } from 'react-hook-form';
-
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-
-import { RootState } from '../store/store';
 import { ActionType } from './common';
 import { ProjectServerData, manageProjectSererData } from '~/src/helpers/manageProjectServerData';
-import { manageProjectFormData } from '~/src/helpers/manageProjectFormData';
-import { manageTeamFromData } from '~/src/helpers/manageTeamFormData';
+import { ProjectFormData, manageProjectFormData } from '~/src/helpers/manageProjectFormData';
+import { RootState } from '../store/store';
+
+const config = {
+  headers: { Authorization: `Bearer 709ee6c843dae3cff689dc6a70bb2d502eed3009` },
+};
 
 const fetchProjects = createAsyncThunk(ActionType.GET_ALL, async () => {
   const { data } = await axios.get('http://127.0.0.1:8000/api/v1/user-project/projects/');
@@ -27,36 +27,29 @@ const deleteProject = createAsyncThunk(
   }
 );
 
-const addProject = createAsyncThunk(ActionType.ADD_PROJECT, async (formData: FieldValues, thunkAPI) => {
-  const { instructions } = (await thunkAPI.getState()) as RootState;
-
-  const projectData = manageProjectFormData(instructions, formData);
+const addProject = createAsyncThunk(ActionType.ADD_PROJECT, async (formData: ProjectFormData) => {
+  const projectData = manageProjectFormData(formData);
 
   console.log('dispatch', projectData);
 
-  const { data } = await axios.post('http://127.0.0.1:8000/api/v1/user-project/create-project/', projectData);
+  const { data } = await axios.post('/project/', projectData, { headers: config.headers });
 
-  console.log(data);
+  return data;
+});
 
-  const transformedUserData = manageTeamFromData(instructions, formData, data.id); // fix Back - dont return id
+const editProject = createAsyncThunk(ActionType.EDIT_PROJECT, async (formData: ProjectFormData, { getState }) => {
+  const state = getState() as RootState;
+  const slug = state.projects.currentTeam.slug;
+  const projectData = manageProjectFormData(formData);
 
-  console.log(transformedUserData);
+  console.log('dispatch', projectData);
 
-  const response = await axios.put(
-    `http://127.0.0.1:8000/api/v1/user-project/command-update/${data.command.id}/`, // fix Back - dont return command id
-    transformedUserData
-  );
+  const { data } = await axios.put(`/project/${slug}/`, projectData, { headers: config.headers });
 
-  const combinedData = { project: data, team: response.data };
-
-  return combinedData;
+  return data;
 });
 
 const fetchTeam = createAsyncThunk(ActionType.GET_TEAM, async (title: string) => {
-  const config = {
-    headers: { Authorization: `Bearer 709ee6c843dae3cff689dc6a70bb2d502eed3009` },
-  };
-
   const { data } = await axios.get<ProjectServerData>(`/project/${title}/`, config);
   console.log(data);
 
@@ -65,4 +58,4 @@ const fetchTeam = createAsyncThunk(ActionType.GET_TEAM, async (title: string) =>
   return currentTeam;
 });
 
-export { fetchProjects, deleteProject, addProject, fetchTeam };
+export { fetchProjects, deleteProject, addProject, editProject, fetchTeam };

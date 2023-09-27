@@ -1,7 +1,7 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 
-import { addProject, deleteProject, fetchProjects, fetchTeam } from './actions';
-import { userServerData } from '~/src/helpers/manageProjectServerData';
+import { addProject, deleteProject, fetchProjects, fetchTeam, editProject } from './actions';
+import { UserFormData } from '~/src/helpers/manageProjectFormData';
 
 const initialState: ProjectsState = {
   projects: [],
@@ -10,13 +10,14 @@ const initialState: ProjectsState = {
     title: '',
     comment: '',
     complexity: null,
-    project_status: null,
-    type_project: null,
+    status: null,
+    type: null,
     address_site: '',
     start_date_project: '',
     end_date_project: '',
-    users: {},
-    team_leads: {},
+    users: [],
+    team_leads: [],
+    slug: '',
   },
   errors: null,
 };
@@ -50,14 +51,26 @@ const { reducer, actions, name } = createSlice({
       console.log(state.loading);
     });
     builder.addCase(addProject.pending, (state) => {
+      state.loading = 'loading';
       console.log(state.loading);
     });
     builder.addCase(addProject.fulfilled, (state, { payload }) => {
+      state.loading = 'success';
       console.log(payload);
       console.log(state.loading, payload);
     });
+    builder.addCase(editProject.pending, (state) => {
+      state.loading = 'loading';
+      console.log(state.loading);
+    });
+    builder.addCase(editProject.fulfilled, (state, { payload }) => {
+      state.loading = 'success';
+      console.log(payload);
+      state.currentTeam = payload;
+      console.log(state.loading, payload);
+    });
     builder.addMatcher(
-      isAnyOf(fetchProjects.rejected, deleteProject.rejected, addProject.rejected),
+      isAnyOf(fetchProjects.rejected, deleteProject.rejected, addProject.rejected, editProject.rejected),
       (state, action) => {
         state.projects = [];
         state.loading = 'rejected';
@@ -90,13 +103,14 @@ export interface ProjectTeamState {
   title: string;
   comment: string;
   complexity: number | null;
-  project_status: string | null;
-  type_project: string | null;
+  status: string | null;
+  type: string | null;
   address_site: string | null;
   start_date_project: string | null;
   end_date_project: string | null;
-  users: userServerData | object;
-  team_leads: userServerData | object;
+  users: UserFormData[] | [];
+  team_leads: UserFormData[] | [];
+  slug: string;
 }
 
 export { actions, name, reducer };

@@ -77,7 +77,7 @@ export function Header() {
   };
 
   //eslint-disable-next-line
-  useEffect(() => manageUrl(searchInput), [searchInput]);
+  //useEffect(() => manageUrl(searchInput), [searchInput]);
 
   return token ? (
     <Wrapper>
