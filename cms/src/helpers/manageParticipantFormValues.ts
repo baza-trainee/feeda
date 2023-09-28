@@ -1,4 +1,5 @@
-export function manageFormFields(formData: FormDataTypes) {
+import { FieldValues } from 'react-hook-form';
+export function manageFormFields(formData: FieldValues) {
   try {
     const {
       account_discord,
