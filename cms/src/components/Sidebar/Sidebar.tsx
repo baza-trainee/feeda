@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import { useAppSelector } from '~/src/redux/hooks';
+
 import { Button } from '../Button/Button';
 import { Nav, NavLink, ProjectsWrapper, Wrapper } from './Sidebar.style';
 
@@ -11,6 +13,7 @@ export function Sidebar({ closeModal }: { closeModal?: () => void }) {
   const [showTeamBuildingOptions, setShowTeamBuildingOptions] = useState(false);
   const [showInDevelopmentOptions, setShowInDevelopmentOptions] = useState(false);
   const [showCompletedOptions, setShowCompletedOptions] = useState(false);
+  const { isLoggedIn } = useAppSelector(({ auth }) => auth);
 
   // First Layer
   const toggleProjectsOptions = () => {
@@ -58,6 +61,9 @@ export function Sidebar({ closeModal }: { closeModal?: () => void }) {
     { label: 'Буткамп', link: '/projects/team-building/bootcamp' },
   ];
 
+  if (!isLoggedIn) {
+    return null;
+  }
   return (
     <Nav>
       <Wrapper>

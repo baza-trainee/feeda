@@ -11,7 +11,6 @@ import participantsReducer from '../participants/reducer';
 import { ParticipantsStateTypes } from '../participants/reducer';
 import { reducer as projectsReducer } from '../projects/projects';
 import { ProjectsState } from '../projects/projects.slice';
-import { authSliceReducer } from '../slices/auth/loginSlice';
 
 const encryptor = encryptTransform({
   secretKey: 'Super-Secret-key-jrtec',

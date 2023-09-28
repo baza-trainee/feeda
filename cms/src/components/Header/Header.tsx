@@ -37,13 +37,11 @@ export function Header() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const { control, watch } = useForm<FieldValues>({
+  const { control } = useForm<FieldValues>({
     defaultValues: { searchInput: searchParams.get('q') || '' },
   });
-  const [prevLocation, setPrevLocation] = useState('' as string);
   const { participant, isLoading } = useSelector((store: StoreTypes) => store.participants);
   const { token } = useSelector((state: StoreTypes) => state.auth);
-  const searchInput = watch('searchInput');
 
   useEffect(() => {
     if (windowWidth && windowWidth >= 768) {
@@ -106,7 +104,7 @@ export function Header() {
   // useEffect(() => manageUrl(searchInput), [searchInput]);
 
   return token ? (
-    <Wrapper>
+    <Wrapper isOpen={showModal}>
       <DesktopContent>
         <Logo>
           <Link href="/projects">
