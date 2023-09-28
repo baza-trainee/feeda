@@ -1,12 +1,14 @@
 import datetime
 import secrets
-from rest_framework.authtoken.models import Token
-from django.db import models
-from django.contrib.auth.models import AbstractUser
-from django.conf import settings
-from .manager import CustomUserManager
 import uuid
+
+from django.conf import settings
+from django.contrib.auth.models import AbstractUser
+from django.db import models
 from django.utils import timezone
+from rest_framework.authtoken.models import Token
+
+from .manager import CustomUserManager
 
 
 class CustomUser(AbstractUser):
