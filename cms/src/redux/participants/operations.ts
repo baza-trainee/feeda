@@ -1,8 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:8000/api/v1/';
-
 import { FieldValues } from 'react-hook-form';
 
 import { FormDataTypes, manageFormFields } from '../../helpers/manageParticipantFormValues';
@@ -12,9 +10,6 @@ export const fetchParticipants = createAsyncThunk(
   async (search: string | undefined, { rejectWithValue }) => {
     try {
       const { data } = await axios.get<ParticipantsResponseTypes>('/participant/', {
-        headers: {
-          Authorization: 'Bearer 709ee6c843dae3cff689dc6a70bb2d502eed3009',
-        },
         params: { search: search || '' },
       });
       return data;

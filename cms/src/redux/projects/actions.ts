@@ -1,15 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-import { manageProjectFormData,ProjectFormData } from '~/src/helpers/manageProjectFormData';
-import { manageProjectSererData,ProjectServerData } from '~/src/helpers/manageProjectServerData';
+import { manageProjectFormData, ProjectFormData } from '~/src/helpers/manageProjectFormData';
+import { manageProjectSererData, ProjectServerData } from '~/src/helpers/manageProjectServerData';
 
 import { RootState } from '../store/store';
 import { ActionType } from './common';
-axios.defaults.headers.Authorization = 'Bearer 709ee6c843dae3cff689dc6a70bb2d502eed3009'; // ????
 
 const fetchProjects = createAsyncThunk(ActionType.GET_ALL, async () => {
-  const { data } = await axios.get('http://127.0.0.1:8000/api/v1/user-project/projects/');
+  const { data } = await axios.get('/project/');
   return data.results; /// TEMP PAGINATION
 });
 
