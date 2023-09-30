@@ -14,9 +14,9 @@ export function ApiFetchComp() {
   const { token, remember, isLoggedIn } = useAppSelector(({ auth }) => auth);
 
   useEffect(() => {
-    const rememberCredentials = localStorage.getItem('remember');
-    if (token && !isLoggedIn) {
-      dispatch(loginByToken({ token, remember: rememberCredentials }));
+    const rememberCreadentials = localStorage.getItem('remember');
+    if (token) {
+      dispatch(loginByToken({ token, remember: rememberCreadentials }));
       path !== '/login' ? router.push(path) : router.push('projects');
     } else if (!isLoggedIn && !token && !path.includes('/login')) {
       router.push('/login');

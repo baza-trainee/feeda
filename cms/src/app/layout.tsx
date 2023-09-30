@@ -31,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Sidebar />
               {children}
               <ApiFetchComp />
+              {children}
             </LayoutContainer>
           </ReduxProvider>
         </body>
