@@ -1,3 +1,5 @@
+import { CSSProperties } from 'react';
+
 import {
   Add,
   ArrowDown,
@@ -30,7 +32,7 @@ import {
   Trash,
 } from '../../../public';
 
-export const IconSprite = ({ icon, style }: { icon: IconType; style?: any }) => {
+export const IconSprite = ({ icon, style }: { icon: IconType; style?: CSSProperties | undefined }) => {
   const icons: Record<IconType, JSX.Element> = {
     add: <Add />,
     arrowDown: <ArrowDown />,
