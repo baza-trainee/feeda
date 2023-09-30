@@ -29,7 +29,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div id="modal-root"></div>
             <LayoutContainer>
               <Sidebar />
-              {children}
               <ApiFetchComp />
               {children}
             </LayoutContainer>

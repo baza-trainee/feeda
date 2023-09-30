@@ -7,7 +7,8 @@ import { useForm } from 'react-hook-form';
 import { Button } from '~/src/components/Button/Button';
 import { Input } from '~/src/components/Input/Input';
 import { Title } from '~/src/components/Title/Title';
-import { useAppDispatch } from '~/src/redux/hooks';
+import { useAppDispatch, useAppSelector } from '~/src/redux/hooks';
+import { StoreTypes } from '~/src/redux/store/store';
 
 import { btnText, formTitle, inputPlaceholderText, labelsTitle, patternsCheck } from '../../app/(auth)/consts';
 import { logIn, resetPassword, setNewPassword } from '../../redux/auth/operations';
@@ -31,6 +32,7 @@ export function AuthForm({ newPass, recover }: AuthFormTypes) {
   const { control, getValues, handleSubmit } = useForm();
   const checkboxRef = useRef<HTMLInputElement>(null);
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const { isLoggedIn } = useAppSelector((store: StoreTypes) => store.auth);
 
   const dispatch = useAppDispatch();
 
@@ -75,7 +77,7 @@ export function AuthForm({ newPass, recover }: AuthFormTypes) {
     }
   };
 
-  return (
+  return !isLoggedIn ? (
     <form onSubmit={handleSubmit(handleSubmitForm)} css={FormCss}>
       <div>
         <Title css={TitleCss} title={recover || newPass ? formTitle.recover : formTitle.login} main />
@@ -143,5 +145,7 @@ export function AuthForm({ newPass, recover }: AuthFormTypes) {
         variant="primary"
       />
     </form>
+  ) : (
+    <></>
   );
 }
