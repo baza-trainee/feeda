@@ -10,6 +10,8 @@ export function LayoutContainer({ children }: { children: ReactNode }) {
   return (
     <div
       css={css`
+        display: flex;
+        gap: 1.5rem;
         max-width: 1280px;
         min-height: 100vh;
         margin: 0 auto;
