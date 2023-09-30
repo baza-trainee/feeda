@@ -1,7 +1,7 @@
+import { FieldValues } from 'react-hook-form';
+
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
-
-import { FieldValues } from 'react-hook-form';
 
 import { FormDataTypes, manageFormFields } from '../../helpers/manageParticipantFormValues';
 
