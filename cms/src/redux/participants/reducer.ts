@@ -6,6 +6,7 @@ import {
   fetchParticipants,
   getParticipant,
   ParticipantData,
+  searchParticipants,
   searchProjects,
   sendEmail,
   updateParticipant,
@@ -37,6 +38,24 @@ export const participantsSlice = createSlice({
       state.isLoading = false;
     });
 
+    // - - -
+
+    builder.addCase(searchParticipants.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(searchParticipants.fulfilled, (state, { payload }) => {
+      state.list = payload.results;
+      state.isLoading = false;
+    });
+    builder.addCase(searchParticipants.rejected, (state, { payload }) => {
+      if (typeof payload === 'string') state.error = payload;
+      else state.error = true;
+      state.isLoading = false;
+    });
+
+    // - - -
+
     builder.addCase(createParticipant.pending, (state) => {
       state.isLoading = true;
       state.error = null;
@@ -46,8 +65,18 @@ export const participantsSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(createParticipant.rejected, (state, { payload }) => {
-      if (typeof payload === 'string') state.error = payload;
-      else state.error = true;
+      if (typeof payload === 'object' && payload) {
+        const formattedString = Object.entries(payload)
+          .map(([key, value]) => `${key}: ${value.join(', ')}`)
+          .join('\n');
+        state.error = formattedString;
+      } else if (typeof payload === 'string') {
+        console.log('Error: ', payload);
+        state.error = payload;
+      } else {
+        console.log('Error: ', payload);
+        state.error = true;
+      }
       state.isLoading = false;
     });
 
@@ -59,6 +88,13 @@ export const participantsSlice = createSlice({
       state.participant = null;
     });
     builder.addCase(getParticipant.fulfilled, (state, { payload }) => {
+      payload.project.forEach((item) => {
+        item.label = item.title;
+        for (const key in item) {
+          if (key !== 'label' && key !== 'id')
+            delete (item as ParticipantData['project'][0])[key as keyof ParticipantData['project'][0]];
+        }
+      });
       state.participant = payload;
       state.isLoading = false;
     });
@@ -79,8 +115,18 @@ export const participantsSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(updateParticipant.rejected, (state, { payload }) => {
-      if (typeof payload === 'string') state.error = payload;
-      else state.error = true;
+      if (typeof payload === 'object' && payload) {
+        const formattedString = Object.entries(payload)
+          .map(([key, value]) => `${key}: ${value.join(', ')}`)
+          .join('\n');
+        state.error = formattedString;
+      } else if (typeof payload === 'string') {
+        console.log('Error: ', payload);
+        state.error = payload;
+      } else {
+        console.log('Error: ', payload);
+        state.error = true;
+      }
       state.isLoading = false;
     });
 
@@ -94,6 +140,7 @@ export const participantsSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(deleteParticipant.rejected, (state, { payload }) => {
+      console.log('Participant delete error: ', payload);
       if (typeof payload === 'string') state.error = payload;
       else state.error = true;
       state.isLoading = false;
@@ -111,6 +158,7 @@ export const participantsSlice = createSlice({
     builder.addCase(sendEmail.rejected, (state, { payload }) => {
       if (typeof payload === 'string') state.error = payload;
       else state.error = true;
+      console.log('Send email rejected: ', payload);
       state.isLoading = false;
     });
 
@@ -119,7 +167,8 @@ export const participantsSlice = createSlice({
     builder.addCase(searchProjects.pending, (state) => {
       state.error = null;
     });
-    builder.addCase(searchProjects.rejected, (state) => {
+    builder.addCase(searchProjects.rejected, (state, { payload }) => {
+      console.log('Search projects error: ', payload);
       state.error = true;
     });
   },

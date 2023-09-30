@@ -4,11 +4,8 @@ import { ParticipantData } from '../redux/participants/operations';
 
 export const participantsDefaultValues = (
   formData: ParticipantData | undefined
-): ParticipantsDefaultValuesTypes | { role: OptionType } => {
-  if (!formData)
-    return {
-      role: membersRole[6],
-    };
+): ParticipantsDefaultValuesTypes | { speciality: OptionType } => {
+  if (!formData) return { speciality: membersRole[6] };
   else {
     const {
       id,
@@ -21,11 +18,8 @@ export const participantsDefaultValues = (
       account_linkedin,
       city,
       stack,
-      projects,
-      role,
-      type,
+      project,
     } = formData;
-
     const defaultValues = {
       id,
       first_name,
@@ -37,17 +31,15 @@ export const participantsDefaultValues = (
       account_linkedin,
       city,
       stack,
-      projects: projects.map(({ project, id }) => {
-        return { label: project, id };
-      }),
+      project,
       experience: experienceVariants.find((item) => item.value === (formData.experience ? 'Так' : 'Ні')),
-      role: {
-        value: role,
-        label: membersRole.find((item) => item.value === role)?.label,
+      speciality: {
+        value: formData.speciality?.title,
+        label: membersRole.find((item) => item.value === formData.speciality?.title)?.label,
       },
-      type: {
-        value: type,
-        label: projectType.find((item) => item.value === type)?.label,
+      type_participant: {
+        value: formData.type_participant.title,
+        label: projectType.find((item) => item.value === formData.type_participant.title)?.label,
       },
     };
 
@@ -71,11 +63,12 @@ export type ParticipantsDefaultValuesTypes = {
   account_linkedin: string;
   city: string;
   stack: string;
-  role: DropDownTypes;
-  type: DropDownTypes;
+  speciality: DropDownTypes;
+  type_participant: DropDownTypes;
   experience: ListProps | undefined;
-  projects: {
-    id: number;
+  project: {
+    id?: number;
     label: string;
+    title?: string;
   }[];
 };

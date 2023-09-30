@@ -3,8 +3,8 @@ export function manageFormFields(formData: FormDataTypes) {
     const {
       account_discord,
       account_linkedin,
-      city = '',
-      comment = '',
+      city,
+      comment,
       email,
       experience,
       first_name,
@@ -12,25 +12,22 @@ export function manageFormFields(formData: FormDataTypes) {
       phone_number,
       stack,
       project,
-      type_participant,
     } = formData;
 
     const requestData: RequestDataTypes = {
       account_discord,
       account_linkedin,
-      city,
-      comment,
+      city: city || '',
+      comment: comment || '',
       email,
       first_name,
       last_name,
       phone_number,
+      project: project.map((item) => item.id),
       stack,
-      experience: experience?.value === 'Так' || false,
-      //role: role.value,
-      type_participant: type_participant.value,
-      projects: project.map((item: { id: number }) => {
-        return { project: item.id };
-      }),
+      experience: experience.value === 'Так',
+      speciality: 0,
+      type_participant: 0,
     };
     return requestData;
   } catch (err) {
@@ -41,17 +38,17 @@ export function manageFormFields(formData: FormDataTypes) {
 interface RequestDataTypes {
   account_discord: string;
   account_linkedin: string;
-  city: string | null;
-  comment: string | null;
+  city: string;
+  comment: string;
   email: string;
   experience: boolean;
   first_name: string;
   last_name: string;
   phone_number: string;
-  projects: { project: number }[];
-  //role: string;
+  project: number[];
+  speciality: number;
   stack: string;
-  type_participant: string;
+  type_participant: number;
 }
 
 export interface FormDataTypes {
