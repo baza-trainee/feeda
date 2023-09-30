@@ -3,16 +3,30 @@
 import { useState } from 'react';
 
 import { IconSprite, IconType } from '../IconSprite/IconSprite';
-import { GoBackBtn, IconBtn, PopUpBtnAccept, PopUpBtnCancel, PrimaryBtn, TabBtn, TextBtn } from './Button.styles';
+import {
+  GoBackBtn,
+  IconBtn,
+  NavBtn,
+  PopUpBtnAccept,
+  PopUpBtnCancel,
+  PrimaryBtn,
+  SubNavBtn,
+  TabBtn,
+  TextBtn,
+} from './Button.styles';
 
 type ButtonProps = {
   isDisabled?: boolean;
   func?: (ev: React.MouseEvent<HTMLButtonElement>) => void;
   btnType?: 'button' | 'submit' | 'reset';
   id?: string;
-  variant: 'primary' | 'text' | 'icon' | 'accept' | 'cancel' | 'tab' | 'goBack';
+  variant: 'primary' | 'text' | 'icon' | 'accept' | 'cancel' | 'tab' | 'goBack' | 'nav' | 'subnav';
+
   icon?: IconType | null;
+  secondIcon?: IconType | null;
   title?: string;
+  btnClicked?: boolean;
+  titleContinuation?: boolean;
   isSelected?: boolean;
 };
 
@@ -22,7 +36,10 @@ export const Button = ({
   variant,
   title,
   icon = null,
+  secondIcon = null,
   btnType = 'button',
+  btnClicked = false,
+  titleContinuation = false,
   isSelected = false,
   id,
 }: ButtonProps) => {
@@ -38,6 +55,8 @@ export const Button = ({
     icon: IconBtn,
     accept: PopUpBtnAccept,
     cancel: PopUpBtnCancel,
+    nav: NavBtn,
+    subnav: SubNavBtn,
     goBack: GoBackBtn,
     tab: TabBtn,
   };
@@ -55,9 +74,22 @@ export const Button = ({
       isPressed={isPressed}
       type={btnType}
       title={title}
+      btnClicked={btnClicked}
+      titleContinuation={titleContinuation}
     >
-      {icon && <IconSprite icon={icon} />}
+      {icon && <IconSprite icon={icon} style={{ height: '24px' }} />}
       {title}
+      {secondIcon && (
+        <IconSprite
+          icon={secondIcon}
+          style={{
+            marginLeft: 'auto',
+            height: '24px',
+            transform: btnClicked ? 'rotate(180deg)' : 'rotate(0deg)',
+            transition: 'transform 250ms ease-in-out',
+          }}
+        />
+      )}
     </ButtonComponent>
   );
 };

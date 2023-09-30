@@ -4,8 +4,11 @@ import styled from '@emotion/styled';
 import { colors, fonts, media } from '../../styles/theme';
 import { breakpointTablet } from '../../styles/vars';
 
-export const Wrapper = styled.header`
-  margin-bottom: 24px;
+export const Wrapper = styled.header<{ isOpen: boolean }>`
+  margin-bottom: ${({ isOpen }) => (isOpen ? '0px' : '24px')};
+  padding-bottom: ${({ isOpen }) => (isOpen ? '24px' : '0px')};
+  background-color: ${({ isOpen }) => (isOpen ? colors.mainAccent : 'initial')};
+
   @media screen and (${media.tablet}) {
     display: flex;
     align-items: center;
@@ -72,12 +75,13 @@ export const PageTitle = styled.h1`
   width: 100%;
 `;
 
-export const MobileHeaderWrapper = styled.div`
+export const MobileHeaderWrapper = styled.div<{ isOpen: boolean }>`
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
+  background-color: ${({ isOpen }) => (isOpen ? colors.mainAccent : 'initial')};
   @media screen and (${media.tablet}) {
     max-width: 223px;
   }
@@ -109,5 +113,40 @@ export const MenuBtn = styled.button`
   background-color: #232323;
   & svg {
     display: block;
+  }
+`;
+
+export const SearchWrapper = styled.div<{ isOpen: boolean }>`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 4px;
+  border: 1px solid #cecece;
+  &:has(input:focus) {
+    outline: #939393 solid 2px;
+  }
+  max-width: 388px;
+  background-color: ${({ isOpen }) => (isOpen ? colors.white : 'initial')};
+`;
+
+export const SearchIconBox = styled.div`
+  padding: 16px 16px 14px 16px;
+  height: fit-content;
+  & svg {
+    display: block;
+  }
+`;
+
+export const SearchInput = styled.input`
+  padding: 16px;
+  border: 0;
+  border-radius: 4px 0 0 4px;
+  color: ${colors.mainText};
+  width: 100%;
+  font-size: 16px;
+  background-color: transparent;
+  &::-webkit-input-placeholder {
+    color: #767676;
   }
 `;

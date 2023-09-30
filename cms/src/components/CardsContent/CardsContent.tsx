@@ -67,9 +67,10 @@ export function CardsContent({ type, data }: CardsContentType) {
                       router.push(`/${type}/edit/${item.id}`);
                     }}
                   />
-                  <p id={type === 'projects' ? 'project-type-participant' : ''}>
-                    {(item as ParticipantData)?.type || (item as ProjectData).type}
-                  </p>
+                  {/* <p id={type === 'projects' ? 'project-type-participant' : ''}>
+                    {(item as ParticipantData).type_participant?.title ||
+                      (item as ProjectData).type_project.project_type}
+                  </p> */}
                 </FirstBlockWrapper>
                 <SecondBlockWrapper type={type}>
                   {type === 'participants' ? (
@@ -134,15 +135,15 @@ export function CardsContent({ type, data }: CardsContentType) {
                       <ThirdBlockElementsWrapper>
                         <p id="name">Стан</p>
                         <div id="icon-wrapper">
-                          <IconSprite
+                          {/* <IconSprite
                             icon={
                               commonVariants.status.find(
                                 (searchItem) => searchItem.name === (item as ProjectData).status
                               )?.icon as IconType
                             }
-                          />
+                          /> */}
                         </div>
-                        <p id="value">{(item as ProjectData).status}</p>
+                        {/* <p id="value">{(item as ProjectData).project_status.status}</p> */}
                       </ThirdBlockElementsWrapper>
                     </>
                   )}

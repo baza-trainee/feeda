@@ -4,6 +4,7 @@ import ArrowLeft from './arrow_left.svg';
 import Backend from './backend_role.svg';
 import Calendar from './calendar.svg';
 import Checkmark from './checkmark.svg';
+import CloseMenu from './close_menu.svg';
 import ComplexityActive from './complexity_active.svg';
 import Cross from './cross.svg';
 import Delete from './delete.svg';
@@ -36,12 +37,13 @@ export {
   Calendar,
   Checkmark,
   ComplexityActive,
+  CloseMenu,
+  EmptyCircle,
   Cross,
   Delete,
   Design,
   Pm,
   Edit,
-  EmptyCircle,
   Exit,
   EyeClosed,
   EyeOpen,

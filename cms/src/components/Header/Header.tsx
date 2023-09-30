@@ -8,10 +8,14 @@ import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
+import { useWindowWidth } from '~/src/helpers/useWindowWidth';
+
+import CloseMenuIcon from '../../../public/close_menu.svg';
+import MenuIcon from '../../../public/open_menu.svg';
 import { StoreTypes } from '../../redux/store/store';
 import { Button } from '../Button/Button';
-import { IconSprite } from '../IconSprite/IconSprite';
 import { Input } from '../Input/Input';
+import { SidebarModal } from '../Sidebar/SidebarModal';
 import {
   DesktopContent,
   Logo,
@@ -24,16 +28,34 @@ import {
 } from './Header.styles';
 
 export function Header() {
+  const [showSidebar, setShowSidebar] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [prevLocation, setPrevLocation] = useState('' as string);
+
+  const windowWidth = useWindowWidth();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { control, watch } = useForm<FieldValues>({
+
+  const { control } = useForm<FieldValues>({
     defaultValues: { searchInput: searchParams.get('q') || '' },
   });
-  const [prevLocation, setPrevLocation] = useState('' as string);
   const { participant, isLoading } = useSelector((store: StoreTypes) => store.participants);
   const { token } = useSelector((state: StoreTypes) => state.auth);
-  const searchInput = watch('searchInput');
+
+  useEffect(() => {
+    if (windowWidth && windowWidth >= 768) {
+      setShowModal(false);
+      setShowSidebar(false);
+    }
+  }, [windowWidth]);
+
+  const closeModal = () => setShowModal(false);
+
+  const toggleSidebar = () => {
+    setShowSidebar(!showSidebar);
+    setShowModal(!showModal);
+  };
 
   const manageHeaderTitle = () => {
     if (pathname === '/participants') {
@@ -82,7 +104,7 @@ export function Header() {
   // useEffect(() => manageUrl(searchInput), [searchInput]);
 
   return token ? (
-    <Wrapper>
+    <Wrapper isOpen={showModal}>
       <DesktopContent>
         <Logo>
           <Link href="/projects">
@@ -94,15 +116,19 @@ export function Header() {
         </Logo>
         <PageTitle title="page name...">{manageHeaderTitle()}</PageTitle>
       </DesktopContent>
-      <MobileHeaderWrapper>
-        <MenuWrapper>
-          <MenuBtn onClick={() => console.log('Open menu')}>
-            <IconSprite icon="openMenu" />
-          </MenuBtn>
-        </MenuWrapper>
+
+      <MobileHeaderWrapper isOpen={showModal}>
+        {windowWidth && windowWidth < 768 && (
+          <MenuWrapper>
+            <MenuBtn onClick={toggleSidebar}>{showSidebar ? <CloseMenuIcon /> : <MenuIcon />}</MenuBtn>
+          </MenuWrapper>
+        )}
         <Input name="searchInput" placeholder="Ключове слово" endIconId="search" control={control} maxLength={50} />
       </MobileHeaderWrapper>
-      <PageTitle css={[pageMobileTitleStyles]}>{manageHeaderTitle()}</PageTitle>
+
+      {windowWidth && windowWidth >= 768 && <PageTitle css={[pageMobileTitleStyles]}>{manageHeaderTitle()}</PageTitle>}
+
+      {showModal && <SidebarModal isOpen={showModal} closeModal={closeModal} />}
     </Wrapper>
   ) : (
     <></>
