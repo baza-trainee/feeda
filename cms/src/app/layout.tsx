@@ -26,8 +26,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ReduxProvider>
             <LayoutContainer>
               <Header />
-              {children}
               <ApiFetchComp />
+              {children}
             </LayoutContainer>
           </ReduxProvider>
         </body>

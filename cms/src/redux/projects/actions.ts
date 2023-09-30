@@ -5,7 +5,7 @@ import { ActionType } from './common';
 import { ProjectData } from './projects.slice';
 
 const fetchProjects = createAsyncThunk(ActionType.GET_ALL, async () => {
-  const { data } = await axios.get<ProjectData[]>('http://localhost:8000/api/v1/user-project/projects/');
+  const { data } = await axios.get<ProjectData[]>('/project/');
 
   return data;
 });
