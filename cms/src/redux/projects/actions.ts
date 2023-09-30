@@ -6,10 +6,12 @@ import { manageProjectSererData, ProjectServerData } from '~/src/helpers/manageP
 
 import { RootState } from '../store/store';
 import { ActionType } from './common';
+import { ProjectData } from './projects.slice';
 
 const fetchProjects = createAsyncThunk(ActionType.GET_ALL, async () => {
-  const { data } = await axios.get('/project/');
-  return data.results; /// TEMP PAGINATION
+  const { data } = await axios.get<{ results: ProjectData[] }>('/project/');
+
+  return data.results;
 });
 
 const deleteProject = createAsyncThunk(

@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 
+import axios from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
 
 import { loginByToken } from '../redux/auth/loginSlice';
@@ -16,8 +17,9 @@ export function ApiFetchComp() {
 
   useEffect(() => {
     const rememberCreadentials = localStorage.getItem('remember');
+    token && (axios.defaults.headers.Authorization = `Bearer ${token}`);
     if (token && !isLoggedIn) {
-      dispatch(loginByToken({ token, remember: rememberCreadentials }));
+      dispatch(loginByToken({ remember: rememberCreadentials }));
       path !== '/login' ? router.push(path) : router.push('projects');
     } else if (!isLoggedIn && !token && !path.includes('/login')) {
       router.push('/login');

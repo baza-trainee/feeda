@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
 
 import { logIn } from './operations';
 
@@ -18,9 +17,7 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     loginByToken: (state, { payload }) => {
-      axios.defaults.headers.Authorization = `Bearer ${payload.token}`;
       state = { ...state };
-      state.token = payload.token;
       state.remember = payload.remember || false;
       state.error = null;
     },
