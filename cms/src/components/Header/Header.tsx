@@ -30,7 +30,7 @@ import {
 export function Header() {
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [prevLocation, setPrevLocation] = useState('' as string);
+  // const [prevLocation, setPrevLocation] = useState('' as string);
 
   const windowWidth = useWindowWidth();
   const router = useRouter();
@@ -79,20 +79,20 @@ export function Header() {
     }
   };
 
-  const manageUrl = (value: string) => {
-    if (value?.length) {
-      if ((pathname !== prevLocation && pathname !== '/participants') || !prevLocation.length) {
-        setPrevLocation(pathname);
-      } else if (pathname !== '/participants') {
-        router.push(`/participants?q=${value}`);
-      } else {
-        router.push(`?q=${value}`);
-      }
-    } else if (!value?.length) {
-      if (!prevLocation.length) router.push('/participants');
-      else router.push(prevLocation);
-    }
-  };
+  // const manageUrl = (value: string) => {
+  //   if (value?.length) {
+  //     if ((pathname !== prevLocation && pathname !== '/participants') || !prevLocation.length) {
+  //       setPrevLocation(pathname);
+  //     } else if (pathname !== '/participants') {
+  //       router.push(`/participants?q=${value}`);
+  //     } else {
+  //       router.push(`?q=${value}`);
+  //     }
+  //   } else if (!value?.length) {
+  //     if (!prevLocation.length) router.push('/participants');
+  //     else router.push(prevLocation);
+  //   }
+  // };
 
   const goBackHandler = (ev: React.MouseEvent<HTMLButtonElement>) => {
     ev.preventDefault();

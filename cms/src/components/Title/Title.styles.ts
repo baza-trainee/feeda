@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 export const MainTitle = styled.h1`
   font-weight: 600;
   font-size: 32px;
-  wrap-text: nowrap;
+  white-space: nowrap;
   color: #121212;
 
   @media screen and (min-width: 768px) {
@@ -15,7 +15,7 @@ export const MainTitle = styled.h1`
 export const SecondaryTitle = styled.h1<{ small: boolean }>`
   font-weight: 600;
   font-size: 28px;
-  wrap-text: nowrap;
+  white-space: nowrap;
   ${({ small }) =>
     small &&
     `
