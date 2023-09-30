@@ -1,6 +1,7 @@
 'use client';
 /** @jsxImportSource @emotion/react */
 
+import { useEffect, useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
@@ -25,7 +26,6 @@ import {
   PageTitle,
   Wrapper,
 } from './Header.styles';
-import { useEffect, useState } from 'react';
 
 export function Header() {
   const [showSidebar, setShowSidebar] = useState<boolean>(false);

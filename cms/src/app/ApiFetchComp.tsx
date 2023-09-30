@@ -11,7 +11,6 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks';
 export function ApiFetchComp() {
   const dispatch = useAppDispatch();
   const path = usePathname();
-  //const searchParams = useSearchParams();
   const router = useRouter();
   const { token, remember, isLoggedIn } = useAppSelector(({ auth }) => auth);
 
