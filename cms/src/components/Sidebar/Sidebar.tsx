@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import useMobileDetect from '~/src/helpers/useMobileDetect';
+import { useWindowWidth } from '~/src/helpers/useWindowWidth';
 import { useAppSelector } from '~/src/redux/hooks';
 
 import { Button } from '../Button/Button';
@@ -14,6 +16,8 @@ export function Sidebar({ closeModal }: { closeModal?: () => void }) {
   const [showInDevelopmentOptions, setShowInDevelopmentOptions] = useState(false);
   const [showCompletedOptions, setShowCompletedOptions] = useState(false);
   const { isLoggedIn } = useAppSelector(({ auth }) => auth);
+  const mobile = useMobileDetect().isMobile();
+  const windowWidth = useWindowWidth();
 
   // First Layer
   const toggleProjectsOptions = () => {
@@ -61,10 +65,7 @@ export function Sidebar({ closeModal }: { closeModal?: () => void }) {
     { label: 'Буткамп', link: '/projects/team-building/bootcamp' },
   ];
 
-  if (!isLoggedIn) {
-    return null;
-  }
-  return (
+  return !mobile && windowWidth && windowWidth >= 768 && isLoggedIn ? (
     <Nav>
       <Wrapper>
         <Button
@@ -140,5 +141,7 @@ export function Sidebar({ closeModal }: { closeModal?: () => void }) {
         />
       </Wrapper>
     </Nav>
+  ) : (
+    <></>
   );
 }
