@@ -5,10 +5,9 @@ import ReactDOM from 'react-dom';
 import { Sidebar } from './Sidebar';
 import { ModalWindow, Overlay } from './Sidebar.style';
 
-
 export function SidebarModal({ isOpen, closeModal }: { isOpen: boolean; closeModal: () => void }) {
   const modalRoot = document.getElementById('modal-root');
-  
+
   useEffect(() => {
     if (isOpen) {
       document.body.classList.add('modal-open');
@@ -24,7 +23,7 @@ export function SidebarModal({ isOpen, closeModal }: { isOpen: boolean; closeMod
   const ModalContent = (
     <Overlay>
       <ModalWindow>
-        <Sidebar closeModal={closeModal} />
+        <Sidebar closeModal={closeModal} onMobile />
       </ModalWindow>
     </Overlay>
   );
