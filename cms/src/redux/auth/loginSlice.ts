@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { logIn } from './operations';
+import { logIn, logOut } from './operations';
 
 const initialState: AuthStateTypes = {
   token: null,
@@ -43,6 +43,14 @@ export const authSlice = createSlice({
         if (typeof payload === 'string') state.error = payload;
         else state.error = true;
         console.log('Error: ', payload);
+      })
+      .addCase(logOut.fulfilled, (state) => {
+        state.isLoggedIn = false;
+        state.loading = false;
+        state.token = null;
+        state.remember = false;
+        state.email = null;
+        state.pass = null;
       });
   },
 });

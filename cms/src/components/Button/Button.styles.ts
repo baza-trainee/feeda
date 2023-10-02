@@ -164,3 +164,11 @@ export const GoBackBtn = styled(IconBtn)`
     display: flex;
   }
 `;
+
+export const SignOutBtn = styled(TextBtn)`
+  letter-spacing: ${fonts.title.letterSpacing.tablet}px;
+  width: 112px;
+  @media screen and (${media.tablet}) {
+    margin-bottom: 16px;
+  }
+`;

@@ -3,13 +3,25 @@ import Link from 'next/link';
 
 import { colors, fonts, media } from '../../styles/theme';
 
+export const SidebarWrapper = styled.div`
+  height: 100%;
+
+  @media screen and (${media.tablet}) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+`;
+
 export const Nav = styled.nav`
   max-width: 334px;
-  margin-bottom: 16px;
   width: 100%;
+  margin-bottom: 128px;
 
   @media screen and (${media.tablet}) {
     max-width: 224px;
+
+    margin-bottom: 60vh;
   }
 
   @media screen and (${media.desktop}) {

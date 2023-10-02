@@ -10,6 +10,7 @@ import {
   PopUpBtnAccept,
   PopUpBtnCancel,
   PrimaryBtn,
+  SignOutBtn,
   SubNavBtn,
   TabBtn,
   TextBtn,
@@ -20,7 +21,7 @@ type ButtonProps = {
   func?: (ev: React.MouseEvent<HTMLButtonElement>) => void;
   btnType?: 'button' | 'submit' | 'reset';
   id?: string;
-  variant: 'primary' | 'text' | 'icon' | 'accept' | 'cancel' | 'tab' | 'goBack' | 'nav' | 'subnav';
+  variant: 'primary' | 'text' | 'icon' | 'accept' | 'cancel' | 'tab' | 'goBack' | 'nav' | 'subnav' | 'signout';
 
   icon?: IconType | null;
   secondIcon?: IconType | null;
@@ -57,6 +58,7 @@ export const Button = ({
     cancel: PopUpBtnCancel,
     nav: NavBtn,
     subnav: SubNavBtn,
+    signout: SignOutBtn,
     goBack: GoBackBtn,
     tab: TabBtn,
   };
