@@ -3,37 +3,49 @@ import axios from 'axios';
 
 import { logIn } from './operations';
 
+const initialState: AuthStateTypes = {
+  token: null,
+  loading: false,
+  error: null,
+  remember: false,
+  isLoggedIn: false,
+  email: null,
+  pass: null,
+};
+
 export const authSlice = createSlice({
   name: 'auth',
-  initialState: {
-    token: null,
-    loading: false,
-    error: null as string | null,
-    remember: false,
-  },
+  initialState,
   reducers: {
-    loginByToken: (state, action) => {
-      state.token = action.payload;
-      axios.defaults.headers.Authorization = `Token ${action.payload}`;
+    loginByToken: (state, { payload }) => {
+      axios.defaults.headers.Authorization = `Bearer ${payload.token}`;
+      state = { ...state };
+      state.token = payload.token;
+      state.remember = payload.remember || false;
       state.error = null;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(logIn.pending, (state) => {
-        state.token = null;
+        state = { ...state };
         state.loading = true;
-        state.error = null;
       })
-      .addCase(logIn.fulfilled, (state, action) => {
+      .addCase(logIn.fulfilled, (state, { payload }) => {
+        state.isLoggedIn = true;
         state.loading = false;
-        state.token = action.payload.token;
-        state.remember = action.payload.remember;
+        state.token = payload.token;
+        state.remember = payload.remember;
+        state.email = payload.email || null;
+        state.pass = payload.password || null;
       })
-      .addCase(logIn.rejected, (state, action) => {
-        state.token = null;
+      .addCase(logIn.rejected, (state, { payload }) => {
+        state = { ...state };
+        state.isLoggedIn = false;
         state.loading = false;
-        state.error = action.error.message || null;
+        if (typeof payload === 'string') state.error = payload;
+        else state.error = true;
+        console.log('Error: ', payload);
       });
   },
 });
@@ -41,7 +53,11 @@ export const authSlice = createSlice({
 export interface AuthStateTypes {
   token: string | null;
   loading: boolean;
-  error: string | null;
+  error: string | null | boolean;
+  remember: boolean;
+  isLoggedIn: boolean;
+  email?: string | null;
+  pass?: string | null;
 }
 export const authSliceReducer = authSlice.reducer;
 export const { loginByToken } = authSlice.actions;

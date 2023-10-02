@@ -1,8 +1,5 @@
-import { IdNameType } from '../redux/instructions';
-
-export function manageFormFields(formData: FormDataTypes, instructions: InstructionsTypes) {
+export function manageFormFields(formData: FormDataTypes) {
   try {
-    if (!instructions.specialities || !instructions.participation_types) throw new Error('Instructions not loaded');
     const {
       account_discord,
       account_linkedin,
@@ -13,9 +10,7 @@ export function manageFormFields(formData: FormDataTypes, instructions: Instruct
       first_name,
       last_name,
       phone_number,
-      speciality,
       stack,
-      type_participant,
       project,
     } = formData;
 
@@ -34,19 +29,6 @@ export function manageFormFields(formData: FormDataTypes, instructions: Instruct
       speciality: 0,
       type_participant: 0,
     };
-
-    const tmp_spec = instructions.specialities.find(
-      (item) => item.title.toLowerCase() === speciality.value.toLowerCase()
-    );
-    if (!tmp_spec) throw new Error('Speciality not found');
-    requestData.speciality = tmp_spec.id;
-
-    const tmp_type = instructions.participation_types.find(
-      (item) => item.title.toLowerCase() === type_participant.value.toLowerCase()
-    );
-    if (!tmp_type) throw new Error('Participation type not found');
-    requestData.type_participant = tmp_type.id;
-
     return requestData;
   } catch (err) {
     console.log('Participant manager err: ', err);
@@ -83,9 +65,4 @@ export interface FormDataTypes {
   stack: string;
   type_participant: { value: string };
   project: { id: number; label: string; title: string }[];
-}
-
-export interface InstructionsTypes {
-  specialities: IdNameType[];
-  participation_types: IdNameType[];
 }

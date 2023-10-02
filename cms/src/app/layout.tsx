@@ -1,11 +1,9 @@
-'use client';
 import { Exo_2 } from 'next/font/google';
 
 import { Header } from '../components/Header/Header';
 import { LayoutContainer } from '../components/LayoutContainer/LayoutContainer';
 import { Sidebar } from '../components/Sidebar/Sidebar';
-import { useWindowWidth } from '../helpers/useWindowWidth';
-import { ReduxProvider } from '../redux/store/ReduxProvider';
+import ReduxProvider from '../redux/store/ReduxProvider';
 import { ApiFetchComp } from './ApiFetchComp';
 import EmotionRegistry from './registry';
 
@@ -22,8 +20,6 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const windowWidth = useWindowWidth();
-
   return (
     <html lang="en" className={eho.className}>
       <EmotionRegistry>
@@ -32,11 +28,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Header />
             <div id="modal-root"></div>
             <LayoutContainer>
-              <div style={{ display: 'flex' }}>
-                {windowWidth && windowWidth >= 768 && <Sidebar />}
-                {children}
-              </div>
+              <Sidebar />
+              {children}
               <ApiFetchComp />
+              {children}
             </LayoutContainer>
           </ReduxProvider>
         </body>

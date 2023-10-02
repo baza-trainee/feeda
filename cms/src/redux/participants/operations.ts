@@ -1,10 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:8000/';
+axios.defaults.baseURL = 'http://localhost:8000/api/v1/';
 
-import { FormDataTypes, InstructionsTypes, manageFormFields } from '../../helpers/manageParticipantFormValues';
-import { IdNameType } from '../instructions';
+import { FormDataTypes, manageFormFields } from '../../helpers/manageParticipantFormValues';
 
 export const fetchParticipants = createAsyncThunk('participants/fetchParticipants', async (_, { rejectWithValue }) => {
   try {
@@ -19,12 +18,9 @@ export const fetchParticipants = createAsyncThunk('participants/fetchParticipant
 
 export const createParticipant = createAsyncThunk(
   'participants/createParticipant',
-  async (
-    { formData, instructions }: { formData: FormDataTypes; instructions: InstructionsTypes },
-    { rejectWithValue }
-  ) => {
+  async ({ formData }: { formData: FormDataTypes }, { rejectWithValue }) => {
     try {
-      const requestData = manageFormFields(formData, instructions);
+      const requestData = manageFormFields(formData);
       console.log('Create: ', requestData);
       const { data } = await axios.post<ParticipantData>('user-project/add-participant/', requestData);
       return data;
@@ -56,9 +52,9 @@ export const getParticipant = createAsyncThunk(
 
 export const updateParticipant = createAsyncThunk(
   'participants/updateParticipant',
-  async ({ formData, userId, instructions }: UpdateParticipantTypes, { rejectWithValue }) => {
+  async ({ formData, userId }: UpdateParticipantTypes, { rejectWithValue }) => {
     try {
-      const requestData = manageFormFields(formData, instructions);
+      const requestData = manageFormFields(formData);
       console.log('Update: ', requestData);
       const { data } = await axios.put<ParticipantData>(`user-project/participant-detail/${userId}/`, requestData);
       return data;
@@ -146,10 +142,6 @@ export const searchParticipants = createAsyncThunk(
 interface UpdateParticipantTypes {
   formData: FormDataTypes;
   userId: string;
-  instructions: {
-    specialities: IdNameType[];
-    participation_types: IdNameType[];
-  };
 }
 
 interface ParticipantsResponseTypes {

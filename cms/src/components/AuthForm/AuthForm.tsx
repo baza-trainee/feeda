@@ -3,18 +3,24 @@
 
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 
 import { Button } from '~/src/components/Button/Button';
 import { Input } from '~/src/components/Input/Input';
 import { Title } from '~/src/components/Title/Title';
-import { AppDispatch } from '~/src/redux/store/store';
+import { useAppDispatch } from '~/src/redux/hooks';
 
 import { btnText, formTitle, inputPlaceholderText, labelsTitle, patternsCheck } from '../../app/(auth)/consts';
 import { logIn, resetPassword, setNewPassword } from '../../redux/auth/operations';
 import { ContainerCss, FormCss, newPassContainerCss, SubtitleCss, TitleCss } from './AuthForm.styles';
 import { CheckBox } from './Checkbox/Checkbox';
 import { ForgotPassword } from './ForgotPassword/ForgotPassword';
+
+interface ValuesTypes {
+  email?: string;
+  password?: string;
+  newPassword?: string;
+  repeatNewPassword?: string;
+}
 
 interface AuthFormTypes {
   newPass?: boolean;
@@ -25,40 +31,41 @@ export function AuthForm({ newPass, recover }: AuthFormTypes) {
   const { control, getValues, handleSubmit } = useForm();
   const checkboxRef = useRef<HTMLInputElement>(null);
   const [isShowPassword, setIsShowPassword] = useState(false);
+
+  const dispatch = useAppDispatch();
+
   const typePasswordInput = isShowPassword ? 'text' : 'password';
   const iconInputPassword = isShowPassword ? 'eyeClosed' : 'eyeOpen';
 
-  const dispatch = useDispatch<AppDispatch>();
-
-  const signIn = () => {
-    const { email, password } = getValues();
-    const data = { email, password };
-    dispatch(logIn({ credentials: data, remember: checkboxRef.current?.checked || false }));
+  const signIn = async ({ email, password }: ValuesTypes) => {
+    email &&
+      password &&
+      dispatch(
+        logIn({
+          credentials: { email, password },
+          remember: checkboxRef.current?.checked || false,
+        })
+      );
   };
 
-  const recoverPass = () => {
-    const { email } = getValues();
-    dispatch(resetPassword(email));
-  };
-
-  const setNewPass = () => {
-    const { newPassword, repeatNewPassword } = getValues();
-    dispatch(
-      setNewPassword({
-        password: newPassword,
-        confirm_password: repeatNewPassword,
-        token: 'string',
-        uidb64: 'string',
-      })
-    );
+  const setNewPass = ({ newPassword, repeatNewPassword }: ValuesTypes) => {
+    newPassword &&
+      repeatNewPassword &&
+      dispatch(
+        setNewPassword({
+          password: newPassword,
+          confirm_password: repeatNewPassword,
+        })
+      );
   };
 
   const handleSubmitForm = () => {
+    const values = getValues();
     if (recover) {
-      recoverPass();
+      dispatch(resetPassword(values.email));
     } else if (newPass) {
-      setNewPass();
-    } else signIn();
+      setNewPass(values);
+    } else signIn(values);
   };
 
   const onClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {

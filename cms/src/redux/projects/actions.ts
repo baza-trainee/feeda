@@ -5,7 +5,7 @@ import { ActionType } from './common';
 import { ProjectData } from './projects.slice';
 
 const fetchProjects = createAsyncThunk(ActionType.GET_ALL, async () => {
-  const { data } = await axios.get<ProjectData[]>('http://localhost:8000/user-project/projects/');
+  const { data } = await axios.get<ProjectData[]>('/project/');
 
   return data;
 });
@@ -14,7 +14,7 @@ const deleteProject = createAsyncThunk(
   ActionType.DELETE_PROJECT,
   async (title: string | number | null, { dispatch }) => {
     try {
-      await axios.delete(`http://localhost:8000/user-project/project/${title}`);
+      await axios.delete(`http://localhost:8000/api/v1/user-project/project/${title}`);
       await dispatch(fetchProjects());
       return;
     } catch (err) {

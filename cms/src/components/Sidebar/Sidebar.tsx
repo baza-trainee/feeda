@@ -2,6 +2,10 @@
 
 import { useState } from 'react';
 
+import useMobileDetect from '~/src/helpers/useMobileDetect';
+import { useWindowWidth } from '~/src/helpers/useWindowWidth';
+import { useAppSelector } from '~/src/redux/hooks';
+
 import { Button } from '../Button/Button';
 import { SignOutBtn } from '../SignOutBtn/SignOutBtn';
 import { Nav, NavLink, ProjectsWrapper, SidebarWrapper, Wrapper } from './Sidebar.style';
@@ -12,6 +16,9 @@ export function Sidebar({ closeModal }: { closeModal?: () => void }) {
   const [showTeamBuildingOptions, setShowTeamBuildingOptions] = useState(false);
   const [showInDevelopmentOptions, setShowInDevelopmentOptions] = useState(false);
   const [showCompletedOptions, setShowCompletedOptions] = useState(false);
+  const { isLoggedIn } = useAppSelector(({ auth }) => auth);
+  const mobile = useMobileDetect().isMobile();
+  const windowWidth = useWindowWidth();
 
   // First Layer
   const toggleProjectsOptions = () => {
@@ -59,84 +66,84 @@ export function Sidebar({ closeModal }: { closeModal?: () => void }) {
     { label: 'Буткамп', link: '/projects/team-building/bootcamp' },
   ];
 
-  return (
-    <SidebarWrapper>
-      <Nav>
-        <Wrapper>
-          <Button
-            variant="nav"
-            func={toggleProjectsOptions}
-            title="Проєкти"
-            icon="edit"
-            secondIcon="arrowDown"
-            btnClicked={showProjectsOptions}
-          />
+  return !mobile && windowWidth && windowWidth >= 768 && isLoggedIn ? (
+    <Nav>
+      <Wrapper>
+        <Button
+          variant="nav"
+          func={toggleProjectsOptions}
+          title="Проєкти"
+          icon="edit"
+          secondIcon="arrowDown"
+          btnClicked={showProjectsOptions}
+        />
 
-          {showProjectsOptions && (
-            <ProjectsWrapper>
-              <Button
-                func={toggleTeamBuildingOptions}
-                title="Формування"
-                titleContinuation={true}
-                variant="subnav"
-                secondIcon="arrowDown"
-                btnClicked={showTeamBuildingOptions}
-              />
-              {showTeamBuildingOptions && (
-                <ProjectsWrapper>
-                  {teamBuildingOptions.map((option, index) => (
-                    <NavLink href={option.link} onClick={closeModal} key={index}>
-                      {option.label}
-                    </NavLink>
-                  ))}
-                </ProjectsWrapper>
-              )}
-              <Button
-                func={toggleInDevelopmentOptions}
-                title="В розробці"
-                variant="subnav"
-                secondIcon="arrowDown"
-                btnClicked={showInDevelopmentOptions}
-              />
-              {showInDevelopmentOptions && (
-                <ProjectsWrapper>
-                  {teamBuildingOptions.map((option, index) => (
-                    <NavLink href={option.link} onClick={closeModal} key={index}>
-                      {option.label}
-                    </NavLink>
-                  ))}
-                </ProjectsWrapper>
-              )}
-              <Button
-                func={toggleCompletedOptions}
-                title="Завершені"
-                variant="subnav"
-                secondIcon="arrowDown"
-                btnClicked={showCompletedOptions}
-              />
+        {showProjectsOptions && (
+          <ProjectsWrapper>
+            <Button
+              func={toggleTeamBuildingOptions}
+              title="Формування"
+              titleContinuation={true}
+              variant="subnav"
+              secondIcon="arrowDown"
+              btnClicked={showTeamBuildingOptions}
+            />
+            {showTeamBuildingOptions && (
+              <ProjectsWrapper>
+                {teamBuildingOptions.map((option, index) => (
+                  <NavLink href={option.link} onClick={closeModal} key={index}>
+                    {option.label}
+                  </NavLink>
+                ))}
+              </ProjectsWrapper>
+            )}
+            <Button
+              func={toggleInDevelopmentOptions}
+              title="В розробці"
+              variant="subnav"
+              secondIcon="arrowDown"
+              btnClicked={showInDevelopmentOptions}
+            />
+            {showInDevelopmentOptions && (
+              <ProjectsWrapper>
+                {teamBuildingOptions.map((option, index) => (
+                  <NavLink href={option.link} onClick={closeModal} key={index}>
+                    {option.label}
+                  </NavLink>
+                ))}
+              </ProjectsWrapper>
+            )}
+            <Button
+              func={toggleCompletedOptions}
+              title="Завершені"
+              variant="subnav"
+              secondIcon="arrowDown"
+              btnClicked={showCompletedOptions}
+            />
 
-              {showCompletedOptions && (
-                <ProjectsWrapper>
-                  {teamBuildingOptions.map((option, index) => (
-                    <NavLink href={option.link} onClick={closeModal} key={index}>
-                      {option.label}
-                    </NavLink>
-                  ))}
-                </ProjectsWrapper>
-              )}
-            </ProjectsWrapper>
-          )}
+            {showCompletedOptions && (
+              <ProjectsWrapper>
+                {teamBuildingOptions.map((option, index) => (
+                  <NavLink href={option.link} onClick={closeModal} key={index}>
+                    {option.label}
+                  </NavLink>
+                ))}
+              </ProjectsWrapper>
+            )}
+          </ProjectsWrapper>
+        )}
 
-          <Button
-            variant="nav"
-            func={toggleParticipantsList}
-            title="Учасники"
-            icon="team"
-            btnClicked={showParticipantsList}
-          />
-        </Wrapper>
-      </Nav>
+        <Button
+          variant="nav"
+          func={toggleParticipantsList}
+          title="Учасники"
+          icon="team"
+          btnClicked={showParticipantsList}
+        />
+      </Wrapper>
       <SignOutBtn />
-    </SidebarWrapper>
+    </Nav>
+  ) : (
+    <></>
   );
 }
