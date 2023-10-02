@@ -9,6 +9,10 @@ const setAuthHeader = (token: string) => {
   axios.defaults.headers.Authorization = `Bearer ${token}`;
 };
 
+const clearAuthHeader = () => {
+  axios.defaults.headers.Authorization = '';
+};
+
 export type UserForm = {
   email: string;
   password: string;
@@ -49,6 +53,21 @@ export const logIn = createAsyncThunk<LoginResponse, { credentials: UserForm; re
     }
   }
 );
+
+export const logOut = createAsyncThunk<void, string>('auth/logout', async (token, thunkAPI) => {
+  try {
+    await axios.delete('/users/logout/', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    clearAuthHeader();
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return thunkAPI.rejectWithValue(error.message);
+    } else throw error;
+  }
+});
 
 export const resetPassword = createAsyncThunk<
   ResetPasswordResponse,
