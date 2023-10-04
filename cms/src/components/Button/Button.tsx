@@ -17,7 +17,7 @@ import {
 
 type ButtonProps = {
   isDisabled?: boolean;
-  func?: (ev: React.MouseEvent<HTMLButtonElement>) => void;
+  func?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   btnType?: 'button' | 'submit' | 'reset';
   id?: string;
   variant: 'primary' | 'text' | 'icon' | 'accept' | 'cancel' | 'tab' | 'goBack' | 'nav' | 'subnav';
@@ -45,8 +45,8 @@ export const Button = ({
 }: ButtonProps) => {
   const [isPressed, setIsPressed] = useState(false);
 
-  const onClickHandler = (ev: React.MouseEvent<HTMLButtonElement>) => {
-    if (func) func(ev);
+  const onClickHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    func && func(event);
   };
 
   const btnVariants = {

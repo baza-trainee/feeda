@@ -28,7 +28,7 @@ export default function ProjectsPage() {
     <ProjectsContainer>
       <AddButtonWrapper>
         <Link href={'./projects/add'}>
-          <Button variant="text" icon="plus" title="Додати проект" />
+          <Button variant="text" icon="plus" title="Додати проєкт" />
         </Link>
       </AddButtonWrapper>
       {loading === 'loading' && <Loading />}

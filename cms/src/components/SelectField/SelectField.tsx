@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Control, Controller } from 'react-hook-form';
+import { Control, Controller, FieldValues, UseFormTrigger } from 'react-hook-form';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
 
@@ -23,6 +23,8 @@ interface SelectFieldProps {
   clearErrors: (name?: string | string[]) => void;
   title: string;
   isDisabled?: boolean;
+  valueGetter?: (value: string) => OptionType | undefined | string;
+  trigger?: UseFormTrigger<FieldValues>;
 }
 
 export const SelectField = ({
@@ -34,6 +36,8 @@ export const SelectField = ({
   clearErrors,
   title,
   isDisabled = false,
+  valueGetter,
+  trigger,
 }: SelectFieldProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -47,6 +51,8 @@ export const SelectField = ({
           clearErrors(name);
         };
 
+        const computedValue = typeof valueGetter === 'function' ? valueGetter(value) : value;
+
         return (
           <div style={{ position: 'relative' }} id="input-wrapper">
             <Label>
@@ -59,15 +65,19 @@ export const SelectField = ({
                 styles={selectStyles(!!error, isDropdownOpen, isDisabled)}
                 placeholder={placeholder}
                 options={options}
-                value={value}
-                onChange={(selectedOption) => {
+                value={computedValue}
+                onChange={(selectedOption: OptionType) => {
+                  console.log('selectedOption', selectedOption);
                   setIsDropdownOpen(false);
-                  onChange(selectedOption);
+                  onChange(selectedOption.value);
                   handleSelectChange();
                 }}
                 onMenuOpen={() => setIsDropdownOpen(true)}
                 onMenuClose={() => setIsDropdownOpen(false)}
                 onBlur={() => {
+                  if (trigger) {
+                    trigger(name);
+                  }
                   setIsDropdownOpen(false);
                   onBlur();
                 }}
@@ -85,11 +95,12 @@ interface AsyncFieldProps {
   control: Control;
   name: string;
   rules?: object;
-  options: OptionType[];
+  options: (inputValue: string) => Promise<{ value: string; label: string }[]>;
   placeholder: string | JSX.Element;
   clearErrors: (name?: string | string[]) => void;
   title: string;
   isDisabled?: boolean;
+  trigger?: UseFormTrigger<FieldValues>;
 }
 
 export const AsyncField = ({
@@ -101,16 +112,16 @@ export const AsyncField = ({
   clearErrors,
   title,
   isDisabled = false,
+  trigger,
 }: AsyncFieldProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
   return (
     <Controller
       control={control}
       name={name}
       rules={rules}
       render={({ field: { onChange, value, onBlur }, fieldState: { error } }) => {
-        const handleSelectChange = (selectedOption) => {
+        const handleSelectChange = (selectedOption: OptionType) => {
           clearErrors(name);
           setIsDropdownOpen(false);
           onChange(selectedOption);
@@ -131,6 +142,9 @@ export const AsyncField = ({
                 onMenuOpen={() => setIsDropdownOpen(true)}
                 onMenuClose={() => setIsDropdownOpen(false)}
                 onBlur={() => {
+                  if (trigger) {
+                    trigger(name);
+                  }
                   setIsDropdownOpen(false);
                   onBlur();
                 }}

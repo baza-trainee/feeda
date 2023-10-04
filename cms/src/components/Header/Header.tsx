@@ -30,7 +30,7 @@ import {
 export function Header() {
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [prevLocation, setPrevLocation] = useState('' as string);
+  // const [prevLocation, setPrevLocation] = useState('' as string);
 
   const windowWidth = useWindowWidth();
   const router = useRouter();
@@ -65,7 +65,7 @@ export function Header() {
     } else if (pathname === '/participants/create') {
       return 'Додати учасника';
     } else if (pathname === '/projects/create') {
-      return 'Додати проект';
+      return 'Додати проєкт';
     } else if (pathname.split('/')[1] === 'participants') {
       if (participant && !isLoading) {
         return `${participant?.first_name} ${participant?.last_name}`;
@@ -73,26 +73,26 @@ export function Header() {
         return '';
       }
     } else if (pathname.split('/')[1] === 'projects') {
-      return 'Проект (змінити на його назву)';
+      return 'Проєкт (змінити на його назву)';
     } else {
       return 'Невідома фігня, треба виправити';
     }
   };
 
-  const manageUrl = (value: string) => {
-    if (value?.length) {
-      if ((pathname !== prevLocation && pathname !== '/participants') || !prevLocation.length) {
-        setPrevLocation(pathname);
-      } else if (pathname !== '/participants') {
-        router.push(`/participants?q=${value}`);
-      } else {
-        router.push(`?q=${value}`);
-      }
-    } else if (!value?.length) {
-      if (!prevLocation.length) router.push('/participants');
-      else router.push(prevLocation);
-    }
-  };
+  // const manageUrl = (value: string) => {
+  //   if (value?.length) {
+  //     if ((pathname !== prevLocation && pathname !== '/participants') || !prevLocation.length) {
+  //       setPrevLocation(pathname);
+  //     } else if (pathname !== '/participants') {
+  //       router.push(`/participants?q=${value}`);
+  //     } else {
+  //       router.push(`?q=${value}`);
+  //     }
+  //   } else if (!value?.length) {
+  //     if (!prevLocation.length) router.push('/participants');
+  //     else router.push(prevLocation);
+  //   }
+  // };
 
   const goBackHandler = (ev: React.MouseEvent<HTMLButtonElement>) => {
     ev.preventDefault();

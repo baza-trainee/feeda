@@ -3,13 +3,14 @@ import { ProjectDifficulty } from './ProjectDifficulty';
 import { ProjectState } from './ProjectState';
 import { ProjectType } from './ProjectsType';
 
-export const getProjectValue = (value: string | number) =>
-  value ? projectStatus.find((item) => item.value === value) : '';
-export const getRoleValue = (value: string | number) => (value ? membersRole.find((item) => item.value === value) : '');
-export const getDiffValue = (value: string | number) =>
-  value ? projectDifficulty.find((item) => item.value === value) : '';
-export const getProjectTypeValue = (value: string | number) =>
-  value ? projectType.find((item) => item.value === value) : '';
+export const getProjectStatus = (value: string | number) =>
+  value ? projectStatus.find((item) => item.value === value) || { value: '', label: '' } : '';
+export const getRole = (value: string | number) =>
+  value ? membersRole.find((item) => item.value === value) || { value: '', label: '' } : '';
+export const getComplixity = (value: string | number) =>
+  value ? projectDifficulty.find((item) => item.value === value) || { value: '', label: '' } : '';
+export const getProjectType = (value: string | number) =>
+  value ? projectType.find((item) => item.value === value) || { value: '', label: '' } : '';
 
 export interface ListProps {
   value: string | number;
@@ -18,16 +19,12 @@ export interface ListProps {
 
 export const projectStatus: ListProps[] = [
   {
-    value: 'team_formation',
-    label: <ProjectState type="green" title="Формування команди" />,
-  },
-  {
-    value: 'developing',
+    value: 'В розробці',
     label: <ProjectState type="yellow" title="В розробці" />,
   },
   {
-    value: 'ended',
-    label: <ProjectState type="orange" title="Завершено" />,
+    value: 'Завершений',
+    label: <ProjectState type="orange" title="Завершений" />,
   },
 ];
 
@@ -41,7 +38,7 @@ export const membersRole: ListProps[] = [
     label: <MemberRole type="yellow" title="Backend" />,
   },
   {
-    value: 'Front',
+    value: 'Frontend',
     label: <MemberRole type="orange" title="Front" />,
   },
   {
