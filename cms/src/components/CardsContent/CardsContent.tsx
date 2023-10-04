@@ -22,6 +22,8 @@ import {
   ThirdBlockElementsWrapper,
   ThirdBlockWrapper,
 } from './CardsContent.styles';
+import { SelectStateIcon } from '../SelectField/SelectField.style';
+import { ProjectDifficulty } from '../SelectField/lists';
 
 type CardsContentType = {
   type: 'participants' | 'projects';
@@ -40,6 +42,14 @@ export function CardsContent({ type, data }: CardsContentType) {
       : 'Учасників';
   };
 
+  function isParticipantData(item: any): item is ParticipantData {
+    return item && item.type === 'participants';
+  }
+
+  function isProjectTeamState(item: any): item is ProjectTeamState {
+    return item && item.type === 'projects';
+  }
+
   const onProjectDelete = (slug: string) => {
     dispatch(deleteProject(slug)).then(() => setShowPopUp(false));
   };
@@ -50,11 +60,7 @@ export function CardsContent({ type, data }: CardsContentType) {
         {data?.map((item: ParticipantData | ProjectTeamState) => {
           return (
             <ListItem key={item.id}>
-              <Link
-                href={
-                  type === 'participants' ? `/participants/${item.id}` : `/projects/${(item as ProjectTeamState).slug}`
-                }
-              >
+              <Link href={isParticipantData(item) ? `/participants/${item.id}` : `/projects/${item.slug}`}>
                 <FirstBlockWrapper>
                   <Button
                     variant="icon"
@@ -62,7 +68,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                     func={(ev) => {
                       ev.preventDefault();
                       ev.stopPropagation();
-                      setShowPopUp(type === 'participants' ? item.id : (item as ProjectTeamState).slug);
+                      setShowPopUp(isParticipantData(item) ? item.id : item.slug);
                     }}
                   />
                   <Button
@@ -79,46 +85,44 @@ export function CardsContent({ type, data }: CardsContentType) {
                   </p>
                 </FirstBlockWrapper>
                 <SecondBlockWrapper type={type}>
-                  {type === 'participants' ? (
+                  {isParticipantData(item) ? (
                     <>
-                      <h2 title={`${(item as ParticipantData).last_name} ${(item as ParticipantData).first_name}`}>
-                        {(item as ParticipantData).last_name} {(item as ParticipantData).first_name}
+                      <h2 title={`${item.last_name} ${item.first_name}`}>
+                        {item.last_name} {item.first_name}
                       </h2>
-                      <p title={(item as ParticipantData).stack}>{(item as ParticipantData).stack || 'None'}</p>
+                      <p title={item.stack}>{item.stack || 'None'}</p>
                     </>
                   ) : (
                     <>
-                      <h2 title={(item as ProjectTeamState).title}>{(item as ProjectTeamState).title}</h2>
-                      <p title={(item as ProjectTeamState).count_participants.toString()}>
-                        {(item as ProjectTeamState).count_participants}{' '}
-                        {projectParticipantsEnding(Number((item as ProjectTeamState).count_participants))}
+                      <h2 title={item.title}>{item.title}</h2>
+                      <p title={item.count_participants.toString()}>
+                        {item.count_participants} {projectParticipantsEnding(Number(item.count_participants))}
                       </p>
                     </>
                   )}
                 </SecondBlockWrapper>
                 <ThirdBlockWrapper>
-                  {type === 'participants' ? (
+                  {isParticipantData(item) ? (
                     <>
                       <ThirdBlockElementsWrapper>
                         <p id="name">Досвід</p>
-                        <p id="value">{(item as ParticipantData).experience ? 'Так' : 'Ні'}</p>
+                        <p id="value">{item.experience ? 'Так' : 'Ні'}</p>
                       </ThirdBlockElementsWrapper>
                       <ThirdBlockElementsWrapper>
                         <p id="name">Проєкти</p>
-                        <p id="value">{(item as ParticipantData).count_projects}</p>
+                        <p id="value">{item.count_projects}</p>
                       </ThirdBlockElementsWrapper>
                       <ThirdBlockElementsWrapper>
                         <p id="name">Роль</p>
                         <div id="icon-wrapper">
                           <IconSprite
                             icon={
-                              commonVariants.role.find(
-                                (searchItem) => searchItem.name === (item as ParticipantData).role
-                              )?.icon || (commonVariants.role.find((item) => item.name === 'None')?.icon as IconType)
+                              commonVariants.role.find((searchItem) => searchItem.name === item.role)?.icon ||
+                              (commonVariants.role.find((item) => item.name === 'None')?.icon as IconType)
                             }
                           />
                         </div>
-                        <p id="value">{(item as ParticipantData).role || 'None'}</p>
+                        <p id="value">{item.role || 'None'}</p>
                       </ThirdBlockElementsWrapper>
                     </>
                   ) : (
@@ -126,30 +130,15 @@ export function CardsContent({ type, data }: CardsContentType) {
                       <ThirdBlockElementsWrapper className="complexity-wrapper">
                         <p id="name">Складість</p>
                         <div id="complexity">
-                          {commonVariants.complexity.map((complexity) => (
-                            <IconSprite
-                              key={complexity}
-                              icon={
-                                complexity <= Number.parseInt((item as ProjectTeamState).complexity)
-                                  ? 'complexityActive'
-                                  : 'complexityInactive'
-                              }
-                            />
-                          ))}
+                          <ProjectDifficulty type={item.complexity} isCardItem />
                         </div>
                       </ThirdBlockElementsWrapper>
                       <ThirdBlockElementsWrapper>
                         <p id="name">Стан</p>
                         <div id="icon-wrapper">
-                          <IconSprite
-                            icon={
-                              commonVariants.status.find(
-                                (searchItem) => searchItem.name === (item as ProjectTeamState).status
-                              )?.icon as IconType
-                            }
-                          />
+                          <SelectStateIcon type={item.status} />
                         </div>
-                        <p id="value">{(item as ProjectTeamState).status}</p>
+                        <p id="value">{item.status}</p>
                       </ThirdBlockElementsWrapper>
                     </>
                   )}

@@ -20,11 +20,11 @@ export interface ListProps {
 export const projectStatus: ListProps[] = [
   {
     value: 'В розробці',
-    label: <ProjectState type="yellow" title="В розробці" />,
+    label: <ProjectState type="В розробці" title="В розробці" />,
   },
   {
     value: 'Завершений',
-    label: <ProjectState type="orange" title="Завершений" />,
+    label: <ProjectState type="Завершений" title="Завершений" />,
   },
 ];
 

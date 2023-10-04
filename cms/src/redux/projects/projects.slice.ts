@@ -3,6 +3,7 @@ import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { UserFormData } from '~/src/helpers/manageProjectFormData';
 
 import { addProject, deleteProject, editProject, fetchProjects, fetchTeam } from './actions';
+import { SelectDifficultyType, SelectStateIconType } from '~/src/components/SelectField/SelectField.style';
 
 const initialState: ProjectsState = {
   projects: [],
@@ -102,8 +103,8 @@ export interface ProjectTeamState {
   id: string;
   title: string;
   comment: string;
-  complexity: number | null;
-  status: string | null;
+  complexity: SelectDifficultyType;
+  status: SelectStateIconType;
   type: string | null;
   address_site: string | null;
   start_date_project: string | null;
