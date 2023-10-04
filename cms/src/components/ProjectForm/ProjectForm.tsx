@@ -123,7 +123,7 @@ export const ProjectForm = ({
           name="status"
           placeholder="Введіть текст"
           options={projectStatus}
-          title="Стан проекту"
+          title="Стан проєкту"
           rules={{ required: 'це поле є обовязковим' }}
           valueGetter={(value) => getProjectStatus(value)}
           isDisabled={isDisabled}
@@ -135,7 +135,7 @@ export const ProjectForm = ({
           name="type"
           placeholder="Введіть текст"
           options={projectType}
-          title="Тип проекту"
+          title="Тип проєкту"
           rules={{ required: 'це поле є обовязковим' }}
           valueGetter={(value) => getProjectType(value)}
           isDisabled={isDisabled}
