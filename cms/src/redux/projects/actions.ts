@@ -17,7 +17,7 @@ const fetchProjects = createAsyncThunk(
   }
 );
 
-const deleteProject = createAsyncThunk(ActionType.DELETE_PROJECT, async (slug: string, { dispatch }) => {
+const deleteProject = createAsyncThunk(ActionType.DELETE_PROJECT, async (slug: string) => {
   try {
     await axios.delete(`project/${slug}`);
     return;

@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 
+import Link from 'next/link';
+
 import useMobileDetect from '~/src/helpers/useMobileDetect';
 import { useAppSelector } from '~/src/redux/hooks';
 
 import { Button } from '../Button/Button';
 import { Nav, NavLink, ProjectsWrapper, Wrapper } from './Sidebar.style';
-import Link from 'next/link';
 
 export function Sidebar({ closeModal, onMobileMenu }: { closeModal?: () => void; onMobileMenu?: boolean }) {
   const [showProjectsOptions, setShowProjectsOptions] = useState(false);

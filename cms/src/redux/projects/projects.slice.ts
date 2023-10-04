@@ -1,9 +1,9 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 
+import { SelectDifficultyType, SelectStateIconType } from '~/src/components/SelectField/SelectField.style';
 import { UserFormData } from '~/src/helpers/manageProjectFormData';
 
 import { addProject, deleteProject, editProject, fetchProjects, fetchTeam } from './actions';
-import { SelectDifficultyType, SelectStateIconType } from '~/src/components/SelectField/SelectField.style';
 
 const initialState: ProjectsState = {
   projects: [],
@@ -53,7 +53,7 @@ const { reducer, actions, name } = createSlice({
     builder.addCase(addProject.pending, (state) => {
       state.loading = 'loading';
     });
-    builder.addCase(addProject.fulfilled, (state, { payload }) => {
+    builder.addCase(addProject.fulfilled, (state) => {
       state.loading = 'success';
     });
     builder.addCase(editProject.pending, (state) => {

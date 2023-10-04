@@ -14,6 +14,8 @@ import { AppDispatch } from '../../redux/store/store';
 import { Button } from '../Button/Button';
 import { IconSprite, IconType } from '../IconSprite/IconSprite';
 import { PopUp } from '../PopUp/PopUp';
+import { ProjectDifficulty } from '../SelectField/lists';
+import { SelectStateIcon } from '../SelectField/SelectField.style';
 import {
   FirstBlockWrapper,
   List,
@@ -22,8 +24,6 @@ import {
   ThirdBlockElementsWrapper,
   ThirdBlockWrapper,
 } from './CardsContent.styles';
-import { SelectStateIcon } from '../SelectField/SelectField.style';
-import { ProjectDifficulty } from '../SelectField/lists';
 
 type CardsContentType = {
   type: 'participants' | 'projects';
@@ -45,12 +45,8 @@ export function CardsContent({ type, data }: CardsContentType) {
       : 'Учасників';
   };
 
-  function isParticipantData(item: any): item is ParticipantData {
-    return item && item.type === 'participants';
-  }
-
-  function isProjectTeamState(item: any): item is ProjectTeamState {
-    return item && item.type === 'projects';
+  function isParticipantData(item: ParticipantData | ProjectTeamState): boolean {
+    return (item as ParticipantData).type_participant !== undefined;
   }
 
   const onProjectDelete = (slug: string) => {
@@ -82,7 +78,9 @@ export function CardsContent({ type, data }: CardsContentType) {
                     func={(ev) => {
                       ev.preventDefault();
                       ev.stopPropagation();
-                      router.push(`/${type}/edit/${item.id}`);
+                      router.push(
+                        `${isParticipantData(item) ? `/${type}/edit/${item.id}` : `/projects/${item.slug}?edit=edit`}`
+                      );
                     }}
                   />
                   <p id={type === 'projects' ? 'project-type-participant' : ''}>
