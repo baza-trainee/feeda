@@ -22,7 +22,7 @@ export default function ParticipantsPage() {
   const query = searchParams.get('q') || '';
 
   useEffect(() => {
-    dispatch(fetchParticipants(query));
+    if (query.length === 0) dispatch(fetchParticipants());
     // eslint-disable-next-line
   }, [query]);
 

@@ -65,7 +65,7 @@ export function Header() {
     } else if (pathname === '/participants/create') {
       return 'Додати учасника';
     } else if (pathname === '/projects/create') {
-      return 'Додати проект';
+      return 'Додати проєкт';
     } else if (pathname.split('/')[1] === 'participants') {
       if (participant && !isLoading) {
         return `${participant?.first_name} ${participant?.last_name}`;
@@ -73,7 +73,7 @@ export function Header() {
         return '';
       }
     } else if (pathname.split('/')[1] === 'projects') {
-      return 'Проект (змінити на його назву)';
+      return 'Проєкт (змінити на його назву)';
     } else {
       return 'Невідома фігня, треба виправити';
     }

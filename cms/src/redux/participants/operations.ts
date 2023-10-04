@@ -26,10 +26,11 @@ export interface ParticipantData {
   city: string;
   experience: boolean;
   stack: string;
+  speciality: { id: number; title: string };
+  project: { id: number; label: string; title: string; projectId: number }[];
+  project_count: number;
   role: string;
-  count_projects: number;
-  type: 'Безкоштовний' | 'Платний' | 'Буткамп';
-  projects: { id: number; project: string }[];
+  type: { id: number; title: 'Безкоштовний' | 'Платний' | 'Буткамп' };
 }
 
 interface UpdateParticipantTypes {

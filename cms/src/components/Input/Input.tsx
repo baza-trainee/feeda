@@ -1,7 +1,7 @@
 'use client';
 
 import DatePicker, { registerLocale } from 'react-datepicker';
-import { Control, Controller } from 'react-hook-form';
+import { Control, Controller, FieldValues, UseFormTrigger } from 'react-hook-form';
 
 import { ClassNames } from '@emotion/react';
 import uk_UA from 'date-fns/locale/uk';
@@ -47,6 +47,7 @@ type InputProps = {
   begIconId?: IconType | undefined;
   endIconId?: IconType | undefined;
   rules?: object;
+  trigger?: UseFormTrigger<FieldValues>;
 };
 
 export function Input({
@@ -70,6 +71,7 @@ export function Input({
   control,
   rules,
   submitBtn,
+  trigger,
 }: InputProps) {
   registerLocale('uk_UA', uk_UA);
   const path = usePathname();
@@ -112,15 +114,22 @@ export function Input({
                   )}
                   {type === 'date' ? (
                     <DatePicker
+                      value={value}
                       todayButton="Сьогодні"
                       dateFormat="dd MMMM yyyy"
                       locale="uk_UA"
                       placeholderText={placeholder}
-                      selected={value instanceof Date ? value : undefined}
+                      selected={value ? new Date(value as string) : undefined}
                       className={css(inputStyles)}
                       readOnly={readonly}
                       calendarStartDay={1}
                       onChange={onChange}
+                      disabled={disabled}
+                      onBlur={() => {
+                        if (trigger) {
+                          trigger(name);
+                        }
+                      }}
                     />
                   ) : (
                     <InputComp
@@ -143,6 +152,12 @@ export function Input({
                           : (value as string)
                       }
                       onChange={onChange}
+                      value={value}
+                      onBlur={() => {
+                        if (trigger) {
+                          trigger(name);
+                        }
+                      }}
                     />
                   )}
                   {submitBtn && endIconId ? (

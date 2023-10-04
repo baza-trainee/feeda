@@ -28,11 +28,13 @@ export function manageFormFields(formData: FieldValues) {
       phone_number,
       stack,
       experience: experience?.value === 'Так' || false,
-      role: role,
+      role,
       type: +type.value,
       projects: projects.map((item: { id: number }) => {
         return { project: item.id };
       }),
+      project: [],
+      speciality: 0,
     };
     return requestData;
   } catch (err) {
@@ -43,17 +45,19 @@ export function manageFormFields(formData: FieldValues) {
 interface RequestDataTypes {
   account_discord: string;
   account_linkedin: string;
-  city: string | null;
-  comment: string | null;
+  city: string;
+  comment: string;
   email: string;
   experience: boolean;
   first_name: string;
   last_name: string;
   phone_number: string;
-  projects: { project: number }[];
+  project: number[];
   role: string;
+  speciality: number;
   stack: string;
   type: number;
+  projects: { id: number; label: string; title: string }[];
 }
 
 export interface FormDataTypes {
