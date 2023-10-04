@@ -24,6 +24,7 @@ export function ApiFetchComp() {
       router.push('/login');
     }
     isLoggedIn && router.push(path.includes('/login') ? '/projects' : path);
+    path === '/' && isLoggedIn && router.push('/projects');
   }, [dispatch, isLoggedIn, path, remember, router, token]);
 
   return <></>;
