@@ -2,12 +2,13 @@ import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 
 import { UserFormData } from '~/src/helpers/manageProjectFormData';
 
-import { addProject, deleteProject, editProject,fetchProjects, fetchTeam } from './actions';
+import { addProject, deleteProject, editProject, fetchProjects, fetchTeam } from './actions';
 
 const initialState: ProjectsState = {
   projects: [],
   loading: null,
   currentTeam: {
+    id: '',
     title: '',
     comment: '',
     complexity: null,
@@ -19,6 +20,7 @@ const initialState: ProjectsState = {
     users: [],
     team_leads: [],
     slug: '',
+    count_participants: 0,
   },
   errors: null,
 };
@@ -83,24 +85,21 @@ const { reducer, actions, name } = createSlice({
 });
 
 export interface ProjectsState {
-  projects: ProjectData[];
+  projects: ProjectTeamState[];
   currentTeam: ProjectTeamState;
   loading: 'loading' | 'success' | 'rejected' | null;
   errors: string | null;
 }
 
 export interface ProjectData {
-  id: number;
-  title: string;
-  type: string;
-  status: string;
-  complexity: string;
-  count_participants: string;
-  start_date_project: string;
-  url: string;
+  count: number | null;
+  next: number | null;
+  previous: number | null;
+  results: ProjectTeamState[];
 }
 
 export interface ProjectTeamState {
+  id: string;
   title: string;
   comment: string;
   complexity: number | null;
@@ -112,6 +111,7 @@ export interface ProjectTeamState {
   users: UserFormData[] | [];
   team_leads: UserFormData[] | [];
   slug: string;
+  count_participants: number;
 }
 
 export { actions, name, reducer };

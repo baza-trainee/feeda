@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { commonVariants } from '../../helpers/commonVariants';
 import { deleteParticipant, ParticipantData } from '../../redux/participants/operations';
 import { deleteProject } from '../../redux/projects/actions';
-import { ProjectData } from '../../redux/projects/projects.slice';
+import { ProjectTeamState } from '../../redux/projects/projects.slice';
 import { AppDispatch } from '../../redux/store/store';
 import { Button } from '../Button/Button';
 import { IconSprite, IconType } from '../IconSprite/IconSprite';
@@ -25,7 +25,7 @@ import {
 
 type CardsContentType = {
   type: 'participants' | 'projects';
-  data: ParticipantData[] | ProjectData[];
+  data: ParticipantData[] | ProjectTeamState[];
 };
 export function CardsContent({ type, data }: CardsContentType) {
   const router = useRouter();
@@ -40,13 +40,21 @@ export function CardsContent({ type, data }: CardsContentType) {
       : 'Учасників';
   };
 
+  const onProjectDelete = (slug: string) => {
+    dispatch(deleteProject(slug)).then(() => setShowPopUp(false));
+  };
+
   return (
     <>
       <List>
-        {data?.map((item: ParticipantData | ProjectData) => {
+        {data?.map((item: ParticipantData | ProjectTeamState) => {
           return (
             <ListItem key={item.id}>
-              <Link href={type === 'participants' ? `/participants/${item.id}` : `/projects/${item.id}`}>
+              <Link
+                href={
+                  type === 'participants' ? `/participants/${item.id}` : `/projects/${(item as ProjectTeamState).slug}`
+                }
+              >
                 <FirstBlockWrapper>
                   <Button
                     variant="icon"
@@ -54,7 +62,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                     func={(ev) => {
                       ev.preventDefault();
                       ev.stopPropagation();
-                      setShowPopUp(type === 'participants' ? item.id : (item as ProjectData).title);
+                      setShowPopUp(type === 'participants' ? item.id : (item as ProjectTeamState).slug);
                     }}
                   />
                   <Button
@@ -67,7 +75,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                     }}
                   />
                   <p id={type === 'projects' ? 'project-type-participant' : ''}>
-                    {(item as ParticipantData)?.type || (item as ProjectData).type}
+                    {(item as ParticipantData)?.type || (item as ProjectTeamState).type}
                   </p>
                 </FirstBlockWrapper>
                 <SecondBlockWrapper type={type}>
@@ -80,10 +88,10 @@ export function CardsContent({ type, data }: CardsContentType) {
                     </>
                   ) : (
                     <>
-                      <h2 title={(item as ProjectData).title}>{(item as ProjectData).title}</h2>
-                      <p title={(item as ProjectData).count_participants}>
-                        {(item as ProjectData).count_participants}{' '}
-                        {projectParticipantsEnding(Number((item as ProjectData).count_participants))}
+                      <h2 title={(item as ProjectTeamState).title}>{(item as ProjectTeamState).title}</h2>
+                      <p title={(item as ProjectTeamState).count_participants.toString()}>
+                        {(item as ProjectTeamState).count_participants}{' '}
+                        {projectParticipantsEnding(Number((item as ProjectTeamState).count_participants))}
                       </p>
                     </>
                   )}
@@ -122,7 +130,7 @@ export function CardsContent({ type, data }: CardsContentType) {
                             <IconSprite
                               key={complexity}
                               icon={
-                                complexity <= Number.parseInt((item as ProjectData).complexity)
+                                complexity <= Number.parseInt((item as ProjectTeamState).complexity)
                                   ? 'complexityActive'
                                   : 'complexityInactive'
                               }
@@ -136,12 +144,12 @@ export function CardsContent({ type, data }: CardsContentType) {
                           <IconSprite
                             icon={
                               commonVariants.status.find(
-                                (searchItem) => searchItem.name === (item as ProjectData).status
+                                (searchItem) => searchItem.name === (item as ProjectTeamState).status
                               )?.icon as IconType
                             }
                           />
                         </div>
-                        <p id="value">{(item as ProjectData).status}</p>
+                        <p id="value">{(item as ProjectTeamState).status}</p>
                       </ThirdBlockElementsWrapper>
                     </>
                   )}
@@ -164,7 +172,7 @@ export function CardsContent({ type, data }: CardsContentType) {
           type="delete"
           target={type}
           noCallback={() => setShowPopUp(false)}
-          yesCallback={() => dispatch(deleteProject(showPopUp.toString()))}
+          yesCallback={() => onProjectDelete(showPopUp.toString())}
         />
       )}
       <></>

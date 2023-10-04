@@ -9,23 +9,20 @@ import { ActionType } from './common';
 import { ProjectData } from './projects.slice';
 
 const fetchProjects = createAsyncThunk(ActionType.GET_ALL, async () => {
-  const { data } = await axios.get<{ results: ProjectData[] }>('/project/');
+  const { data } = await axios.get<ProjectData>('/project/');
 
   return data.results;
 });
 
-const deleteProject = createAsyncThunk(
-  ActionType.DELETE_PROJECT,
-  async (title: string | number | null, { dispatch }) => {
-    try {
-      await axios.delete(`http://localhost:8000/api/v1/user-project/project/${title}`);
-      await dispatch(fetchProjects());
-      return;
-    } catch (err) {
-      console.log('Delete error: ', err);
-    }
+const deleteProject = createAsyncThunk(ActionType.DELETE_PROJECT, async (slug: string, { dispatch }) => {
+  try {
+    await axios.delete(`project/${slug}`);
+    await dispatch(fetchProjects());
+    return;
+  } catch (err) {
+    console.log('Delete error: ', err);
   }
-);
+});
 
 const addProject = createAsyncThunk(ActionType.ADD_PROJECT, async (formData: ProjectFormData) => {
   const projectData = manageProjectFormData(formData);
