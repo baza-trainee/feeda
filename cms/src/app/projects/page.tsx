@@ -13,14 +13,18 @@ import { StoreTypes } from '../../redux/store/store';
 import Loading from '../loading';
 import { AddButtonWrapper, ProjectsContainer } from './ProjectsPage.styles';
 
-export default function ProjectsPage() {
+export default function ProjectsPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const dispatch = useAppDispatch();
   const { projects, loading } = useAppSelector((state: StoreTypes) => state.projects);
   const { isLoggedIn } = useAppSelector((state: StoreTypes) => state.auth);
 
   useEffect(() => {
-    isLoggedIn && dispatch(fetchProjects());
-  }, [dispatch, isLoggedIn]);
+    isLoggedIn && dispatch(fetchProjects(searchParams));
+  }, [dispatch, isLoggedIn, searchParams]);
 
   if (!isLoggedIn) return false;
 
@@ -32,6 +36,12 @@ export default function ProjectsPage() {
         </Link>
       </AddButtonWrapper>
       {loading === 'loading' && <Loading />}
+      {loading === 'success' && Object.keys(projects).length === 0 && Object.keys(searchParams).length === 0 && (
+        <p>Додайте перший проєкт</p>
+      )}
+      {loading === 'success' && Object.keys(projects).length === 0 && Object.keys(searchParams).length > 0 && (
+        <p>За Вашим запитом проєкти відсутні</p>
+      )}
       {loading === 'success' && <CardsContent type="projects" data={projects} />}
       {loading === 'rejected' && <div>Щось рішло не так... Спробуйте пізніше</div>}
     </ProjectsContainer>

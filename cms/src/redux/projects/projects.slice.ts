@@ -32,14 +32,10 @@ const { reducer, actions, name } = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchProjects.pending, (state) => {
-      console.log(state.loading);
+      state.loading = 'loading';
     });
     builder.addCase(fetchProjects.fulfilled, (state, { payload }) => {
       state.projects = payload;
-      console.log(payload);
-      state.loading = 'success';
-      console.log(state.loading);
-      console.log('Fetching participants');
       state.loading = 'success';
     });
     builder.addCase(fetchTeam.pending, (state) => {
@@ -56,12 +52,9 @@ const { reducer, actions, name } = createSlice({
     });
     builder.addCase(addProject.pending, (state) => {
       state.loading = 'loading';
-      console.log(state.loading);
     });
     builder.addCase(addProject.fulfilled, (state, { payload }) => {
       state.loading = 'success';
-      console.log(payload);
-      console.log(state.loading, payload);
     });
     builder.addCase(editProject.pending, (state) => {
       state.loading = 'loading';
@@ -69,9 +62,7 @@ const { reducer, actions, name } = createSlice({
     });
     builder.addCase(editProject.fulfilled, (state, { payload }) => {
       state.loading = 'success';
-      console.log(payload);
       state.currentTeam = payload;
-      console.log(state.loading, payload);
     });
     builder.addMatcher(
       isAnyOf(fetchProjects.rejected, deleteProject.rejected, addProject.rejected, editProject.rejected),
@@ -79,7 +70,6 @@ const { reducer, actions, name } = createSlice({
         state.projects = [];
         state.loading = 'rejected';
         console.log(action.error.message);
-        console.log(state.loading);
       }
     );
   },

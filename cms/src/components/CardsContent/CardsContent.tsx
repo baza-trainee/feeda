@@ -4,11 +4,11 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { commonVariants } from '../../helpers/commonVariants';
 import { deleteParticipant, ParticipantData } from '../../redux/participants/operations';
-import { deleteProject } from '../../redux/projects/actions';
+import { deleteProject, fetchProjects } from '../../redux/projects/actions';
 import { ProjectTeamState } from '../../redux/projects/projects.slice';
 import { AppDispatch } from '../../redux/store/store';
 import { Button } from '../Button/Button';
@@ -32,6 +32,9 @@ type CardsContentType = {
 export function CardsContent({ type, data }: CardsContentType) {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
+  const searchParams = useSearchParams();
+  const statusQuery = searchParams.get('status');
+  const typeQuery = searchParams.get('type');
   const [showPopUp, setShowPopUp] = useState<boolean | number | string>(false);
   const projectParticipantsEnding = (count: number) => {
     const countLastDigit = count.toString()[count.toString().length - 1];
@@ -51,7 +54,9 @@ export function CardsContent({ type, data }: CardsContentType) {
   }
 
   const onProjectDelete = (slug: string) => {
-    dispatch(deleteProject(slug)).then(() => setShowPopUp(false));
+    dispatch(deleteProject(slug))
+      .then(() => setShowPopUp(false))
+      .then(() => dispatch(fetchProjects({ type: typeQuery || '', status: statusQuery || '' })));
   };
 
   return (

@@ -8,16 +8,18 @@ import { RootState } from '../store/store';
 import { ActionType } from './common';
 import { ProjectData } from './projects.slice';
 
-const fetchProjects = createAsyncThunk(ActionType.GET_ALL, async () => {
-  const { data } = await axios.get<ProjectData>('/project/');
+const fetchProjects = createAsyncThunk(
+  ActionType.GET_ALL,
+  async (searchParams?: { [key: string]: string | string[] | undefined }) => {
+    const { data } = await axios.get<ProjectData>('/project/', { params: searchParams || undefined });
 
-  return data.results;
-});
+    return data.results;
+  }
+);
 
 const deleteProject = createAsyncThunk(ActionType.DELETE_PROJECT, async (slug: string, { dispatch }) => {
   try {
     await axios.delete(`project/${slug}`);
-    await dispatch(fetchProjects());
     return;
   } catch (err) {
     console.log('Delete error: ', err);
