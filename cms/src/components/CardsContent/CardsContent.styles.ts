@@ -10,10 +10,10 @@ export const List = styled.ul`
   justify-items: center;
   gap: 16px;
   @media screen and (${media.tablet}) {
-    grid-template-columns: 224px 224px;
+    grid-template-columns: repeat(auto-fill, 224px);
   }
   @media screen and (${media.desktop}) {
-    grid-template-columns: 286px 286px 286px;
+    grid-template-columns: repeat(auto-fill, 286px);
   }
 `;
 
@@ -131,6 +131,8 @@ export const ThirdBlockElementsWrapper = styled.div`
     padding: 8px;
     border-radius: 4px;
     background: #fcfcfc;
+    width: 24px;
+    height: 24px;
     & > svg {
       width: 8px;
       height: 8px;

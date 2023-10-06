@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import Link from 'next/link';
+
 import useMobileDetect from '~/src/helpers/useMobileDetect';
 import { useAppSelector } from '~/src/redux/hooks';
 
@@ -57,7 +59,7 @@ export function Sidebar({ closeModal, onMobileMenu }: { closeModal?: () => void;
   };
 
   // Third Layer
-  const teamBuildingOptions = [
+  const projectsOptions = [
     { label: 'Безкоштовний', link: '/projects/team-building/free' },
     { label: 'Платний', link: '/projects/team-building/paid' },
     { label: 'Буткамп', link: '/projects/team-building/bootcamp' },
@@ -66,15 +68,16 @@ export function Sidebar({ closeModal, onMobileMenu }: { closeModal?: () => void;
   return (!mobile || onMobileMenu) && isLoggedIn ? (
     <Nav>
       <Wrapper>
-        <Button
-          variant="nav"
-          func={toggleProjectsOptions}
-          title="Проєкти"
-          icon="edit"
-          secondIcon="arrowDown"
-          btnClicked={showProjectsOptions}
-        />
-
+        <Link href="/projects/">
+          <Button
+            variant="nav"
+            func={toggleProjectsOptions}
+            title="Проєкти"
+            icon="edit"
+            secondIcon="arrowDown"
+            btnClicked={showProjectsOptions}
+          />
+        </Link>
         {showProjectsOptions && (
           <ProjectsWrapper>
             <Button
@@ -87,8 +90,12 @@ export function Sidebar({ closeModal, onMobileMenu }: { closeModal?: () => void;
             />
             {showTeamBuildingOptions && (
               <ProjectsWrapper>
-                {teamBuildingOptions.map((option, index) => (
-                  <NavLink href={option.link} onClick={closeModal} key={index}>
+                {projectsOptions.map((option, index) => (
+                  <NavLink
+                    href={{ pathname: '/projects/', query: { status: 'Формування', type: option.label } }}
+                    onClick={closeModal}
+                    key={index}
+                  >
                     {option.label}
                   </NavLink>
                 ))}
@@ -103,8 +110,12 @@ export function Sidebar({ closeModal, onMobileMenu }: { closeModal?: () => void;
             />
             {showInDevelopmentOptions && (
               <ProjectsWrapper>
-                {teamBuildingOptions.map((option, index) => (
-                  <NavLink href={option.link} onClick={closeModal} key={index}>
+                {projectsOptions.map((option, index) => (
+                  <NavLink
+                    href={{ pathname: '/projects/', query: { status: 'В розробці', type: option.label } }}
+                    onClick={closeModal}
+                    key={index}
+                  >
                     {option.label}
                   </NavLink>
                 ))}
@@ -120,8 +131,12 @@ export function Sidebar({ closeModal, onMobileMenu }: { closeModal?: () => void;
 
             {showCompletedOptions && (
               <ProjectsWrapper>
-                {teamBuildingOptions.map((option, index) => (
-                  <NavLink href={option.link} onClick={closeModal} key={index}>
+                {projectsOptions.map((option, index) => (
+                  <NavLink
+                    href={{ pathname: '/projects/', query: { status: 'Завершений', type: option.label } }}
+                    onClick={closeModal}
+                    key={index}
+                  >
                     {option.label}
                   </NavLink>
                 ))}
