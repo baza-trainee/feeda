@@ -65,7 +65,7 @@ export const SelectField = ({
                 styles={selectStyles(!!error, isDropdownOpen, isDisabled)}
                 placeholder={placeholder}
                 options={options}
-                value={computedValue}
+                value={valueGetter ? computedValue : value}
                 onChange={(selectedOption: OptionType) => {
                   console.log('selectedOption', selectedOption);
                   setIsDropdownOpen(false);
@@ -95,7 +95,7 @@ interface AsyncFieldProps {
   control: Control;
   name: string;
   rules?: object;
-  options: (inputValue: string) => Promise<{ value: string; label: string }[]>;
+  options: (inputValue: string) => Promise<unknown[]>;
   placeholder: string | JSX.Element;
   clearErrors: (name?: string | string[]) => void;
   title: string;

@@ -17,11 +17,11 @@ export default function ParticipantProfile() {
   const userId = pathname.split('/')[pathname.split('/').length - 1];
 
   useEffect(() => {
-    if (participant?.id !== userId) {
-      dispatch(getParticipant(userId));
-    }
-    // eslint-disable-next-line
-  }, [participant]);
+    const controller = new AbortController();
+    dispatch(getParticipant(userId));
+    return () => controller.abort();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId]);
 
   return error ? (
     <Title title={typeof error == 'string' ? error : 'Error'} />

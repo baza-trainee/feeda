@@ -16,7 +16,6 @@ import { Wrapper } from './page.styles';
 export default function ParticipantsPage() {
   const dispatch = useDispatch<AppDispatch>();
   const { list, isLoading, error } = useSelector((state: StoreTypes) => state.participants);
-  // const { token } = useSelector((state: StoreTypes) => state.auth);
 
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';

@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { colors, media } from '../../../src/styles/theme';
 
 export const Wrapper = styled.div`
+  width: 100%;
   & > a {
     display: flex;
     justify-content: center;
