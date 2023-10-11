@@ -1,13 +1,15 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 
+import { SelectDifficultyType, SelectStateIconType } from '~/src/components/SelectField/SelectField.style';
 import { UserFormData } from '~/src/helpers/manageProjectFormData';
 
-import { addProject, deleteProject, editProject,fetchProjects, fetchTeam } from './actions';
+import { addProject, deleteProject, editProject, fetchProjects, fetchTeam } from './actions';
 
 const initialState: ProjectsState = {
   projects: [],
   loading: null,
   currentTeam: {
+    id: '',
     title: '',
     comment: '',
     complexity: null,
@@ -19,6 +21,7 @@ const initialState: ProjectsState = {
     users: [],
     team_leads: [],
     slug: '',
+    count_participants: 0,
   },
   errors: null,
 };
@@ -29,14 +32,10 @@ const { reducer, actions, name } = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchProjects.pending, (state) => {
-      console.log(state.loading);
+      state.loading = 'loading';
     });
     builder.addCase(fetchProjects.fulfilled, (state, { payload }) => {
       state.projects = payload;
-      console.log(payload);
-      state.loading = 'success';
-      console.log(state.loading);
-      console.log('Fetching participants');
       state.loading = 'success';
     });
     builder.addCase(fetchTeam.pending, (state) => {
@@ -53,12 +52,9 @@ const { reducer, actions, name } = createSlice({
     });
     builder.addCase(addProject.pending, (state) => {
       state.loading = 'loading';
-      console.log(state.loading);
     });
-    builder.addCase(addProject.fulfilled, (state, { payload }) => {
+    builder.addCase(addProject.fulfilled, (state) => {
       state.loading = 'success';
-      console.log(payload);
-      console.log(state.loading, payload);
     });
     builder.addCase(editProject.pending, (state) => {
       state.loading = 'loading';
@@ -66,9 +62,7 @@ const { reducer, actions, name } = createSlice({
     });
     builder.addCase(editProject.fulfilled, (state, { payload }) => {
       state.loading = 'success';
-      console.log(payload);
       state.currentTeam = payload;
-      console.log(state.loading, payload);
     });
     builder.addMatcher(
       isAnyOf(fetchProjects.rejected, deleteProject.rejected, addProject.rejected, editProject.rejected),
@@ -76,35 +70,31 @@ const { reducer, actions, name } = createSlice({
         state.projects = [];
         state.loading = 'rejected';
         console.log(action.error.message);
-        console.log(state.loading);
       }
     );
   },
 });
 
 export interface ProjectsState {
-  projects: ProjectData[];
+  projects: ProjectTeamState[];
   currentTeam: ProjectTeamState;
   loading: 'loading' | 'success' | 'rejected' | null;
   errors: string | null;
 }
 
 export interface ProjectData {
-  id: number;
-  title: string;
-  type: string;
-  status: string;
-  complexity: string;
-  count_participants: string;
-  start_date_project: string;
-  url: string;
+  count: number | null;
+  next: number | null;
+  previous: number | null;
+  results: ProjectTeamState[];
 }
 
 export interface ProjectTeamState {
+  id: string;
   title: string;
   comment: string;
-  complexity: number | null;
-  status: string | null;
+  complexity: SelectDifficultyType;
+  status: SelectStateIconType;
   type: string | null;
   address_site: string | null;
   start_date_project: string | null;
@@ -112,6 +102,7 @@ export interface ProjectTeamState {
   users: UserFormData[] | [];
   team_leads: UserFormData[] | [];
   slug: string;
+  count_participants: number;
 }
 
 export { actions, name, reducer };

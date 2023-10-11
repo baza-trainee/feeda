@@ -2,9 +2,9 @@ import { StylesConfig } from 'react-select';
 
 import styled from '@emotion/styled';
 
-export type SelectStateIconType = 'orange' | 'green' | 'yellow';
+export type SelectStateIconType = 'Завершений' | 'В розробці' | null;
 export type SelectRoleIconType = 'green' | 'yellow' | 'orange' | 'red' | 'violet' | 'blue' | 'empty';
-export type SelectDifficultyType = 1 | 2 | 3 | 4 | 5;
+export type SelectDifficultyType = 1 | 2 | 3 | 4 | 5 | null;
 
 export const SelectItem = styled.div`
   display: flex;
@@ -27,27 +27,27 @@ export const SelectIcon = styled.div`
   border-radius: 50%;
 `;
 
-export const SelectDifficultyIcon = styled(SelectIcon)<{ type: SelectDifficultyType }>`
-  width: 24px;
-  height: 24px;
+export const SelectDifficultyIcon = styled(SelectIcon)<{ type: SelectDifficultyType; isCardItem: boolean | undefined }>`
+  width: ${({ isCardItem }) => (isCardItem ? '16px' : '24px')};
+  height: ${({ isCardItem }) => (isCardItem ? '16px' : '24px')};
   border: 1px solid black;
-  background-color: white;
+  background-color: ${({ isCardItem }) => (isCardItem ? '' : 'fff')};
 
   &:nth-child(-n + ${({ type }) => type}) {
     background-color: black;
   }
 `;
 
-export const SelectDifficulty = styled(SelectItem)`
-  gap: 16px;
-  padding: 8px;
+export const SelectDifficulty = styled(SelectItem)<{ isCardItem: boolean | undefined }>`
+  gap: ${({ isCardItem }) => (isCardItem ? '8px' : '16px')};
+  padding: ${({ isCardItem }) => (isCardItem ? '0' : '8px')};
 `;
 
 export const SelectStateIcon = styled(SelectIcon)<{ type: SelectStateIconType }>`
   background-color: ${({ type }) => {
-    if (type === 'green') return '#14905D';
-    if (type === 'orange') return '#EB903C';
-    if (type === 'yellow') return '#EBCF3C';
+    if (type === 'Завершений') return '#EB903C';
+    if (type === 'В розробці') return '#EBCF3C';
+    if (type === null) return '';
     return 'transparent';
   }};
 `;
