@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { colors, media } from '../../styles/theme';
 
 export const Form = styled.form`
+  width: 100%;
   & button {
     @media screen and (${media.tablet}) {
       width: fit-content;
