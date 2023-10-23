@@ -144,14 +144,15 @@ export function Sidebar({ closeModal, onMobileMenu }: { closeModal?: () => void;
             )}
           </ProjectsWrapper>
         )}
-
-        <Button
-          variant="nav"
-          func={toggleParticipantsList}
-          title="Учасники"
-          icon="team"
-          btnClicked={showParticipantsList}
-        />
+        <Link href="/participants">
+          <Button
+            variant="nav"
+            func={toggleParticipantsList}
+            title="Учасники"
+            icon="team"
+            btnClicked={showParticipantsList}
+          />
+        </Link>
       </Wrapper>
     </Nav>
   ) : (

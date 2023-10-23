@@ -20,6 +20,8 @@ export const participantsDefaultValues = (
       stack,
       project,
     } = formData;
+    console.log('formData', formData);
+
     const defaultValues = {
       id,
       first_name,
@@ -35,11 +37,11 @@ export const participantsDefaultValues = (
       experience: experienceVariants.find((item) => item.value === (formData.experience ? 'Так' : 'Ні')),
       speciality: {
         value: formData.speciality?.title,
-        label: membersRole.find((item) => item.value === formData.speciality?.title)?.label,
+        label: membersRole.find((item) => item.value === formData.role)?.label,
       },
-      type_participant: {
-        value: formData.type_participant.title,
-        label: projectType.find((item) => item.value === formData.type_participant.title)?.label,
+      type: {
+        value: formData.type.title,
+        label: projectType.find((item) => item.value === formData.type.title)?.label,
       },
     };
 
@@ -64,7 +66,7 @@ export type ParticipantsDefaultValuesTypes = {
   city: string;
   stack: string;
   speciality: DropDownTypes;
-  type_participant: DropDownTypes;
+  type: DropDownTypes;
   experience: ListProps | undefined;
   project: {
     id?: number;

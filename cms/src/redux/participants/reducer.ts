@@ -6,7 +6,7 @@ import {
   fetchParticipants,
   getParticipant,
   ParticipantData,
-  searchParticipants,
+  // searchParticipants,
   searchProjects,
   sendEmail,
   updateParticipant,
@@ -40,19 +40,19 @@ export const participantsSlice = createSlice({
 
     // - - -
 
-    builder.addCase(searchParticipants.pending, (state) => {
-      state.isLoading = true;
-      state.error = null;
-    });
-    builder.addCase(searchParticipants.fulfilled, (state, { payload }) => {
-      state.list = payload.results;
-      state.isLoading = false;
-    });
-    builder.addCase(searchParticipants.rejected, (state, { payload }) => {
-      if (typeof payload === 'string') state.error = payload;
-      else state.error = true;
-      state.isLoading = false;
-    });
+    // builder.addCase(searchParticipants.pending, (state) => {
+    //   state.isLoading = true;
+    //   state.error = null;
+    // });
+    // builder.addCase(searchParticipants.fulfilled, (state, { payload }) => {
+    //   state.list = payload.results;
+    //   state.isLoading = false;
+    // });
+    // builder.addCase(searchParticipants.rejected, (state, { payload }) => {
+    //   if (typeof payload === 'string') state.error = payload;
+    //   else state.error = true;
+    //   state.isLoading = false;
+    // });
 
     // - - -
 
@@ -88,15 +88,16 @@ export const participantsSlice = createSlice({
       state.participant = null;
     });
     builder.addCase(getParticipant.fulfilled, (state, { payload }) => {
-      payload.project.forEach((item) => {
-        item.label = item.title;
-        for (const key in item) {
-          if (key !== 'label' && key !== 'id')
-            delete (item as ParticipantData['project'][0])[key as keyof ParticipantData['project'][0]];
-        }
-      });
+      // payload.project.forEach((item) => {
+      //   item.label = item.title;
+      //   for (const key in item) {
+      //     if (key !== 'label' && key !== 'id')
+      //       delete (item as ParticipantData['project'][0])[key as keyof ParticipantData['project'][0]];
+      //   }
+      // });
       state.participant = payload;
       state.isLoading = false;
+      state.error = null;
     });
     builder.addCase(getParticipant.rejected, (state, { payload }) => {
       if (typeof payload === 'string') state.error = payload;

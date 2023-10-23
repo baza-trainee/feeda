@@ -17,8 +17,12 @@
     "types": ["@emotion/react/types/css-prop"],
     "incremental": true,
     "plugins": [
+      { "name": "next" },
       {
-        "name": "next"
+        "name": "typescript-styled-plugin",
+        "lint": {
+          "validProperties": ["wrap-text"]
+        }
       }
     ]
   },

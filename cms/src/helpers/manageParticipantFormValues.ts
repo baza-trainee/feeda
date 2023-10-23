@@ -1,33 +1,40 @@
-export function manageFormFields(formData: FormDataTypes) {
+import { FieldValues } from 'react-hook-form';
+export function manageFormFields(formData: FieldValues) {
   try {
     const {
       account_discord,
       account_linkedin,
-      city,
-      comment,
+      city = '',
+      comment = '',
       email,
       experience,
       first_name,
       last_name,
       phone_number,
+      role,
       stack,
-      project,
+      type,
+      projects,
     } = formData;
 
     const requestData: RequestDataTypes = {
       account_discord,
       account_linkedin,
-      city: city || '',
-      comment: comment || '',
+      city,
+      comment,
       email,
       first_name,
       last_name,
       phone_number,
-      project: project.map((item) => item.id),
       stack,
-      experience: experience.value === 'Так',
+      experience: experience?.value === 'Так' || false,
+      role,
+      type: +type.value,
+      projects: projects.map((item: { id: number }) => {
+        return { project: item.id };
+      }),
+      project: [],
       speciality: 0,
-      type_participant: 0,
     };
     return requestData;
   } catch (err) {
@@ -46,9 +53,11 @@ interface RequestDataTypes {
   last_name: string;
   phone_number: string;
   project: number[];
+  role: string;
   speciality: number;
   stack: string;
-  type_participant: number;
+  type: number;
+  projects: { id: number; label: string; title: string }[];
 }
 
 export interface FormDataTypes {
@@ -61,8 +70,9 @@ export interface FormDataTypes {
   first_name: string;
   last_name: string;
   phone_number: string;
+  role: string;
   speciality: { value: string };
   stack: string;
-  type_participant: { value: string };
-  project: { id: number; label: string; title: string }[];
+  type: { value: string };
+  projects: { id: number; label: string; title: string }[];
 }

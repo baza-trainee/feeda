@@ -144,15 +144,16 @@ export function Input({
                       maxLength={maxLength}
                       minLength={minLength}
                       pattern={pattern}
-                      defaultValue={
+                      onChange={onChange}
+                      value={
                         path === '/login' && name === 'email' && email
                           ? email
                           : path === '/login' && name === 'password' && pass
                           ? pass
-                          : (value as string)
+                          : value
+                          ? value
+                          : ''
                       }
-                      onChange={onChange}
-                      value={value}
                       onBlur={() => {
                         if (trigger) {
                           trigger(name);
